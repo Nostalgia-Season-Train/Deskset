@@ -12,9 +12,16 @@
   "app": {
     "windows": [
       {
-        "title": "deskset-tauri",
+        "label": "manager",
+        "title": "Deskset",
         "width": 800,
         "height": 600
+      },
+      {
+        "label": "desktop",
+        "title": "Deskset-Desktop",
+        "transparent": true,
+        "decorations": false
       }
     ],
     "security": {

@@ -54,7 +54,7 @@ async function greet() {
   font-weight: 400;
 
   color: #0f0f0f;
-  background-color: #f6f6f6;
+  background-color: transparent;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
