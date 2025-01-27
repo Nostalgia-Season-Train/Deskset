@@ -1,11 +1,27 @@
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import path from 'path'
 
+// === 全局变量 ===
 // @ts-expect-error process is a nodejs global
 const host = process.env.TAURI_DEV_HOST;
 
-// https://vitejs.dev/config/
+
+// === vite 配置 ===
 export default defineConfig(async () => ({
+  base: './',
+  build: {
+    outDir: path.resolve(__dirname, './dist'),
+    emptyOutDir: true,  // 清空上次构建
+    rollupOptions: {
+      input: {
+        // manager 管理组件；desktop 放置组件
+        manager: path.resolve(__dirname, 'manager.html'),
+        desktop: path.resolve(__dirname, 'desktop.html')
+      }
+    }
+  },
+
   plugins: [vue()],
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
