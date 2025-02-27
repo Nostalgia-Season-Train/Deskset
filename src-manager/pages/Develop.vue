@@ -2,7 +2,7 @@
 import { Refresh, CopyDocument, Upload } from "@element-plus/icons-vue"
 
 
-import desktop from './desktop'
+import desktop from './desktop.ts'
 
 const refreshPage = () => {
   desktop.refresh()
@@ -15,7 +15,7 @@ const openDevTool = () => {
 
 /* === 配置 === */
 import { ref } from 'vue'
-import { desksetReq } from '../request'
+import { desksetReq } from '../request.ts'
 
 const conf_vault = ref('')
 

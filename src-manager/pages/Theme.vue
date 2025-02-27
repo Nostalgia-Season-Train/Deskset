@@ -1,7 +1,7 @@
 <script setup>
 import { DocumentAdd } from "@element-plus/icons-vue"
 
-import desktop from './desktop'
+import desktop from './desktop.ts'
 
 
 // 保存主题
