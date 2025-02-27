@@ -2,6 +2,9 @@
 *.otf
 *.ttf
 
+# 忽略组件
+/components
+
 # Logs
 logs
 *.log

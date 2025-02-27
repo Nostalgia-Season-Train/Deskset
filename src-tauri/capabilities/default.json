@@ -5,6 +5,10 @@
   "windows": ["manager"],
   "permissions": [
     "core:default",
-    "opener:default"
+    "opener:default",
+    "fs:allow-read-dir", {
+      "identifier": "fs:scope",
+      "allow": [{ "path": "$RESOURCE" }]
+    }
   ]
 }
