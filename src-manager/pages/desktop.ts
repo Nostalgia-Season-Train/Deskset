@@ -1,6 +1,5 @@
 // 桌面页面 pageDesktop 在桌面窗口 winDesktop 上显示
 const pageDesktop = new BroadcastChannel('pageDesktop')
-const winDesktop = window.winDesktop
 
 
 const desktop = {
@@ -32,7 +31,7 @@ const desktop = {
 
   /* === 开发 === */
   refresh: async () => pageDesktop.postMessage({ 'action': 'refreshPage' }),
-  openDevTool: async () => winDesktop.openDevTool()
+  openDevTool: async () => pageDesktop.postMessage({ 'action': 'openDevTool' })
 }
 
 
