@@ -1,6 +1,8 @@
 <script setup>
+import { openBrowser } from '../tauri'
+
 const openReleasePage = () => {
-  electron.openBrowser("https://github.com/Nostalgia-Season-Train/Deskset-Release")
+  openBrowser("https://github.com/Nostalgia-Season-Train/Deskset-Release")
 }
 </script>
 
@@ -32,7 +34,7 @@ const openReleasePage = () => {
 
   <h2>下载</h2>
   <div>
-    发布页面：<a @click="openReleasePage()" href="">Deskset-Release</a>
+    发布页面：<a @click="openReleasePage()" @click.prevent href="">Deskset-Release</a>
   </div>
 
   <h2>问答</h2>
