@@ -12,11 +12,11 @@ import '../static/css/default-font.css'
 // 动态路由
 import { createMemoryHistory, createRouter } from 'vue-router'
 
-import Welcome from './pages/Welcome.vue'
-import Support from './pages/Support.vue'
-import Widget  from './pages/Widget.vue'
-import Theme   from './pages/Theme.vue'
-import Develop from './pages/Develop.vue'
+import Welcome from './routers/Welcome.vue'
+import Support from './routers/Support.vue'
+import Widget  from './routers/Widget.vue'
+import Theme   from './routers/Theme.vue'
+import Develop from './routers/Develop.vue'
 
 const routes = [
   { path: '/', component: Welcome },
