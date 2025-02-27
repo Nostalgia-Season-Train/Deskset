@@ -1,0 +1,6 @@
+@font-face {
+  font-family: 'DefaultFont';
+  src: url('../fonts/AlibabaPuHuiTi-3-55-Regular.ttf');  /* 字体没有打包进仓库，请自行下载 */
+  font-weight: normal;
+  font-style: normal;
+}

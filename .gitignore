@@ -1,3 +1,7 @@
+# 忽略字体文件
+*.otf
+*.ttf
+
 # Logs
 logs
 *.log
