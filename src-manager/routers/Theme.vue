@@ -1,4 +1,4 @@
-<script setup>
+<script lang='ts' setup>
 import { DocumentAdd } from "@element-plus/icons-vue"
 
 import desktop from './desktop.ts'
@@ -48,24 +48,25 @@ const saveTheme = () => {
 
 // 刷新/获取主题
 import { ref } from 'vue'
+import { getAllThemes } from '../tauri'
 
 const themes = ref()
 
 const refreshThemeList = async () => {
-  themes.value = await window.electron.getAllThemes()
+  themes.value = await getAllThemes()
 }
 refreshThemeList()
 
 
 // 使用主题
-const useTheme = (themeName) => {
+const useTheme = (themeName: string) => {
   if (themeName != undefined)
     desktop.useTheme(themeName)
 }
 
 
 // 删除主题
-const deleteTheme = (themeName) => {
+const deleteTheme = (themeName: string) => {
   if (themeName == undefined)
     return
 
@@ -109,7 +110,7 @@ const deleteTheme = (themeName) => {
       <el-card shadow="never">
         <!-- 主题预览图：theme?.preview 路径格式：/theme/name/preview.png，否则可能无法预览 -->
         <!-- 图片 URL 加入动态查询参数，强制浏览器刷新 -->
-        <img :src="theme?.preview + '?t=' + new Date()"></img>
+        <img v-if="theme?.preview != undefined" :src="theme?.preview + '?t=' + new Date()"></img>
       </el-card>
     </div>
     <div class="right">
