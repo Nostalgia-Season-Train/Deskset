@@ -72,7 +72,7 @@ const closeAllWidgets = async () => {
 
 
 /* === 主题 === */
-import { saveThemeDir } from './theme'
+import { saveThemeDir, readThemeDir } from './tauri'
 
 // 保存主题
 import dayjs from "dayjs"
@@ -106,7 +106,7 @@ const saveTheme = async (themeName) => {
 
 // 使用主题
 const useTheme = async (themeName) => {
-  const theme = await window.winDesktop.getOneTheme(themeName)
+  const theme = await readThemeDir(themeName)
   if (theme == undefined) {
     throw Error(`主题 ${themeName} 读取失败`)
   }
