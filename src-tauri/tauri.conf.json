@@ -17,13 +17,6 @@
         "title": "Deskset",
         "width": 800,
         "height": 600
-      },
-      {
-        "label": "desktop",
-        "url": "desktop.html",
-        "title": "Deskset-Desktop",
-        "transparent": true,
-        "decorations": false
       }
     ],
     "security": {

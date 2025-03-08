@@ -9,6 +9,9 @@
     "fs:allow-read-dir", {
       "identifier": "fs:scope",
       "allow": [{ "path": "$RESOURCE" }]
-    }
+    },
+    "core:webview:allow-create-webview-window",
+    "core:window:allow-show",
+    "core:window:allow-close"
   ]
 }
