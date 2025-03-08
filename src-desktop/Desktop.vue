@@ -72,6 +72,7 @@ const closeAllWidgets = async () => {
 
 
 /* === 主题 === */
+import { saveThemeFile } from './theme'
 
 // 保存主题
 import dayjs from "dayjs"
@@ -99,13 +100,8 @@ const saveTheme = async (themeName) => {
 
   themeData['widgets'] = widgetStatus
 
-  // 发送主题数据
-  const theme = {
-    name: themeName,
-    widget: themeData
-  }
-
-  window.winDesktop.saveTheme(theme)
+  // 保存主题到文件
+  saveThemeFile(themeName, themeData)
 }
 
 // 使用主题

@@ -2,13 +2,16 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
   "description": "Capability for the main window",
-  "windows": ["manager"],
+  "windows": ["manager", "desktop"],
   "permissions": [
     "core:default",
     "opener:default",
+    "fs:allow-mkdir",
+    "fs:allow-read-file",
+    "fs:allow-write-file",
     "fs:allow-read-dir", {
       "identifier": "fs:scope",
-      "allow": [{ "path": "$RESOURCE" }]
+      "allow": [{ "path": "$RESOURCE/**" }]
     },
     "core:webview:allow-create-webview-window",
     "core:window:allow-show",
