@@ -1,6 +1,8 @@
 <script setup>
+import { openBrowser as tauriOpenBrowser } from '../tauri'
+
 const openBrowser = (url) => {
-  window.electron.openBrowser(url)
+  tauriOpenBrowser(url)
 }
 </script>
 
