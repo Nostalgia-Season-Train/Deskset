@@ -72,7 +72,7 @@ const closeAllWidgets = async () => {
 
 
 /* === 主题 === */
-import { saveThemeFile } from './theme'
+import { saveThemeDir } from './theme'
 
 // 保存主题
 import dayjs from "dayjs"
@@ -101,7 +101,7 @@ const saveTheme = async (themeName) => {
   themeData['widgets'] = widgetStatus
 
   // 保存主题到文件
-  saveThemeFile(themeName, themeData)
+  saveThemeDir(themeName, themeData)
 }
 
 // 使用主题

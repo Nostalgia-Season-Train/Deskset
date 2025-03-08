@@ -3,7 +3,7 @@
 /* === 主题创建 === */
 import { mkdir, writeFile, BaseDirectory } from '@tauri-apps/plugin-fs'
 
-export const saveThemeFile = async (name: string, data: any) => {
+export const saveThemeDir = async (name: string, data: any) => {
   const encoder = new TextEncoder()
   const encodeData = encoder.encode(JSON.stringify(data))
   await mkdir(`./themes/${ name }`, { baseDir: BaseDirectory.Resource })

@@ -7,6 +7,7 @@
     "core:default",
     "opener:default",
     "fs:allow-mkdir",
+    "fs:allow-remove",
     "fs:allow-read-file",
     "fs:allow-write-file",
     "fs:allow-read-dir", {

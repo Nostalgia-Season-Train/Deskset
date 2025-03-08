@@ -42,3 +42,13 @@ export const getAllThemes = async (): Promise<Array<Object>> => {
 
   return themes
 }
+
+// 删除主题
+import { remove } from '@tauri-apps/plugin-fs'
+
+export const deleteThemeDir = async (themeName: string) => {
+  remove(`./themes/${ themeName }`, {
+    baseDir: BaseDirectory.Resource,
+    recursive: true
+  })
+}

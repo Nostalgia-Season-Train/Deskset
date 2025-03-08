@@ -48,7 +48,7 @@ const saveTheme = () => {
 
 // 刷新/获取主题
 import { ref } from 'vue'
-import { getAllThemes } from '../tauri'
+import { getAllThemes, deleteThemeDir } from '../tauri'
 
 const themes = ref()
 
@@ -79,7 +79,7 @@ const deleteTheme = (themeName: string) => {
     }
   )
   .then(() => {
-    window.electron.deleteTheme(themeName)
+    deleteThemeDir(themeName)
 
     ElMessage({
       type: 'success',
