@@ -30,7 +30,7 @@ desktopWin.once('tauri://error', async (error: any) => {
 
 
 /* === 打开桌面 === */
-const openDesktop = async () => {
+const openDesktop = () => {  // 异步会让 alwaysOnBottom 失效
   desktopWin.show()  // 权限是 core:window:allow-show 而不是 core:webview:allow-webview-show
   desktopWin.setAlwaysOnBottom(true)  // alwaysOnBottom: true 属性不生效，用 setAlwaysOnBottom(true) 函数置底
   desktopWin.setAlwaysOnBottom(true)  // 第一次调用可能无法生效，调用两次即可
