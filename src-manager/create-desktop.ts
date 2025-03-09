@@ -36,3 +36,14 @@ const openDesktop = () => {  // 异步会让 alwaysOnBottom 失效
   desktopWin.setAlwaysOnBottom(true)  // 第一次调用可能无法生效，调用两次即可
 }
 openDesktop()  // 在其他文件调用会使 alwaysOnBottom 失效
+
+
+/* === 关闭管理窗的同时关闭桌面窗 === */
+import { getCurrentWindow } from '@tauri-apps/api/window'
+
+const managerWin = getCurrentWindow()
+
+managerWin.once('tauri://close-requested', () => {
+  desktopWin.close()
+  managerWin.close()  // 否则关闭按钮要点两次
+})
