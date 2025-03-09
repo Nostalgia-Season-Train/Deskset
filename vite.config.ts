@@ -19,7 +19,8 @@ export default defineConfig(async () => ({
         manager: path.resolve(__dirname, 'manager.html'),
         desktop: path.resolve(__dirname, 'desktop.html')
       }
-    }
+    },
+    target: 'es2022'  // 支持顶级 await 的环境，使用 await 时不用 async 包裹
   },
 
   plugins: [vue()],
