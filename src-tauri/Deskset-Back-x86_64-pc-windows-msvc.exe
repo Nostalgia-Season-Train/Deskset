@@ -1,5 +1,3 @@
-/*
-
 解释一下本文件：
 
 Tauri sidecar 侧车运行 Deskset-Back.exe 子程序，需要满足三个条件：
@@ -16,7 +14,3 @@ Tauri sidecar 侧车运行 Deskset-Back.exe 子程序，需要满足三个条件
 ---
 
 参考文档：https://v2.tauri.app/zh-cn/develop/sidecar
-
-*/
-
-/* 另外，用注释包裹是因为 vscode 识别本文件为 TS 文件 */

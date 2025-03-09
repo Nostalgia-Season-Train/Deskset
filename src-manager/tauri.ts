@@ -88,8 +88,17 @@ export const getDesksetReq = async (): Promise<any> => {
 }
 
 // 运行服务器
-import { Command } from '@tauri-apps/plugin-shell'
+import { Command, Child } from '@tauri-apps/plugin-shell'
 
-const command = Command.sidecar('Deskset-Back')
+let server: Child | undefined = undefined
 
-const output = await command.execute()
+export const spawnServer = async (): Promise<void> => {
+  const command = Command.sidecar('Deskset-Back')
+  server = await command.spawn()
+}
+
+export const killServer = (): void => {
+  if (server != undefined) {
+    server.kill()
+  }
+}

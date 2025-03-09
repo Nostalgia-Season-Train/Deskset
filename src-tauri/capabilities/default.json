@@ -19,11 +19,13 @@
     "core:window:allow-close",
     "core:window:allow-set-always-on-bottom",
     "shell:allow-open", {
-      "identifier": "shell:allow-execute",
+      "identifier": "shell:allow-spawn",
       "allow": [{
         "name": "Deskset-Back",
         "sidecar": true
       }]
+    }, {
+      "identifier": "shell:allow-kill"
     }
   ]
 }

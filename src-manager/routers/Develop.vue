@@ -50,7 +50,7 @@ const set_conf_vault = async () => {
   }
 }
 
-import '../create-desktop'
+import '../child'
 </script>
 
 
