@@ -4,7 +4,8 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "tauri dev",
+    "run": "tauri dev",
+    "dev": "vite",
     "build": "vite build && tauri build --no-bundle"
   },
   "dependencies": {
