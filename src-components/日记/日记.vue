@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue"
-import { desksetReq } from '../request'
+import { getDesksetReq } from '../request'
 
 
 // 日记内容和日记动态
@@ -36,6 +36,7 @@ refresh()
 import { DArrowLeft, DArrowRight } from "@element-plus/icons-vue"
 
 const obsidian = async () => {
+  const desksetReq = await getDesksetReq()
   await desksetReq.get("/v0/obsidian/diary/open-in-obsidian")
 }
 
@@ -63,6 +64,7 @@ const isDiaryExist = ({ dayjs }) => {
 
 const refreshCalendar = async (value) => {
   const yearmonth = dayjs(value).format("YYYYMM")
+  const desksetReq = await getDesksetReq()
   const response = await desksetReq.get(`/v0/obsidian/diary/list-a-month/${ yearmonth }`)
   let diaryList = []
   for (const diary of response.data.data) {

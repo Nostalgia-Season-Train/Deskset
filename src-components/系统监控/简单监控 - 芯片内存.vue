@@ -32,7 +32,7 @@ const option = {
 
 
 import { ref } from "vue"
-import { desksetReq } from '../request'
+import { getDesksetReq } from '../request'
 
 const cpu_percent = ref(0)
 const optionCPU = ref(structuredClone(option))
@@ -41,6 +41,8 @@ const memory_percent = ref(0)
 const optionRAM = ref(structuredClone(option))
 
 const device = async () => {
+  const desksetReq = await getDesksetReq()
+
   const response_cpu = await desksetReq.get("/v0/device/cpu")
   cpu_percent.value = response_cpu.data.data.percent
   optionCPU.value.series.data.shift()

@@ -31,7 +31,7 @@ const option = {
 
 /* 查询函数 */
 import { ref } from 'vue'
-import { desksetReq } from '../request'
+import { getDesksetReq } from '../request'
 
 const numCPU = ref(0)
 const optionCPU = ref(structuredClone(option))
@@ -51,6 +51,8 @@ optionNetwork.value.color = '#FFCA28'
 optionNetwork.value.yAxis.max = 1000
 
 const device = async () => {
+  const desksetReq = await getDesksetReq()
+
   const resCPU = await desksetReq.get("/v0/device/cpu")
   numCPU.value = resCPU.data.data.percent
   optionCPU.value.series.data.shift()

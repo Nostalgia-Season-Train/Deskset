@@ -1,6 +1,6 @@
 <script setup>
 import { ref, toRaw } from 'vue'
-import { desksetReq } from '../request'
+import { getDesksetReq } from '../request'
 
 const items = ref([])  // 菜单 dock 保存的元素 items
 
@@ -22,6 +22,7 @@ const dropFiles = async (event) => {
 }
 
 const openItem = async (item) => {
+  const desksetReq = await getDesksetReq()
   desksetReq.get(`/v0/quick/open-default/${item.path}`)
 }
 </script>

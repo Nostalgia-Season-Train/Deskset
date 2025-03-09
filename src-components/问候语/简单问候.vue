@@ -1,10 +1,11 @@
 <script setup>
 import { ref } from "vue"
-import { desksetReq } from '../request'
+import { getDesksetReq } from '../request'
 
 const greeting = ref("简单问候")
 
 const greet = async () => {
+  const desksetReq = await getDesksetReq()
   const response = await desksetReq.get('/v0/greet/simple')
   greeting.value = response.data.data.greeting
 }

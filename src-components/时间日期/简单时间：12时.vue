@@ -1,12 +1,13 @@
 <script setup>
 import { ref } from "vue"
-import { desksetReq } from '../request'
+import { getDesksetReq } from '../request'
 
 const hour   = ref("00")
 const minute = ref("00")
 const ampm   = ref("am")
 
 const time = async () => {
+  const desksetReq = await getDesksetReq()
   const response = await desksetReq.get('/v0/datetime/time12')
   hour.value = response.data.data.hour
   minute.value = response.data.data.minute

@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue"
 import { Search } from "@element-plus/icons-vue"
-import { desksetReq } from '../request'
+import { getDesksetReq } from '../request'
 
 const input = ref('')        // 输入框文字
 const suggests = ref([])     // 搜索建议（结果）
@@ -9,6 +9,7 @@ const selectIndex = ref(-1)  // 被选中的搜索建议索引
 
 /* 每次输入，都进行搜索并显示结果 */
 const refresh = async (queryString) => {
+  const desksetReq = await getDesksetReq()
   const rep = await desksetReq.get(`/v0/obsidian/search/find-note?query=${queryString}`)
   suggests.value = rep.data.data
 }

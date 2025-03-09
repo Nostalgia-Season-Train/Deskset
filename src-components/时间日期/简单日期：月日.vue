@@ -1,11 +1,12 @@
 <script setup>
 import { ref } from "vue"
-import { desksetReq } from '../request'
+import { getDesksetReq } from '../request'
 
 const month = ref("12")
 const day   = ref("24")
 
 const date = async () => {
+  const desksetReq = await getDesksetReq()
   const response_date = await desksetReq.get('/v0/datetime/date')
   month.value = response_date.data.data.month
   day.value = response_date.data.data.day

@@ -1,16 +1,18 @@
 <script setup>
 import { ref } from 'vue'
-import { desksetReq } from '../request'
+import { getDesksetReq } from '../request'
 
 const recentOpenList = ref([])
 
 const refresh = async () => {
+  const desksetReq = await getDesksetReq()
   const rep = await desksetReq.get('/v0/obsidian/recent/recent-open')
   recentOpenList.value = rep.data.data
 }
 refresh()
 
 const open = async (relpath) => {
+  const desksetReq = await getDesksetReq()
   desksetReq.get(`/v0/obsidian/manager/open-note/${ relpath }`)
 }
 

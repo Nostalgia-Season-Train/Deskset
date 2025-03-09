@@ -1,8 +1,9 @@
 <script setup>
 import { Delete } from '@element-plus/icons-vue'
-import { desksetReq } from '../request'
+import { getDesksetReq } from '../request'
 
-const open_recycle = () => {
+const open_recycle = async () => {
+  const desksetReq = await getDesksetReq()
   desksetReq.get('/v0/quick/open-recycle')
 }
 </script>

@@ -1,11 +1,12 @@
 <script setup>
 import { ref } from 'vue'
-import { desksetReq } from '../request'
+import { getDesksetReq } from '../request'
 
 const battery_percent = ref(100)
 const is_plug = ref(true)
 
 const refresh = async () => {
+  const desksetReq = await getDesksetReq()
   const rep = await desksetReq.get('/v0/device/battery')
   battery_percent.value = rep.data.data.percent
   is_plug.value = rep.data.data.plug

@@ -1,10 +1,11 @@
 <script setup>
 import { ref } from "vue"
-import { desksetReq } from '../request'
+import { getDesksetReq } from '../request'
 
 const disks = ref()
 
 const disk = async () => {
+  const desksetReq = await getDesksetReq()
   const response_disk = await desksetReq.get("/v0/device/disk")
   disks.value = response_disk.data.data
 }
