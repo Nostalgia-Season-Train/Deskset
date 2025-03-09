@@ -55,6 +55,8 @@ export const deleteThemeDir = async (themeName: string) => {
 
 
 /* === 开发 === */
+
+// 获取服务器 port 和 token
 import axios from 'axios'
 
 export const getDesksetReq = async (): Promise<any> => {
@@ -84,3 +86,10 @@ export const getDesksetReq = async (): Promise<any> => {
   })
   return desksetReq
 }
+
+// 运行服务器
+import { Command } from '@tauri-apps/plugin-shell'
+
+const command = Command.sidecar('Deskset-Back')
+
+const output = await command.execute()

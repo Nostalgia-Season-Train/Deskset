@@ -17,6 +17,13 @@
     "core:webview:allow-create-webview-window",
     "core:window:allow-show",
     "core:window:allow-close",
-    "core:window:allow-set-always-on-bottom"
+    "core:window:allow-set-always-on-bottom",
+    "shell:allow-open", {
+      "identifier": "shell:allow-execute",
+      "allow": [{
+        "name": "Deskset-Back",
+        "sidecar": true
+      }]
+    }
   ]
 }

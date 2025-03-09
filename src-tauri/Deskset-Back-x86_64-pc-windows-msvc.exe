@@ -1,0 +1,22 @@
+/*
+
+解释一下本文件：
+
+Tauri sidecar 侧车运行 Deskset-Back.exe 子程序，需要满足三个条件：
+- 1、capabilities/default.json 添加 "name": "Deskset-Back"
+- 2、tauri.conf.json 添加 "externalBin": ["Deskset-Back"]
+- 3、tauri.conf.json 所在目录存在 Deskset-Back-$TARGET_TRIPLE.exe 文件
+
+但是开发时，前后端在两个不同的项目目录，检查 exe 文件没有意义
+
+因此，本文件用于占位以避免出错
+
+注：构建后，本文件将被复制到 target/release 目录，删除并替换正确的 exe 文件即可
+
+---
+
+参考文档：https://v2.tauri.app/zh-cn/develop/sidecar
+
+*/
+
+/* 另外，用注释包裹是因为 vscode 识别本文件为 TS 文件 */

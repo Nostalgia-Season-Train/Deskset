@@ -17,6 +17,7 @@ const isHideChild = ref(false)
 
 const refresh = async () => {
   const stand_date = dayjs(date.value).format("YYYYMMDD")
+  const desksetReq = await getDesksetReq()
   const open = await desksetReq.get(`/v0/obsidian/diary/open/${ stand_date }`)
 
   // 刷新内容和动态显示

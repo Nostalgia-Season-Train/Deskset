@@ -36,6 +36,7 @@ const openDesktop = () => {  // 异步会让 alwaysOnBottom 失效
   desktopWin.setAlwaysOnBottom(true)  // 第一次调用可能无法生效，调用两次即可
 }
 openDesktop()  // 在其他文件调用会使 alwaysOnBottom 失效
+// 注：setAlwaysOnBottom 会让某些组件异常
 
 
 /* === 关闭管理窗的同时关闭桌面窗 === */
