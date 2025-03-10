@@ -42,10 +42,13 @@ jobs:
         npm install
 
     # 第四步：构建 Tauri
-      # 构建后只保留 Deskset.exe 文件
     - name: Build
       run: |
         npm run build
+
+    # 清除多余文件，只保留 Deskset.exe
+    - name: Clear
+      run: |
         npx rimraf "$env:DIST/!(Deskset.exe)"
 
     # 第五步：下载数字桌搭后端程序
