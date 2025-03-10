@@ -43,14 +43,14 @@ jobs:
     - name: Build
       run: |
         npm run build
-        npx rimraf "$env:DIST/!(Deskset.exe)"
+        npx rimraf "$DIST/!(Deskset.exe)"
 
     # 第五步：下载数字桌搭后端程序
       # 压缩包名称（-OutFile 设置），解压路径 = DesksetBack
     - name: Download DesksetBack
       run: |
         Invoke-WebRequest -Uri $env:DESKSETBACK_URL -OutFile "DesksetBack.zip"
-        Expand-Archive -Path "./DesksetBack.zip" -DestinationPath "./$env:DIST/"
+        Expand-Archive -Path "./DesksetBack.zip" -DestinationPath "./$env:DIST/" -Force
         Remove-Item -Path "./DesksetBack.zip"
 
     # 第六步：压缩目录
