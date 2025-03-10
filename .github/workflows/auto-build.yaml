@@ -51,6 +51,7 @@ jobs:
       run: |
         Invoke-WebRequest -Uri $env:DESKSETBACK_URL -OutFile "DesksetBack.zip"
         Expand-Archive -Path "./DesksetBack.zip" -DestinationPath "./$env:DIST/"
+        Remove-Item -Path "./DesksetBack.zip"
 
     # 第六步：压缩目录
     - name: Zip

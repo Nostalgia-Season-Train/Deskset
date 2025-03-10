@@ -21,7 +21,7 @@
     "shell:allow-open", {
       "identifier": "shell:allow-spawn",
       "allow": [{
-        "name": "Deskset-Back",
+        "name": "DesksetBack",
         "sidecar": true
       }]
     }, {

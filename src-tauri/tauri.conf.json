@@ -38,6 +38,6 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
-    "externalBin": ["Deskset-Back"]
+    "externalBin": ["DesksetBack"]
   }
 }

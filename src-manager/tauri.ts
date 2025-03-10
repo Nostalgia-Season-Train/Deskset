@@ -93,7 +93,7 @@ import { Command, Child } from '@tauri-apps/plugin-shell'
 let server: Child | undefined = undefined
 
 export const spawnServer = async (): Promise<void> => {
-  const command = Command.sidecar('Deskset-Back')
+  const command = Command.sidecar('DesksetBack')
   server = await command.spawn()
 }
 
