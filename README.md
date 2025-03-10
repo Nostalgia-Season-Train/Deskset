@@ -1,16 +1,34 @@
-# Tauri + Vue + TypeScript
+<div align="center">
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+  <img src="./Deskset.png" width="160px"></img>
 
-## Recommended IDE Setup
+  <div>欢迎使用数字桌搭 Deskset</div>
+  <div>一款桌面美化软件</div>
+  <div>基于 Web 技术开发</div>
+  <div>实现桌面美化与笔记应用间的联动</div>
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+</div>
 
-## Type Support For `.vue` Imports in TS
+</br>
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
+<div align="center">
 
-1. Run `Extensions: Show Built-in Extensions` from VS Code's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
-2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
+  <div style="color: #F44336;">注意！数字桌搭正处于早期开发阶段，为了避免数据损失，建议定期备份数字桌搭所绑定的笔记仓库</div>
 
-You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+</div>
+
+
+## 简介
+数字桌搭是一款专注整合笔记应用的桌面美化软件，旨在优化笔记的读写管理流程，从而提高个人生产力。
+
+
+## 亮点
+- 深度集成笔记应用
+- Vue3 + FastAPI 前后端分离架构，方便二次开发
+- Tauri + PyStand 打包构建，相较同类产品启动迅速且占用小巧
+- 组件可以自动隐藏，保持桌面干净整洁
+- 轻松保存和应用主题，并通过 CSS 定制样式
+
+
+## 交流
+QQ 群：770889923
