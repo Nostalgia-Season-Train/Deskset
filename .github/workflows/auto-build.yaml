@@ -33,6 +33,8 @@ jobs:
     # 第二步：安装 NodeJS
     - name: Install Node.js
       uses: actions/setup-node@v4
+      with:
+        node-version: 20
 
     # 第三步：下载依赖
     - name: Install Dependencies
