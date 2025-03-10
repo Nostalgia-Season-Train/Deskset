@@ -43,7 +43,10 @@ jobs:
     - name: Build
       run: |
         npm run build
-        npx rimraf "$DIST/!(Deskset.exe)"
+        Move-Item -Path $DIST/Deskset.exe -Destination $DIST/../Deskset.exe
+        Remove-Item -Recurse $DIST
+        New-Item -ItemType Directory -Path $DIST
+        Move-Item -Path $DIST/../Deskset.exe -Destination $DIST/Deskset.exe
 
     # 第五步：下载数字桌搭后端程序
       # 压缩包名称（-OutFile 设置），解压路径 = DesksetBack
