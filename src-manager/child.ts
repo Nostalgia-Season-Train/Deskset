@@ -8,6 +8,7 @@ const height = monitor?.size.height
 
 const desktopWin = new WebviewWindow('desktop', {
   url: 'desktop.html',
+  title: 'Deskset-Desktop',
 
   transparent: true,
   decorations: false,
