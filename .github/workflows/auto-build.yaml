@@ -6,6 +6,7 @@ on:
     tags:
       # git tag -a v0.0.0  带注释的标签
       # git push && git push --tags  连提交带标签一起推送
+        # PowerShell 用 git push; git push --tags
       - 'v*.*.*'
 
 
