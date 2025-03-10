@@ -49,8 +49,6 @@ const set_conf_vault = async () => {
     })
   }
 }
-
-import '../child'
 </script>
 
 
@@ -80,7 +78,7 @@ import '../child'
     </div>
     <div class="icon">
       <el-button type="primary" @click="refreshPage">
-        <el-icon style="margin: 0;"><Refresh /></el-icon>
+        <span>F5</span>
       </el-button>
     </div>
   </div>

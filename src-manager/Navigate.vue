@@ -43,7 +43,7 @@ const handleSelect = (index) => {
     <span>主题</span>
   </el-menu-item>
   <el-menu-item index="develop">
-    <span>开发</span>
+    <span>设置</span>
   </el-menu-item>
 </el-menu>
 </template>

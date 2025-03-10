@@ -13,6 +13,9 @@ const supportPage = () => { router.push({ path: "/support" }) }
 const widgetPage  = () => { router.push({ path: "/widget"  }) }
 const themePage   = () => { router.push({ path: "/theme"   }) }
 const developPage = () => { router.push({ path: "/develop" }) }
+
+/* 子程序，子窗口 */
+import './child'
 </script>
 
 

@@ -1,4 +1,21 @@
-/* === 桌面创建 === */
+/* === 后端程序 DesksetBack.exe === */
+import { Command, Child } from '@tauri-apps/plugin-shell'
+
+let server: Child | undefined = undefined
+
+const spawnServer = async (): Promise<void> => {
+  const command = Command.sidecar('DesksetBack')
+  server = await command.spawn()
+}
+
+const killServer = (): void => {
+  if (server != undefined) {
+    server.kill()
+  }
+}
+
+
+/* === 桌面窗口 Deskset-Desktop === */
 import { WebviewWindow } from '@tauri-apps/api/webviewWindow'
 import { currentMonitor } from '@tauri-apps/api/window'
 
@@ -38,8 +55,7 @@ const openDesktop = () => {  // 异步会让 alwaysOnBottom 失效
 // 注：setAlwaysOnBottom 会让某些组件异常
 
 
-/* === 子进程，子窗口 === */
-import { spawnServer, killServer } from './tauri'
+/* === 子程序，子窗口 === */
 import { getCurrentWindow } from '@tauri-apps/api/window'
 
 // 打开
