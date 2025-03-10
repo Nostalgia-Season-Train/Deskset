@@ -50,8 +50,7 @@ jobs:
     - name: Download DesksetBack
       run: |
         Invoke-WebRequest -Uri $env:DESKSETBACK_URL -OutFile "DesksetBack.zip"
-        Expand-Archive -Path "./DesksetBack.zip" -DestinationPath "./"
-        Copy-Item -Path "./DesksetBack/*" -Destination "./$env:DIST/" -Recurse
+        Expand-Archive -Path "./DesksetBack.zip" -DestinationPath "./$env:DIST/"
 
     # 第六步：压缩目录
     - name: Zip
