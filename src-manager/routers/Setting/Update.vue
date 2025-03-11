@@ -11,16 +11,28 @@ const octokit = new Octokit({
   // auth: import.meta.env.VITE_DESKSET_GITHUB_TOKEN  // 好像不需要 token
 })
 
+import { getVersion } from '@tauri-apps/api/app'
+import semver from 'semver'  // 比较版本大小，遵循语义化版本
+
 const getReleasesLatest = async () => {
   try {
     const rep = await octokit.request('GET /repos/{owner}/{repo}/releases/latest', {
       owner: 'Nostalgia-Season-Train',
       repo: 'Deskset'
     })
-    ElMessage({
-      type: 'success',
-      message: `检测到最新版本 ${rep.data.name}`
-    })
+    const version = await getVersion()  // 当前版本，通过 tauri.conf.json 定义
+
+    if (semver.gt(rep.data.name, version)) {
+      ElMessage({
+        type: 'success',
+        message: `检测到最新版本 ${rep.data.name}`
+      })
+    } else {
+      ElMessage({
+        type: 'success',
+        message: `当前已是最新版本`
+      })
+    }
   } catch (error) {
     ElMessage({
       type: 'error',
