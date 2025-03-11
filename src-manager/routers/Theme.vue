@@ -1,4 +1,5 @@
 <script lang='ts' setup>
+import { ElScrollbar, ElCard, ElIcon, ElButton } from 'element-plus'
 import { DocumentAdd } from "@element-plus/icons-vue"
 
 import desktop from './desktop.ts'

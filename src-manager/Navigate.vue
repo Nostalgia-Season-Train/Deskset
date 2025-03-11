@@ -1,4 +1,6 @@
 <script setup>
+import { ElMenu, ElMenuItem } from 'element-plus'
+
 const emit = defineEmits([
   "welcomePage",
   "supportPage",

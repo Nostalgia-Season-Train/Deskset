@@ -1,4 +1,6 @@
 <script setup>
+import { ElScrollbar } from 'element-plus'
+
 import { openBrowser } from '../tauri'
 
 const openReleasePage = () => {

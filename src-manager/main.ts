@@ -1,8 +1,7 @@
 import { createApp } from 'vue'
 import './style.css'
 
-import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
+import 'element-plus/dist/index.css'  // Element Plus 组件样式，组件本身按需引入
 
 import Manager from './Manager.vue'
 
@@ -13,24 +12,20 @@ import '../static/css/default-font.css'
 import { createMemoryHistory, createRouter } from 'vue-router'
 
 import Welcome from './routers/Welcome.vue'
-import Support from './routers/Support.vue'
-import Widget  from './routers/Widget.vue'
-import Theme   from './routers/Theme.vue'
-import Develop from './routers/Develop.vue'
 
 const routes = [
   { path: '/', component: Welcome },
 
   { path: '/welcome', component: Welcome },
-  { path: '/support', component: Support },
-  { path: '/widget',  component: Widget },
-  { path: '/theme',   component: Theme },
-  { path: '/develop', component: Develop }
+  { path: '/support', component: () => import('./routers/Support.vue') },
+  { path: '/widget',  component: () => import('./routers/Widget.vue') },
+  { path: '/theme',   component: () => import('./routers/Theme.vue') },
+  { path: '/develop', component: () => import('./routers/Develop.vue') }
 ]
 
 const router = createRouter({
   history: createMemoryHistory(),
-  routes,
+  routes: routes
 })
 
 
@@ -44,5 +39,4 @@ const pinia = createPinia()
 const app = createApp(Manager)
   .use(router)
   .use(pinia)
-  .use(ElementPlus)
   .mount('#manager')
