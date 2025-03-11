@@ -46,7 +46,8 @@ jobs:
     - name: Build
       run: |
         npm run build
-        Copy-Item -Path "./src-tauri/target/release/Deskset.exe" -Destination "./$env:DIST/" -Force
+        New-Item -ItemType Directory -Path $env:DIST
+        Copy-Item -Path "./src-tauri/target/release/Deskset.exe" -Destination "./$env:DIST/"
 
     # 第五步：下载数字桌搭后端程序
       # 压缩包名称（-OutFile 设置），解压路径 = DesksetBack
