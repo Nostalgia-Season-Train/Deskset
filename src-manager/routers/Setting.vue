@@ -16,6 +16,7 @@ const openDevTool = () => {
 
 /* === 配置 === */
 import { ref } from 'vue'
+import { ElMessage } from 'element-plus'
 import { getDesksetReq } from '../tauri.ts'
 
 const conf_vault = ref('')
