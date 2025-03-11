@@ -1,6 +1,7 @@
 <script setup>
 import { ElScrollbar, ElContainer, ElMain, ElAside } from 'element-plus'
 import { ElMenu, ElSubMenu, ElMenuItem } from 'element-plus'
+import { ElSwitch } from 'element-plus'
 
 /* === 组件预览 === */
 import { shallowRef, defineAsyncComponent } from "vue"
