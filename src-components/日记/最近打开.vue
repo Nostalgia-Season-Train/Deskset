@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { ElScrollbar } from 'element-plus'
 import { getDesksetReq } from '../request'
 
 const recentOpenList = ref([])

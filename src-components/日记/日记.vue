@@ -1,5 +1,8 @@
 <script setup>
 import { ref } from "vue"
+import { ElButton, ElIcon, ElDatePicker } from 'element-plus'
+import { ElConfigProvider } from 'element-plus'
+import zh_CN from 'element-plus/es/locale/lang/zh-cn'
 import { getDesksetReq } from '../request'
 
 
@@ -86,6 +89,7 @@ const onfocus = () => {  // 单击输入框打开日历时，也得刷新日历
     <el-button @click="subOneDay">
       <el-icon size="16"><DArrowLeft /></el-icon>
     </el-button>
+    <el-config-provider :locale="zh_CN"><!-- 日期选择器设置中文 -->
     <el-date-picker
       v-model="date"
       type="date"
@@ -101,6 +105,7 @@ const onfocus = () => {  // 单击输入框打开日历时，也得刷新日历
         </div>
       </template>
     </el-date-picker>
+    </el-config-provider>
     <el-button @click="addOneDay">
       <el-icon size="16"><DArrowRight /></el-icon>
     </el-button>

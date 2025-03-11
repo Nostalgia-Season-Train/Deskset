@@ -1,4 +1,5 @@
 <script setup>
+import { ElIcon } from 'element-plus'
 import { Delete } from '@element-plus/icons-vue'
 import { getDesksetReq } from '../request'
 
