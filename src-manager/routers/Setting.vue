@@ -51,6 +51,10 @@ const set_conf_vault = async () => {
     })
   }
 }
+
+
+/* === 子组件 === */
+import Update from './Setting/Update.vue'
 </script>
 
 
@@ -108,6 +112,8 @@ const set_conf_vault = async () => {
       </el-button>
     </div>
   </div>
+
+  <Update />
 
 </el-scrollbar>
 </template>

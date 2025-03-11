@@ -5,6 +5,9 @@
 # 忽略组件
 /components
 
+# 忽略环境配置
+.env
+
 # Logs
 logs
 *.log
