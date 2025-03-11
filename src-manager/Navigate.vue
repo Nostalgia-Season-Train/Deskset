@@ -6,7 +6,7 @@ const emit = defineEmits([
   "supportPage",
   "widgetPage",
   "themePage",
-  "developPage"
+  "settingPage"
 ])
 
 const handleSelect = (index) => {
@@ -18,8 +18,8 @@ const handleSelect = (index) => {
     emit("widgetPage")
   } else if (index == "theme") {
     emit("themePage")
-  } else if (index == "develop") {
-    emit("developPage")
+  } else if (index == "setting") {
+    emit("settingPage")
   }
 }
 </script>
@@ -44,7 +44,7 @@ const handleSelect = (index) => {
   <el-menu-item index="theme">
     <span>主题</span>
   </el-menu-item>
-  <el-menu-item index="develop">
+  <el-menu-item index="setting">
     <span>设置</span>
   </el-menu-item>
 </el-menu>

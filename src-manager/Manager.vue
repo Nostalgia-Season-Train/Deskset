@@ -12,7 +12,7 @@ const welcomePage = () => { router.push({ path: "/welcome" }) }
 const supportPage = () => { router.push({ path: "/support" }) }
 const widgetPage  = () => { router.push({ path: "/widget"  }) }
 const themePage   = () => { router.push({ path: "/theme"   }) }
-const developPage = () => { router.push({ path: "/develop" }) }
+const settingPage = () => { router.push({ path: "/setting" }) }
 
 /* 子程序，子窗口 */
 import './child'
@@ -27,7 +27,7 @@ import './child'
       @supportPage="supportPage"
       @widgetPage="widgetPage"
       @themePage="themePage"
-      @developPage="developPage"
+      @settingPage="settingPage"
     />
   </nav>
   <main>

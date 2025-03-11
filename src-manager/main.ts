@@ -20,7 +20,7 @@ const routes = [
   { path: '/support', component: () => import('./routers/Support.vue') },
   { path: '/widget',  component: () => import('./routers/Widget.vue') },
   { path: '/theme',   component: () => import('./routers/Theme.vue') },
-  { path: '/develop', component: () => import('./routers/Develop.vue') }
+  { path: '/setting', component: () => import('./routers/Setting.vue') }
 ]
 
 const router = createRouter({
