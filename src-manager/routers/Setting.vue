@@ -89,30 +89,6 @@ import Update from './Setting/Update.vue'
     </div>
   </div>
 
-  <div class="option">
-    <div class="word">
-      <div class="name">开发工具</div>
-      <div class="description">打开开发者工具</div>
-    </div>
-    <div class="icon">
-      <el-button type="primary" @click="openDevTool">
-        <el-icon style="margin: 0;"><CopyDocument /></el-icon>
-      </el-button>
-    </div>
-  </div>
-
-  <div class="option">
-    <div class="word">
-      <div class="name">导出日志</div>
-      <div class="description">导出运行日志，以供调试</div>
-    </div>
-    <div class="icon">
-      <el-button type="primary" @click="console.log('还未开发，按钮用来占位')">
-        <el-icon style="margin: 0;"><Upload /></el-icon>
-      </el-button>
-    </div>
-  </div>
-
   <Update />
 
 </el-scrollbar>
