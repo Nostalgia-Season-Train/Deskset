@@ -69,3 +69,11 @@ managerWin.once('tauri://close-requested', () => {  // 异步关不了窗口
   desktopWin.close()
   managerWin.close()  // 否则关闭按钮要点两次
 })
+
+// 更新
+export const updateDeskset = async (url: string) => {
+  const updater = Command.sidecar('DesksetUpdater', ['-url', url])
+  killServer()
+  await desktopWin.close()
+  await updater.execute()
+}

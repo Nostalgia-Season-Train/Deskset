@@ -18,6 +18,7 @@ const octokit = new Octokit({
 
 import { getVersion } from '@tauri-apps/api/app'
 import semver from 'semver'  // 比较版本大小，遵循语义化版本
+import { updateDeskset } from '../../child'
 
 const getReleasesLatest = async () => {
   try {
@@ -34,7 +35,12 @@ const getReleasesLatest = async () => {
     if (semver.gt(rep.data.name, version)) {
       ElMessage({
         type: 'success',
-        message: `检测到最新版本 ${rep.data.name}`
+        message: `检测到最新版本 ${rep.data.name}，开始更新`
+      })
+      await updateDeskset(rep.data.assets[0].browser_download_url)
+      ElMessage({
+        type: 'success',
+        message: `更新成功，请重启数字桌搭`
       })
     } else {
       ElMessage({
@@ -74,7 +80,7 @@ const getReleasesLatest = async () => {
       <el-switch v-model="confUpdate.AutoUpdate"></el-switch>
     </div>
   </div>
-  <div class="option">
+  <!-- <div class="option">
     <div class="left">
       <div class="name">版本类型</div>
       <div class="description">选择更新的版本类型</div>
@@ -85,7 +91,7 @@ const getReleasesLatest = async () => {
         <el-option value="Preview" label="预览版"/>
       </el-select>
     </div>
-  </div>
+  </div> -->
 </div>
 </template>
 

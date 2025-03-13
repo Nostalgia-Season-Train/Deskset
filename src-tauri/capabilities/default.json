@@ -26,6 +26,13 @@
       }]
     }, {
       "identifier": "shell:allow-kill"
+    }, {
+      "identifier": "shell:allow-execute",
+      "allow": [{
+        "args": ["-url", { "validator": "\\S+" }],
+        "name": "DesksetUpdater",
+        "sidecar": true
+      }]
     }
   ]
 }
