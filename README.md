@@ -30,5 +30,10 @@
 - 轻松保存和应用主题，并通过 CSS 定制样式
 
 
+## 关联项目
+数字桌搭后端：[DesksetBack](https://github.com/Nostalgia-Season-Train/DesksetBack-Release)</br>
+数字桌搭更新器：[DesksetUpdater](https://github.com/Nostalgia-Season-Train/DesksetUpdater)
+
+
 ## 交流
 QQ 群：770889923
