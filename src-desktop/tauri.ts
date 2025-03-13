@@ -7,7 +7,7 @@ import { mkdir, writeFile, BaseDirectory } from '@tauri-apps/plugin-fs'
 
 export const saveThemeDir = async (name: string, data: any) => {
   const encoder = new TextEncoder()
-  const encodeData = encoder.encode(JSON.stringify(data))
+  const encodeData = encoder.encode(JSON.stringify(data, null, 4))
   await mkdir(`./themes/${ name }`, { baseDir: BaseDirectory.Resource, recursive: true })
   await writeFile(`./themes/${ name }/data.json`, encodeData, { baseDir: BaseDirectory.Resource })
 }
