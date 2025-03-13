@@ -22,6 +22,10 @@ const getReleasesLatest = async () => {
     })
     const version = await getVersion()  // 当前版本，通过 tauri.conf.json 定义
 
+    if (rep.data.name == null) {
+      throw Error('无法获取最新版本')
+    }
+
     if (semver.gt(rep.data.name, version)) {
       ElMessage({
         type: 'success',
