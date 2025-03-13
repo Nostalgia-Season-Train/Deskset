@@ -58,9 +58,11 @@ jobs:
         Remove-Item -Path "./DesksetBack.zip"
 
     # 第六步：压缩目录
+      # ./$env:DIST/ 会连文件夹一起压缩，用 ./$env:DIST/* 只包含文件夹内容
+        # Deskset.zip/Deskset/XXX 跟 Deskset.zip/XXX 的区别
     - name: Zip
       run: |
-        Compress-Archive -Path "./$env:DIST/" -DestinationPath "./Deskset.zip" -CompressionLevel Optimal
+        Compress-Archive -Path "./$env:DIST/*" -DestinationPath "./Deskset.zip" -CompressionLevel Optimal
 
     # 第七步：发布
     - name: Release
