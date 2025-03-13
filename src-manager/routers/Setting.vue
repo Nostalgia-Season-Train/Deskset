@@ -54,6 +54,8 @@ const set_conf_vault = async () => {
 
 
 /* === 子组件 === */
+import { ElDivider } from 'element-plus'
+
 import Update from './Setting/Update.vue'
 </script>
 
@@ -88,6 +90,10 @@ import Update from './Setting/Update.vue'
       </el-button>
     </div>
   </div>
+
+  <el-divider content-position="left">
+    <span style="font-size: 18px;">更新</span>
+  </el-divider>
 
   <Update />
 

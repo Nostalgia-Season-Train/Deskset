@@ -4,6 +4,11 @@ import { ElButton, ElIcon, ElMessage } from 'element-plus'
 import { Refresh } from '@element-plus/icons-vue'
 
 
+/* === 配置 === */
+import { confUpdate } from './config'
+import { ElSwitch, ElSelect, ElOption } from 'element-plus'
+
+
 /* === 获取软件更新 === */
 import { Octokit } from 'octokit'
 
@@ -48,29 +53,60 @@ const getReleasesLatest = async () => {
 
 
 <template>
-<div class="option"><!-- 由父组件定义 option 样式 -->
-  <div class="left">
-    <div class="name">软件更新</div>
-    <div class="description">检查数字桌搭最新版本</div>
+<div>
+  <div class="option">
+    <div class="left">
+      <div class="name">软件更新</div>
+      <div class="description">检查数字桌搭最新版本</div>
+    </div>
+    <div class="right">
+      <el-button type="primary" @click="getReleasesLatest">
+        <el-icon style="margin: 0;"><Refresh /></el-icon>
+      </el-button>
+    </div>
   </div>
-  <div class="right">
-    <el-button type="primary" @click="getReleasesLatest">
-      <el-icon style="margin: 0;"><Refresh /></el-icon>
-    </el-button>
+  <div class="option">
+    <div class="left">
+      <div class="name">自动更新</div>
+      <div class="description">是否开启自动更新</div>
+    </div>
+    <div class="right">
+      <el-switch v-model="confUpdate.AutoUpdate"></el-switch>
+    </div>
+  </div>
+  <div class="option">
+    <div class="left">
+      <div class="name">版本类型</div>
+      <div class="description">选择更新的版本类型</div>
+    </div>
+    <div class="right">
+      <el-select v-model="confUpdate.VersionType" style="width: 100px;">
+        <el-option value="Stable" label="稳定版"/>
+        <el-option value="Preview" label="预览版"/>
+      </el-select>
+    </div>
   </div>
 </div>
 </template>
 
 
 <style lang="less" scoped>
-.left {
-  .name {
-    font-size: 16px;
-    color: black;
-  }
-  .description {
-    font-size: 14px;
-    color: gray;
+.option {
+  margin: 10px 10px 0 10px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .left {
+    .name {
+      font-size: 16px;
+      color: black;
+    }
+    .description {
+      font-size: 14px;
+      color: gray;
+    }
   }
 }
 </style>
