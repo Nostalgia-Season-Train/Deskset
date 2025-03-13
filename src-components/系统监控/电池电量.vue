@@ -1,22 +1,39 @@
 <script setup>
 import { ref } from 'vue'
-import { getDesksetReq } from '../request'
 
 const battery_percent = ref(100)
 const is_plug = ref(true)
 
-const refresh = async () => {
-  const desksetReq = await getDesksetReq()
-  const rep = await desksetReq.get('/v0/device/battery')
-  battery_percent.value = rep.data.data.percent
-  is_plug.value = rep.data.data.plug
-}
-refresh()
 
+/* === SSE === */
+import { getServerInfo } from '../request'
 
-import { useIntervalFn } from '@vueuse/core'
+const server = await getServerInfo()
 
-useIntervalFn(refresh, 1000)
+// 绑定
+import { EventSource } from 'eventsource'
+
+const stream = new EventSource(`http://${ server.host }:${ server.port }/v0/device/stream`, {
+  fetch: (input, init) =>
+    fetch(input, {
+      ...init,
+      headers: {
+        ...init.headers,
+        Authorization: `Bearer ${ server.token }`
+      }
+    })
+})
+
+stream.addEventListener('message', (event) => {
+  const info = JSON.parse(event.data)
+  battery_percent.value = info.percent
+  is_plug.value = info.plug
+})
+
+// 解绑
+import { onBeforeUnmount } from 'vue'
+
+onBeforeUnmount(() => stream.close())
 </script>
 
 
