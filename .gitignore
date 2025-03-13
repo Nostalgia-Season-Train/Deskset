@@ -1,7 +1,3 @@
-# 忽略字体文件
-*.otf
-*.ttf
-
 # 忽略组件
 /components
 
