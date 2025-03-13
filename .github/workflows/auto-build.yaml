@@ -20,6 +20,7 @@ jobs:
       # PowerShell 通过 $env:VARIABLE 访问环境变量
       DIST: "out/Deskset"
       DESKSETBACK_URL: "https://github.com/Nostalgia-Season-Train/DesksetBack-Release/releases/download/v0.0.1/DesksetBack-v0.0.1.zip"
+      DESKSETUPDATER_URL: "https://github.com/Nostalgia-Season-Train/DesksetUpdater/releases/download/v0.0.1/DesksetUpdater.zip"
 
     strategy:
       matrix:
@@ -49,13 +50,16 @@ jobs:
         New-Item -ItemType Directory -Path $env:DIST
         Copy-Item -Path "./src-tauri/target/release/Deskset.exe" -Destination "./$env:DIST/"
 
-    # 第五步：下载数字桌搭后端程序
+    # 第五步：下载数字桌搭后端和数字桌搭更新器
       # 压缩包名称（-OutFile 设置），解压路径 = DesksetBack
     - name: Download DesksetBack
       run: |
         Invoke-WebRequest -Uri $env:DESKSETBACK_URL -OutFile "DesksetBack.zip"
         Expand-Archive -Path "./DesksetBack.zip" -DestinationPath "./$env:DIST/" -Force
         Remove-Item -Path "./DesksetBack.zip"
+        Invoke-WebRequest -Uri $env:DESKSETUPDATER_URL -OutFile "DesksetUpdater.zip"
+        Expand-Archive -Path "./DesksetUpdater.zip" -DestinationPath "./$env:DIST/" -Force
+        Remove-Item -Path "./DesksetUpdater.zip"
 
     # 第六步：压缩目录
       # ./$env:DIST/ 会连文件夹一起压缩，用 ./$env:DIST/* 只包含文件夹内容
