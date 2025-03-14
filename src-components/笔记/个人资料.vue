@@ -16,9 +16,11 @@ const profile = ref({
 
 // 配置
 const config = defineModel({ type: Object })
+const { themeName, getAsset } = defineProps(['themeName', 'getAsset'])
 
 if (Object.keys(config.value).length != 0) {
   profile.value = config.value
+  profile.value.avatar = await getAsset(themeName, profile.value.avatar)
 }
 </script>
 

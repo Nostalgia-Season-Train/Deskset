@@ -8,7 +8,7 @@ const widgets = shallowRef(rawWidgets)
 
 // 设置组件
 // 注：仅当应用主题时使用 widgetStyle，因为拖动指令是直接操作 DOM，没有响应式绑定
-const setWidget = async ({widgetId, isDisplay=undefined, widgetClass=undefined, widgetStyle=undefined, widgetModel=new Object}) => {
+const setWidget = async ({widgetId, isDisplay=undefined, widgetClass=undefined, widgetStyle=undefined, widgetModel=new Object, themeName=undefined}) => {
   const num = widgets.value.findIndex(widget => widget.id == widgetId)
   if (num == -1) {
     throw Error(`没有 ${widgetId} 组件`)
@@ -25,6 +25,7 @@ const setWidget = async ({widgetId, isDisplay=undefined, widgetClass=undefined, 
     }
     widgets.value[num].style = widgetStyle
     widgets.value[num].model = widgetModel  // 父组件和子组件间，通过 v-model 双向绑定数据
+    widgets.value[num].themeName = themeName
   } else if (isDisplay == false) {
     // 关闭组件，并清空组件状态
     widgets.value[num].isDisplay = false
@@ -33,6 +34,7 @@ const setWidget = async ({widgetId, isDisplay=undefined, widgetClass=undefined, 
     widgets.value[num].class = undefined
     widgets.value[num].style = undefined
     widgets.value[num].model = undefined
+    widgets.value[num].themeName = undefined
   }
 
   // shallowRef.value.arry 不是响应式的，手动更新
@@ -121,7 +123,7 @@ const useTheme = async (themeName) => {
   for (const widget of widgets) {
     const widgetId = widget?.id
     if (widgetId != undefined) {
-      await setWidget({widgetId: widgetId, isDisplay: true, widgetClass: widget?.class, widgetStyle: widget?.style, widgetModel: widget?.model})
+      await setWidget({widgetId: widgetId, isDisplay: true, widgetClass: widget?.class, widgetStyle: widget?.style, widgetModel: widget?.model, themeName: themeName})
     }
   }
 
@@ -206,6 +208,17 @@ bc.onmessage = async (event) => {
     refreshPage()
   }
 }
+
+
+/* === 暴露给组件的方法 === */
+import { resourceDir, join } from '@tauri-apps/api/path'
+import { convertFileSrc } from '@tauri-apps/api/core'
+
+// 通过 http://asset.localhost 访问 themeName 主题下的文件 fileName
+const getAsset = async (themeName, fileName) => {
+  const asset = await join(await resourceDir(), 'themes', themeName, fileName)
+  return convertFileSrc(asset)
+}
 </script>
 
 
@@ -222,7 +235,12 @@ bc.onmessage = async (event) => {
           v-if="widget.isDisplay"
           v-widget-drag
         >
-          <component :is="widget.contentLoad" v-model="widget.model"/>
+          <component
+            :is="widget.contentLoad"
+            v-model="widget.model"
+            :themeName="widget.themeName"
+            :getAsset="getAsset"
+          />
         </div>
       </Suspense>
     </div>
