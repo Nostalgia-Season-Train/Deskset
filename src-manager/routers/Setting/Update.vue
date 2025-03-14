@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 /* === Element Plus === */
-import { ElButton, ElIcon, ElMessage } from 'element-plus'
+import { ElButton, ElIcon, ElMessage, ElMessageBox } from 'element-plus'
 import { Refresh } from '@element-plus/icons-vue'
 
 
@@ -33,14 +33,18 @@ const getReleasesLatest = async () => {
     }
 
     if (semver.gt(rep.data.name, version)) {
-      ElMessage({
-        type: 'success',
-        message: `检测到最新版本 ${rep.data.name}，开始更新`
-      })
-      await updateDeskset(rep.data.assets[0].browser_download_url)
-      ElMessage({
-        type: 'success',
-        message: `更新成功，请重启数字桌搭`
+      ElMessageBox.confirm(
+        `检测到新版本 ${rep.data.name}，是否更新数字桌搭`,
+        '更新确认', {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消'
+        }
+      ).then(async () => {
+        await updateDeskset(rep.data.assets[0].browser_download_url)
+        ElMessage({
+          type: 'success',
+          message: `更新成功，请重启数字桌搭`
+        })
       })
     } else {
       ElMessage({
