@@ -6,8 +6,13 @@ const items = ref([])  // 菜单 dock 保存的元素 items
 
 // 主题保存的菜单栏配置
 const config = defineModel({ type: Object })
+const { getAsset } = defineProps(['getAsset'])
+
 if (Object.keys(config.value).length != 0) {
-  items.value = config.value
+  items.value = structuredClone(config.value)
+  for (const item of items.value) {
+    item.icon = await getAsset(item.icon)
+  }
 }
 
 const dropFiles = async (event) => {
