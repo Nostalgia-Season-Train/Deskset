@@ -32,5 +32,6 @@ useIntervalFn(greet, 60000)
 .greet {
   color: white;
   font-size: 24px;
+  white-space: nowrap;
 }
 </style>
