@@ -8,7 +8,7 @@ const widgets = shallowRef(rawWidgets)
 
 // 设置组件
 // 注：仅当应用主题时使用 widgetStyle，因为拖动指令是直接操作 DOM，没有响应式绑定
-const setWidget = async ({widgetId, isDisplay=undefined, widgetClass=undefined, widgetStyle=undefined, widgetModel=new Object, themeName=undefined}) => {
+const setWidget = async ({widgetId, isDisplay=undefined, widgetClass=undefined, widgetStyle=undefined, widgetModel=new Object}) => {
   const num = widgets.value.findIndex(widget => widget.id == widgetId)
   if (num == -1) {
     throw Error(`没有 ${widgetId} 组件`)
@@ -25,7 +25,6 @@ const setWidget = async ({widgetId, isDisplay=undefined, widgetClass=undefined, 
     }
     widgets.value[num].style = widgetStyle
     widgets.value[num].model = widgetModel  // 父组件和子组件间，通过 v-model 双向绑定数据
-    widgets.value[num].themeName = themeName
   } else if (isDisplay == false) {
     // 关闭组件，并清空组件状态
     widgets.value[num].isDisplay = false
@@ -34,7 +33,6 @@ const setWidget = async ({widgetId, isDisplay=undefined, widgetClass=undefined, 
     widgets.value[num].class = undefined
     widgets.value[num].style = undefined
     widgets.value[num].model = undefined
-    widgets.value[num].themeName = undefined
   }
 
   // shallowRef.value.arry 不是响应式的，手动更新
@@ -75,6 +73,11 @@ const closeAllWidgets = async () => {
 
 /* === 主题 === */
 import { saveThemeDir, readThemeDir } from './tauri'
+
+// 当前主题
+import { ref } from 'vue'
+
+const currentThemeName = ref(undefined)  // 只用在 useTheme 时设置，refreshPage 自动清理状态
 
 // 保存主题
 import dayjs from "dayjs"
@@ -118,12 +121,14 @@ const useTheme = async (themeName) => {
     throw Error(`主题 ${themeName} 中的组件读取失败`)
   }
 
+  currentThemeName.value = themeName
+
   // 先关闭当前组件，再打开
   await closeAllWidgets()
   for (const widget of widgets) {
     const widgetId = widget?.id
     if (widgetId != undefined) {
-      await setWidget({widgetId: widgetId, isDisplay: true, widgetClass: widget?.class, widgetStyle: widget?.style, widgetModel: widget?.model, themeName: themeName})
+      await setWidget({widgetId: widgetId, isDisplay: true, widgetClass: widget?.class, widgetStyle: widget?.style, widgetModel: widget?.model})
     }
   }
 
@@ -215,8 +220,8 @@ import { resourceDir, join } from '@tauri-apps/api/path'
 import { convertFileSrc } from '@tauri-apps/api/core'
 
 // 通过 http://asset.localhost 访问 themeName 主题下的文件 fileName
-const getAsset = async (themeName, fileName) => {
-  const asset = await join(await resourceDir(), 'themes', themeName, fileName)
+const getAsset = async (fileName) => {
+  const asset = await join(await resourceDir(), 'themes', currentThemeName.value, fileName)
   return convertFileSrc(asset)
 }
 </script>
@@ -238,7 +243,6 @@ const getAsset = async (themeName, fileName) => {
           <component
             :is="widget.contentLoad"
             v-model="widget.model"
-            :themeName="widget.themeName"
             :getAsset="getAsset"
           />
         </div>

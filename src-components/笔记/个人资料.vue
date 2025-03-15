@@ -6,6 +6,7 @@ const profile = ref({
   name: '昵称',
   bio: '签名'
 })
+const avatarSrc = ref()
 // - avatar 头像
 // - name   昵称
 // - bio    签名
@@ -16,11 +17,11 @@ const profile = ref({
 
 // 配置
 const config = defineModel({ type: Object })
-const { themeName, getAsset } = defineProps(['themeName', 'getAsset'])
+const { getAsset } = defineProps(['getAsset'])
 
 if (Object.keys(config.value).length != 0) {
   profile.value = config.value
-  profile.value.avatar = await getAsset(themeName, profile.value.avatar)
+  avatarSrc.value = await getAsset(profile.value.avatar)  // profile.avatar 是拿来保存的
 }
 </script>
 
@@ -29,7 +30,7 @@ if (Object.keys(config.value).length != 0) {
 <div class="profile">
   <div class="left">
     <div class="avatar">
-      <img :src="profile?.avatar" draggable="false"></img>
+      <img :src="avatarSrc" draggable="false"></img>
     </div>
   </div>
   <div class="right">
