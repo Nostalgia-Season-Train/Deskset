@@ -56,6 +56,8 @@ const openDesktop = () => {  // 异步会让 alwaysOnBottom 失效
 
 
 /* === 浮动窗口 === */
+import { Effect } from '@tauri-apps/api/window'
+
 class FloatManager {
   private floatList: Map<string, WebviewWindow>
 
@@ -67,6 +69,8 @@ class FloatManager {
     const floatWin = new WebviewWindow(`float:${page}`, {
       url: `float.html#/${page}`,
       title: `Deskset Float ${page}`,
+      transparent: true, decorations: false, shadow: false, skipTaskbar: true,
+      windowEffects: { effects: [Effect.Blur] },
       x: 100, y: 100,
       width: width, height: height,
       resizable: false
@@ -75,6 +79,11 @@ class FloatManager {
     floatWin.show()
 
     this.floatList.set(page, floatWin)
+  }
+
+  close = async (page: string) => {
+    const window = this.floatList.get(page)
+    await window?.close()
   }
 
   closeAll = async () => {
