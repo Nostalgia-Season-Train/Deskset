@@ -17,7 +17,8 @@ export default defineConfig(async () => ({
       input: {
         // manager 管理组件；desktop 放置组件
         manager: path.resolve(__dirname, 'manager.html'),
-        desktop: path.resolve(__dirname, 'desktop.html')
+        desktop: path.resolve(__dirname, 'desktop.html'),
+        float: path.resolve(__dirname, 'float.html')
       }
     },
     target: 'es2022'  // 支持顶级 await 的环境，使用 await 时不用 async 包裹
