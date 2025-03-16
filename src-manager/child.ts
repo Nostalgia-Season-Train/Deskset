@@ -65,7 +65,7 @@ class FloatManager {
 
   create = async (page: string, width: number, height: number) => {
     const floatWin = new WebviewWindow(`float:${page}`, {
-      url: `float.html#${page}`,
+      url: `float.html#/${page}`,
       title: `Deskset Float ${page}`,
       x: 100, y: 100,
       width: width, height: height,

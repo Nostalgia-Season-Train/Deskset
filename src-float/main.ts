@@ -9,15 +9,20 @@ const routes: any = []
 
 const pages = import.meta.glob('./pages/*.vue')
 for (const page in pages) {
-  const name = page.replace('.vue', '').split('/').pop()  // page：./pages/page.vue
-  routes.push({ path: name, component: pages[page] })     // pages[page]：() => import("/src-float/pages/page.vue")
+  // 注：
+    // 路径必须以 / 开头
+    // 中文路径通过百分号编码访问
+    // page：./pages/page.vue 和 pages[page]：() => import("/src-float/pages/page.vue")
+  const name = page.replace('.vue', '').split('/').pop()
+  const encodeName = encodeURIComponent(String(name))
+  routes.push({ path: `/${encodeName}`, component: pages[page] })
 }
 
 // 创建 Router
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 const router = createRouter({
-  history: createWebHashHistory(),  // Hash 模式：float.html#page 访问
+  history: createWebHashHistory(),  // Hash 模式：float.html#/page 访问
   routes: routes
 })
 
