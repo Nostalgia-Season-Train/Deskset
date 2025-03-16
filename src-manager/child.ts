@@ -55,6 +55,38 @@ const openDesktop = () => {  // 异步会让 alwaysOnBottom 失效
 // 注：setAlwaysOnBottom 会让某些组件异常
 
 
+/* === 浮动窗口 === */
+class FloatManager {
+  private floatList: Map<string, WebviewWindow>
+
+  constructor() {
+    this.floatList = new Map()
+  }
+
+  create = async (page: string, width: number, height: number) => {
+    const floatWin = new WebviewWindow(`float:${page}`, {
+      url: `float.html#${page}`,
+      title: `Deskset Float ${page}`,
+      x: 100, y: 100,
+      width: width, height: height,
+      resizable: false
+    })
+    floatWin.once('tauri://error', async (error: any) => { console.log(error) })
+    floatWin.show()
+
+    this.floatList.set(page, floatWin)
+  }
+
+  closeAll = async () => {
+    for (const [page, window] of this.floatList) {
+      await window.close()
+    }
+  }
+}
+
+export const floatManager = new FloatManager()
+
+
 /* === 子程序，子窗口 === */
 import { getCurrentWindow } from '@tauri-apps/api/window'
 
@@ -66,6 +98,7 @@ spawnServer()
 const managerWin = getCurrentWindow()
 managerWin.once('tauri://close-requested', () => {  // 异步关不了窗口
   killServer()
+  floatManager.closeAll()
   desktopWin.close()
   managerWin.close()  // 否则关闭按钮要点两次
 })
