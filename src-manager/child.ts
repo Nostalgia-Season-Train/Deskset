@@ -65,12 +65,13 @@ class FloatManager {
     this.floatList = new Map()
   }
 
-  create = async (page: string, width: number, height: number) => {
+  create = async (page: string, width: number, height: number, alwaysOnTop: boolean = true) => {
     const floatWin = new WebviewWindow(`float:${page}`, {
       url: `float.html#/${page}`,
       title: `Deskset Float ${page}`,
       transparent: true, decorations: false, shadow: false, skipTaskbar: true,
       windowEffects: { effects: [Effect.Blur] },
+      alwaysOnTop: alwaysOnTop,
       x: 100, y: 100,
       width: width, height: height,
       resizable: false
