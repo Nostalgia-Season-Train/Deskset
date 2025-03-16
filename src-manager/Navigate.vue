@@ -1,27 +1,9 @@
-<script setup>
+<script lang="ts" setup>
 import { ElMenu, ElMenuItem } from 'element-plus'
 
-const emit = defineEmits([
-  "welcomePage",
-  "supportPage",
-  "widgetPage",
-  "themePage",
-  "settingPage"
-])
+const emit = defineEmits(['jumpPage'])
 
-const handleSelect = (index) => {
-  if (index == "welcome") {
-    emit("welcomePage")
-  } else if (index == "support") {
-    emit("supportPage")
-  } else if (index == "widget") {
-    emit("widgetPage")
-  } else if (index == "theme") {
-    emit("themePage")
-  } else if (index == "setting") {
-    emit("settingPage")
-  }
-}
+const handleSelect = async (index: string) => { emit('jumpPage', index) }
 </script>
 
 
@@ -37,6 +19,9 @@ const handleSelect = (index) => {
   </el-menu-item>
   <el-menu-item index="support">
     <span>支持</span>
+  </el-menu-item>
+  <el-menu-item index="float">
+    <span>浮动</span>
   </el-menu-item>
   <el-menu-item index="widget">
     <span>组件</span>

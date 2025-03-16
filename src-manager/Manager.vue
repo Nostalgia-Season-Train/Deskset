@@ -1,4 +1,4 @@
-<script setup>
+<script lang="ts" setup>
 /* 顶部导航 */
 import Navigate from "./Navigate.vue"
 
@@ -8,11 +8,8 @@ import { useRouter } from "vue-router"
 
 const router = useRouter()
 
-const welcomePage = () => { router.push({ path: "/welcome" }) }
-const supportPage = () => { router.push({ path: "/support" }) }
-const widgetPage  = () => { router.push({ path: "/widget"  }) }
-const themePage   = () => { router.push({ path: "/theme"   }) }
-const settingPage = () => { router.push({ path: "/setting" }) }
+const jumpPage = async (page: string) => { router.push({ path: `/${page}` }) }
+
 
 /* 子程序，子窗口 */
 import './child'
@@ -22,13 +19,7 @@ import './child'
 <template>
 <body>
   <nav>
-    <Navigate
-      @welcomePage="welcomePage"
-      @supportPage="supportPage"
-      @widgetPage="widgetPage"
-      @themePage="themePage"
-      @settingPage="settingPage"
-    />
+    <Navigate @jumpPage="jumpPage"/>
   </nav>
   <main>
     <RouterView />

@@ -18,6 +18,7 @@ const routes = [
 
   { path: '/welcome', component: Welcome },
   { path: '/support', component: () => import('./routers/Support.vue') },
+  { path: '/float',   component: () => import('./routers/Float.vue') },
   { path: '/widget',  component: () => import('./routers/Widget.vue') },
   { path: '/theme',   component: () => import('./routers/Theme.vue') },
   { path: '/setting', component: () => import('./routers/Setting.vue') }
