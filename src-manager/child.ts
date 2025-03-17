@@ -121,7 +121,8 @@ const exitDeskset = () => {  // 异步可能无法关闭窗口
 }
 
 managerWin.once('tauri://close-requested', () => {
-  managerWin.hide()
+  // managerWin.hide()  // 第二次 close-requested 不会 hide 将直接关闭窗口！
+  managerWin.close()    // 所以 close 窗口，让主进程 main.rs 重新创建
 })
 
 // 更新

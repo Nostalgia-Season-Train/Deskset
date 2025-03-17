@@ -4,8 +4,8 @@
 use tauri::{
   menu::{Menu, MenuItem},
   tray::TrayIconBuilder,
-  Manager,  // 调用位置：app.get_webview_window
-  Emitter   // 调用位置：app.emit
+  Emitter,  // 调用位置：app.emit
+  WebviewWindowBuilder, WebviewUrl
 };
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -29,9 +29,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     .show_menu_on_left_click(false)
     .on_menu_event(|app, event| match event.id.as_ref() {
       "show" => {
-        let window = app.get_webview_window("manager").unwrap();
-        window.show().unwrap();
-        window.set_focus().unwrap();
+        let _window = WebviewWindowBuilder::new(
+          app,
+          "manager",
+          WebviewUrl::App("manager.html".into())
+        )
+        .title("Deskset")
+        .inner_size(800.0, 600.0)
+        .build().unwrap();
       }
       "quit" => {
         app.emit("quit", "退出数字桌搭").unwrap();
