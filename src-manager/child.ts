@@ -100,17 +100,28 @@ export const floatManager = new FloatManager()
 /* === 子程序，子窗口 === */
 import { getCurrentWindow } from '@tauri-apps/api/window'
 
+const managerWin = getCurrentWindow()
+
 // 打开
 openDesktop()  // 在其他文件调用会使 alwaysOnBottom 失效
 spawnServer()
 
 // 关闭
-const managerWin = getCurrentWindow()
-managerWin.once('tauri://close-requested', () => {  // 异步关不了窗口
+import { listen } from '@tauri-apps/api/event'
+
+listen('quit', (event) => {
+  exitDeskset()
+})
+
+const exitDeskset = () => {  // 异步可能无法关闭窗口
   killServer()
   floatManager.closeAll()
   desktopWin.close()
-  managerWin.close()  // 否则关闭按钮要点两次
+  managerWin.close()
+}
+
+managerWin.once('tauri://close-requested', () => {
+  managerWin.hide()
 })
 
 // 更新
