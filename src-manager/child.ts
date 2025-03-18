@@ -120,9 +120,11 @@ const exitDeskset = () => {  // 异步可能无法关闭窗口
   managerWin.close()
 }
 
+// 注：通过 Rust 主程序阻止窗口关闭
+  // 窗口关闭再打开，将会重置 child.ts 中的变量，导致变量存储的子程序、子窗口句柄丢失
 managerWin.once('tauri://close-requested', () => {
   // managerWin.hide()  // 第二次 close-requested 不会 hide 将直接关闭窗口！
-  managerWin.close()    // 所以 close 窗口，让主进程 main.rs 重新创建
+  // managerWin.close()    // 所以 close 窗口，让主进程 main.rs 重新创建
 })
 
 // 更新

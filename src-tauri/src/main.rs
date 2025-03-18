@@ -4,8 +4,9 @@
 use tauri::{
   menu::{Menu, MenuItem},
   tray::TrayIconBuilder,
+  Manager,  // 调用位置：app.get_webview_window
   Emitter,  // 调用位置：app.emit
-  WebviewWindowBuilder, WebviewUrl
+  WebviewWindowBuilder, WebviewUrl, WindowEvent
 };
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -16,6 +17,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     .build(tauri::generate_context!())
     .expect("error while running tauri application");
 
+
+  /* === 托盘 === */
   // 参考：https://github.com/tauri-apps/tauri/blob/dev/examples/api/src-tauri/src/lib.rs
   let show_i = MenuItem::with_id(&app, "show", "显示", true, None::<&str>)?;
   let quit_i = MenuItem::with_id(&app, "quit", "退出", true, None::<&str>)?;
@@ -29,14 +32,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     .show_menu_on_left_click(false)
     .on_menu_event(|app, event| match event.id.as_ref() {
       "show" => {
-        let _window = WebviewWindowBuilder::new(
-          app,
-          "manager",
-          WebviewUrl::App("manager.html".into())
-        )
-        .title("Deskset")
-        .inner_size(800.0, 600.0)
-        .build().unwrap();
+        let window = app.get_webview_window("manager").unwrap();
+        window.show().unwrap();
       }
       "quit" => {
         app.emit("quit", "退出数字桌搭").unwrap();
@@ -49,6 +46,30 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     /* 应用托盘 */
     .build(&app);
 
+
+  /* === 管理窗口 === */
+  let manager_win = WebviewWindowBuilder::new(
+    &app,
+    "manager",
+    WebviewUrl::App("manager.html".into())
+  )
+  .title("Deskset")
+  .inner_size(800.0, 600.0)
+  .center()
+  .build().unwrap();
+
+  manager_win.clone().on_window_event(move |event| {
+    match event {
+      WindowEvent::CloseRequested { api, .. } => {
+        api.prevent_close();
+        manager_win.hide().unwrap();  // 有点蠢，没找到 on_window_event 传递自身的示例
+      },
+      _ => {}
+    }
+  });
+
+
+  /* === 启动应用 === */
   app.run(|_app_handle, e| match e {
     /* 当所有窗口关闭后，阻止 Tauri 退出 */
     // tauri::RunEvent::ExitRequested { api, .. } => {
