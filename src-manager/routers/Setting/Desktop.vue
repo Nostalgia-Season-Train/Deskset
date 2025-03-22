@@ -4,7 +4,7 @@ import { ref } from 'vue'
 import { ElInput } from 'element-plus'
 import { desktopManager } from '../../child'
 
-const desktopName = ref('')
+const desktopName = ref(desktopManager.current())
 
 const chooseDesktop = async (event: any) => {
   if (event.key != 'Enter') {

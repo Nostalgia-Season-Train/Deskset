@@ -25,9 +25,15 @@ const height = monitor?.size.height
 
 class DesktopManager {
   private desktop: WebviewWindow | undefined
+  private currentDesktopName: string
 
   constructor() {
     this.choose('')
+  }
+
+  // 当前桌面
+  current = () => {
+    return this.currentDesktopName
   }
 
   // 选择桌面
@@ -57,6 +63,7 @@ class DesktopManager {
 
       focus: false  // 聚焦会改变窗口 z 序，破坏 alwaysOnBottom
     })
+    this.currentDesktopName = desktopName
 
     // 桌面置底
     this.desktop.show()
