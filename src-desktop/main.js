@@ -3,7 +3,7 @@ import './style.css'
 
 import 'element-plus/dist/index.css'  // Element Plus 样式由桌面提供
 
-import Desktop from './Desktop.vue'
+import Desktop from './DesktopMain.vue'
 import drag from './widgetDrag'
 
 import '../static/css/default-font.css'
