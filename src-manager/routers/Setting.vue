@@ -1,17 +1,5 @@
 <script setup>
 import { ElScrollbar, ElButton, ElIcon, ElInput } from 'element-plus'
-import { Refresh, CopyDocument, Upload } from "@element-plus/icons-vue"
-
-
-import desktop from './desktop.ts'
-
-const refreshPage = () => {
-  desktop.refresh()
-}
-
-const openDevTool = () => {
-  desktop.openDevTool()
-}
 
 
 /* === 配置 === */
@@ -56,6 +44,7 @@ const set_conf_vault = async () => {
 /* === 子组件 === */
 import { ElDivider } from 'element-plus'
 
+import Desktop from './Setting/Desktop.vue'
 import Update from './Setting/Update.vue'
 </script>
 
@@ -79,22 +68,14 @@ import Update from './Setting/Update.vue'
     </div>
   </div>
 
-  <div class="option">
-    <div class="word">
-      <div class="name">刷新</div>
-      <div class="description">强制刷新桌面，相当于 F5</div>
-    </div>
-    <div class="icon">
-      <el-button type="primary" @click="refreshPage">
-        <span>F5</span>
-      </el-button>
-    </div>
-  </div>
+  <el-divider content-position="left">
+    <span style="font-size: 18px;">桌面</span>
+  </el-divider>
+  <Desktop />
 
   <el-divider content-position="left">
     <span style="font-size: 18px;">更新</span>
   </el-divider>
-
   <Update />
 
 </el-scrollbar>

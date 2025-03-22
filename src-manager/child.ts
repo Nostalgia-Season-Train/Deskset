@@ -31,13 +31,16 @@ class DesktopManager {
   }
 
   // 选择桌面
-  choose = async (desktop: string) => {
+  choose = async (desktopName: string) => {
     // 桌面若打开，则关闭以重新创建
-    this.desktop?.close()
+    const desktop = await WebviewWindow.getByLabel('desktop')
+    if (desktop != null) {
+      await desktop.close()
+    }
 
     // 创建桌面
     this.desktop = new WebviewWindow('desktop', {
-      url: `desktop.html#/${desktop}`,
+      url: `desktop.html#/${desktopName}`,
       title: 'Deskset-Desktop',
 
       transparent: true,
