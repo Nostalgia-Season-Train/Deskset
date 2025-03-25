@@ -7,7 +7,7 @@ import '../static/css/default-font.css'
 // 遍历 pages 注册 routes
 const routes: any = []
 
-const pages = import.meta.glob('./pages/*.vue')
+const pages = import.meta.glob('./subfloats/*.vue')
 for (const page in pages) {
   // 注：
     // 路径必须以 / 开头
