@@ -35,9 +35,9 @@ import './child'
 }
 
 nav {
-  height: 10vh;
+  height: 8vh;
 }
 main {
-  height: 90vh;
+  height: 92vh;
 }
 </style>
