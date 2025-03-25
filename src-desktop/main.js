@@ -7,7 +7,10 @@ import '../static/css/default-font.css'  // 默认字体
   // 代码注释参见：src-float/main.ts
 import { createRouter, createWebHashHistory } from 'vue-router'
 
-const routes = [{ path: '/', component: () => import('./DesktopMain.vue') }]
+const routes = [
+  { path: '/', component: () => import('./DesktopMain.vue') },
+  { path: '/Main', component: () => import('./DesktopMain.vue') }
+]
 
 const pages = import.meta.glob('./subdesktops/*.vue')
 for (const page in pages) {

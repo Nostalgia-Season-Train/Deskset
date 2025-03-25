@@ -35,6 +35,7 @@ const refreshPage = async () => {
         v-model="desktopName"
         @keydown="chooseDesktop"
         style="width: 180px;"
+        placeholder="Main"
       />
     </div>
   </div>
