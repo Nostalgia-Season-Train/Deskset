@@ -3,7 +3,7 @@
 
 use tauri::{
   menu::{Menu, MenuItem},
-  tray::TrayIconBuilder,
+  tray::TrayIconBuilder, tray::TrayIconEvent,
   Manager,  // 调用位置：app.get_webview_window
   Emitter,  // 调用位置：app.emit
   WebviewWindowBuilder, WebviewUrl, WindowEvent
@@ -27,6 +27,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
   let _tray = TrayIconBuilder::new()
     /* 图标 */
     .icon(app.default_window_icon().unwrap().clone())
+    /* 双击图标 */
+    .on_tray_icon_event({
+      let app_handle = app.handle().clone();  // 克隆 app 句柄
+      move |_tray_icon, event| match event {
+      TrayIconEvent::DoubleClick { .. } => {
+        let window = app_handle.get_webview_window("manager").unwrap();
+        window.show().unwrap();
+      },
+      _ => {}
+    }})
     /* 菜单 */
     .menu(&menu)
     .show_menu_on_left_click(false)
