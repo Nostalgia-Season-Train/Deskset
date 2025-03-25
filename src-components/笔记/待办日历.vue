@@ -43,8 +43,9 @@ const refresh = async () => {
   }
 }
 
-import { onMounted } from 'vue'
-onMounted(async () => refresh())  // 组件挂载后刷新，否则 refFC.getApi() 为空
+// 不用初始刷新，挂载后 datesSet 会触发一次
+// import { onMounted } from 'vue'
+// onMounted(async () => refresh())  // 组件挂载后刷新，否则 refFC.getApi() 为空
 </script>
 
 
