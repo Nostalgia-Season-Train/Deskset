@@ -7,9 +7,9 @@ const isopen = ref(false)
 
 const switchFloat = async () => {
   if (isopen.value) {
-    floatManager.create('', 100, 100)
+    floatManager.create('Diary', 240, 160)
   } else {
-    floatManager.close('')
+    floatManager.close('Diary')
   }
 }
 </script>
