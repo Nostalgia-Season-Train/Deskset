@@ -104,7 +104,8 @@ class FloatManager {
       alwaysOnTop: alwaysOnTop,
       x: 100, y: 100,
       width: width, height: height,
-      resizable: false
+      resizable: false,
+      maximizable: false  // 避免双击最大化
     })
     floatWin.once('tauri://error', async (error: any) => { console.log(error) })
     floatWin.show()

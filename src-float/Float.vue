@@ -1,6 +1,8 @@
 <template>
 <body>
-  <RouterView />
+  <Suspense><!-- 能让 setup 顶层使用 await -->
+    <RouterView />
+  </Suspense>
 </body>
 </template>
 
