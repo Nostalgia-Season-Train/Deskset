@@ -82,7 +82,7 @@ const triggerProp = (id, prop, is) => {
 <template>
 <el-container v-if="widgets.length > 0"><!-- 有组件才显示组件菜单 -->
 
-  <el-aside width="30%">
+  <el-aside width="25%">
     <el-scrollbar>
       <el-menu
         :default-active="widgets[0].name"
@@ -142,6 +142,12 @@ const triggerProp = (id, prop, is) => {
 }
 .el-menu {
   border: 0;
+}
+:deep(.el-sub-menu__title) {
+  height: 50px;
+}
+:deep(.el-menu-item) {
+  height: 45px;
 }
 
 .el-main {
