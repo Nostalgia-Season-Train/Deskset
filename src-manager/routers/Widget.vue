@@ -76,6 +76,18 @@ const widgetPropsIs = ref(Array(widgetProps.value.length).fill(false))  // 属�
 const triggerProp = (id, prop, is) => {
   desktop.switchProp(id, prop, is)
 }
+
+
+/* === 组件错误 === */
+import { onErrorCaptured } from 'vue'
+
+onErrorCaptured((error) => {
+  // 1、父组件：onErrorCaptured 同步回调，异步不生效
+  // 2、子组件：异步函数 await 调用才能接住错误
+  // 3、http 网络错误来自浏览器，无法阻止只能隐藏，控制台设置 > 隐藏网络
+  console.log('预期行为：组件预览失败，停止错误传播')
+  return false
+})
 </script>
 
 

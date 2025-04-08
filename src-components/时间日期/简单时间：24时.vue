@@ -1,28 +1,28 @@
 <script setup>
-import { ref } from "vue"
-import { getDesksetReq } from '../request'
+import { reactive, inject } from 'vue'
 
-const hour   = ref("00")
-const minute = ref("00")
-
-const time = async () => {
-  const desksetReq = await getDesksetReq()
-  const response = await desksetReq.get('/v0/datetime/time')
-  hour.value = response.data.data.hour
-  minute.value = response.data.data.minute
+const time = reactive({ hour: '00', minute: '00' })
+const axios = inject('$axios')
+const refresh = async () => {
+  const result = (await axios.get('/v0/datetime/time')).data.result
+  time.hour = result.hour
+  time.minute = result.minute
 }
-time()
 
 
-import { useIntervalFn } from "@vueuse/core"
+/* === 轮询 === */
+import { useIntervalFn } from '@vueuse/core'
 
-useIntervalFn(time, 250)
+// 1、await 以便 onErrorCaptured 接住错误
+// 2、不要用 onMounted，会使 useIntervalFn 自动清理失效
+await refresh()
+useIntervalFn(refresh, 250)
 </script>
 
 
 <template>
   <div class="time">
-    <span class="hour-minute">{{ hour }}:{{ minute }}</span>
+    <span class="hour-minute">{{ time.hour }}:{{ time.minute }}</span>
   </div>
 </template>
 
