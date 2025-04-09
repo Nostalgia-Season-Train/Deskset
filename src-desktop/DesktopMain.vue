@@ -230,7 +230,7 @@ const getAsset = async (fileName) => {
 <template>
 <body>
   <!-- 组件容器 -->
-  <div class="container">
+  <div data-deskset="container">
     <div v-for="widget in widgets">
       <Suspense>
         <div
@@ -269,7 +269,7 @@ body {
   display: flex; flex-direction: row;
 }
 
-.container {
+[data-deskset="container"] {
   min-width: 100vw; min-height: 100vh;
 
   display: flex; flex-direction: column;
