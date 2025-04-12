@@ -17,8 +17,8 @@ const handleSelect = async (index: string) => { emit('jumpPage', index) }
   <el-menu-item index="welcome">
     <span>欢迎</span>
   </el-menu-item>
-  <el-menu-item index="support">
-    <span>支持</span>
+  <el-menu-item index="homepage">
+    <span>主页</span>
   </el-menu-item>
   <el-menu-item index="float">
     <span>浮动</span>
