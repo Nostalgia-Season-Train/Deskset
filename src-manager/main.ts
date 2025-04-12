@@ -60,6 +60,15 @@ const getServerInfo = async () => {
   }
 }
 
+getServerInfo()
+.then((server) => {
+  setTimeout(() => {
+    axios.defaults.baseURL = `http://${server.host}:${server.port}`
+    axios.defaults.headers.common['Authorization'] = `Bearer ${server.token}`
+    console.log('axios 首次初始化成功，后端上线！')
+  }, 250)
+})
+.catch(() => {
 const checkBackInterval = setInterval(async () => {
   try {
     const server = await getServerInfo()
@@ -68,7 +77,7 @@ const checkBackInterval = setInterval(async () => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${server.token}`
     console.log('axios 初始化成功，后端上线！')
   } catch {}
-}, 1000)
+}, 1000)})
 
 
 /* ==== 应用 ==== */
