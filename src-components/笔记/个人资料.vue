@@ -15,23 +15,26 @@ const avatarSrc = ref()
 // - [ ] 成就
 
 
-// 配置
-const config = defineModel({ type: Object })
-const { getAsset } = defineProps(['getAsset'])
+/* === 刷新 === */
+import { inject } from 'vue'
+import { Axios } from 'axios'
 
-if (Object.keys(config.value).length != 0) {
-  profile.value = config.value
-  avatarSrc.value = await getAsset(profile.value.avatar)  // profile.avatar 是拿来保存的
+const axios = inject('$axios') as Axios
+const refresh = async () => {
+  avatarSrc.value = URL.createObjectURL((await axios.get('/v0/note/obsidian/profile/avatar', {
+    responseType: 'blob',
+    params: { t: new Date() }  // 强制显示新图片
+  })).data)
+  profile.value = (await axios.get('/v0/note/obsidian/profile/data')).data.result
 }
+refresh()
 </script>
 
 
 <template>
 <div class="profile">
   <div class="left">
-    <div class="avatar">
-      <img :src="avatarSrc" draggable="false"></img>
-    </div>
+    <img class="avatar" :src="avatarSrc" draggable="false"></img>
   </div>
   <div class="right">
     <div class="name">{{ profile.name }}</div>
@@ -44,34 +47,40 @@ if (Object.keys(config.value).length != 0) {
 <style lang="less" scoped>
 .profile {
   width: 280px;
-  background-color: #FFF7;
+  background-color: #FFF3;
 
-  border: 1px solid white;
   border-radius: 5px;
-
-  padding: 5px;
 
   display: flex;
   justify-content: space-between;
-  gap: 5px;
 
-  .avatar {
+  .left {
     width: 100px;
     height: 100px;
     background-color: white;
-    img {
+
+    .avatar {
       width: 100%;
       height: 100%;
     }
   }
+
   .right {
     flex: 1;
     color: #FFF;
+
+    margin: 5px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+
     .name {
-      font-size: 20px;
+      font-size: 16px;
+      font-weight: bold;
     }
     .bio {
-      margin-top: 5px;
+      font-size: 14px;
     }
   }
 }
