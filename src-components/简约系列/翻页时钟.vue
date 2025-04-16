@@ -34,7 +34,7 @@ onMounted(() => {
     flip(min_ones, time[3], dataVue)
     flip(sec_tens, time[4], dataVue)
     flip(sec_ones, time[5], dataVue)
-  }, 1000)
+  }, 500)
   onBeforeUnmount(() => clearInterval(refresh))
 
   const flip = async (flipCard: Element, newNum: string, dataVue: string) => {
