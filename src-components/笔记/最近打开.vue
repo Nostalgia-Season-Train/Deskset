@@ -1,56 +1,67 @@
-<script setup>
-import { ref } from 'vue'
+<script lang="ts" setup>
+import { ref, inject } from 'vue'
+import { Axios } from 'axios'
 import { ElScrollbar } from 'element-plus'
-import { getDesksetReq } from '../request'
+import { History } from 'lucide-vue-next'
 
-const recentOpenList = ref([])
+const axios = inject('$axios') as Axios
 
+const recents = ref()
+
+const open = async (path: string) => {
+  axios.get(`/v0/note/obsidian/common/open?path=${ path }`)
+}
+
+
+/* === 刷新 === */
 const refresh = async () => {
-  const desksetReq = await getDesksetReq()
-  const rep = await desksetReq.get('/v0/obsidian/recent/recent-open')
-  recentOpenList.value = rep.data.data
+  const data = (await axios.get('/v0/note/obsidian/common/recent-notes')).data
+  recents.value = data.result
 }
 refresh()
-
-const open = async (relpath) => {
-  const desksetReq = await getDesksetReq()
-  desksetReq.get(`/v0/obsidian/manager/open-note/${ relpath }`)
-}
-
-
-import { useIntervalFn } from '@vueuse/core'
-
-useIntervalFn(refresh, 5000)
 </script>
 
 
 <template>
-<div>
-  <div class="title">最近打开</div>
-  <el-scrollbar max-height="32vh">
-    <div class="notes-container">
-      <div class="note" v-for="note in recentOpenList" @click="open(note.relpath)">{{ note.name }}</div>
-    </div>
+<div class="container">
+  <div class="title">
+    <History /><span>最近打开</span>
+  </div>
+  <el-scrollbar class="recents" max-height="240px">
+    <div class="note" v-for="note in recents" @click="open(note?.path)">{{ note?.name }}</div>
   </el-scrollbar>
 </div>
 </template>
 
 
-<style scoped>
-.title {
-  color: white;
-  font-size: 28px;
-  background-color: #FFFFFF01;
+<style lang="less" scoped>
+.container {
+  width: 220px;
+  background-color: #FFF3;
+  border-radius: 5px;
 }
 
-.notes-container {
-  padding-left: 10px;
-  background-color: #FFFFFF01;
-}
-.note {
+.title {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   color: white;
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+  span {
+    font-size: 18px;
+  }
 }
-.note:hover {
-  background-color: #F5F5F540;
+
+.recents {
+  padding: 3px;
+  color: white;
+
+  .note:hover {
+    background-color: #F5F5F540;
+  }
 }
 </style>
