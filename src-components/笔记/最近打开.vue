@@ -27,7 +27,7 @@ refresh()
   <div class="title">
     <History /><span>最近打开</span>
   </div>
-  <el-scrollbar class="recents" max-height="240px">
+  <el-scrollbar class="recents" max-height="245px">
     <div class="note" v-for="note in recents" @click="open(note?.path)">{{ note?.name }}</div>
   </el-scrollbar>
 </div>
