@@ -34,6 +34,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
       TrayIconEvent::DoubleClick { .. } => {
         let window = app_handle.get_webview_window("manager").unwrap();
         window.show().unwrap();
+        window.set_focus().unwrap();  // 窗口显示后聚焦
       },
       _ => {}
     }})
@@ -65,7 +66,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
   )
   .title("Deskset")
   .inner_size(800.0, 600.0)
-  .center()
+  .center()  // 窗口屏幕居中
   .build().unwrap();
 
   manager_win.clone().on_window_event(move |event| {
