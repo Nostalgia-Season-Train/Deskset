@@ -8,6 +8,7 @@ use tauri::{
   Emitter,  // 调用位置：app.emit
   WebviewWindowBuilder, WebviewUrl, WindowEvent
 };
+use tauri_utils::{WindowEffect, config::WindowEffectsConfig};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
   let app = tauri::Builder::default()
@@ -66,6 +67,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
   )
   .title("Deskset")
   .inner_size(800.0, 600.0)
+  .transparent(true).decorations(false).shadow(false)
+  .effects(WindowEffectsConfig{
+    effects: vec![WindowEffect::Acrylic],
+    state: None,
+    radius: None,
+    color: None
+  })
   .center()  // 窗口屏幕居中
   .build().unwrap();
 
