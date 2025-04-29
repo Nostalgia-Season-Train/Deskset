@@ -1,43 +1,32 @@
 <script lang="ts" setup>
-/* 顶部导航 */
-import Navigate from "./Navigate.vue"
+/* === 组件 === */
+import LeftNav from './Manager/LeftNav.vue'
 
 
-/* 路由 */
-import { useRouter } from "vue-router"
-
+/* === 路由 === */
+import { useRouter } from 'vue-router'
 const router = useRouter()
-
-const jumpPage = async (page: string) => { router.push({ path: `/${page}` }) }
-
-
-/* 子程序，子窗口 */
-import './child'
+const jump = async (page: string) => {
+  console.log(page)
+}
 </script>
 
 
 <template>
 <body>
-  <nav>
-    <Navigate @jumpPage="jumpPage"/>
-  </nav>
-  <main>
-    <RouterView />
-  </main>
+
+  <!-- 侧边栏 -->
+  <aside>
+    <LeftNav @jump="jump"/>
+  </aside>
+
 </body>
 </template>
 
 
-<style scoped>
+<style lang="less" scoped>
 * {
   margin: 0; padding: 0;
   user-select: none;
-}
-
-nav {
-  height: 8vh;
-}
-main {
-  height: 92vh;
 }
 </style>

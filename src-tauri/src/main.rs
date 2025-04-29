@@ -69,7 +69,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
   .inner_size(800.0, 600.0)
   .transparent(true).decorations(false).shadow(false)
   .effects(WindowEffectsConfig{
-    effects: vec![WindowEffect::Acrylic],
+    effects: vec![WindowEffect::Blur],
     state: None,
     radius: None,
     color: None
