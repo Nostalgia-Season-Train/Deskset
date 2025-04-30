@@ -76,13 +76,16 @@ const setLightPos = async (e: MouseEvent) => {
   --fold-width: 60px;     // 折叠宽度
   --expand-width: 210px;  // 展开宽度
   --color: black;  // 图标文字颜色
+  --line-width: 1px;  // 描边宽度
 
   position: fixed;
   top: 0;
   left: 0;
 
+  box-sizing: border-box;
   width: var(--fold-width);
   height: 100vh;
+  padding: var(--line-width);
 
   display: flex;
   flex-direction: column;
@@ -102,8 +105,8 @@ const setLightPos = async (e: MouseEvent) => {
     color: var(--color);
 
     svg {
-      width: var(--fold-width);      // svg 宽度 = shell 宽度，这样图标正好居中
-      min-width: var(--fold-width);  // min-width 消除 flex 影响
+      width: calc(var(--fold-width) - 2 * var(--line-width));  // svg = shell 内容区宽度，这样图标正好居中
+      min-width: calc(var(--fold-width) - 2 * var(--line-width));  // 消除 flex 影响
       font-size: 20px;
     }
     span {
@@ -136,10 +139,6 @@ const setLightPos = async (e: MouseEvent) => {
 <style scoped>
 .shell {
   --light-color: white;
-  --line-width: 1px;  /* 描边宽度 */
-
-  padding: var(--line-width);
-  height: calc(100vh - 2 * var(--line-width));  /* content 高度 = 100vh - padding(top + bottom) */
 }
 
 /* --- 流光：光源 --- */
