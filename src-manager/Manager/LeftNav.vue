@@ -6,15 +6,15 @@ const emit = defineEmits(['jump'])  // 此 emit 非 $emit
 
 
 /* === 侧边栏 === */
-const upBoxs = [
+const upItems = [
   { type: 'option', icon: 'line-md:chat-round', text: '欢迎', page: 'welcome' },
   { type: 'option', icon: 'line-md:home',       text: '主页', page: 'homepage' },
-  { type: 'split' },  // 暂时没有 icon 和 text 居中的分割线样式
+  { type: 'line' },  // 暂时没有 icon 和 text 居中的分割线样式
   { type: 'option', icon: 'line-md:grid-3-filled', text: '浮动', page: 'float' },
   { type: 'option', icon: 'line-md:list-3-filled', text: '组件', page: 'widget' },
   { type: 'option', icon: 'line-md:image-filled',  text: '主题', page: 'theme' }
 ]
-const downBoxs = [
+const downItems = [
   { type: 'option', icon: 'line-md:cog-loop', text: '设置', page: 'setting' }
 ]
 
@@ -37,32 +37,32 @@ const setLightPos = async (e: MouseEvent) => {
 
 <template>
 <div class="container">
-  <div @mousemove="setLightPos" class="shell">
+  <div @mousemove="setLightPos" class="nav">
 
-    <div class="up">
+    <div class="up menu">
       <!-- 注 1：href 用于 a 标签，对 div 无影响 -->
       <component
-        v-for="box in upBoxs"
-        :is="box.type == 'option' ? 'a' : 'div'"
-        :class="`box ${box.type}`"
-        @click="select(box?.page)"
+        v-for="item in upItems"
+        :is="item.type == 'option' ? 'a' : 'div'"
+        :class="`item ${item.type}`"
+        @click="select(item?.page)"
         href="#"
       >
-        <Icon v-if="box?.icon" :icon="box.icon"/>
-        <span v-if="box?.text">{{ box.text }}</span>
+        <div class="icon" v-if="item?.icon"><Icon :icon="item.icon"/></div>
+        <div class="text" v-if="item?.text"><span>{{ item.text }}</span></div>
       </component>
     </div>
 
-    <div class="down">
+    <div class="down menu">
       <component
-        v-for="box in downBoxs"
-        :is="box.type == 'option' ? 'a' : 'div'"
-        :class="`box ${box.type}`"
-        @click="select(box?.page)"
+        v-for="item in downItems"
+        :is="item.type == 'option' ? 'a' : 'div'"
+        :class="`item ${item.type}`"
+        @click="select(item?.page)"
         href="#"
       >
-        <Icon v-if="box?.icon" :icon="box.icon"/>
-        <span v-if="box?.text">{{ box.text }}</span>
+        <div class="icon" v-if="item?.icon"><Icon :icon="item.icon"/></div>
+        <div class="text" v-if="item?.text"><span>{{ item.text }}</span></div>
       </component>
     </div>
 
@@ -72,17 +72,27 @@ const setLightPos = async (e: MouseEvent) => {
 
 
 <style lang="less" scoped>
-.shell {
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.nav {
   --fold-width: 60px;     // 折叠宽度
   --expand-width: 210px;  // 展开宽度
-  --color: black;  // 图标文字颜色
+
+  --item-gap: 5px;   // 元素之间间隔（上下间距）
+  --item-side: 5px;  // 元素跟边缘间间隔（左右间距）
+  --item-height: 35px;  // 元素高度
+  --item-color: black;  // 元素颜色
+
   --line-width: 1px;  // 描边宽度
 
   position: fixed;
   top: 0;
   left: 0;
 
-  box-sizing: border-box;
   width: var(--fold-width);
   height: 100vh;
   padding: var(--line-width);
@@ -91,45 +101,58 @@ const setLightPos = async (e: MouseEvent) => {
   flex-direction: column;
   justify-content: space-between;
 
-  overflow: hidden;  // 溢出隐藏
-  white-space: nowrap;  // 不换行
+  overflow: hidden;
+  white-space: nowrap;
 
-  .box {
-    margin: 10px 0 10px 0;
+  .item {
+    margin: var(--item-gap) var(--item-side);
+    height: var(--item-height);
 
     display: flex;
     align-items: center;
 
-    text-decoration: none;  // 去掉 a 标签下划线
+    text-decoration: none;
 
-    color: var(--color);
+    color: var(--item-color);
 
-    svg {
-      width: calc(var(--fold-width) - 2 * var(--line-width));  // svg = shell 内容区宽度，这样图标正好居中
-      min-width: calc(var(--fold-width) - 2 * var(--line-width));  // 消除 flex 影响
+    .icon {
+      min-width: calc(var(--fold-width) - 2 * var(--item-side) - 2 * var(--line-width));
+      min-height: 100%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
       font-size: 20px;
     }
     span {
-      opacity: 0;  // 配合动画（见下）渐变显示
+      opacity: 0;
       font-size: 16px;
     }
   }
-  .split {
-    padding: 0 5px 0 5px;
+  .line {
     height: 2px;
-    background: content-box var(--color);  // content-box 限定背景色在内容区
+    background: content-box var(--item-color);
   }
 }
 
 /* --- 动画 --- */
-.shell {
+.nav {
   transition: ease .5s;
-  svg { transition: ease .5s; }
-  span { transition: ease .5s; }
+  .item {
+    transition: ease .5s;
+    svg { transition: ease .5s; }
+    span { transition: ease .5s; }
+  }
 
   &:hover {
     width: var(--expand-width);
     span { opacity: 1; }
+  }
+
+  .item.option:hover {
+    color: white;
+    background-color: #FFF1;
   }
 }
 </style>
@@ -137,12 +160,12 @@ const setLightPos = async (e: MouseEvent) => {
 <!-- 流光 -->
 <!-- 注 1：less 跟 v-bind 冲突 -->
 <style scoped>
-.shell {
+.nav {
   --light-color: white;
 }
 
 /* --- 流光：光源 --- */
-.shell::before {
+.nav::before {
   content: '';
   position: absolute;
   z-index: -2;  /* 光源在滤镜之下 */
@@ -159,7 +182,7 @@ const setLightPos = async (e: MouseEvent) => {
   transition: .5s, top 0s, left 0s;
 }
 /* --- 流光：滤镜 --- */
-.shell::after {
+.nav::after {
   content: '';
   position: absolute;
   z-index: -1;  /* 滤镜在图标文字之下 */
@@ -169,10 +192,7 @@ const setLightPos = async (e: MouseEvent) => {
   right: calc(var(--line-width) - 0.3px);  /* 窗口边缘处的光线（上下左）会比窗口内部少些宽度，窗内减去 0.3px 平衡视觉效果 */
 }
 
-.shell:hover::before {
+.nav:hover::before {
   opacity: 1;
-}
-.shell .box:hover {
-  color: var(--light-color);
 }
 </style>
