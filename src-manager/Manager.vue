@@ -36,6 +36,7 @@ const jump = async (page: string) => {
 body {
   --aside-width: 60px;  // 跟 LeftNav 组件 --fold-width 一致
 
+  background-color: #333D;
   display: flex;
 
   aside {

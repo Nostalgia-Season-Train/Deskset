@@ -1,10 +1,9 @@
-<script setup>
+<script lang="ts" setup>
 import { ElScrollbar } from 'element-plus'
 
-import { openBrowser } from '../tauri'
-
+import { openBrowser } from '../tauri'  // 后面改成依赖注入
 const openReleasePage = () => {
-  openBrowser("https://github.com/Nostalgia-Season-Train/Deskset-Release")
+  openBrowser("https://github.com/Nostalgia-Season-Train/Deskset")
 }
 </script>
 
@@ -23,35 +22,34 @@ const openReleasePage = () => {
     <div>实现桌面美化与笔记应用间的互动</div>
   </div>
 
-  <!-- 这里之后放使用方法 -->
+  <h2>介绍</h2>
+  <div>数字桌搭是一款专注整合笔记应用的桌面美化软件，旨在优化笔记的读写管理流程，从而提高个人生产力。</div>
 
-  <h2>注意</h2>
-  <div>
-    目前，数字桌搭正处于早期开发阶段，选择 Electron + FastAPI 的组合以快速构建项目。
-    不过，当项目成熟后，计划加入 Tauri 框架作为前端显示，减少资源占用并提升性能
-  </div>
-  <div>
-    同时，为了避免潜在错误，建议定期备份数字桌搭所绑定的笔记仓库
-  </div>
+  <h2>主要功能</h2>
+  <div>主页：以博客形式可视化笔记仓库</div>
+  <br/>
 
-  <h2>下载</h2>
-  <div>
-    发布页面：<a @click="openReleasePage()" @click.prevent href="">Deskset-Release</a>
-  </div>
+  <div>组件：桌面美化小部件</div>
+  <ul>
+    <li>设备：提供系统监控卡片，实时测量芯片、内存信息</li>
+    <li>快速启动：Mac 风格菜单，更好的回收站图标</li>
+    <li>时间：多种样式的时钟，计时器，番茄钟</li>
+    <li>笔记：放置喜欢的笔记在桌面上</li>
+  </ul>
+  <br/>
 
-  <h2>问答</h2>
-  <div>问：为什么不采用 Qt、WPF 开发？而是占用内存和硬盘更高的 Web 技术</div>
-  <div>答：
-    相较于 C++、C#，Web 很容易二次开发。
-    如果实在讨厌 Web，可以选择市面上更加成熟且轻量的美化程序，如 Rainmeter、SAO Utils 2 等
-  </div>
+  <div>主题：轻松保存和应用主题，并通过 CSS 定制样式</div>
+
+  <h2>发布 & 交流</h2>
+  <div>项目地址：<a @click="openReleasePage()" @click.prevent href="#">数字桌搭 - Deskset</a></div>
+  <div>QQ 群：770889923</div>
 
 </div>
 </el-scrollbar>
 </template>
 
 
-<style scoped>
+<style lang="less" scoped>
 /* 去掉滚动条 */
 :deep(.el-scrollbar__thumb) {
   display: none;
@@ -59,9 +57,26 @@ const openReleasePage = () => {
 
 .container {
   padding: 10px;
-}
+  color: white;
 
-.center>div {
-  text-align: center;
+  .center {
+    text-align: center;
+  }
+  h2 {
+    margin: 1em 0 0 0;
+  }
+  br {
+    content: '';
+    display: block;
+    padding-top: 0.5em;
+  }
+  ul {
+    margin: 0 0 0 2em;
+    padding: 0;
+  }
+  a {
+    color: gray;
+    text-decoration: none;
+  }
 }
 </style>

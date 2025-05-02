@@ -166,6 +166,7 @@ const setLightPos = async (e: MouseEvent) => {
 
   background-color: #333;
   inset: var(--line-width);
+  right: calc(var(--line-width) - 0.3px);  /* 窗口边缘处的光线（上下左）会比窗口内部少些宽度，窗内减去 0.3px 平衡视觉效果 */
 }
 
 .shell:hover::before {
