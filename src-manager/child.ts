@@ -158,9 +158,11 @@ managerWin.once('tauri://close-requested', () => {
 })
 
 // 更新
-export const updateDeskset = async (url: string) => {
-  const updater = Command.sidecar('DesksetUpdater', ['-url', url])
+export const updateDeskset = async (file: string) => {
+  const updater = Command.create('DesksetUpdater', ['-file', file])
+  updater.stdout.on('data', line => console.log(line))
+  updater.stderr.on('data', line => console.log(line))
   killServer()
   await desktopManager.close()
-  await updater.execute()
+  await updater.spawn()
 }

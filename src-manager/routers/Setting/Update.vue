@@ -47,6 +47,7 @@ const getReleasesLatest = async () => {
           './Deskset.zip',
           ({ progress, total }) => console.log(progress, total)
         )
+        await updateDeskset('Deskset.zip')
         ElMessage({
           type: 'success',
           message: `更新成功，请重启数字桌搭`

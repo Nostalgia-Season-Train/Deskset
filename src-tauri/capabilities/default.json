@@ -32,11 +32,11 @@
     }, {
       "identifier": "shell:allow-kill"
     }, {
-      "identifier": "shell:allow-execute",
+      "identifier": "shell:allow-spawn",
       "allow": [{
-        "args": ["-url", { "validator": "\\S+" }],
         "name": "DesksetUpdater",
-        "sidecar": true
+        "cmd": "DesksetUpdater.exe",
+        "args": ["-file", { "validator": "\\S+" }]
       }]
     }
   ]
