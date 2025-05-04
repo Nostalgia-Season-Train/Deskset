@@ -11,6 +11,7 @@ import { ElSwitch, ElSelect, ElOption } from 'element-plus'
 
 /* === 获取软件更新 === */
 import { Octokit } from 'octokit'
+import { download } from '@tauri-apps/plugin-upload'
 
 const octokit = new Octokit({
   // auth: import.meta.env.VITE_DESKSET_GITHUB_TOKEN  // 好像不需要 token
@@ -40,7 +41,12 @@ const getReleasesLatest = async () => {
           cancelButtonText: '取消'
         }
       ).then(async () => {
-        await updateDeskset(rep.data.assets[0].browser_download_url)
+        const download_url = rep.data.assets[0].browser_download_url
+        await download(
+          download_url,
+          './Deskset.zip',
+          ({ progress, total }) => console.log(progress, total)
+        )
         ElMessage({
           type: 'success',
           message: `更新成功，请重启数字桌搭`
