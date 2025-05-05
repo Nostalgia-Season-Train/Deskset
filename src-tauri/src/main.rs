@@ -12,6 +12,16 @@ use tauri_utils::{WindowEffect, config::WindowEffectsConfig};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
   let app = tauri::Builder::default()
+    .plugin(tauri_plugin_log::Builder::new()
+      .level(log::LevelFilter::Info)
+      .target(
+        tauri_plugin_log::Target::new(
+          tauri_plugin_log::TargetKind::Folder {
+            path: std::path::PathBuf::from("./logs"),
+            file_name: None
+      }))
+      .build()
+    )
     .plugin(tauri_plugin_opener::init())
     .plugin(tauri_plugin_fs::init())
     .plugin(tauri_plugin_shell::init())

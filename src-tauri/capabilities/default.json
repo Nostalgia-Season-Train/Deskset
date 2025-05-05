@@ -5,6 +5,7 @@
   "windows": ["manager", "desktop", "float:*"],
   "permissions": [
     "core:default",
+    "log:default",
     "opener:default",
     "fs:allow-mkdir",
     "fs:allow-remove",
