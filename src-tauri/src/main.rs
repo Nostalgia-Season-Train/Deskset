@@ -10,6 +10,9 @@ use tauri::{
 };
 use tauri_utils::{WindowEffect, config::WindowEffectsConfig};
 
+mod desktop;
+
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
   let app = tauri::Builder::default()
     .plugin(tauri_plugin_log::Builder::new()
@@ -68,6 +71,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     })
     /* 应用托盘 */
     .build(&app);
+
+
+  /* === 桌面窗口 === */
+  let _desktop_win = desktop::build(&app)?;
 
 
   /* === 管理窗口 === */

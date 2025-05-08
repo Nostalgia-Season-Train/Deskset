@@ -6,6 +6,7 @@ version = 4
 name = "Deskset"
 version = "0.0.1-alpha"
 dependencies = [
+ "libloading",
  "log",
  "serde",
  "serde_json",
