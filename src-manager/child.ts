@@ -27,10 +27,6 @@ class DesktopManager {
   private desktop: WebviewWindow | undefined
   private currentDesktopName: string
 
-  constructor() {
-    this.choose('')
-  }
-
   // 当前桌面
   current = () => {
     return this.currentDesktopName

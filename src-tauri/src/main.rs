@@ -84,10 +84,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     WebviewUrl::App("manager.html".into())
   )
   .title("Deskset")
-  .inner_size(800.0, 600.0)
+  .inner_size(600.0, 400.0).resizable(false).maximizable(false)
   .transparent(true).decorations(false).shadow(false)
   .effects(WindowEffectsConfig{
-    effects: vec![WindowEffect::Blur],
+    effects: vec![WindowEffect::Acrylic],  // 改变窗口大小会有性能问题，拖动不会
     state: None,
     radius: None,
     color: None

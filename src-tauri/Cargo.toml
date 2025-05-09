@@ -18,15 +18,21 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 tauri-build = { version = "2.0.6", features = [] }
 
 [dependencies]
+# --- Tauri ---
 tauri = { version = "2.0.6", features = ["protocol-asset", "tray-icon"] }
 tauri-plugin-opener = "2"
 tauri-plugin-fs = "2.2.0"
 tauri-plugin-shell = "2.0.0"
 tauri-utils = "2.2.0"
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
 tauri-plugin-upload = "2.2.1"
 tauri-plugin-http = "2.4.3"
 tauri-plugin-log = "2.4.0"
-log = "0.4"
-libloading = "0.7.4"
+
+log = "0.4"  # 在 tauri-plugin-log 中设置 level 级别
+
+# --- Serde ---
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# --- 杂项 ---
+libloading = "0.7.4"  # 加载 DLL 库

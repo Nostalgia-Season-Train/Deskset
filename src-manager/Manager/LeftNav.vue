@@ -7,20 +7,23 @@ const emit = defineEmits(['jump'])  // 此 emit 非 $emit
 
 /* === 侧边栏 === */
 const upItems = [
-  { type: 'option', icon: 'line-md:chat-round', text: '欢迎', page: 'welcome' },
-  { type: 'option', icon: 'line-md:home',       text: '主页', page: 'homepage' },
-  { type: 'line' },  // 暂时没有 icon 和 text 居中的分割线样式
-  { type: 'option', icon: 'line-md:grid-3-filled', text: '浮动', page: 'float' },
-  { type: 'option', icon: 'line-md:list-3-filled', text: '组件', page: 'widget' },
-  { type: 'option', icon: 'line-md:image-filled',  text: '主题', page: 'theme' }
+  { type: 'option', icon: 'lucide:info', text: '欢迎', page: 'welcome' },
+  { type: 'option', icon: 'lucide:house', text: '主页', page: 'homepage' },
+  { type: 'line', color: '#424242' },  // 暂时没有 icon 和 text 居中的分割线样式
+  { type: 'option', icon: 'lucide:picture-in-picture-2', text: '浮动', page: 'float' },
+  { type: 'option', icon: 'lucide:layout-dashboard', text: '组件', page: 'widget' },
+  { type: 'option', icon: 'lucide:palette', text: '主题', page: 'theme' }
 ]
 const downItems = [
   { type: 'option', icon: 'line-md:cog-loop', text: '设置', page: 'setting' }
 ]
+const activePage = ref<string>('welcome')
 
 const select = async (page: string | undefined) => {
-  if (page != undefined)
+  if (page != undefined) {
+    activePage.value = page
     emit('jump', page)
+  }
 }
 
 
@@ -44,7 +47,8 @@ const setLightPos = async (e: MouseEvent) => {
       <component
         v-for="item in upItems"
         :is="item.type == 'option' ? 'a' : 'div'"
-        :class="`item ${item.type}`"
+        :class="`item ${item.type} ${item?.page == activePage ? 'active' : ''}`"
+        :style="item?.color ? `--item-color: ${item.color}` : ''"
         @click="select(item?.page)"
         href="#"
       >
@@ -57,7 +61,7 @@ const setLightPos = async (e: MouseEvent) => {
       <component
         v-for="item in downItems"
         :is="item.type == 'option' ? 'a' : 'div'"
-        :class="`item ${item.type}`"
+        :class="`item ${item.type} ${item?.page == activePage ? 'active' : ''}`"
         @click="select(item?.page)"
         href="#"
       >
@@ -82,10 +86,10 @@ const setLightPos = async (e: MouseEvent) => {
   --fold-width: 60px;     // 折叠宽度
   --expand-width: 210px;  // 展开宽度
 
-  --item-gap: 5px;   // 元素之间间隔（上下间距）
-  --item-side: 5px;  // 元素跟边缘间间隔（左右间距）
+  --item-gap: 3px;   // 元素之间间隔（上下间距）
+  --item-side: 3px;  // 元素跟边缘间间隔（左右间距）
   --item-height: 35px;  // 元素高度
-  --item-color: black;  // 元素颜色
+  --item-color: #616161;  // 元素颜色
 
   --line-width: 1px;  // 描边宽度
 
@@ -105,6 +109,7 @@ const setLightPos = async (e: MouseEvent) => {
   white-space: nowrap;
 
   .item {
+    position: relative;
     margin: var(--item-gap) var(--item-side);
     height: var(--item-height);
 
@@ -115,7 +120,10 @@ const setLightPos = async (e: MouseEvent) => {
 
     color: var(--item-color);
 
+    -webkit-app-region: none;  // item 按钮禁用网页拖动窗口事件
+
     .icon {
+      position: absolute;
       min-width: calc(var(--fold-width) - 2 * var(--item-side) - 2 * var(--line-width));
       min-height: 100%;
 
@@ -125,13 +133,20 @@ const setLightPos = async (e: MouseEvent) => {
 
       font-size: 20px;
     }
-    span {
-      opacity: 0;
-      font-size: 16px;
+    .text {
+      position: absolute;
+      min-width: calc(var(--fold-width) - 2 * var(--item-side) - 2 * var(--line-width));
+      min-height: 100%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      font-size: 14px;
     }
   }
   .line {
-    height: 2px;
+    height: 1.5px;
     background: content-box var(--item-color);
   }
 }
@@ -141,19 +156,37 @@ const setLightPos = async (e: MouseEvent) => {
   transition: ease .5s;
   .item {
     transition: ease .5s;
-    svg { transition: ease .5s; }
-    span { transition: ease .5s; }
-  }
-
-  &:hover {
-    width: var(--expand-width);
-    span { opacity: 1; }
+    svg {
+      opacity: 1;
+      transform: scale(1);
+      transition: ease .5s;
+    }
+    span {
+      opacity: 0;
+      transform: scale(0);
+      transition: ease .5s;
+    }
   }
 
   .item.option:hover {
     color: white;
+    filter: drop-shadow(0 0 5px white);
     background-color: #FFF1;
+    svg {
+      opacity: 0;
+      transform: scale(0);
+    }
+    span {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
+}
+
+.nav .item.option.active {
+  color: white;
+  filter: drop-shadow(0 0 5px white);
+  background-color: #FFF1;
 }
 </style>
 
@@ -161,6 +194,7 @@ const setLightPos = async (e: MouseEvent) => {
 <!-- 注 1：less 跟 v-bind 冲突 -->
 <style scoped>
 .nav {
+  background: #212121;  /* 等于下面滤镜色 background-color */
   --light-color: white;
 }
 
@@ -187,7 +221,7 @@ const setLightPos = async (e: MouseEvent) => {
   position: absolute;
   z-index: -1;  /* 滤镜在图标文字之下 */
 
-  background-color: #333;
+  background-color: #212121;
   inset: var(--line-width);
   right: calc(var(--line-width) - 0.3px);  /* 窗口边缘处的光线（上下左）会比窗口内部少些宽度，窗内减去 0.3px 平衡视觉效果 */
 }
