@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { ElScrollbar } from 'element-plus'
-
 import { openBrowser } from '../tauri'  // 后面改成依赖注入
 const openReleasePage = () => {
   openBrowser("https://github.com/Nostalgia-Season-Train/Deskset")
@@ -9,12 +7,11 @@ const openReleasePage = () => {
 
 
 <template>
-<el-scrollbar>
 <div class="container">
 
   <div class="center">
     <div>
-      <img src="/static/icons/Deskset.png" width="160px"></img>
+      <img src="/static/icons/Deskset.png" width="100px"></img>
     </div>
     <div>欢迎使用数字桌搭 Deskset</div>
     <div>一款桌面美化软件</div>
@@ -27,7 +24,7 @@ const openReleasePage = () => {
 
   <h2>主要功能</h2>
   <div>主页：以博客形式可视化笔记仓库</div>
-  <br/>
+  <div class="br"></div>
 
   <div>组件：桌面美化小部件</div>
   <ul>
@@ -36,7 +33,7 @@ const openReleasePage = () => {
     <li>时间：多种样式的时钟，计时器，番茄钟</li>
     <li>笔记：放置喜欢的笔记在桌面上</li>
   </ul>
-  <br/>
+  <div class="br"></div>
 
   <div>主题：轻松保存和应用主题，并通过 CSS 定制样式</div>
 
@@ -45,7 +42,6 @@ const openReleasePage = () => {
   <div>QQ 群：770889923</div>
 
 </div>
-</el-scrollbar>
 </template>
 
 
@@ -64,11 +60,10 @@ const openReleasePage = () => {
   }
   h2 {
     margin: 1em 0 0 0;
+    font-size: 1.25em;
   }
-  br {
-    content: '';
-    display: block;
-    padding-top: 0.5em;
+  .br {
+    margin: 0.5em;
   }
   ul {
     margin: 0 0 0 2em;

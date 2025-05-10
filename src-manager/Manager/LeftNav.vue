@@ -43,6 +43,9 @@ const setLightPos = async (e: MouseEvent) => {
   <div @mousemove="setLightPos" class="nav">
 
     <div class="up menu">
+      <div class="item">
+        <img src="/static/icons/Deskset.png" width="22px"/>
+      </div>
       <!-- 注 1：href 用于 a 标签，对 div 无影响 -->
       <component
         v-for="item in upItems"
@@ -114,6 +117,7 @@ const setLightPos = async (e: MouseEvent) => {
     height: var(--item-height);
 
     display: flex;
+    justify-content: center;
     align-items: center;
 
     text-decoration: none;
@@ -148,6 +152,19 @@ const setLightPos = async (e: MouseEvent) => {
   .line {
     height: 1.5px;
     background: content-box var(--item-color);
+  }
+
+  // 第一个 item 也就是 LOGO
+  .up .item:nth-child(1) {
+    margin: 0;
+    pointer-events: none;
+    // 方便 TopMenu 高度等于 --item-height 时，LOGO 对齐 TopMenu 中的文字
+      // 计算：nav padding-top + item[1] height + item[1] padding-bottom = --item-height
+    padding-bottom: var(--line-width);
+    height: calc(var(--item-height) - var(--line-width));
+  }
+  .up .item:nth-child(2) {
+    margin-top: 0;  // 平衡 LOGO 到窗边距 等于 LOGO 跟选项一距离
   }
 }
 

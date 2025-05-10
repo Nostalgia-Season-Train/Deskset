@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 /* === 组件 === */
+import { ElScrollbar } from 'element-plus'
 import LeftNav from './Manager/LeftNav.vue'
+import TopMenu from './Manager/TopMenu.vue'
 
 
 /* === 路由 === */
@@ -20,7 +22,10 @@ const jump = async (page: string) => {
   </aside>
 
   <main>
-    <RouterView />
+    <TopMenu class="menu"/>
+    <el-scrollbar class="content">
+      <RouterView />
+    </el-scrollbar>
   </main>
 
 </body>
@@ -29,12 +34,17 @@ const jump = async (page: string) => {
 
 <style lang="less" scoped>
 * {
-  margin: 0; padding: 0;
+  margin: 0;
+  padding: 0;
   user-select: none;
+}
+:deep(.el-scrollbar__thumb) {
+  display: none;
 }
 
 body {
   --aside-width: 60px;  // 跟 LeftNav 组件 --fold-width 一致
+  --menu-height: 35px;
 
   background-color: #3331;
   display: flex;
@@ -49,7 +59,14 @@ body {
     z-index: 1;
     width: calc(100vw - var(--aside-width));
     height: 100vh;
-    -webkit-app-region: drag;
+
+    .menu {
+      height: var(--menu-height);
+      -webkit-app-region: drag;
+    }
+    .content {
+      height: calc(100vh - var(--menu-height));
+    }
   }
 }
 </style>
