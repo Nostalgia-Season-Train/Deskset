@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 /* === 组件 === */
-import { ElScrollbar } from 'element-plus'
 import LeftNav from './Manager/LeftNav.vue'
 import TopMenu from './Manager/TopMenu.vue'
 
@@ -23,9 +22,13 @@ const jump = async (page: string) => {
 
   <main>
     <TopMenu class="menu"/>
-    <el-scrollbar class="content">
-      <RouterView />
-    </el-scrollbar>
+    <div class="content">
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component"/>
+        </keep-alive>
+      </router-view>
+    </div>
   </main>
 
 </body>

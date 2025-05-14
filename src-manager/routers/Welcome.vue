@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { ElScrollbar } from 'element-plus'
+
 import { openBrowser } from '../tauri'  // 后面改成依赖注入
 const openReleasePage = () => {
   openBrowser("https://github.com/Nostalgia-Season-Train/Deskset")
@@ -7,6 +9,7 @@ const openReleasePage = () => {
 
 
 <template>
+<el-scrollbar>
 <div class="container">
 
   <div class="center">
@@ -42,6 +45,7 @@ const openReleasePage = () => {
   <div>QQ 群：770889923</div>
 
 </div>
+</el-scrollbar>
 </template>
 
 
