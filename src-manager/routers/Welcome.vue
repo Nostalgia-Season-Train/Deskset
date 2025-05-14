@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ElScrollbar } from 'element-plus'
 
-import { openBrowser } from '../tauri'  // 后面改成依赖注入
+import { openBrowser } from '#manager/tauri.ts'
 const openReleasePage = () => {
   openBrowser("https://github.com/Nostalgia-Season-Train/Deskset")
 }

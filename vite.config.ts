@@ -24,6 +24,12 @@ export default defineConfig(async () => ({
     target: 'es2022'  // 支持顶级 await 的环境，使用 await 时不用 async 包裹
   },
 
+  resolve: {
+    alias: {
+      '#manager': path.resolve(__dirname, 'src-manager')
+    }
+  },
+
   plugins: [vue()],
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
