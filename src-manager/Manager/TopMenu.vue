@@ -1,5 +1,9 @@
 <script lang="ts" setup>
 import { Icon } from '@iconify/vue'
+
+// 临时，后面在 tauri.ts 中封装
+import { getCurrentWindow } from '@tauri-apps/api/window'
+const win = getCurrentWindow()
 </script>
 
 
@@ -12,9 +16,9 @@ import { Icon } from '@iconify/vue'
 
   <div class="right">
     <span><Icon icon="lucide:messages-square"/></span>
-    <span><Icon icon="lucide:minus" style="width: 18px; height: 18px;"/></span>
+    <span @click="win.minimize()"><Icon icon="lucide:minus" style="width: 18px; height: 18px;"/></span>
     <span><Icon icon="lucide:square" style="width: 14px; height: 14px;"/></span>
-    <span style="--hover-color: #D32F2FD0;"><Icon icon="lucide:x"/></span>
+    <span @click="win.hide()" style="--hover-color: #D32F2FD0;"><Icon icon="lucide:x"/></span>
   </div>
 
 </div>

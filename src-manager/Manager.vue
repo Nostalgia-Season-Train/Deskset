@@ -10,6 +10,25 @@ const router = useRouter()
 const jump = async (page: string) => {
   router.push({ path: `/${page}` })
 }
+
+
+/* === 禁用默认事件 === */
+
+// 刷新
+document.addEventListener('keydown', (event: KeyboardEvent) => {
+  if (
+    event.key === 'F5' ||  // F5 刷新
+    (event.ctrlKey && event.key === 'r') ||  // Windows/Linux 上：Ctrl + R 刷新
+    (event.metaKey && event.key === 'r')     // Mac 上：Command + R 刷新
+  ) {
+    event.preventDefault()
+  }
+})
+
+// 右键菜单
+document.addEventListener('contextmenu', (event: MouseEvent) => {
+  event.preventDefault()
+})
 </script>
 
 
