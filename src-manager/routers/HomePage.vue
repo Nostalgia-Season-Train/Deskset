@@ -38,10 +38,17 @@ refresh()
 onUnmounted(() => {
   controller.abort('caught by fetch')
 })
+
+
+/* === 子页面 === */
+import Sidebar from './HomePage/Sidebar.vue'
 </script>
 
 
 <template>
+<div>
+  <Sidebar />
+</div>
 </template>
 
 

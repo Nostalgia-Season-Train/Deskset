@@ -87,7 +87,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
   .inner_size(650.0, 436.0).resizable(false).maximizable(false)
   .transparent(true).decorations(false).shadow(false)
   .effects(WindowEffectsConfig{
-    effects: vec![WindowEffect::Acrylic],  // 改变窗口大小会有性能问题，拖动不会
+    effects: vec![WindowEffect::Acrylic],  // Acrylic 改变窗口大小会有性能问题，拖动不会
     state: None,
     radius: None,
     color: None
