@@ -66,6 +66,10 @@ const getReleasesLatest = async () => {
     })
   }
 }
+
+
+/* === 组件 === */
+import Button from '#manager/components/Button.vue'
 </script>
 
 
@@ -77,9 +81,9 @@ const getReleasesLatest = async () => {
       <div class="description">检查数字桌搭最新版本</div>
     </div>
     <div class="right">
-      <el-button type="primary" @click="getReleasesLatest">
-        <el-icon style="margin: 0;"><Refresh /></el-icon>
-      </el-button>
+      <Button @click="getReleasesLatest">
+        <Refresh />
+      </Button>
     </div>
   </div>
   <div class="option">
