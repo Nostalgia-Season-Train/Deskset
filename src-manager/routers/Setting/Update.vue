@@ -70,6 +70,7 @@ const getReleasesLatest = async () => {
 
 /* === 组件 === */
 import Button from '#manager/components/Button.vue'
+import Switch from '#manager/components/Switch.vue'
 </script>
 
 
@@ -92,7 +93,7 @@ import Button from '#manager/components/Button.vue'
       <div class="description">是否开启自动更新</div>
     </div>
     <div class="right">
-      <el-switch v-model="confUpdate.AutoUpdate"></el-switch>
+      <Switch v-model="confUpdate.AutoUpdate"/>
     </div>
   </div>
   <!-- <div class="option">

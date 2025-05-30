@@ -15,8 +15,8 @@
 
   .button {
     box-sizing: border-box;
-    width: 50px;
-    height: 30px;
+    width: 56px;
+    height: 28px;
     border: solid 1px rgba(from var(--color) r g b / .3);
 
     display: flex;
