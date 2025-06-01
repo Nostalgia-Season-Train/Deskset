@@ -19,7 +19,8 @@ const state = defineModel({ type: Boolean, required: true })  // false 关 true 
   box-sizing: border-box;
 
   --color: #FFF;
-  --size: 28px;
+  // - [ ] 已知问题：--size: 26px 不能对齐滑块位置（偏左上方）
+  --size: 27px;  // 比 Button 少 1px，视觉更加平衡
   --len: 56px;
 }
 

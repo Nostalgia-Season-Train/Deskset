@@ -45,6 +45,10 @@
       color: #FFF;
       font-size: 14px;
 
+      // 宽高太小，允许溢出不换行
+      overflow: visible;
+      white-space: nowrap;
+
       svg {
         width: 100%;
         height: 100%;
