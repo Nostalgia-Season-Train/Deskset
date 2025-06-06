@@ -25,13 +25,24 @@ input {
   }
 }
 
+// 自定义属性
+.input-container {
+  --color: #FFF;
+  --bottom-border-height: 1px;
+}
+
 .input-container {
   position: relative;
 
   width: 160px;
-  height: 32px;
+  height: 28px;
+  border: solid 1px rgba(from var(--color) r g b / .3);
 
-  --bottom-border-height: 1px;
+  transition: .3s ease;
+  &:hover {
+    box-shadow: 0 0 5px 0 rgba(from var(--color) r g b / .1);
+    border-color: rgba(from var(--color) r g b / .5);
+  }
 
   .input {
     position: absolute;

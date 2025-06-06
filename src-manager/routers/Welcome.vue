@@ -56,7 +56,7 @@ const openReleasePage = () => {
 }
 
 .container {
-  padding: 10px;
+  padding: 0 10px;
   color: white;
 
   .center {
