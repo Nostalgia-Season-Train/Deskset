@@ -123,11 +123,11 @@ import Switch from '#manager/components/Switch.vue'
   .left {
     .name {
       font-size: 16px;
-      color: black;
+      color: #FFF;
     }
     .description {
       font-size: 14px;
-      color: gray;
+      color: #FFFA;
     }
   }
 }

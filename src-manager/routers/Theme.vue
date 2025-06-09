@@ -60,6 +60,11 @@ import Input from '#manager/components/Input.vue'
   .themes-wrapper {
     overflow: hidden;
   }
+
+  // 去掉 ElScrollbar 滚动条
+  :deep(.el-scrollbar__thumb) {
+    display: none;
+  }
 }
 
 .header {
@@ -74,7 +79,7 @@ import Input from '#manager/components/Input.vue'
 }
 
 .themes {
-  margin-top: 5px;
+  margin: 5px 0;
 
   .theme {
     // 预期行为：首个元素 margin-top 与 theme margin-top 部分重叠，不会出现 5px + 3px = 8px 的情况

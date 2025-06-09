@@ -68,7 +68,7 @@ body {
   --aside-width: 60px;  // 跟 LeftNav 组件 --fold-width 一致
   --menu-height: 35px;
 
-  background-color: #3331;
+  background-color: #1115;
   display: flex;
 
   aside {
