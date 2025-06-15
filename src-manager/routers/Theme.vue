@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { getAllThemes as readThemes } from '#manager/tauri'
 
 const themes = ref()
+const searchText = ref('')
 
 const refresh = async () => {
   themes.value = await readThemes()
@@ -21,14 +22,14 @@ import Input from '#manager/components/Input.vue'
 <div class="container">
 
   <div class="header">
-    <Input/>
+    <Input v-model="searchText" placeholder="搜索"/>
     <Button>保 存</Button>
   </div>
 
   <div class="themes-wrapper">
     <el-scrollbar>
       <div class="themes" v-for="theme in themes">
-        <div class="theme" v-if="true"><!-- v-if 用于过滤搜索结果 -->
+        <div class="theme" v-if="searchText == '' || theme.name.includes(searchText)">
           <div class="left">
             <span>{{ theme?.name }}</span>
           </div>

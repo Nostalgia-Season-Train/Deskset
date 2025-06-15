@@ -1,6 +1,19 @@
+<script lang="ts" setup>
+withDefaults(defineProps<{
+  placeholder?: string
+}>(), {
+  placeholder: 'Type here'
+})
+const model = defineModel()
+</script>
+
+
 <template>
 <div class="input-container">
-  <input class="input" type="text" placeholder="Type here"/>
+  <input
+    class="input" type="text" :placeholder="placeholder"
+    v-model="model"
+  />
   <span class="bottom-border"></span>
 </div>
 </template>
