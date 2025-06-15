@@ -8,10 +8,10 @@ const emit = defineEmits(['jump'])  // 此 emit 非 $emit
 /* === 侧边栏 === */
 const upItems = [
   { type: 'option', icon: 'lucide:info', text: '欢迎', page: 'welcome' },
-  { type: 'option', icon: 'lucide:house', text: '主页', page: 'homepage' },
-  { type: 'line', color: '#424242' },  // 暂时没有 icon 和 text 居中的分割线样式
-  { type: 'option', icon: 'lucide:picture-in-picture-2', text: '悬浮', page: 'float' },
-  { type: 'option', icon: 'lucide:layout-dashboard', text: '组件', page: 'widget' },
+  // { type: 'option', icon: 'lucide:house', text: '主页', page: 'homepage' },
+  // { type: 'line', color: '#424242' },  // 暂时没有 icon 和 text 居中的分割线样式
+  // { type: 'option', icon: 'lucide:picture-in-picture-2', text: '悬浮', page: 'float' },
+  { type: 'option', icon: 'lucide:layout-dashboard', text: '部件', page: 'widget' },
   { type: 'option', icon: 'lucide:palette', text: '主题', page: 'theme' }
 ]
 const downItems = [

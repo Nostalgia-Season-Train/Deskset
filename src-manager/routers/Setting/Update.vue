@@ -19,7 +19,8 @@ const octokit = new Octokit({
 
 import { getVersion } from '@tauri-apps/api/app'
 import semver from 'semver'  // 比较版本大小，遵循语义化版本
-import { updateDeskset } from '../../child'
+import { updateDeskset } from '#manager/child'
+import { message } from '#manager/components/Message'
 
 const getReleasesLatest = async () => {
   try {
@@ -33,32 +34,34 @@ const getReleasesLatest = async () => {
       throw Error('无法获取最新版本')
     }
 
-    if (semver.gt(rep.data.name, version)) {
-      ElMessageBox.confirm(
-        `检测到新版本 ${rep.data.name}，是否更新数字桌搭`,
-        '更新确认', {
-          confirmButtonText: '确认',
-          cancelButtonText: '取消'
-        }
-      ).then(async () => {
-        const download_url = rep.data.assets[0].browser_download_url
-        await download(
-          download_url,
-          './Deskset.zip',
-          ({ progress, total }) => console.log(progress, total)
-        )
-        await updateDeskset('Deskset.zip')
-        ElMessage({
-          type: 'success',
-          message: `更新成功，请重启数字桌搭`
-        })
-      })
-    } else {
+    // 比较当前版本号小于最新版本号
+    if (!semver.gt(rep.data.name, version)) {
       ElMessage({
         type: 'success',
         message: `当前已是最新版本`
       })
+      return
     }
+
+    // 等待用户按下确认按钮
+    if (!await message('更新确认', `检测到新版本 ${rep.data.name}，是否更新数字桌搭`)) {
+      return
+    }
+
+    // 下载&安装
+    const download_url = rep.data.assets[0].browser_download_url
+
+    await download(
+      download_url,
+      './Deskset.zip',
+      ({ progress, total }) => console.log(progress, total)
+    )
+    await updateDeskset('Deskset.zip')
+
+    ElMessage({
+      type: 'success',
+      message: `更新成功，请重启数字桌搭`
+    })
   } catch (error) {
     ElMessage({
       type: 'error',
