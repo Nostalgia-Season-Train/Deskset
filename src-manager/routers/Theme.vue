@@ -11,6 +11,38 @@ const refresh = async () => {
 refresh()
 
 
+/* === 主题创建/删除/应用 === */
+import { message, messageInput } from '#manager/components/Message'
+import { deleteThemeDir } from '#manager/tauri'
+import desktop from './desktop'  // - [ ] 后面拿 Promise 包装
+
+const createSingleTheme = desktop.saveTheme
+const deleteSingleTheme = deleteThemeDir
+const applySingleTheme = desktop.useTheme
+
+const createTheme = async () => {
+  const name = await messageInput('保存主题', '', '在此输入主题名称')
+  if (name == null)
+    return
+
+  await createSingleTheme(name)
+  setTimeout(refresh, 100)
+  setTimeout(refresh, 600)
+}
+
+const deleteTheme = async (name: string) => {
+  if (!await message('删除主题', `是否删除 ${name} 主题？`))
+    return
+
+  await deleteSingleTheme(name)
+  setTimeout(refresh, 100)
+}
+
+const applyTheme = async (name: string) => {
+  await applySingleTheme(name)
+}
+
+
 /* === 组件 === */
 import { ElScrollbar } from 'element-plus'
 import Button from '#manager/components/Button.vue'
@@ -23,7 +55,7 @@ import Input from '#manager/components/Input.vue'
 
   <div class="header">
     <Input v-model="searchText" placeholder="搜索"/>
-    <Button>保 存</Button>
+    <Button @click="createTheme">保 存</Button>
   </div>
 
   <div class="themes-wrapper">
@@ -37,8 +69,8 @@ import Input from '#manager/components/Input.vue'
             <span>{{ theme?.data?.savetime }}</span>
           </div>
           <div class="right">
-            <Button>删 除</Button>
-            <Button>应 用</Button>
+            <Button @click="deleteTheme(theme?.name)">删 除</Button>
+            <Button @click="applyTheme(theme?.name)">应 用</Button>
           </div>
         </div>
       </div>
