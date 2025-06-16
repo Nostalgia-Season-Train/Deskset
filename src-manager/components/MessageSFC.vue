@@ -102,6 +102,7 @@ import Button from './Button.vue'
     width: 420px;
     height: 128px;
     border: solid 1px rgba(#FFF, .5);
+    background: #0009;
 
     .text {
       position: absolute;

@@ -53,11 +53,12 @@ const state = defineModel({ type: Boolean, required: true })  // false 关 true 
     pointer-events: none;  // 禁止文字选中
 
     padding: 5px;
-    background: var(--color) content-box;
+    background: rgba(from var(--color) r g b / .3) content-box;
 
     transition: 0.2s ease-in-out;
     &.active {
       transform: translateX(calc(var(--len) - var(--size)));
+      background: rgba(from var(--color) r g b / .9) content-box;
     }
   }
 }
