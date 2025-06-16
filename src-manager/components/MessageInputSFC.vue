@@ -111,7 +111,7 @@ import Input from './Input.vue'
 
     .text {
       position: absolute;
-      top: 10px;
+      top: 5px;
       left: 10px;
 
       .title {

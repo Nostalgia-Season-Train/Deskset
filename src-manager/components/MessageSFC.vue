@@ -105,7 +105,7 @@ import Button from './Button.vue'
 
     .text {
       position: absolute;
-      top: 10px;
+      top: 5px;  // 文字行高包含额外空白区域，所以 top 比 left 小一些，平衡视觉效果
       left: 10px;
 
       .title {
