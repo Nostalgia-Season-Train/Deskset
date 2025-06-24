@@ -1,3 +1,14 @@
+<script lang="ts" setup>
+withDefaults(defineProps<{
+  width?: string,
+  height?: string
+}>(), {
+  width: '56px',
+  height: '28px'
+})
+</script>
+
+
 <template>
 <div class="button-container">
   <div class="button">
@@ -55,5 +66,12 @@
       }
     }
   }
+}
+</style>
+
+<style scoped>
+.button-container>.button {
+  width: v-bind(width);
+  height: v-bind(height);
 }
 </style>
