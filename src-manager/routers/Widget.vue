@@ -7,6 +7,64 @@ const refresh = async () => {
 refresh()
 
 
+/* === SFC 成员 === */
+import { ref } from 'vue'
+import { Widget } from '#manager/main/widget'
+
+const options = ref(Array.from(rawWidgetMap.values()).map(widget => {
+  return {
+    local: widget.local,
+    type: widget.type,
+    name: widget.name
+  }
+}) || [])
+const activeWidgetOnSelect = ref<Widget | null>(null)
+
+
+/* === SFC 方法 === */
+import { rawWidgetMap } from '../../src-components/widget'
+import { activeWidgetMap } from '#manager/main/widget'
+
+const appendWidget = async (local: string) => {
+  // 生成 ID
+  let id = Math.random().toString(16).slice(2)
+
+  for (let n = 0; n < 10; n++) {
+    if (!rawWidgetMap.has(id))
+      break
+    id = Math.random().toString(16).slice(2)
+  }
+
+  if (rawWidgetMap.has(id))
+    return  // - [ ] 改成 Error
+
+  // 添加部件
+  const rawWidget = rawWidgetMap.get(local)
+
+  if (rawWidget == undefined)
+    return  // - [ ] 改成 Error
+
+  activeWidgetMap.set(id, {
+    id: id,
+
+    local: local,
+    title: rawWidget.name,
+    descript: '',
+
+    name: rawWidget.name,
+    type: rawWidget.type,
+
+    isDragLock: false,
+    isDisableInteract: false,
+    isAutoHide: false
+  })
+}
+
+const selectActiveWidget = async (id: string) => {
+  activeWidgetOnSelect.value = activeWidgetMap.get(id) ?? null
+}
+
+
 /* === 子组件 === */
 import Menu from './Widget/Left1stMenu.vue'
 import List from './Widget/Left2ndList.vue'
@@ -18,12 +76,12 @@ import Info from './Widget/RightInfo.vue'
 <div class="container">
 
   <div class="left">
-    <Menu class="menu" :options="['部件1', '部件2', '部件3']"/>
-    <List class="list"/>
+    <Menu @select="appendWidget" :options="options" class="menu"/>
+    <List @select="selectActiveWidget" class="list"/>
   </div>
 
   <div class="right">
-    <Info class="info"/>
+    <Info v-if="activeWidgetOnSelect" v-model="activeWidgetOnSelect" class="info"/>
   </div>
 
 </div>

@@ -1,24 +1,18 @@
 <script lang="ts" setup>
-const { initState } = withDefaults(defineProps<{
-  initState?: boolean,
+withDefaults(defineProps<{
   size?: number,
   len?: number
 }>(), {
-  initState: false,
   size: 21,
   len: 42
 })
-
-
-import { ref } from 'vue'
-
-const state = ref(initState)
+const state = defineModel<boolean>({ required: true })
 </script>
 
 
 <template>
 <div class="container">
-  <div class="switch" @click="state = !state; $emit('toggle', state)">
+  <div class="switch">
     <span :class="`slide ${state ? 'active' : ''}`" ref="slide"></span>
   </div>
 </div>

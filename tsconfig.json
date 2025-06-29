@@ -24,7 +24,10 @@
     "baseUrl": "./",
     "paths": {
       "#manager/*": ["src-manager/*"]
-    }
+    },
+
+    /* Vite 类型声明 */
+    "types": ["vite/client"]
   },
   "include": [
     "src/**/*.ts",

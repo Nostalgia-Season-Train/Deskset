@@ -1,4 +1,10 @@
 <script lang="ts" setup>
+import { Widget } from '#manager/main/widget'
+
+const widget = defineModel<Widget>({ required: true })
+
+
+/* === 子组件 === */
 import Button from '#manager/components/Button.vue'
 import Switch from '#manager/components/SwitchBrief.vue'
 </script>
@@ -8,9 +14,9 @@ import Switch from '#manager/components/SwitchBrief.vue'
 <div class="rightinfo">
 
   <div class="top">
-    <div class="title">标题（用户自定义）</div><!-- title -->
-    <div class="name">名称（文件夹/文件）</div><!-- folder/file -->
-    <div class="description">描述</div><!-- description -->
+    <div class="title">{{ widget.title }}</div>
+    <div class="local">{{ widget.local }}</div>
+    <div class="descript">{{ widget.descript }}</div>
   </div>
 
   <div class="bottom">
@@ -24,9 +30,18 @@ import Switch from '#manager/components/SwitchBrief.vue'
     </div>
 
     <div class="right">
-      <div class="option"><span>锁定拖动</span><Switch/></div>
-      <div class="option"><span>禁用交互</span><Switch/></div>
-      <div class="option"><span>自动隐藏</span><Switch :size="20.5"/></div><!-- 错觉？21px 比其他滑块大一点 -->
+      <div class="option">
+        <span>锁定拖动</span>
+        <Switch v-model="widget.isDragLock" @click="widget.isDragLock = !widget.isDragLock"/>
+      </div>
+      <div class="option">
+        <span>禁用交互</span>
+        <Switch v-model="widget.isDisableInteract" @click="widget.isDisableInteract = !widget.isDisableInteract"/>
+      </div>
+      <div class="option">
+        <span>自动隐藏</span>
+        <Switch v-model="widget.isAutoHide" @click="widget.isAutoHide = !widget.isAutoHide" :size="20.5"/><!-- 错觉？21px 比其他滑块大一点 -->
+      </div>
     </div>
   </div>
 
@@ -56,7 +71,7 @@ import Switch from '#manager/components/SwitchBrief.vue'
       font-size: 20px;
       font-weight: 1000;
     }
-    .name {
+    .local {
       margin-top: 1px;
     }
   }
