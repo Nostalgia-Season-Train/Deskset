@@ -15,7 +15,7 @@ const widget = new Map<string, {
   local: string  // 位置 = 分类/名称 - 文件夹/文件
   type: string   // 分类 - 文件夹
   name: string   // 名称 - 文件
-  content: string
+  content: any
 }>()
 
 for (const cpath in sortRawComponents) {  // cpath：以部件库（目前是 src-components）为根目录的相对路径

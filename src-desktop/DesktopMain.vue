@@ -4,11 +4,65 @@ const helloworld = async () => {
 }
 
 
+/* === 全局变量&函数 === */
+import { rawWidgetMap } from '../src-components/widget'
+import { activeWidgetMap } from './main/widget'
+import dragAndDrop from './drag'
+
+
+/* === SFC 成员 === */
+import { useTemplateRef } from 'vue'
+
+const desktopMain = useTemplateRef('desktopMain')
+
+
+/* === SFC 方法 === */
+import { h, render, defineAsyncComponent } from 'vue'
+
+const appendWidget = async (id: string, local: string) => {
+  const component = defineAsyncComponent(rawWidgetMap.get(local)!.content)
+
+  // 1、渲染组件
+  const vnode = h(component)
+  const container = document.createElement('div')
+  render(vnode, container)
+
+  // 2、添加监听器
+  const drag = dragAndDrop(container)
+  container.addEventListener('mousedown', drag)
+
+  // 3、附着组件
+  desktopMain.value!.appendChild(container)
+
+  activeWidgetMap.set(id, {
+    id: id,
+    container: container,
+    listens: [
+      { event: 'mousedown', func: drag }
+    ]
+  })
+}
+
+const removeWidget = async (id: string) => {
+  const widget = activeWidgetMap.get(id)
+
+  for (const listen of widget!.listens) {
+    widget!.container.removeEventListener(listen.event, listen.func)
+  }
+  render(null, widget!.container)
+  desktopMain.value!.removeChild(widget!.container)
+}
+
+
 /* ==== BroadcastDesktopServer ==== */
   // 将 Broadcast 由事件/消息改成请求/响应模型
 import { onMounted, onUnmounted } from 'vue'
 
-const actions = { helloworld }
+const actions = {
+  helloworld,
+  appendWidget,
+  removeWidget
+}
 const broadcast = new BroadcastChannel('Desktop')
 const onReceive = async (msg: MessageEvent) => {
   const request = JSON.parse(msg.data)
@@ -36,9 +90,21 @@ onUnmounted(() => broadcast.onmessage = null)
 
 
 <template>
+<div id="desktopMain" ref="desktopMain"></div>
 </template>
 
 
 
 <style scoped>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+#desktopMain {
+  width: 100vw;
+  height: 100vh;
+}
 </style>
