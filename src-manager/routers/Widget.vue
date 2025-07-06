@@ -44,6 +44,8 @@ const appendWidget = async (local: string) => {
   if (rawWidget == undefined)
     return  // - [ ] 改成 Error
 
+  await desktop.appendWidget(id, local)  // 等待桌面添加部件
+
   activeWidgetMap.set(id, {
     id: id,
 
