@@ -28,7 +28,11 @@ const model = defineModel()
 
 // 去掉输入框 input 默认样式
 input {
+  background: none;
   border: none;
+  &::placeholder {
+    color: #FFFA;  // 占位文本色
+  }
   &:focus {
     outline: none;
   }
@@ -70,9 +74,6 @@ input {
     // 输入文字样式
     color: #FFF;
     font-size: 16px;
-
-    background: transparent;
-    box-shadow: 4px 4px 8px rgba(0,0,0,.2);
   }
   .bottom-border {
     position: absolute;
