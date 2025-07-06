@@ -77,6 +77,13 @@ import Input from '#manager/components/Input.vue'
     </el-scrollbar>
   </div>
 
+  <div class="prompt" v-if="themes.length == 0">
+    <div>
+      <div class="text">暂无可用主题</div>
+      <div class="text">点击右上角按钮保存主题</div>
+    </div>
+  </div>
+
 </div>
 </template>
 
@@ -130,6 +137,21 @@ import Input from '#manager/components/Input.vue'
       align-items: center;
       gap: 5px;
     }
+  }
+}
+
+.prompt {
+  width: 100%;
+  height: calc(100% - 35px - 28px);  // 减去 menu 和 theme.header 高度，让文本以窗口高度 100vh 居中，保持视觉平衡
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #FFF;
+
+  .text {
+    text-align: center;
   }
 }
 </style>
