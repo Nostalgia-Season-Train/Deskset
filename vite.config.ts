@@ -1,13 +1,18 @@
+/* === 依赖 === */
 import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
 import path from 'path'
 
-// === 全局变量 ===
+// 插件
+import vue from '@vitejs/plugin-vue'
+import tailwindcss from '@tailwindcss/vite'
+
+
+/* === 全局变量 === */
 // @ts-expect-error process is a nodejs global
 const host = process.env.TAURI_DEV_HOST;
 
 
-// === vite 配置 ===
+/* === vite 配置 === */
 export default defineConfig(async () => ({
   base: './',
   build: {
@@ -30,7 +35,10 @@ export default defineConfig(async () => ({
     }
   },
 
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    tailwindcss(),
+  ],
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //
