@@ -10,7 +10,3 @@ html, body, #manager {
 * {
   font-family: 'DefaultFont';
 }
-
-
-/* === 导入 Tailwind CSS === */
-@import "tailwindcss";
