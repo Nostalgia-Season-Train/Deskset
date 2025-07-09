@@ -22,7 +22,7 @@ const activeWidgetOnSelect = ref<Widget | null>(null)
 
 
 /* === SFC 方法 === */
-import { rawWidgetMap } from '../../src-components/widget'
+import { rawWidgetMap } from '../../src-widget/widget'
 import { activeWidgetMap } from '#manager/main/widget'
 
 const appendWidget = async (local: string) => {

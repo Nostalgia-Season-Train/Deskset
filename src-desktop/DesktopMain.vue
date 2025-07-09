@@ -5,7 +5,7 @@ const helloworld = async () => {
 
 
 /* === 全局变量&函数 === */
-import { rawWidgetMap } from '../src-components/widget'
+import { rawWidgetMap } from '../src-widget/widget'
 import { activeWidgetMap } from './main/widget'
 import dragAndDrop from './drag'
 
