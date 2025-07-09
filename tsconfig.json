@@ -23,6 +23,7 @@
     /* 路径别名 */
     "baseUrl": "./",
     "paths": {
+      "#shadcn/*": ["src-component/shadcn/*"],
       "#manager/*": ["src-manager/*"]
     },
 
