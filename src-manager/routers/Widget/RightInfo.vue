@@ -14,16 +14,20 @@ import Switch from '#manager/components/SwitchBrief.vue'
 <div class="rightinfo">
 
   <div class="top">
-    <div class="title">{{ widget.title }}</div>
+    <div class="first-line">
+      <div class="title">{{ widget.title }}</div>
+      <div class="btns">
+        <div class="btn"><Button>删除</Button></div>
+        <div class="btn"><Button>编辑</Button></div>
+        <div class="btn"><Button>定位</Button></div>
+      </div>
+    </div>
     <div class="local">{{ widget.local }}</div>
     <div class="descript">{{ widget.descript }}</div>
   </div>
 
   <div class="bottom">
     <div class="left">
-      <div>
-        <Button :width="'100%'">定位</Button>
-      </div>
       <div>
         <div>坐标</div>
       </div>
@@ -61,15 +65,27 @@ import Switch from '#manager/components/SwitchBrief.vue'
   color: #FFF;
 
   .top {
-    .title {
+    .first-line {
       height: 28px;
 
       display: flex;
-      justify-content: flex-start;  // start、end、left、right 已弃用
+      justify-content: space-between;
       align-items: center;
 
-      font-size: 20px;
-      font-weight: 1000;
+      .title {
+        font-size: 20px;
+        font-weight: 1000;
+      }
+      .btns {
+        // 视觉平衡：对齐文字高度，而非行高
+        position: relative;
+        top: 1px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 3px;
+      }
     }
     .local {
       margin-top: 1px;
