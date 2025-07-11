@@ -1,11 +1,10 @@
-import { createApp } from 'vue'
+/* ==== CSS 文件 ==== */
+import '../static/css/default-font.css'  // 默认字体
+
+import '#shadcn/style.css'            // shadcn-vue 组件样式
+import 'element-plus/dist/index.css'  // Element Plus 组件样式
+
 import './style.css'
-
-import 'element-plus/dist/index.css'  // Element Plus 组件样式，组件本身按需引入
-
-import Manager from './Manager.vue'
-
-import '../static/css/default-font.css'
 
 
 /* ==== 动态路由 ==== */
@@ -81,6 +80,9 @@ const checkBackInterval = setInterval(async () => {
 
 
 /* ==== 应用 ==== */
+import { createApp } from 'vue'
+import Manager from './Manager.vue'
+
 const app = createApp(Manager)
   .use(router)
   .provide('$axios', axios)

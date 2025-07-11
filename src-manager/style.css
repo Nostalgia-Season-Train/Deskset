@@ -5,6 +5,9 @@ html, body, #manager {
   margin: 0;
   border: 0;
   padding: 0;
+
+  /* --- 覆盖 #shadcn/style.css 默认样式 --- */
+  background: transparent;
 }
 
 * {
