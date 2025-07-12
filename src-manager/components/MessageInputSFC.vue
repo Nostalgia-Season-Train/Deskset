@@ -94,6 +94,8 @@ import Input from './Input.vue'
 
   width: 100vw;
   height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
   user-select: none;
 
   background-color: #000A;
