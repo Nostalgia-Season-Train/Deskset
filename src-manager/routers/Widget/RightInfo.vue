@@ -113,6 +113,10 @@ import Switch from '#manager/components/SwitchBrief.vue'
         display: flex;
         justify-content: space-between;
         align-items: center;
+
+        :nth-child(2) {
+          all: revert;  // 消除 Tailwind CSS 影响
+        }
       }
     }
   }
