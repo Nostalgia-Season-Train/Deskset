@@ -62,6 +62,12 @@ const appendWidget = async (local: string) => {
   })
 }
 
+const removeWidget = async (id: string) => {
+  await desktop.removeWidget(id)
+  activeWidgetMap.delete(id)
+  activeWidgetOnSelect.value = null
+}
+
 const selectActiveWidget = async (id: string) => {
   activeWidgetOnSelect.value = activeWidgetMap.get(id) ?? null
 }
@@ -83,7 +89,12 @@ import Info from './Widget/RightInfo.vue'
   </div>
 
   <div class="right">
-    <Info v-if="activeWidgetOnSelect" v-model="activeWidgetOnSelect" class="info"/>
+    <Info
+      v-if="activeWidgetOnSelect"
+      v-model="activeWidgetOnSelect"
+      class="info"
+      @remove="removeWidget"
+    />
   </div>
 
 </div>

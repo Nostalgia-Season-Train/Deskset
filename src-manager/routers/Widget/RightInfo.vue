@@ -4,6 +4,10 @@ import { Widget } from '#manager/main/widget'
 const widget = defineModel<Widget>({ required: true })
 
 
+/* === 事件 === */
+const emit = defineEmits(['remove'])
+
+
 /* === 子组件 === */
 import Button from '#manager/components/Button.vue'
 import Switch from '#manager/components/SwitchBrief.vue'
@@ -17,7 +21,7 @@ import Switch from '#manager/components/SwitchBrief.vue'
     <div class="first-line">
       <div class="title">{{ widget.title }}</div>
       <div class="btns">
-        <div class="btn"><Button>删除</Button></div>
+        <div class="btn"><Button @click="emit('remove', widget.id)">删除</Button></div>
         <div class="btn"><Button>编辑</Button></div>
         <div class="btn"><Button>定位</Button></div>
       </div>

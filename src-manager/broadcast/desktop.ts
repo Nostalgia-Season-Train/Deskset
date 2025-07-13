@@ -48,6 +48,10 @@ class BroadcastDesktopClient {
   appendWidget = (id: string, local: string): Promise<void> => {
     return this.hook('appendWidget', [id, local])
   }
+
+  removeWidget = (id: string): Promise<void> => {
+    return this.hook('removeWidget', [id])
+  }
 }
 
 

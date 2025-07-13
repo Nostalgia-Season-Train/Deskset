@@ -51,6 +51,8 @@ const removeWidget = async (id: string) => {
   }
   render(null, widget!.container)
   desktopMain.value!.removeChild(widget!.container)
+
+  activeWidgetMap.delete(id)
 }
 
 
