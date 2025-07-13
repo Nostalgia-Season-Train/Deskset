@@ -120,7 +120,8 @@ onUnmounted(() => broadcast.onmessage = null)
 
 <style>
 /* --- 禁用交互 --- */
-.deskset_disable-interact {
+  /* 注：* 使子元素也禁用交互 */
+.deskset_disable-interact * {
   pointer-events: none;
 }
 
