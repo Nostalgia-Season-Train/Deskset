@@ -1,7 +1,7 @@
 export default function dragAndDrop(el: HTMLElement) {
   return function down(event: MouseEvent) {
     // drag-lock 锁定拖动
-    if (el.classList.contains('drag-lock')) {
+    if (el.classList.contains('deskset_drag-lock')) {
       return
     }
 

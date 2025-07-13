@@ -68,6 +68,17 @@ const removeWidget = async (id: string) => {
   activeWidgetOnSelect.value = null
 }
 
+const switchWidgetProp = async (id: string, prop: string, state: boolean) => {
+  await desktop.switchWidgetProp(id, prop, state)
+
+  // RightInfo 下的 v-model 由本函数切换
+  const widget = activeWidgetMap.get(id)
+
+  if (prop == 'drag-lock') widget!.isDragLock = state
+  if (prop == 'disable-interact') widget!.isDisableInteract = state
+  if (prop == 'auto-hide') widget!.isAutoHide = state
+}
+
 const selectActiveWidget = async (id: string) => {
   activeWidgetOnSelect.value = activeWidgetMap.get(id) ?? null
 }
@@ -94,6 +105,7 @@ import Info from './Widget/RightInfo.vue'
       v-model="activeWidgetOnSelect"
       class="info"
       @remove="removeWidget"
+      @switchProp="switchWidgetProp"
     />
   </div>
 

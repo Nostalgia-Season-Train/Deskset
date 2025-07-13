@@ -5,7 +5,10 @@ const widget = defineModel<Widget>({ required: true })
 
 
 /* === 事件 === */
-const emit = defineEmits(['remove'])
+const emit = defineEmits([
+  'remove',
+  'switchProp'
+])
 
 
 /* === 子组件 === */
@@ -40,15 +43,15 @@ import Switch from '#manager/components/SwitchBrief.vue'
     <div class="right">
       <div class="option">
         <span>锁定拖动</span>
-        <Switch v-model="widget.isDragLock" @click="widget.isDragLock = !widget.isDragLock"/>
+        <Switch v-model="widget.isDragLock" @click="emit('switchProp', widget.id, 'drag-lock', !widget.isDragLock)"/>
       </div>
       <div class="option">
         <span>禁用交互</span>
-        <Switch v-model="widget.isDisableInteract" @click="widget.isDisableInteract = !widget.isDisableInteract"/>
+        <Switch v-model="widget.isDisableInteract" @click="emit('switchProp', widget.id, 'disable-interact', !widget.isDisableInteract)"/>
       </div>
       <div class="option">
         <span>自动隐藏</span>
-        <Switch v-model="widget.isAutoHide" @click="widget.isAutoHide = !widget.isAutoHide" :size="20.5"/><!-- 错觉？21px 比其他滑块大一点 -->
+        <Switch v-model="widget.isAutoHide" @click="emit('switchProp', widget.id, 'auto-hide', !widget.isAutoHide)" :size="20.5"/><!-- 错觉？21px 比其他滑块大一点 -->
       </div>
     </div>
   </div>

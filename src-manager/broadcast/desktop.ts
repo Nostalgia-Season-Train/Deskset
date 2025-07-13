@@ -52,6 +52,10 @@ class BroadcastDesktopClient {
   removeWidget = (id: string): Promise<void> => {
     return this.hook('removeWidget', [id])
   }
+
+  switchWidgetProp = (id: string, prop: string, state: boolean): Promise<void> => {
+    return this.hook('switchWidgetProp', [id, prop, state])
+  }
 }
 
 

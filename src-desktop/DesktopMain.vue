@@ -55,6 +55,12 @@ const removeWidget = async (id: string) => {
   activeWidgetMap.delete(id)
 }
 
+const switchWidgetProp = async (id: string, prop: string, state: boolean) => {
+  const widget = activeWidgetMap.get(id)
+
+  widget!.container.classList.toggle('deskset_' + prop, state)
+}
+
 
 /* ==== BroadcastDesktopServer ==== */
   // 将 Broadcast 由事件/消息改成请求/响应模型
@@ -63,7 +69,8 @@ import { onMounted, onUnmounted } from 'vue'
 const actions = {
   helloworld,
   appendWidget,
-  removeWidget
+  removeWidget,
+  switchWidgetProp
 }
 const broadcast = new BroadcastChannel('Desktop')
 const onReceive = async (msg: MessageEvent) => {
@@ -108,5 +115,21 @@ onUnmounted(() => broadcast.onmessage = null)
 #desktopMain {
   width: 100vw;
   height: 100vh;
+}
+</style>
+
+<style>
+/* --- 禁用交互 --- */
+.deskset_disable-interact {
+  pointer-events: none;
+}
+
+/* --- 自动隐藏 --- */
+.deskset_auto-hide>* {
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.deskset_auto-hide:hover>* {
+  opacity: 1;
 }
 </style>
