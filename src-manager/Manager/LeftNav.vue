@@ -17,13 +17,24 @@ const upItems = [
 const downItems = [
   { type: 'option', icon: 'line-md:cog-loop', text: '设置', page: 'setting' }
 ]
+const slide = ref<HTMLElement>()
 const activePage = ref<string>('welcome')
 
-const select = async (page: string | undefined) => {
-  if (page != undefined) {
-    activePage.value = page
-    emit('jump', page)
+const select = async (page: string | undefined, event: Event) => {
+  if (page == undefined) {
+    return
   }
+
+  // 设置滑块位置
+  const element = event.currentTarget as Element  // 选项所在 div 元素
+  const rect = element.getBoundingClientRect()
+  slide.value!.style.top = String(rect.top) + 'px'
+
+  // 修改当前页标志
+  activePage.value = page
+
+  // 发送跳转信号
+  emit('jump', page)
 }
 
 
@@ -42,6 +53,8 @@ const setLightPos = async (e: MouseEvent) => {
 <div class="container">
   <div @mousemove="setLightPos" class="nav">
 
+    <div class="slide" ref="slide"></div>
+
     <div class="up menu">
       <div class="item">
         <img src="/static/icons/Deskset.png" width="22px"/>
@@ -51,8 +64,7 @@ const setLightPos = async (e: MouseEvent) => {
         v-for="item in upItems"
         :is="item.type == 'option' ? 'a' : 'div'"
         :class="`item ${item.type} ${item?.page == activePage ? 'active' : ''}`"
-        :style="item?.color ? `--item-color: ${item.color}` : ''"
-        @click="select(item?.page)"
+        @click="select(item?.page, $event)"
         href="#"
       >
         <div class="icon" v-if="item?.icon"><Icon :icon="item.icon"/></div>
@@ -65,7 +77,7 @@ const setLightPos = async (e: MouseEvent) => {
         v-for="item in downItems"
         :is="item.type == 'option' ? 'a' : 'div'"
         :class="`item ${item.type} ${item?.page == activePage ? 'active' : ''}`"
-        @click="select(item?.page)"
+        @click="select(item?.page, $event)"
         href="#"
       >
         <div class="icon" v-if="item?.icon"><Icon :icon="item.icon"/></div>
@@ -111,6 +123,15 @@ const setLightPos = async (e: MouseEvent) => {
   overflow: hidden;
   white-space: nowrap;
 
+  .slide {
+    position: absolute;
+    width: 4px;
+    height: 35px;
+    top: 35px;  // 滑块初始位置，按下 welcome 选项后打印 rect 获取
+
+    background: #1E88E5;
+    transition: .2s;
+  }
   .item {
     position: relative;
     margin: var(--item-gap) var(--item-side);
