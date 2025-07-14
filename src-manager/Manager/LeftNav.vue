@@ -124,7 +124,8 @@ const setLightPos = async (e: MouseEvent) => {
 
     color: var(--item-color);
 
-    -webkit-app-region: none;  // item 按钮禁用网页拖动窗口事件
+    -webkit-user-drag: none;   // 禁用 a 标签拖拽
+    -webkit-app-region: none;  // 禁用窗口拖动
 
     .icon {
       position: absolute;
