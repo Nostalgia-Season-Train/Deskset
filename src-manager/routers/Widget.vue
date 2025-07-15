@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import desktop from '#manager/broadcast/desktop'
+import desktop from '#manager/global/page/desktop'
 
 const refresh = async () => {
   console.log(await desktop.helloworld())
