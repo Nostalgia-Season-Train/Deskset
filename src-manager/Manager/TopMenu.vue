@@ -1,9 +1,7 @@
 <script lang="ts" setup>
 import { Icon } from '@iconify/vue'
 
-// 临时，后面在 tauri.ts 中封装
-import { getCurrentWindow } from '@tauri-apps/api/window'
-const win = getCurrentWindow()
+import win from '#manager/global/win/manager'
 </script>
 
 
