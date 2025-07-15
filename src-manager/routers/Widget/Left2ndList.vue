@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { activeWidgetMap } from '#manager/main/widget'
+import { activeWidgetMap } from '#manager/global'
 
 
 /* === 子组件 === */

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Widget } from '#manager/main/widget'
+import { Widget } from '#manager/global'
 
 const widget = defineModel<Widget>({ required: true })
 

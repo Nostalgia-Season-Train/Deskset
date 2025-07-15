@@ -9,7 +9,7 @@ refresh()
 
 /* === SFC 成员 === */
 import { ref } from 'vue'
-import { Widget } from '#manager/main/widget'
+import { Widget } from '#manager/global'
 
 const options = ref(Array.from(rawWidgetMap.values()).map(widget => {
   return {
@@ -23,7 +23,7 @@ const activeWidgetOnSelect = ref<Widget | null>(null)
 
 /* === SFC 方法 === */
 import { rawWidgetMap } from '../../src-widget/widget'
-import { activeWidgetMap } from '#manager/main/widget'
+import { activeWidgetMap } from '#manager/global'
 
 const appendWidget = async (local: string) => {
   // 生成 ID

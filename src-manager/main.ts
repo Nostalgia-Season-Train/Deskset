@@ -79,6 +79,10 @@ const checkBackInterval = setInterval(async () => {
 }, 1000)})
 
 
+/* ==== 项目全局变量 ==== */
+import './global'
+
+
 /* ==== 应用 ==== */
 import { createApp } from 'vue'
 import Manager from './Manager.vue'
