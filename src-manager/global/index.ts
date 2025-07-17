@@ -3,3 +3,4 @@
   // 通过 main.ts 初始化
 
 export * from './widget'
+export * from './child/server'

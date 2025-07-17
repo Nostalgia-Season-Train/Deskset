@@ -129,9 +129,6 @@ import { getCurrentWindow } from '@tauri-apps/api/window'
 
 const managerWin = getCurrentWindow()
 
-// 打开
-spawnServer()
-
 // 关闭
 import { listen } from '@tauri-apps/api/event'
 

@@ -82,6 +82,11 @@ const checkBackInterval = setInterval(async () => {
 /* ==== 项目全局变量 ==== */
 import './global'
 
+// 启动服务器
+import { spawnServer } from './global'
+
+await spawnServer()
+
 
 /* ==== 应用 ==== */
 import { createApp } from 'vue'
