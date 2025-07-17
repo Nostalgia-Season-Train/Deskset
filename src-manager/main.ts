@@ -29,63 +29,19 @@ const router = createRouter({
 })
 
 
-/* ==== axios ==== */
-import { readFile, BaseDirectory } from '@tauri-apps/plugin-fs'
-import axios from 'axios'
-
-const getServerInfo = async () => {
-  // 读取配置
-  const data = await readFile(`./config/deskset.json`, { baseDir: BaseDirectory.Resource })
-  const config = JSON.parse(new TextDecoder().decode(data))
-
-  // 获取 port
-  const port = config['server-port']
-
-  // 获取 token
-  const formData = new FormData()
-  formData.append('username', config.username)
-  formData.append('password', config.password)
-
-  const repLogin = await axios.post(`http://127.0.0.1:${port}/v0/access/login`, formData, {
-    headers: { 'Content-Type': 'multipart/form-data' }
-  })
-  const token = repLogin.data.access_token
-
-  // 返回 host、port 和 token
-  return {
-    host: '127.0.0.1',
-    port: port,
-    token: token
-  }
-}
-
-getServerInfo()
-.then((server) => {
-  setTimeout(() => {
-    axios.defaults.baseURL = `http://${server.host}:${server.port}`
-    axios.defaults.headers.common['Authorization'] = `Bearer ${server.token}`
-    console.log('axios 首次初始化成功，后端上线！')
-  }, 250)
-})
-.catch(() => {
-const checkBackInterval = setInterval(async () => {
-  try {
-    const server = await getServerInfo()
-    clearInterval(checkBackInterval)
-    axios.defaults.baseURL = `http://${server.host}:${server.port}`
-    axios.defaults.headers.common['Authorization'] = `Bearer ${server.token}`
-    console.log('axios 初始化成功，后端上线！')
-  } catch {}
-}, 1000)})
-
-
 /* ==== 项目全局变量 ==== */
-import './global'
+import { spawnServer, axios } from './global'
 
 // 启动服务器
-import { spawnServer } from './global'
+const serverInfo = await spawnServer()
 
-await spawnServer()
+// Manager 设置 axios 参数
+axios.defaults.baseURL = `http://${serverInfo.url}`
+axios.defaults.headers.common['Authorization'] = `Bearer ${serverInfo.token}`
+
+// Manager 向 Desktop 发送 axios 参数
+const broadcast = new BroadcastChannel('axios')
+broadcast.postMessage({url: serverInfo.url, token: serverInfo.token})
 
 
 /* ==== 应用 ==== */

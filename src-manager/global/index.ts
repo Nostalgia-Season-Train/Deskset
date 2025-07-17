@@ -4,3 +4,4 @@
 
 export * from './widget'
 export * from './child/server'
+export { default as axios } from 'axios'
