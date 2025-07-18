@@ -31,17 +31,25 @@ const router = createRouter({
 
 /* ==== 项目全局变量 ==== */
 import { spawnServer, axios } from './global'
+import { error } from '@tauri-apps/plugin-log'
 
-// 启动服务器
-const serverInfo = await spawnServer()
+let isSpawn = true
 
-// Manager 设置 axios 参数
-axios.defaults.baseURL = `http://${serverInfo.url}`
-axios.defaults.headers.common['Authorization'] = `Bearer ${serverInfo.token}`
+try {
+  // 启动服务器
+  const serverInfo = await spawnServer()
 
-// Manager 向 Desktop 发送 axios 参数
-const broadcast = new BroadcastChannel('axios')
-broadcast.postMessage({url: serverInfo.url, token: serverInfo.token})
+  // Manager 设置 axios 参数
+  axios.defaults.baseURL = `http://${serverInfo.url}`
+  axios.defaults.headers.common['Authorization'] = `Bearer ${serverInfo.token}`
+
+  // Manager 向 Desktop 发送 axios 参数
+  const broadcast = new BroadcastChannel('axios')
+  broadcast.postMessage({url: serverInfo.url, token: serverInfo.token})
+} catch (err) {
+  isSpawn = false
+  error('Spawn DesksetBack Fail')
+}
 
 
 /* ==== 应用 ==== */
@@ -51,4 +59,5 @@ import Manager from './Manager.vue'
 const app = createApp(Manager)
   .use(router)
   .provide('$axios', axios)
+  .provide('$isSpawn', isSpawn)
   .mount('#manager')

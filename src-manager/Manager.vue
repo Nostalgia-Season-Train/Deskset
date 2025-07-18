@@ -12,6 +12,13 @@ const jump = async (page: string) => {
 }
 
 
+/* === 服务器是否启动 === */
+import { inject } from 'vue'
+import Error from './routers/Error.vue'
+
+const isSpawn = inject<boolean>('$isSpawn')
+
+
 /* === 禁用默认事件 === */
 
 // 刷新
@@ -41,12 +48,15 @@ document.addEventListener('contextmenu', (event: MouseEvent) => {
 
   <main>
     <TopMenu class="menu"/>
-    <div class="content">
+    <div class="content" v-if="isSpawn">
       <router-view v-slot="{ Component }">
         <keep-alive>
           <component :is="Component"/>
         </keep-alive>
       </router-view>
+    </div>
+    <div class="content" v-if="!isSpawn">
+      <Error/>
     </div>
   </main>
 
