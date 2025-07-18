@@ -60,7 +60,10 @@ const openReleasePage = () => {
   color: white;
 
   .center {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
   h2 {
     margin: 1em 0 0 0;
