@@ -22,9 +22,19 @@ import { h, render, defineAsyncComponent } from 'vue'
 const appendWidget = async (id: string, local: string) => {
   const component = defineAsyncComponent(rawWidgetMap.get(local)!.content)
 
+  // 0、挂载等待
+  let mountSignal: Function
+  const mountWait = new Promise<void>((resolve) => mountSignal = () => resolve())
+
   // 1、渲染组件
-  const vnode = h(component)
+  const vnode = h(component, {
+    onVnodeMounted: () => mountSignal()
+  })
   const container = document.createElement('div')
+  container.id = id  // 用于原生 js 根据 id 获取部件所在 div
+  container.style.position = 'absolute'
+  container.style.left = '0px'
+  container.style.top = '0px'
   render(vnode, container)
 
   // 2、添加监听器
@@ -34,6 +44,11 @@ const appendWidget = async (id: string, local: string) => {
   // 3、附着组件
   desktopMain.value!.appendChild(container)
 
+  // 4、居中组件
+  await mountWait
+  container.style.left = desktopMain.value!.offsetWidth / 2 - container.offsetWidth / 2 + 'px'
+  container.style.top = desktopMain.value!.offsetHeight / 2 - container.offsetHeight / 2 + 'px'
+
   activeWidgetMap.set(id, {
     id: id,
     container: container,
@@ -41,6 +56,8 @@ const appendWidget = async (id: string, local: string) => {
       { event: 'mousedown', func: drag }
     ]
   })
+
+  return { x: container.offsetLeft + (container.offsetWidth >> 1), y: container.offsetTop + (container.offsetHeight >> 1) }
 }
 
 const removeWidget = async (id: string) => {

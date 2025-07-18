@@ -44,7 +44,7 @@ const appendWidget = async (local: string) => {
   if (rawWidget == undefined)
     return  // - [ ] 改成 Error
 
-  await desktop.appendWidget(id, local)  // 等待桌面添加部件
+  const axis = await desktop.appendWidget(id, local)  // 等待桌面添加部件
 
   activeWidgetMap.set(id, {
     id: id,
@@ -58,7 +58,10 @@ const appendWidget = async (local: string) => {
 
     isDragLock: false,
     isDisableInteract: false,
-    isAutoHide: false
+    isAutoHide: false,
+
+    x: axis.x,
+    y: axis.y
   })
 }
 
@@ -81,6 +84,18 @@ const switchWidgetProp = async (id: string, prop: string, state: boolean) => {
 
 const selectActiveWidget = async (id: string) => {
   activeWidgetOnSelect.value = activeWidgetMap.get(id) ?? null
+}
+
+
+/* === Desktop 单向信息 === */
+const broadcast = new BroadcastChannel('DesktopSend')
+
+// - [ ] 优化？防抖节流 & 新开线程
+broadcast.onmessage = (ev) => {
+  const data = ev.data
+  const widget = activeWidgetMap.get(data.id)
+  widget!.x = data.x
+  widget!.y = data.y
 }
 
 

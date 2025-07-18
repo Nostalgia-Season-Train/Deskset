@@ -36,7 +36,11 @@ import Switch from '#manager/components/SwitchBrief.vue'
   <div class="bottom">
     <div class="left">
       <div>
-        <div>坐标</div>
+        <div class="flex">
+          <span class="w-1/3 text-center">坐标</span>
+          <span class="w-1/3 text-center">{{ widget.x }}</span>
+          <span class="w-1/3 text-center">{{ widget.y }}</span>
+        </div>
       </div>
     </div>
 

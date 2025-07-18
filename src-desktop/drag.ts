@@ -5,19 +5,25 @@ export default function dragAndDrop(el: HTMLElement) {
       return
     }
 
+    const id = el.id
+    const broadcast = new BroadcastChannel('DesktopSend')
+    const width = el.offsetWidth
+    const height = el.offsetHeight
+
     const originX = el.offsetLeft
     const originY = el.offsetTop
     const beginX = event.clientX
     const beginY = event.clientY
 
     const move = (event: MouseEvent) => {
-      const moveX = event.clientX - beginX
-      const moveY = event.clientY - beginY
+      const left = event.clientX - beginX + originX
+      const top  = event.clientY - beginY + originY
 
       el.style.position = 'absolute'
+      el.style.left = left + 'px'
+      el.style.top  = top  + 'px'
 
-      el.style.left = moveX + originX + 'px'
-      el.style.top  = moveY + originY + 'px'
+      broadcast.postMessage({ id: id, x: left + (width >> 1), y: top + (height >> 1) })
     }
 
     const up = () => {
