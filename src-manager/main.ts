@@ -57,8 +57,7 @@ const isDevEnv = import.meta.env.DEV as boolean
 
 if (isDevEnv) {
   isSpawn = true
-  const broadcast = new BroadcastChannel('axios')
-  broadcast.postMessage({url: '127.0.0.1:6527', token: ''})
+  axios.defaults.baseURL = 'http://127.0.0.1:6527'
 }
 
 

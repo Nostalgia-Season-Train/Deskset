@@ -40,7 +40,15 @@ const initAxios = async () => {
     }
   })
 }
-await initAxios()
+
+// 开发环境：不等待 Axios 消息，方便刷新
+const isDevEnv = import.meta.env.DEV
+
+if (isDevEnv) {
+  axios.defaults.baseURL = 'http://127.0.0.1:6527'
+} else {
+  await initAxios()
+}
 
 
 /* === 创建 Vue 应用 === */
