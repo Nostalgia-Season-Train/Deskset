@@ -51,6 +51,16 @@ try {
   error('Spawn DesksetBack Fail')
 }
 
+// 开发环境：无需考虑服务器是否启动成功
+// @ts-ignore
+const isDevEnv = import.meta.env.DEV as boolean
+
+if (isDevEnv) {
+  isSpawn = true
+  const broadcast = new BroadcastChannel('axios')
+  broadcast.postMessage({url: '127.0.0.1:6527', token: ''})
+}
+
 
 /* ==== 应用 ==== */
 import { createApp } from 'vue'
