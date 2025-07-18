@@ -130,6 +130,12 @@ onUnmounted(() => broadcast.onmessage = null)
 }
 
 #desktopMain {
+  /* 避免部件移动到桌面外造成的桌面 div 移位 */
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+
   width: 100vw;
   height: 100vh;
 }
