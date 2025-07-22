@@ -5,26 +5,21 @@ import { Plus } from 'lucide-vue-next'
 import Button from '#manager/components/Button.vue'
 
 
-/* === Props 声明 === */
-import { defineProps } from 'vue'
+/* === 选项 === */
+import { ref } from 'vue'
 
-defineProps<{
-  options: {
-    local: string,
-    type: string,
-    name: string
-  }[]
-}>()
+const options = ref<string[]>()
 
 
-/* === 主函数 === */
-import { ref, onUnmounted } from 'vue'
+/* === 菜单 === */
+import { onUnmounted } from 'vue'
+import { getWidgetNameList } from '#manager/main/widget'
 
 const isOpen = ref(false)  // 是否打开 Menu
 
-const openMenu = () => {
-  if (isOpen.value)
-    return  // 防止重复挂载 closeMenu
+const openMenu = async () => {
+  if (isOpen.value) return  // 防止重复挂载 closeMenu
+  options.value = await getWidgetNameList()
   isOpen.value = true
   setTimeout(() => document.addEventListener('click', closeMenu), 100)
 }
@@ -47,8 +42,8 @@ onUnmounted(() => { if (isOpen.value) closeMenu() })  // 一并卸载 closeMenu
 
   <div v-if="isOpen" class="menu">
     <el-scrollbar>
-      <div v-for="option in options" @click="$emit('select', option.local)" class="option">
-        {{ option.name }}
+      <div v-for="option in options" @click="$emit('select', option)" class="option">
+        {{ option }}
       </div>
     </el-scrollbar>
   </div>
