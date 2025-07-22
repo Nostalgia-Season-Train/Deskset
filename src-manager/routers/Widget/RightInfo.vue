@@ -29,7 +29,9 @@ import Switch from '#manager/components/SwitchBrief.vue'
         <div class="btn"><Button>定位</Button></div>
       </div>
     </div>
-    <div class="local">{{ widget.local }}</div>
+    <div class="name">{{ widget.name }}</div>
+    <div class="author">{{ widget.author }}</div>
+    <div class="version">{{ widget.version }}</div>
     <div class="descript">{{ widget.descript }}</div>
   </div>
 
@@ -98,7 +100,7 @@ import Switch from '#manager/components/SwitchBrief.vue'
         gap: 3px;
       }
     }
-    .local {
+    .name {
       margin-top: 1px;
     }
   }

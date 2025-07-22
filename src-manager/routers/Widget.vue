@@ -11,57 +11,51 @@ refresh()
 import { ref } from 'vue'
 import { Widget } from '#manager/global'
 
-const options = ref(Array.from(rawWidgetMap.values()).map(widget => {
-  return {
-    local: widget.local,
-    type: widget.type,
-    name: widget.name
-  }
-}) || [])
 const activeWidgetOnSelect = ref<Widget | null>(null)
 
 
 /* === SFC 方法 === */
-import { rawWidgetMap } from '../../src-widget/widget'
+import { getWidgetInfo } from '#manager/main/widget'
 import { activeWidgetMap } from '#manager/global'
 
-const appendWidget = async (local: string) => {
+const appendWidget = async (name: string) => {
   // 生成 ID
   let id = Math.random().toString(16).slice(2)
 
   for (let n = 0; n < 10; n++) {
-    if (!rawWidgetMap.has(id))
+    if (!activeWidgetMap.has(id))
       break
     id = Math.random().toString(16).slice(2)
   }
 
-  if (rawWidgetMap.has(id))
+  if (activeWidgetMap.has(id))
     return  // - [ ] 改成 Error
 
   // 添加部件
-  const rawWidget = rawWidgetMap.get(local)
+  const widgetInfo = await getWidgetInfo(name)
 
-  if (rawWidget == undefined)
+  if (widgetInfo == undefined)
     return  // - [ ] 改成 Error
 
-  const axis = await desktop.appendWidget(id, local)  // 等待桌面添加部件
+  // - [ ] 暂时注释掉
+  // const axis = await desktop.appendWidget(id, local)  // 等待桌面添加部件
 
   activeWidgetMap.set(id, {
     id: id,
 
-    local: local,
-    title: rawWidget.name,
-    descript: '',
+    title: name,
+    name: name,
 
-    name: rawWidget.name,
-    type: rawWidget.type,
+    author: widgetInfo.author,
+    version: widgetInfo.version,
+    descript: widgetInfo.descript,
 
     isDragLock: false,
     isDisableInteract: false,
     isAutoHide: false,
 
-    x: axis.x,
-    y: axis.y
+    x: 0,
+    y: 0
   })
 }
 
@@ -110,7 +104,7 @@ import Info from './Widget/RightInfo.vue'
 <div class="container">
 
   <div class="left">
-    <Menu @select="appendWidget" :options="options" class="menu"/>
+    <Menu @select="appendWidget" class="menu"/>
     <List @select="selectActiveWidget" class="list"/>
   </div>
 
