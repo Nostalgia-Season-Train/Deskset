@@ -12,7 +12,8 @@
     "windows": [],
     "security": {
       "csp": {
-        "img-src": "'self' asset: http://asset.localhost"
+        "img-src": "'self' asset: http://asset.localhost",
+        "script-src": "'self' blob: http://tauri.localhost"
       },
       "assetProtocol": {
         "enable": true,
