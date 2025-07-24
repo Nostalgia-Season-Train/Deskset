@@ -51,6 +51,15 @@ if (isDevEnv) {
 }
 
 
+/* === 上下文 === */
+  // 通过 const XXX = $deskset_vue 导入 Vue 依赖
+import * as Vue from 'vue'
+import * as Axios from 'axios'
+
+window.$deskset_vue = Vue
+window.$deskset_axios = Axios
+
+
 /* === 创建 Vue 应用 === */
 import { createApp } from 'vue'
 import './style.css'

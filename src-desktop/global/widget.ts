@@ -3,7 +3,8 @@ import { reactive } from 'vue'
 export interface Widget {
   id: string
 
-  container: HTMLElement
+  container: HTMLDivElement
+  style: HTMLStyleElement
   listens: { event: string, func: any }[]
 }
 

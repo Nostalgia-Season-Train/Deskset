@@ -5,8 +5,7 @@ const helloworld = async () => {
 
 
 /* === 全局变量&函数 === */
-import { rawWidgetMap } from '../src-widget/widget'
-import { activeWidgetMap } from './main/widget'
+import { activeWidgetMap } from './global/widget'
 import dragAndDrop from './drag'
 
 
@@ -18,9 +17,20 @@ const desktopMain = useTemplateRef('desktopMain')
 
 /* === SFC 方法 === */
 import { h, render, defineAsyncComponent } from 'vue'
+import { compile } from './main/compile'
 
 const appendWidget = async (id: string, local: string) => {
-  const component = defineAsyncComponent(rawWidgetMap.get(local)!.content)
+  const code = await compile(id, local)
+
+  const blob = new Blob([code.js], { type: 'text/javascript' })
+  const url = URL.createObjectURL(blob)
+  const component = defineAsyncComponent(() => import(/* @vite-ignore */url))
+
+  const style = Object.assign(document.createElement('style'), {
+    textContent: code.css,
+    type: 'text/css'
+  })
+  document.head.appendChild(style)
 
   // 0、挂载等待
   let mountSignal: Function
@@ -36,6 +46,7 @@ const appendWidget = async (id: string, local: string) => {
   container.style.left = '0px'
   container.style.top = '0px'
   render(vnode, container)
+  URL.revokeObjectURL(url)  // - [ ] NodeJS 不会析构 url，浏览器环境是否可以？
 
   // 2、添加监听器
   const drag = dragAndDrop(container)
@@ -52,6 +63,7 @@ const appendWidget = async (id: string, local: string) => {
   activeWidgetMap.set(id, {
     id: id,
     container: container,
+    style: style,
     listens: [
       { event: 'mousedown', func: drag }
     ]
@@ -68,6 +80,7 @@ const removeWidget = async (id: string) => {
   }
   render(null, widget!.container)
   desktopMain.value!.removeChild(widget!.container)
+  document.head.removeChild(widget!.style)
 
   activeWidgetMap.delete(id)
 }

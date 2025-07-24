@@ -37,8 +37,7 @@ const appendWidget = async (name: string) => {
   if (widgetInfo == undefined)
     return  // - [ ] 改成 Error
 
-  // - [ ] 暂时注释掉
-  // const axis = await desktop.appendWidget(id, local)  // 等待桌面添加部件
+  const axis = await desktop.appendWidget(id, name)  // 等待桌面添加部件
 
   activeWidgetMap.set(id, {
     id: id,
@@ -54,8 +53,8 @@ const appendWidget = async (name: string) => {
     isDisableInteract: false,
     isAutoHide: false,
 
-    x: 0,
-    y: 0
+    x: axis.x,
+    y: axis.y
   })
 }
 
