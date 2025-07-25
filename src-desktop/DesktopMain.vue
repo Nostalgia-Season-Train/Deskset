@@ -69,7 +69,12 @@ const appendWidget = async (id: string, local: string) => {
     ]
   })
 
-  return { x: container.offsetLeft + (container.offsetWidth >> 1), y: container.offsetTop + (container.offsetHeight >> 1) }
+  return {
+    x: container.offsetLeft + (container.offsetWidth >> 1),
+    y: container.offsetTop + (container.offsetHeight >> 1),
+    left: container.offsetLeft,
+    top: container.offsetTop
+  }
 }
 
 const removeWidget = async (id: string) => {

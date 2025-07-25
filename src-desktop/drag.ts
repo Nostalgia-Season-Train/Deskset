@@ -23,7 +23,11 @@ export default function dragAndDrop(el: HTMLElement) {
       el.style.left = left + 'px'
       el.style.top  = top  + 'px'
 
-      broadcast.postMessage({ id: id, x: left + (width >> 1), y: top + (height >> 1) })
+      broadcast.postMessage({
+        id: id,
+        x: left + (width >> 1), y: top + (height >> 1),
+        left: left, top: top
+      })
     }
 
     const up = () => {

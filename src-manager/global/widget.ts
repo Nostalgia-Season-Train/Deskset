@@ -18,6 +18,10 @@ export interface Widget {
   // 中心坐标，不是 left 和 top
   x: number
   y: number
+
+  // 实际偏移，用于应用主题时设置部件位置
+  left: number
+  top: number
 }
 
 export const activeWidgetMap = reactive(new Map<string, Widget>())

@@ -54,7 +54,10 @@ const appendWidget = async (name: string) => {
     isAutoHide: false,
 
     x: axis.x,
-    y: axis.y
+    y: axis.y,
+
+    left: axis.left,
+    top: axis.top
   })
 }
 
@@ -89,6 +92,8 @@ broadcast.onmessage = (ev) => {
   const widget = activeWidgetMap.get(data.id)
   widget!.x = data.x
   widget!.y = data.y
+  widget!.left = data.left
+  widget!.top = data.top
 }
 
 
