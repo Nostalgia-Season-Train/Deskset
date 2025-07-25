@@ -56,6 +56,10 @@ class BroadcastDesktopClient {
   switchWidgetProp = (id: string, prop: string, state: boolean): Promise<void> => {
     return this.hook('switchWidgetProp', [id, prop, state])
   }
+
+  setWidgetPosition = (id: string, left: number, top: number) => {
+    return this.hook('setWidgetPosition', [id, left, top])
+  }
 }
 
 

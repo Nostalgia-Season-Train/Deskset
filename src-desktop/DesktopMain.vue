@@ -96,6 +96,15 @@ const switchWidgetProp = async (id: string, prop: string, state: boolean) => {
   widget!.container.classList.toggle('deskset_' + prop, state)
 }
 
+const setWidgetPosition = async (id: string, left: number, top: number) => {
+  const widget = activeWidgetMap.get(id)
+
+  const container = widget!.container
+  container.style.position = 'absolute'
+  container.style.left = left + 'px'
+  container.style.top = top + 'px'
+}
+
 
 /* ==== BroadcastDesktopServer ==== */
   // 将 Broadcast 由事件/消息改成请求/响应模型
@@ -105,7 +114,8 @@ const actions = {
   helloworld,
   appendWidget,
   removeWidget,
-  switchWidgetProp
+  switchWidgetProp,
+  setWidgetPosition
 }
 const broadcast = new BroadcastChannel('Desktop')
 const onReceive = async (msg: MessageEvent) => {
