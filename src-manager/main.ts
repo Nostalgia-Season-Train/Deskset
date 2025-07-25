@@ -60,6 +60,15 @@ if (isDevEnv) {
   axios.defaults.baseURL = 'http://127.0.0.1:6527'
 }
 
+// 初始化当前主题哈希表
+import { activeThemeMap } from './global'
+import { getThemes } from './main/theme'
+
+const themes = await getThemes()
+for (const theme of themes) {
+  activeThemeMap.set(theme.name, theme)
+}
+
 
 /* ==== 应用 ==== */
 import { createApp } from 'vue'

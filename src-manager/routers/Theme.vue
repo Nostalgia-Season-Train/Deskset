@@ -1,14 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { getAllThemes as readThemes } from '#manager/tauri'
+import { activeThemeMap } from '#manager/global'
 
-const themes = ref()
 const searchText = ref('')
-
-const refresh = async () => {
-  themes.value = await readThemes()
-}
-refresh()
 
 
 /* === 主题创建/删除/应用 === */
@@ -26,8 +20,6 @@ const createTheme = async () => {
     return
 
   await createSingleTheme(name)
-  setTimeout(refresh, 100)
-  setTimeout(refresh, 600)
 }
 
 const deleteTheme = async (name: string) => {
@@ -35,7 +27,6 @@ const deleteTheme = async (name: string) => {
     return
 
   await deleteSingleTheme(name)
-  setTimeout(refresh, 100)
 }
 
 const applyTheme = async (name: string) => {
@@ -60,13 +51,13 @@ import Input from '#manager/components/Input.vue'
 
   <div class="themes-wrapper">
     <el-scrollbar>
-      <div class="themes" v-for="theme in themes">
+      <div class="themes" v-for="theme in Array.from(activeThemeMap.values())">
         <div class="theme" v-if="searchText == '' || theme.name.includes(searchText)">
           <div class="left">
-            <span>{{ theme?.name }}</span>
+            <span>{{ theme.name }}</span>
           </div>
           <div class="middle">
-            <span>{{ theme?.data?.savetime }}</span>
+            <span>{{ theme.savetime }}</span>
           </div>
           <div class="right">
             <Button @click="deleteTheme(theme?.name)">删 除</Button>
@@ -77,7 +68,7 @@ import Input from '#manager/components/Input.vue'
     </el-scrollbar>
   </div>
 
-  <div class="prompt" v-if="themes?.length == 0"><!-- 可选链访问：themes 挂载后赋值 -->
+  <div class="prompt" v-if="activeThemeMap.size == 0"><!-- 可选链访问：themes 挂载后赋值 -->
     <div>
       <div class="text">暂无可用主题</div>
       <div class="text">点击右上角按钮保存主题</div>

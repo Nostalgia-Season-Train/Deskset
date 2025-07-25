@@ -3,5 +3,10 @@
   // 通过 main.ts 初始化
 
 export * from './widget'
+export * from './theme'
+
 export * from './child/server'
+export * from './win/manager'
+export * from './page/desktop'
+
 export { default as axios } from 'axios'
