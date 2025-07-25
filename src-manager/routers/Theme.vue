@@ -1,36 +1,44 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { activeThemeMap } from '#manager/global'
+import { activeWidgetMap } from '#manager/global'
 
 const searchText = ref('')
 
 
 /* === 主题创建/删除/应用 === */
+import dayjs from 'dayjs'
 import { message, messageInput } from '#manager/components/Message'
-import { deleteThemeDir } from '#manager/tauri'
-import desktop from './desktop'  // - [ ] 后面拿 Promise 包装
+import { saveTheme as saveThemeFile, deleteTheme as deleteThemeFile } from '#manager/main/theme'
 
-const createSingleTheme = desktop.saveTheme
-const deleteSingleTheme = deleteThemeDir
-const applySingleTheme = desktop.useTheme
-
-const createTheme = async () => {
+const saveTheme = async () => {
   const name = await messageInput('保存主题', '', '在此输入主题名称')
   if (name == null)
     return
 
-  await createSingleTheme(name)
+  const data = Array.from(activeWidgetMap.values())
+  const info = {
+    savetime: String(dayjs().format('YYYY-MM-DD HH:mm:ss')),
+    descript: ''
+  }
+
+  await saveThemeFile(name, data, info)
+  activeThemeMap.set(name, {
+    name: name,
+    savetime: info.savetime,
+    descript: info.descript
+  })
 }
 
 const deleteTheme = async (name: string) => {
   if (!await message('删除主题', `是否删除 ${name} 主题？`))
     return
 
-  await deleteSingleTheme(name)
+  await deleteThemeFile(name)
+  activeThemeMap.delete(name)
 }
 
 const applyTheme = async (name: string) => {
-  await applySingleTheme(name)
 }
 
 
@@ -46,7 +54,7 @@ import Input from '#manager/components/Input.vue'
 
   <div class="header">
     <Input v-model="searchText" placeholder="搜索"/>
-    <Button @click="createTheme">保 存</Button>
+    <Button @click="saveTheme">保 存</Button>
   </div>
 
   <div class="themes-wrapper">
