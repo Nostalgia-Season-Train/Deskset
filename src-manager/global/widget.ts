@@ -25,3 +25,29 @@ export interface Widget {
 }
 
 export const activeWidgetMap = reactive(new Map<string, Widget>())
+
+
+/* === 主题格式：恢复用户保存的主题 === */
+  // 1、从 activeWidgetMap 转换成主题格式
+  // 2、从 theme/data.json 验证并转换成主题格式
+export const convertWidgetInTheme = async (data: any) => {
+  const name = data?.name
+  if (typeof name != 'string')
+    return undefined
+
+  return {
+    name: name as string,
+    title: typeof data?.title == 'string' ? data.title as string : name as string,
+
+    isDragLock: typeof data?.isDragLock == 'boolean' ? data.isDragLock as boolean : false,
+    isDisableInteract: typeof data?.isDisableInteract == 'boolean' ? data.isDisableInteract as boolean : false,
+    isAutoHide: typeof data?.isAutoHide == 'boolean' ? data.isAutoHide as boolean : false,
+
+    left: typeof data?.left == 'number' ? data.left as number : 0,
+    top: typeof data?.top == 'number' ? data.top as number : 0,
+
+    // 仅用于管理页展示
+    x: typeof data?.x == 'number' ? data.x as number : 0,
+    y: typeof data?.y == 'number' ? data.y as number : 0
+  }
+}

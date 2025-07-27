@@ -10,13 +10,16 @@ const searchText = ref('')
 import dayjs from 'dayjs'
 import { message, messageInput } from '#manager/components/Message'
 import { saveTheme as saveThemeFile, deleteTheme as deleteThemeFile } from '#manager/main/theme'
+import { convertWidgetInTheme } from '#manager/global'
 
 const saveTheme = async () => {
   const name = await messageInput('保存主题', '', '在此输入主题名称')
   if (name == null)
     return
 
-  const data = Array.from(activeWidgetMap.values())
+  const data = (
+    await Promise.all([...activeWidgetMap.values()].map(convertWidgetInTheme))
+  ).filter(widget => widget != undefined)  // 转换失败的元素返回 undefined
   const info = {
     savetime: String(dayjs().format('YYYY-MM-DD HH:mm:ss')),
     descript: ''
