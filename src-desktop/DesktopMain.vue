@@ -19,8 +19,16 @@ const desktopMain = useTemplateRef('desktopMain')
 import { h, render, defineAsyncComponent } from 'vue'
 import { compile } from './main/compile'
 
-const appendWidget = async (id: string, local: string) => {
-  const code = await compile(id, local)
+const appendWidget = async (
+  id: string,
+  name: string,
+  isDragLock: boolean | null,
+  isDisableInteract: boolean | null,
+  isAutoHide: boolean | null,
+  left: number | null,
+  top: number | null
+) => {
+  const code = await compile(id, name)
 
   const blob = new Blob([code.js], { type: 'text/javascript' })
   const url = URL.createObjectURL(blob)
@@ -60,6 +68,18 @@ const appendWidget = async (id: string, local: string) => {
   container.style.left = desktopMain.value!.offsetWidth / 2 - container.offsetWidth / 2 + 'px'
   container.style.top = desktopMain.value!.offsetHeight / 2 - container.offsetHeight / 2 + 'px'
 
+  // 5、初始化时，直接设置组件属性、位置
+  const finalIsDragLock = isDragLock != null ? isDragLock : false
+  const finalIsDisableInteract = isDisableInteract != null ? isDisableInteract : false
+  const finalIsAutoHide = isAutoHide != null ? isAutoHide : false
+
+  container.classList.toggle('deskset_drag-lock', finalIsDragLock)
+  container.classList.toggle('deskset_disable-interact', finalIsDisableInteract)
+  container.classList.toggle('deskset_auto-hide', finalIsAutoHide)
+
+  if (left != null) container.style.left = left + 'px'
+  if (top != null) container.style.top = top + 'px'
+
   activeWidgetMap.set(id, {
     id: id,
     container: container,
@@ -70,6 +90,9 @@ const appendWidget = async (id: string, local: string) => {
   })
 
   return {
+    isDragLock: finalIsDragLock,
+    isDisableInteract: finalIsDisableInteract,
+    isAutoHide: finalIsAutoHide,
     x: container.offsetLeft + (container.offsetWidth >> 1),
     y: container.offsetTop + (container.offsetHeight >> 1),
     left: container.offsetLeft,

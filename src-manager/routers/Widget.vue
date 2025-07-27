@@ -37,27 +37,27 @@ const appendWidget = async (name: string) => {
   if (widgetInfo == undefined)
     return  // - [ ] 改成 Error
 
-  const axis = await desktop.appendWidget(id, name)  // 等待桌面添加部件
+  const widgetData = await desktop.appendWidget(id, name)  // 等待桌面添加部件
 
   activeWidgetMap.set(id, {
     id: id,
 
-    title: name,
+    title: name,  // 归属 widget 下哪种数据？
     name: name,
 
     author: widgetInfo.author,
     version: widgetInfo.version,
     descript: widgetInfo.descript,
 
-    isDragLock: false,
-    isDisableInteract: false,
-    isAutoHide: false,
+    isDragLock: widgetData.isDragLock,
+    isDisableInteract: widgetData.isDisableInteract,
+    isAutoHide: widgetData.isAutoHide,
 
-    x: axis.x,
-    y: axis.y,
+    x: widgetData.x,
+    y: widgetData.y,
 
-    left: axis.left,
-    top: axis.top
+    left: widgetData.left,
+    top: widgetData.top
   })
 }
 

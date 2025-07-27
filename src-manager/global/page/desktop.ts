@@ -45,8 +45,24 @@ class BroadcastDesktopClient {
     return this.hook('helloworld', [])
   }
 
-  appendWidget = (id: string, name: string): Promise<{ x: number, y: number, left: number, top: number }> => {
-    return this.hook('appendWidget', [id, name])
+  appendWidget = (
+    id: string,
+    name: string,
+    isDragLock: boolean | null = null,
+    isDisableInteract: boolean | null = null,
+    isAutoHide: boolean | null = null,
+    left: number | null = null,
+    top: number | null = null
+  ): Promise<{
+    isDragLock: boolean,
+    isDisableInteract: boolean,
+    isAutoHide: boolean,
+    x: number,
+    y: number,
+    left: number,
+    top: number
+  }> => {
+    return this.hook('appendWidget', [id, name, isDragLock, isDisableInteract, isAutoHide, left, top])
   }
 
   removeWidget = (id: string): Promise<void> => {
