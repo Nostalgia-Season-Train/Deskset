@@ -44,10 +44,6 @@ export const convertWidgetInTheme = async (data: any) => {
     isAutoHide: typeof data?.isAutoHide == 'boolean' ? data.isAutoHide as boolean : false,
 
     left: typeof data?.left == 'number' ? data.left as number : 0,
-    top: typeof data?.top == 'number' ? data.top as number : 0,
-
-    // 仅用于管理页展示
-    x: typeof data?.x == 'number' ? data.x as number : 0,
-    y: typeof data?.y == 'number' ? data.y as number : 0
+    top: typeof data?.top == 'number' ? data.top as number : 0
   }
 }

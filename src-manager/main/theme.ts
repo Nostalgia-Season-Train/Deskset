@@ -44,3 +44,11 @@ export const saveTheme = async (name: string, data: object, info: object) => {
 export const deleteTheme = async (name: string) => {
   await remove(`./themes/${name}`, { baseDir: BaseDirectory.Resource, recursive: true })
 }
+
+
+/* === 读取主题数据 data.json === */
+export const readThemeData = async (name: string) => {
+  const dataText = await readTextFile(`./themes/${name}/data.json`, { baseDir: BaseDirectory.Resource })
+  const data = JSON.parse(dataText)
+  return data
+}

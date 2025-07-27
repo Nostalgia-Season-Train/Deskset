@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { activeThemeMap } from '#manager/global'
 import { activeWidgetMap } from '#manager/global'
+import desktop from '#manager/global/page/desktop'
 
 const searchText = ref('')
 
@@ -9,8 +10,13 @@ const searchText = ref('')
 /* === 主题创建/删除/应用 === */
 import dayjs from 'dayjs'
 import { message, messageInput } from '#manager/components/Message'
-import { saveTheme as saveThemeFile, deleteTheme as deleteThemeFile } from '#manager/main/theme'
+import {
+  saveTheme as saveThemeFile,
+  deleteTheme as deleteThemeFile,
+  readThemeData as readThemeDataFile
+} from '#manager/main/theme'
 import { convertWidgetInTheme } from '#manager/global'
+import { getWidgetInfo } from '#manager/main/widget'
 
 const saveTheme = async () => {
   const name = await messageInput('保存主题', '', '在此输入主题名称')
@@ -42,6 +48,56 @@ const deleteTheme = async (name: string) => {
 }
 
 const applyTheme = async (name: string) => {
+  const data = await readThemeDataFile(name)
+
+  for (const widgetInThemeFile of data) {
+    const widgetInTheme = await convertWidgetInTheme(widgetInThemeFile)
+    if (widgetInTheme == undefined)
+      return
+
+    // 部件 ID
+    let id = Math.random().toString(16).slice(2)
+    for (let n = 0; n < 10; n++) {
+      if (!activeWidgetMap.has(id))
+        break
+      id = Math.random().toString(16).slice(2)
+    }
+
+    // 部件信息（元数据）
+    const widgetInfo = await getWidgetInfo(name)
+
+    // 部件数据
+    const widgetData = await desktop.appendWidget(
+      id,
+      widgetInTheme.name,
+      widgetInTheme.isDragLock,
+      widgetInTheme.isDisableInteract,
+      widgetInTheme.isAutoHide,
+      widgetInTheme.left,
+      widgetInTheme.top
+    )
+
+    activeWidgetMap.set(id, {
+      id: id,
+
+      title: widgetInTheme.title,
+      name: widgetInTheme.name,
+
+      author: widgetInfo.author,
+      version: widgetInfo.version,
+      descript: widgetInfo.descript,
+
+      isDragLock: widgetData.isDragLock,
+      isDisableInteract: widgetData.isDisableInteract,
+      isAutoHide: widgetData.isAutoHide,
+
+      x: widgetData.x,
+      y: widgetData.y,
+
+      left: widgetData.left,
+      top: widgetData.top
+    })
+  }
 }
 
 
