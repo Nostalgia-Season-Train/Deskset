@@ -8,15 +8,14 @@ refresh()
 
 
 /* === SFC 成员 === */
-import { ref } from 'vue'
-import { Widget } from '#manager/global'
-
-const activeWidgetOnSelect = ref<Widget | null>(null)
+import {
+  activeWidgetMap,
+  activeWidgetOnSelect
+} from '#manager/global'
 
 
 /* === SFC 方法 === */
 import { getWidgetInfo } from '#manager/main/widget'
-import { activeWidgetMap } from '#manager/global'
 
 const appendWidget = async (name: string) => {
   // 生成 ID

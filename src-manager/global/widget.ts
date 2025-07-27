@@ -1,4 +1,4 @@
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 
 export interface Widget {
   id: string
@@ -25,6 +25,8 @@ export interface Widget {
 }
 
 export const activeWidgetMap = reactive(new Map<string, Widget>())
+
+export const activeWidgetOnSelect = ref<Widget | null>(null)  // 选中的部件，在 RightInfo.vue 中操作
 
 
 /* === 主题格式：恢复用户保存的主题 === */

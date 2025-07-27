@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { activeThemeMap } from '#manager/global'
-import { activeWidgetMap } from '#manager/global'
+import { activeWidgetMap, activeWidgetOnSelect } from '#manager/global'
 import desktop from '#manager/global/page/desktop'
 
 const searchText = ref('')
@@ -49,6 +49,13 @@ const deleteTheme = async (name: string) => {
 
 const applyTheme = async (name: string) => {
   const data = await readThemeDataFile(name)
+
+  // 清空当前部件
+  for (const widget of [...activeWidgetMap.values()]) {
+    await desktop.removeWidget(widget.id)
+  }
+  activeWidgetMap.clear()
+  activeWidgetOnSelect.value = null
 
   for (const widgetInThemeFile of data) {
     const widgetInTheme = await convertWidgetInTheme(widgetInThemeFile)
