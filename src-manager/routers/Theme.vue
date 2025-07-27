@@ -64,7 +64,7 @@ const applyTheme = async (name: string) => {
     }
 
     // 部件信息（元数据）
-    const widgetInfo = await getWidgetInfo(name)
+    const widgetInfo = await getWidgetInfo(widgetInTheme.name)
 
     // 部件数据
     const widgetData = await desktop.appendWidget(
