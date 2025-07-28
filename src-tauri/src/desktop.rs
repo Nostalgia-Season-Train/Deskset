@@ -20,6 +20,7 @@ pub fn build(app: &App) -> Result<WebviewWindow, Box<dyn std::error::Error>> {
     let lib = libloading::Library::new("setBottom.dll")?;  // target/debug 目录
     let main: libloading::Symbol<unsafe extern fn(i32, i32) -> i32> = lib.get(b"main")?;
     main((win.hwnd().unwrap()).0 as i32, 0 as i32);
+    println!("HWND: 0x{:08X}", (win.hwnd().unwrap()).0 as usize);  // win11 临时调试用
   }
 
   return Ok(win);
