@@ -29,6 +29,18 @@ const router = createRouter({
 })
 
 
+/* === 创建部件库、主题库 === */
+import { exists, mkdir, BaseDirectory } from '@tauri-apps/plugin-fs'
+
+const isWidgetLibExist = await exists('./widgets', { baseDir: BaseDirectory.Resource })
+if (!isWidgetLibExist)
+  await mkdir('./widgets', { baseDir: BaseDirectory.Resource })
+
+const isThemeLibExist = await exists('./themes', { baseDir: BaseDirectory.Resource })
+if (!isThemeLibExist)
+  await mkdir('./themes', { baseDir: BaseDirectory.Resource })
+
+
 /* ==== 项目全局变量 ==== */
 import { spawnServer, axios } from './global'
 import { error } from '@tauri-apps/plugin-log'

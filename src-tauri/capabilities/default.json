@@ -7,6 +7,7 @@
     "core:default",
     "log:default",
     "opener:default",
+    "fs:allow-exists",
     "fs:allow-mkdir",
     "fs:allow-remove",
     "fs:allow-read-file",
