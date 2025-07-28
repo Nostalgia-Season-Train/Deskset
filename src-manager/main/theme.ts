@@ -6,6 +6,7 @@ import {
   remove,
   BaseDirectory
 } from '@tauri-apps/plugin-fs'
+import { error as logError } from '@tauri-apps/plugin-log'
 import { Theme } from '#manager/global/theme.ts'  // #manager/global 找不到类型声明？原因？
 
 
@@ -15,16 +16,20 @@ export const getThemes = async () => {
 
   let themes: Theme[] = []
   for (const entry of entrys) {
-    if (entry.isDirectory == false)
-      continue
-    const name = entry.name
-    const infoText = await readTextFile(`./themes/${name}/metainfo.json`, { baseDir: BaseDirectory.Resource })
-    const info = JSON.parse(infoText)
-    themes.push({
-      name: name,
-      savetime: info?.savetime ?? '',
-      descript: info?.descript ?? ''
-    })
+    try {
+      if (entry.isDirectory == false)
+        continue
+      const name = entry.name
+      const infoText = await readTextFile(`./themes/${name}/metainfo.json`, { baseDir: BaseDirectory.Resource })
+      const info = JSON.parse(infoText)
+      themes.push({
+        name: name,
+        savetime: info?.savetime ?? '',
+        descript: info?.descript ?? ''
+      })
+    } catch (err) {
+      logError(`Get ${name} theme fail, error: ${err}`)
+    }
   }
   return themes
 }
