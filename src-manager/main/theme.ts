@@ -28,7 +28,7 @@ export const getThemes = async () => {
         descript: info?.descript ?? ''
       })
     } catch (err) {
-      logError(`Get ${name} theme fail, error: ${err}`)
+      logError(`Get ${entry.name} theme fail, error: ${err}`)
     }
   }
   return themes
