@@ -14,11 +14,16 @@ class BroadcastDesktopClient {
 
     return new Promise((resolve, reject) => {
       // 注册 ID 及回调函数
-      this.waiting.set(id, (error: unknown, result: any) => {
-        if (error)
-          reject(error)
-        else
+      this.waiting.set(id, (error: Error, result: any) => {
+        if (error) {
+          const err = new Error()
+          err.name = error.name
+          err.message = error.message
+          err.stack = error?.stack
+          reject(err)
+        } else {
           resolve(result)
+        }
       })
 
       // 发送请求

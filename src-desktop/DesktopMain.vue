@@ -148,7 +148,19 @@ const onReceive = async (msg: MessageEvent) => {
   try {
     result = await (actions as any)[request.funcName](...request.funcArgs)
   } catch (err) {
-    error = err
+    if (err instanceof Error) {
+      error = {
+        name: err.name,
+        message: err.message,
+        stack: err?.stack
+      }
+    } else {
+      error = {
+        name: 'unknown error',
+        message: 'unknown error type',
+        stack: undefined
+      }
+    }
   }
 
   broadcast.postMessage(
