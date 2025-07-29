@@ -81,6 +81,21 @@ for (const theme of themes) {
   activeThemeMap.set(theme.name, theme)
 }
 
+// 处理 Desktop 单向消息
+import { activeWidgetMap } from './global'
+
+const broadcast = new BroadcastChannel('DesktopSend')
+
+// - [ ] 优化？防抖节流 & 新开线程
+broadcast.onmessage = (ev) => {
+  const data = ev.data
+  const widget = activeWidgetMap.get(data.id)
+  widget!.x = data.x
+  widget!.y = data.y
+  widget!.left = data.left
+  widget!.top = data.top
+}
+
 
 /* ==== 应用 ==== */
 import { createApp } from 'vue'

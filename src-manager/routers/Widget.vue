@@ -82,20 +82,6 @@ const selectActiveWidget = async (id: string) => {
 }
 
 
-/* === Desktop 单向信息 === */
-const broadcast = new BroadcastChannel('DesktopSend')
-
-// - [ ] 优化？防抖节流 & 新开线程
-broadcast.onmessage = (ev) => {
-  const data = ev.data
-  const widget = activeWidgetMap.get(data.id)
-  widget!.x = data.x
-  widget!.y = data.y
-  widget!.left = data.left
-  widget!.top = data.top
-}
-
-
 /* === 子组件 === */
 import Menu from './Widget/Left1stMenu.vue'
 import List from './Widget/Left2ndList.vue'
