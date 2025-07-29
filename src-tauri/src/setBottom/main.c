@@ -8,8 +8,10 @@ BOOL CALLBACK findDefView(HWND hWnd, LPARAM lParam) {
   WCHAR lpClassName[256];
   GetClassNameW(hWnd, lpClassName, 256);
 
-  // 2、判断窗口类名，是不是 WorkerW
-  if (wcscmp(lpClassName, L"WorkerW") == 0) {
+  // 2、判断窗口类名
+    // win10：WorkerW
+    // win11：Progman
+  if (wcscmp(lpClassName, L"WorkerW") == 0 || wcscmp(lpClassName, L"Progman") == 0) {
     // 3、如果是，查找 DefView
     HWND hDefView = FindWindowExW(hWnd, 0, L"SHELLDLL_DefView", 0);
 
