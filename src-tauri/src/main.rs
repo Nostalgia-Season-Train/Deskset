@@ -9,6 +9,7 @@ use tauri::{
   WebviewWindowBuilder, WebviewUrl, WindowEvent
 };
 use tauri_utils::{WindowEffect, config::WindowEffectsConfig};
+use log;
 
 mod desktop;
 
@@ -74,7 +75,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 
   /* === 桌面窗口 === */
-  let _desktop_win = desktop::build(&app)?;
+  let _desktop_win = desktop::build(&app)
+  .map_err(|e| {
+    log::error!("Build desktop win fail, error: {}", e);
+    e  // 向上继续传递错误
+  })?;
 
 
   /* === 管理窗口 === */
