@@ -4,6 +4,9 @@
   "version": "0.1.0",
   "type": "module",
   "imports": {
+    "#element-plus/*": [
+      "./src-component/element-plus/*"
+    ],
     "#shadcn/*": [
       "./src-component/shadcn/*"
     ],

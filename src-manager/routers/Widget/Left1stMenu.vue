@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 /* === 子组件 === */
-import { ElScrollbar } from 'element-plus'
+import ElScrollbar from '#element-plus/ElScrollbar.vue'
 import { Plus } from 'lucide-vue-next'
 import Button from '#manager/components/Button.vue'
 
@@ -41,11 +41,11 @@ onUnmounted(() => { if (isOpen.value) closeMenu() })  // 一并卸载 closeMenu
   </div>
 
   <div v-if="isOpen" class="menu">
-    <el-scrollbar>
+    <ElScrollbar>
       <div v-for="option in options" @click="$emit('select', option)" class="option">
         {{ option }}
       </div>
-    </el-scrollbar>
+    </ElScrollbar>
   </div>
 
 </div>
@@ -64,9 +64,6 @@ onUnmounted(() => { if (isOpen.value) closeMenu() })  // 一并卸载 closeMenu
 
     // ElScrollbar 高度自适应
     overflow: hidden;
-    :deep(.el-scrollbar__thumb) {
-      display: none;
-    }
 
     .option {
       color: #FFF;

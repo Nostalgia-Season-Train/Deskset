@@ -109,7 +109,7 @@ const applyTheme = async (name: string) => {
 
 
 /* === 组件 === */
-import { ElScrollbar } from 'element-plus'
+import ElScrollbar from '#element-plus/ElScrollbar.vue'
 import Button from '#manager/components/Button.vue'
 import Input from '#manager/components/Input.vue'
 </script>
@@ -124,7 +124,7 @@ import Input from '#manager/components/Input.vue'
   </div>
 
   <div class="themes-wrapper">
-    <el-scrollbar>
+    <ElScrollbar>
       <div class="themes" v-for="theme in Array.from(activeThemeMap.values())">
         <div class="theme" v-if="searchText == '' || theme.name.includes(searchText)">
           <div class="left">
@@ -139,7 +139,7 @@ import Input from '#manager/components/Input.vue'
           </div>
         </div>
       </div>
-    </el-scrollbar>
+    </ElScrollbar>
   </div>
 
   <div class="prompt" v-if="activeThemeMap.size == 0"><!-- 可选链访问：themes 挂载后赋值 -->
@@ -164,11 +164,6 @@ import Input from '#manager/components/Input.vue'
   flex-direction: column;
   .themes-wrapper {
     overflow: hidden;
-  }
-
-  // 去掉 ElScrollbar 滚动条
-  :deep(.el-scrollbar__thumb) {
-    display: none;
   }
 }
 

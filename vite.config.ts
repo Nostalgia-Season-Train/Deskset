@@ -31,6 +31,7 @@ export default defineConfig(async () => ({
 
   resolve: {
     alias: {
+      '#element-plus': path.resolve(__dirname, 'src-component/element-plus'),
       '#shadcn': path.resolve(__dirname, 'src-component/shadcn'),
       '#manager': path.resolve(__dirname, 'src-manager')
     }

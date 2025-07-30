@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ElScrollbar } from 'element-plus'
+import ElScrollbar from '#element-plus/ElScrollbar.vue'
 
 import { openBrowser } from '#manager/main/tauri'
 const openReleasePage = () => {
@@ -9,7 +9,7 @@ const openReleasePage = () => {
 
 
 <template>
-<el-scrollbar>
+<ElScrollbar>
 <div class="container">
 
   <div class="center">
@@ -45,16 +45,11 @@ const openReleasePage = () => {
   <div>QQ 群：770889923</div>
 
 </div>
-</el-scrollbar>
+</ElScrollbar>
 </template>
 
 
 <style lang="less" scoped>
-/* 去掉滚动条 */
-:deep(.el-scrollbar__thumb) {
-  display: none;
-}
-
 .container {
   padding: 0 10px;
   color: white;
