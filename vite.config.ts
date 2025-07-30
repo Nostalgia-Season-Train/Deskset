@@ -33,6 +33,7 @@ export default defineConfig(async () => ({
     alias: {
       '#element-plus': path.resolve(__dirname, 'src-component/element-plus'),
       '#shadcn': path.resolve(__dirname, 'src-component/shadcn'),
+      '#desksetui': path.resolve(__dirname, 'src-component/desksetui'),
       '#manager': path.resolve(__dirname, 'src-manager')
     }
   },

@@ -12,8 +12,8 @@ const emit = defineEmits([
 
 
 /* === 子组件 === */
-import Button from '#manager/components/Button.vue'
-import Switch from '#manager/components/SwitchBrief.vue'
+import Button from '#desksetui/Button.vue'
+import Switch from '#desksetui/SwitchBrief.vue'
 </script>
 
 

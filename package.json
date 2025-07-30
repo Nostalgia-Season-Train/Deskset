@@ -4,15 +4,10 @@
   "version": "0.1.0",
   "type": "module",
   "imports": {
-    "#element-plus/*": [
-      "./src-component/element-plus/*"
-    ],
-    "#shadcn/*": [
-      "./src-component/shadcn/*"
-    ],
-    "#manager/*": [
-      "./src-manager/*"
-    ]
+    "#element-plus/*": ["./src-component/element-plus/*"],
+    "#shadcn/*": ["./src-component/shadcn/*"],
+    "#desksetui/*": ["./src-component/desksetui/*"],
+    "#manager/*": ["./src-manager/*"]
   },
   "scripts": {
     "run": "tauri dev",

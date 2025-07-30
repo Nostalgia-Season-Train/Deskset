@@ -9,7 +9,7 @@ const searchText = ref('')
 
 /* === 主题创建/删除/应用 === */
 import dayjs from 'dayjs'
-import { message, messageInput } from '#manager/components/Message'
+import { message, messageInput } from '#desksetui/Message'
 import {
   saveTheme as saveThemeFile,
   deleteTheme as deleteThemeFile,
@@ -110,8 +110,8 @@ const applyTheme = async (name: string) => {
 
 /* === 组件 === */
 import ElScrollbar from '#element-plus/ElScrollbar.vue'
-import Button from '#manager/components/Button.vue'
-import Input from '#manager/components/Input.vue'
+import Button from '#desksetui/Button.vue'
+import Input from '#desksetui/Input.vue'
 </script>
 
 

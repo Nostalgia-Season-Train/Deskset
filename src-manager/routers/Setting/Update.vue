@@ -20,7 +20,7 @@ const octokit = new Octokit({
 import { getVersion } from '@tauri-apps/api/app'
 import semver from 'semver'  // 比较版本大小，遵循语义化版本
 import { updateDeskset } from '#manager/child'
-import { message } from '#manager/components/Message'
+import { message } from '#desksetui/Message'
 
 const getReleasesLatest = async () => {
   try {
@@ -72,8 +72,8 @@ const getReleasesLatest = async () => {
 
 
 /* === 组件 === */
-import Button from '#manager/components/Button.vue'
-import Switch from '#manager/components/Switch.vue'
+import Button from '#desksetui/Button.vue'
+import Switch from '#desksetui/Switch.vue'
 </script>
 
 

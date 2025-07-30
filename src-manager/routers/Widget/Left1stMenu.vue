@@ -2,7 +2,7 @@
 /* === 子组件 === */
 import ElScrollbar from '#element-plus/ElScrollbar.vue'
 import { Plus } from 'lucide-vue-next'
-import Button from '#manager/components/Button.vue'
+import Button from '#desksetui/Button.vue'
 
 
 /* === 选项 === */
