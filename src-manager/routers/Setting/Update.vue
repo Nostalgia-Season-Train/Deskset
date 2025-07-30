@@ -81,7 +81,7 @@ import Switch from '#desksetui/Switch.vue'
 <div>
   <div class="option">
     <div class="left">
-      <div class="name">软件更新</div>
+      <div class="name">检查更新</div>
       <div class="description">检查数字桌搭最新版本</div>
     </div>
     <div class="right">
@@ -117,7 +117,7 @@ import Switch from '#desksetui/Switch.vue'
 
 <style lang="less" scoped>
 .option {
-  margin: 10px 10px 0 10px;
+  margin: 0 10px 0 10px;
 
   display: flex;
   justify-content: space-between;

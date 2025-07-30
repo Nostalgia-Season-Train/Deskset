@@ -1,15 +1,19 @@
 <script setup>
-import { ElScrollbar, ElButton, ElIcon, ElInput } from 'element-plus'
 import Update from './Setting/Update.vue'
+
+/* === 子组件 === */
+import ElScrollbar from '#element-plus/ElScrollbar.vue'
+import Divider from '#desksetui/Divider.vue'
 </script>
 
 
 <template>
-<el-scrollbar>
+<ElScrollbar>
 
+  <Divider>软件更新</Divider>
   <Update />
 
-</el-scrollbar>
+</ElScrollbar>
 </template>
 
 
