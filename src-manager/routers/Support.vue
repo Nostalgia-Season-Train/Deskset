@@ -1,5 +1,5 @@
 <script setup>
-import { openBrowser as tauriOpenBrowser } from '../tauri'
+import { openBrowser as tauriOpenBrowser } from '#manager/main/tauri'
 
 const openBrowser = (url) => {
   tauriOpenBrowser(url)

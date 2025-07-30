@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ElScrollbar } from 'element-plus'
 
-import { openBrowser } from '#manager/tauri.ts'
+import { openBrowser } from '#manager/main/tauri'
 const openReleasePage = () => {
   openBrowser("https://github.com/Nostalgia-Season-Train/Deskset")
 }
