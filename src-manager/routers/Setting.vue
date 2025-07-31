@@ -1,4 +1,6 @@
 <script setup>
+import Common from './Setting/Common.vue'
+import Server from './Setting/Server.vue'
 import Update from './Setting/Update.vue'
 
 /* === 子组件 === */
@@ -10,28 +12,14 @@ import Divider from '#desksetui/Divider.vue'
 <template>
 <ElScrollbar>
 
+  <Divider>通用选项</Divider>
+  <Common/>
+
+  <Divider>服务器配置</Divider>
+  <Server/>
+
   <Divider>软件更新</Divider>
-  <Update />
+  <Update/>
 
 </ElScrollbar>
 </template>
-
-
-<style scoped>
-.option {
-  margin: 10px 10px 0 10px;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.option>.word>.name {
-  font-size: 16px;
-  color: black;
-}
-.option>.word>.description {
-  font-size: 14px;
-  color: gray;
-}
-</style>

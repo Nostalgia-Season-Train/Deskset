@@ -73,7 +73,7 @@ input {
 
     // 输入文字样式
     color: #FFF;
-    font-size: 16px;
+    font-size: 15px;
   }
   .bottom-border {
     position: absolute;
