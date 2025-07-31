@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import ElScrollbar from '#element-plus/ElScrollbar.vue'
+import Scrollbar from '#desksetui/Scrollbar.vue'
 
 import { openBrowser } from '#manager/main/tauri'
 const openReleasePage = () => {
@@ -9,7 +9,7 @@ const openReleasePage = () => {
 
 
 <template>
-<ElScrollbar>
+<Scrollbar>
 <div class="container">
 
   <div class="center">
@@ -45,7 +45,7 @@ const openReleasePage = () => {
   <div>QQ 群：770889923</div>
 
 </div>
-</ElScrollbar>
+</Scrollbar>
 </template>
 
 

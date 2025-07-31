@@ -4,13 +4,13 @@ import Server from './Setting/Server.vue'
 import Update from './Setting/Update.vue'
 
 /* === 子组件 === */
-import ElScrollbar from '#element-plus/ElScrollbar.vue'
+import Scrollbar from '#desksetui/Scrollbar.vue'
 import Divider from '#desksetui/Divider.vue'
 </script>
 
 
 <template>
-<ElScrollbar>
+<Scrollbar>
 
   <Divider>通用选项</Divider>
   <Common/>
@@ -21,5 +21,5 @@ import Divider from '#desksetui/Divider.vue'
   <Divider>软件更新</Divider>
   <Update/>
 
-</ElScrollbar>
+</Scrollbar>
 </template>
