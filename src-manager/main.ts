@@ -72,7 +72,7 @@ if (isDevEnv) {
   axios.defaults.baseURL = 'http://127.0.0.1:6527'
 }
 
-// 初始化当前主题哈希表
+/* --- 初始化当前主题哈希表 --- */
 import { activeThemeMap } from './global'
 import { getThemes } from './main/theme'
 
@@ -95,6 +95,17 @@ broadcast.onmessage = (ev) => {
   widget!.left = data.left
   widget!.top = data.top
 }
+
+/* --- 初始化配置 --- */
+import { config } from './global'
+
+try {
+  let timeout = 1000
+  if (isDevEnv) timeout = 100  // 开发环境可能没有启动服务器，缩短超时时间，加快 main 加载速度
+  config.server_port = (await axios.get('/v0/config/server-port', { timeout: timeout })).data.result
+  config.username = (await axios.get('/v0/config/username', { timeout: timeout })).data.result
+  config.password = (await axios.get('/v0/config/password', { timeout: timeout })).data.result
+} catch {}
 
 
 /* ==== 应用 ==== */
