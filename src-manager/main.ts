@@ -98,6 +98,9 @@ broadcast.onmessage = (ev) => {
 
 /* --- 初始化配置 --- */
 import { config } from './global'
+import { isEnabled } from '@tauri-apps/plugin-autostart'
+
+config.isAutostart = await isEnabled()  // 是否注册开机启动
 
 try {
   let timeout = 1000

@@ -1,8 +1,19 @@
 <script lang="ts" setup>
 import { config } from '#manager/global'
+import { enable, disable, isEnabled } from '@tauri-apps/plugin-autostart'
+
+const switchAutostart = async () => {
+  if (config.isAutostart) {
+    await disable()
+    config.isAutostart = await isEnabled()
+  } else {
+    await enable()
+    config.isAutostart = await isEnabled()
+  }
+}
 
 /* === 子组件 === */
-import Switch from '#desksetui/Switch.vue'
+import SwitchBrief from '#desksetui/SwitchBrief.vue'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,7 +34,7 @@ import Button from '#desksetui/Button.vue'
       <div class="description">是否开机自动运行</div>
     </div>
     <div class="right">
-      <Switch v-model="config.isAutostart"/>
+      <SwitchBrief v-model="config.isAutostart" @click="switchAutostart"/>
     </div>
   </div>
 
