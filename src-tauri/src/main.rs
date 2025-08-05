@@ -34,6 +34,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
       tauri_plugin_autostart::MacosLauncher::LaunchAgent,
       None
     ))
+    .plugin(tauri_plugin_process::init())
     .build(tauri::generate_context!())
     .expect("error while running tauri application");
 
