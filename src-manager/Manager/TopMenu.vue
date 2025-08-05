@@ -1,7 +1,17 @@
 <script lang="ts" setup>
 import { Icon } from '@iconify/vue'
+import { exit } from '@tauri-apps/plugin-process'
 
 import win from '#manager/global/win/manager'
+import { config } from '#manager/global'
+
+const clickCloseButton = async () => {
+  if (config.closeBehavior == 'hide') {
+    await win.hide()
+  } else {
+    await exit(0)
+  }
+}
 </script>
 
 
@@ -16,7 +26,7 @@ import win from '#manager/global/win/manager'
     <span><Icon icon="lucide:messages-square"/></span>
     <span @click="win.minimize()"><Icon icon="lucide:minus" style="width: 18px; height: 18px;"/></span>
     <span><Icon icon="lucide:square" style="width: 14px; height: 14px;"/></span>
-    <span @click="win.hide()" style="--hover-color: #D32F2FD0;"><Icon icon="lucide:x"/></span>
+    <span @click="clickCloseButton" style="--hover-color: #D32F2FD0;"><Icon icon="lucide:x"/></span>
   </div>
 
 </div>

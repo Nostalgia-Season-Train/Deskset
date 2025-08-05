@@ -1,8 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
-
-const isAutostart = ref(false)
-const closeBehavior = ref('隐藏')
+import { config } from '#manager/global'
 
 /* === 子组件 === */
 import Switch from '#desksetui/Switch.vue'
@@ -26,7 +23,7 @@ import Button from '#desksetui/Button.vue'
       <div class="description">是否开机自动运行</div>
     </div>
     <div class="right">
-      <Switch v-model="isAutostart"/>
+      <Switch v-model="config.isAutostart"/>
     </div>
   </div>
 
@@ -38,12 +35,12 @@ import Button from '#desksetui/Button.vue'
     <div class="right">
       <DropdownMenu>
         <DropdownMenuTrigger as-child>
-          <Button>{{ closeBehavior }}</Button>
+          <Button>{{ config.closeBehavior == 'hide' ? '隐藏' : '退出' }}</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent class="w-56">
-          <DropdownMenuRadioGroup v-model="closeBehavior">
-            <DropdownMenuRadioItem value="隐藏">最小化到系统托盘</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="退出">退出应用</DropdownMenuRadioItem>
+          <DropdownMenuRadioGroup v-model="config.closeBehavior">
+            <DropdownMenuRadioItem value="hide">最小化到系统托盘</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="exit">退出应用</DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
         </DropdownMenuContent>
       </DropdownMenu>
