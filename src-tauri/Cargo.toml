@@ -36,3 +36,6 @@ serde_json = "1"
 
 # --- 杂项 ---
 libloading = "0.7.4"  # 加载 DLL 库
+
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+tauri-plugin-autostart = "2"

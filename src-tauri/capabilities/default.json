@@ -43,6 +43,9 @@
         "cmd": "DesksetUpdater.exe",
         "args": ["-file", { "validator": "\\S+" }]
       }]
-    }
+    },
+    "autostart:allow-enable",
+    "autostart:allow-disable",
+    "autostart:allow-is-enabled"
   ]
 }
