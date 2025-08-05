@@ -33,7 +33,7 @@
     "@fullcalendar/vue3": "^6.1.15",
     "@iconify/vue": "^4.3.0",
     "@tailwindcss/vite": "^4.1.11",
-    "@tauri-apps/api": "^2.3.0",
+    "@tauri-apps/api": "^2.7.0",
     "@tauri-apps/plugin-fs": "^2.2.0",
     "@tauri-apps/plugin-http": "^2.4.3",
     "@tauri-apps/plugin-log": "^2.4.0",
@@ -66,7 +66,7 @@
     "vue3-sfc-loader": "^0.9.5"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^2.3.1",
+    "@tauri-apps/cli": "^2.7.1",
     "@types/node": "^22.10.10",
     "@vitejs/plugin-vue": "^5.2.1",
     "less": "^4.2.2",
