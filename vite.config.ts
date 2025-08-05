@@ -8,7 +8,6 @@ import tailwindcss from '@tailwindcss/vite'
 
 
 /* === 全局变量 === */
-// @ts-expect-error process is a nodejs global
 const host = process.env.TAURI_DEV_HOST;
 
 
@@ -24,6 +23,17 @@ export default defineConfig(async () => ({
         manager: path.resolve(__dirname, 'manager.html'),
         desktop: path.resolve(__dirname, 'desktop.html'),
         float: path.resolve(__dirname, 'float.html')
+      },
+      output: {
+        entryFileNames: 'assets/[name].js',  // 入口文件（主函数）
+        chunkFileNames: 'assets/[name].js',  // 代码分块（模块）
+        assetFileNames: 'assets/[name].[ext]',  // 静态资源
+        manualChunks(path: string) {
+          if (path.includes('node_modules')) {
+            const packageName = path.match(/node_modules\/([^/]+)/)[1]  // 匹配 node_modules/packageName/
+            return `node/${packageName}`
+          }
+        }
       }
     },
     target: 'es2022'  // 支持顶级 await 的环境，使用 await 时不用 async 包裹
