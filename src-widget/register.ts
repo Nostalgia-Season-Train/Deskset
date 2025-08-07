@@ -1,7 +1,7 @@
 export const prefixMark = '/@Deskset/'
 
 export const inlineRawWidgetMap = new Map([
-  [`${prefixMark}简单时间：24时`, {
+  [`${prefixMark}数字时钟`, {
     // @ts-ignore
     main: () => import('/src-widget/时间日期/简单时间：24时.vue'),
     metainfo: {

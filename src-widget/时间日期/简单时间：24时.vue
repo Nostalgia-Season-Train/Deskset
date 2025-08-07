@@ -1,12 +1,12 @@
-<script setup>
-import { reactive, inject } from 'vue'
+<script lang="ts" setup>
+import { reactive } from 'vue'
+import dayjs from 'dayjs'
 
 const time = reactive({ hour: '00', minute: '00' })
-const axios = inject('$axios')
 const refresh = async () => {
-  const result = (await axios.get('/v0/datetime/time')).data.result
-  time.hour = result.hour
-  time.minute = result.minute
+  const now = dayjs()
+  time.hour = now.format('HH')
+  time.minute = now.format('mm')
 }
 
 
@@ -15,7 +15,6 @@ import { useIntervalFn } from '@vueuse/core'
 
 // 1、await 以便 onErrorCaptured 接住错误
 // 2、不要用 onMounted，会使 useIntervalFn 自动清理失效
-await refresh()
 useIntervalFn(refresh, 250)
 </script>
 
@@ -27,8 +26,14 @@ useIntervalFn(refresh, 250)
 </template>
 
 
-<style scoped>
+<style lang="less" scoped>
 .time {
+  // 限制空白区域，最大高度 80px
+  height: 80px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+
   color: white;
 }
 
