@@ -15,50 +15,7 @@ import {
 
 
 /* === SFC 方法 === */
-import { getWidgetInfo } from '#manager/main/widget'
-
-const appendWidget = async (name: string) => {
-  // 生成 ID
-  let id = Math.random().toString(16).slice(2)
-
-  for (let n = 0; n < 10; n++) {
-    if (!activeWidgetMap.has(id))
-      break
-    id = Math.random().toString(16).slice(2)
-  }
-
-  if (activeWidgetMap.has(id))
-    return  // - [ ] 改成 Error
-
-  // 添加部件
-  const widgetInfo = await getWidgetInfo(name)
-
-  if (widgetInfo == undefined)
-    return  // - [ ] 改成 Error
-
-  const widgetData = await desktop.appendWidget(id, name)  // 等待桌面添加部件
-
-  activeWidgetMap.set(id, {
-    id: id,
-
-    title: name,  // 归属 widget 下哪种数据？
-    name: name,
-
-    author: widgetInfo.author,
-    version: widgetInfo.version,
-    descript: widgetInfo.descript,
-
-    isDragLock: widgetData.isDragLock,
-    isDisableInteract: widgetData.isDisableInteract,
-    isAutoHide: widgetData.isAutoHide,
-
-    x: widgetData.x,
-    y: widgetData.y,
-
-    left: widgetData.left,
-    top: widgetData.top
-  })
-}
+import { appendWidget } from '#manager/main/widget'
 
 const removeWidget = async (id: string) => {
   await desktop.removeWidget(id)

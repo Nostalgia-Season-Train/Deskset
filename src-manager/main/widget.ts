@@ -36,3 +36,68 @@ export const getWidgetInfo = async (name: string) => {
     }
   }
 }
+
+
+/* === 添加部件 === */
+import desktop from '#manager/global/page/desktop'
+import { activeWidgetMap } from '#manager/global'
+
+export const appendWidget = async (
+  // 部件名称
+  name: string,
+
+  // 用于桌面页：部件属性、位置
+  isDragLock: boolean | null = null,
+  isDisableInteract: boolean | null = null,
+  isAutoHide: boolean | null = null,
+  left: number | null = null,
+  top: number | null = null,
+
+  // 用于管理页：部件标题（用户自定义，默认等于部件名称）
+  title: string | null = null
+) => {
+  // 1、生成 ID
+  let id = Math.random().toString(16).slice(2)
+
+  while (true) {
+    if (!activeWidgetMap.has(id))
+      break
+    id = Math.random().toString(16).slice(2)
+  }
+
+  // 2、获取部件信息（元数据）
+  const widgetInfo = await getWidgetInfo(name)
+
+  // 3、桌面添加部件 > 返回部件数据
+  const widgetData = await desktop.appendWidget(
+    id,
+    name,
+    isDragLock,
+    isDisableInteract,
+    isAutoHide,
+    left,
+    top
+  )
+
+  // 4、记录部件
+  activeWidgetMap.set(id, {
+    id: id,
+
+    title: title ?? name,
+    name: name,
+
+    author: widgetInfo.author,
+    version: widgetInfo.version,
+    descript: widgetInfo.descript,
+
+    isDragLock: widgetData.isDragLock,
+    isDisableInteract: widgetData.isDisableInteract,
+    isAutoHide: widgetData.isAutoHide,
+
+    x: widgetData.x,
+    y: widgetData.y,
+
+    left: widgetData.left,
+    top: widgetData.top
+  })
+}
