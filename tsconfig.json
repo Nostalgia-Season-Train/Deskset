@@ -26,7 +26,8 @@
       "#element-plus/*": ["src-component/element-plus/*"],
       "#shadcn/*": ["src-component/shadcn/*"],
       "#desksetui/*": ["src-component/desksetui/*"],
-      "#manager/*": ["src-manager/*"]
+      "#manager/*": ["src-manager/*"],
+      "#widget/*": ["src-widget/*"]
     },
 
     /* Vite 类型声明 */

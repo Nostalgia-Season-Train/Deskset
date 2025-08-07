@@ -15,6 +15,9 @@
     ],
     "#manager/*": [
       "./src-manager/*"
+    ],
+    "#widget/*": [
+      "./src-widget/*"
     ]
   },
   "scripts": {
