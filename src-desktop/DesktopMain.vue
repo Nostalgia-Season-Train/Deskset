@@ -18,6 +18,7 @@ const desktopMain = useTemplateRef('desktopMain')
 /* === SFC 方法 === */
 import { h, render, defineAsyncComponent } from 'vue'
 import { compile } from './main/compile'
+import { inlineRawWidgetMap, prefixMark } from '#widget/register'
 
 const appendWidget = async (
   id: string,
@@ -28,17 +29,27 @@ const appendWidget = async (
   left: number | null,
   top: number | null
 ) => {
-  const code = await compile(id, name)
+  let url: any  // ts 在某些位置无法确定 url 类型，原因未知...
+  let component
+  let style
 
-  const blob = new Blob([code.js], { type: 'text/javascript' })
-  const url = URL.createObjectURL(blob)
-  const component = defineAsyncComponent(() => import(/* @vite-ignore */url))
+  if (name.startsWith(prefixMark)) {
+    url = null
+    component = defineAsyncComponent(inlineRawWidgetMap.get(name)!.main)
+    style = null
+  } else {
+    const code = await compile(id, name)
 
-  const style = Object.assign(document.createElement('style'), {
-    textContent: code.css,
-    type: 'text/css'
-  })
-  document.head.appendChild(style)
+    const blob = new Blob([code.js], { type: 'text/javascript' })
+    url = URL.createObjectURL(blob)
+    component = defineAsyncComponent(() => import(/* @vite-ignore */url))
+
+    style = Object.assign(document.createElement('style'), {
+      textContent: code.css,
+      type: 'text/css'
+    })
+    document.head.appendChild(style)
+  }
 
   // 0、挂载等待
   let mountSignal: Function
@@ -54,7 +65,9 @@ const appendWidget = async (
   container.style.left = '0px'
   container.style.top = '0px'
   render(vnode, container)
-  URL.revokeObjectURL(url)  // - [ ] NodeJS 不会析构 url，浏览器环境是否可以？
+  if (url != null) {
+    URL.revokeObjectURL(url)  // - [ ] NodeJS 不会析构 url，浏览器环境是否可以？
+  }
 
   // 2、添加监听器
   const drag = dragAndDrop(container)
@@ -108,7 +121,9 @@ const removeWidget = async (id: string) => {
   }
   render(null, widget!.container)
   desktopMain.value!.removeChild(widget!.container)
-  document.head.removeChild(widget!.style)
+  if (widget!.style != null) {
+    document.head.removeChild(widget!.style)
+  }
 
   activeWidgetMap.delete(id)
 }

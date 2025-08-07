@@ -2,7 +2,7 @@ import { readDir, readTextFile, BaseDirectory } from '@tauri-apps/plugin-fs'
 import { error as logError } from '@tauri-apps/plugin-log'
 
 
-/* === 返回部件名称列表 === */
+/* === 从 widget 库：返回部件名称列表 === */
 export const getWidgetNameList = async (): Promise<string[]> => {
   const entrys = await readDir('./widgets', { baseDir: BaseDirectory.Resource })
 
@@ -15,7 +15,7 @@ export const getWidgetNameList = async (): Promise<string[]> => {
 }
 
 
-/* === 返回部件信息（元数据） === */
+/* === 从 widget 库：返回部件信息（元数据） === */
 export const getWidgetInfo = async (name: string) => {
   try {
     const text = await readTextFile(`./widgets/${name}/metainfo.json`, { baseDir: BaseDirectory.Resource })
@@ -41,6 +41,7 @@ export const getWidgetInfo = async (name: string) => {
 /* === 添加部件 === */
 import desktop from '#manager/global/page/desktop'
 import { activeWidgetMap } from '#manager/global'
+import { inlineRawWidgetMap, prefixMark } from '#widget/register'
 
 export const appendWidget = async (
   // 部件名称
@@ -66,7 +67,7 @@ export const appendWidget = async (
   }
 
   // 2、获取部件信息（元数据）
-  const widgetInfo = await getWidgetInfo(name)
+  const widgetInfo = name.startsWith(prefixMark) ? inlineRawWidgetMap.get(name)!.metainfo : await getWidgetInfo(name)
 
   // 3、桌面添加部件 > 返回部件数据
   const widgetData = await desktop.appendWidget(
@@ -83,7 +84,7 @@ export const appendWidget = async (
   activeWidgetMap.set(id, {
     id: id,
 
-    title: title ?? name,
+    title: title ?? name.startsWith(prefixMark) ? name.replace(prefixMark, '') : name,
     name: name,
 
     author: widgetInfo.author,

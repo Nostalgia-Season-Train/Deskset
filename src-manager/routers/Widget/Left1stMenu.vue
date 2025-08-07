@@ -14,12 +14,13 @@ const options = ref<string[]>()
 /* === 菜单 === */
 import { onUnmounted } from 'vue'
 import { getWidgetNameList } from '#manager/main/widget'
+import { inlineWidgetList, prefixMark } from '#widget/register'
 
 const isOpen = ref(false)  // 是否打开 Menu
 
 const openMenu = async () => {
   if (isOpen.value) return  // 防止重复挂载 closeMenu
-  options.value = await getWidgetNameList()
+  options.value = [...inlineWidgetList, ...await getWidgetNameList()]
   isOpen.value = true
   setTimeout(() => document.addEventListener('click', closeMenu), 100)
 }
@@ -43,7 +44,7 @@ onUnmounted(() => { if (isOpen.value) closeMenu() })  // 一并卸载 closeMenu
   <div v-if="isOpen" class="menu">
     <ElScrollbar>
       <div v-for="option in options" @click="$emit('select', option)" class="option">
-        {{ option }}
+        {{ option.startsWith(prefixMark) ? option.replace(prefixMark, '') : option }}
       </div>
     </ElScrollbar>
   </div>

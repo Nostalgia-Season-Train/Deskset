@@ -4,7 +4,7 @@ export interface Widget {
   id: string
 
   container: HTMLDivElement
-  style: HTMLStyleElement
+  style: HTMLStyleElement | null  // null：内联部件（开发时 Vite 构建打包，而非发布后编译导入）不需要 style 标签
   listens: { event: string, func: any }[]
 }
 

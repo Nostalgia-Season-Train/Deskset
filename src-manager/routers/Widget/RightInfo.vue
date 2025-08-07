@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { Widget } from '#manager/global'
+import { prefixMark } from '#widget/register'
 
 const widget = defineModel<Widget>({ required: true })
 
@@ -29,7 +30,7 @@ import Switch from '#desksetui/SwitchBrief.vue'
         <div class="btn"><Button>定位</Button></div>
       </div>
     </div>
-    <div class="name">{{ widget.name }}</div>
+    <div class="name">{{ widget.name.startsWith(prefixMark) ? widget.name.replace(prefixMark, '') : widget.name }}</div>
     <div class="author">{{ widget.author }}</div>
     <div class="version">{{ widget.version }}</div>
     <div class="descript">{{ widget.descript }}</div>
