@@ -55,10 +55,10 @@ onMounted(() => {
 
     // 翻转时，topHalf、bottomFlip 视作新面，topFlip、bottomHalf 视作旧面
     topFlip.textContent = oldNum
-    topFlip.addEventListener('animationstart', ev => topHalf.textContent = newNum)
-    topFlip.addEventListener('animationend', ev => topFlip.remove())
+    topFlip.addEventListener('animationstart', () => topHalf.textContent = newNum)
+    topFlip.addEventListener('animationend', () => topFlip.remove())
     bottomFlip.textContent = newNum
-    bottomFlip.addEventListener('animationend', ev => {
+    bottomFlip.addEventListener('animationend', () => {
       bottomHalf.textContent = newNum
       bottomFlip.remove()
     })
@@ -108,8 +108,10 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .container {
+  width: 480px;  // 固定宽度，否则桌面边缘将会挤压元素布局
   display: flex;
-  gap: 50px;
+  justify-content: space-between;
+  // gap: 50px;  // 时、分、秒间距（目前采用 space-between 自然调整间距）
 
   * {
     box-sizing: border-box;
@@ -119,6 +121,9 @@ onMounted(() => {
 }
 
 .segment {
+  display: flex;
+  gap: 5px;  // 十位、个位间距
+
   .flip-card {
     position: relative;
     display: inline-flex;
@@ -136,9 +141,20 @@ onMounted(() => {
       align-items: flex-end;
     }
 
-    div { color: #E0E0E0; font-size: 5vw; }
-    .top, .top-flip { background-color: #212121; }
-    .bottom, .bottom-flip { background-color: #757575; }
+    div {
+      color: #E0E0E0;
+      font-size: 4vw;  // 字体大小，间接调整卡片大小
+    }
+    // 上半部分边框背景
+    .top, .top-flip {
+      border-radius: .07em .07em 0 0;
+      background-color: #212121;
+    }
+    // 下半部分边框背景
+    .bottom, .bottom-flip {
+      border-radius: 0 0 .07em .07em;
+      background-color: #757575;
+    }
   }
 }
 

@@ -9,7 +9,16 @@ export const inlineRawWidgetMap = new Map([
       version: 'v0.0.1',
       descript: '以 HHmm 格式，显示现在时间'
     }
-  }]
+  }],
+  [`${prefixMark}翻页时钟`, {
+    // @ts-ignore
+    main: () => import('/src-widget/简约系列/翻页时钟.vue'),
+    metainfo: {
+      author: '旧日丨四季列车',
+      version: 'v0.0.1',
+      descript: '以 HHmmss 格式，显示现在时间'
+    }
+  }],
 ])
 
 export const inlineWidgetList = [...inlineRawWidgetMap.keys()]
