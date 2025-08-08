@@ -57,6 +57,7 @@ const clickCloseButton = async () => {
       align-items: center;
 
       margin-left: 7px;
+      font-family: 'Rany';
       font-size: 18px;
     }
   }

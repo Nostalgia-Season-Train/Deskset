@@ -11,3 +11,10 @@
   font-weight: normal;
   font-style: normal;
 }
+
+@font-face {
+  font-family: 'Rany';
+  src: url('../fonts/Rany.otf');
+  font-weight: normal;
+  font-style: normal;
+}
