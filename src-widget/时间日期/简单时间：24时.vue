@@ -2,11 +2,21 @@
 import { reactive } from 'vue'
 import dayjs from 'dayjs'
 
-const time = reactive({ hour: '00', minute: '00' })
+const time = reactive({
+  hour: '00',
+  minute: '00',
+  dayofweek: 'Sunday',
+  dayofmonth: '1',
+  month: 'January'
+})
+
 const refresh = async () => {
   const now = dayjs()
   time.hour = now.format('HH')
   time.minute = now.format('mm')
+  time.dayofweek = now.format('dddd')
+  time.dayofmonth = now.format('D')
+  time.month = now.format('MMMM')
 }
 
 
@@ -20,24 +30,30 @@ useIntervalFn(refresh, 250)
 
 
 <template>
-  <div class="time">
-    <span class="hour-minute">{{ time.hour }}:{{ time.minute }}</span>
+  <div class="clock">
+    <div class="time">{{ time.hour }}:{{ time.minute }}</div>
+    <div class="date">{{ time.dayofweek }}, {{ time.dayofmonth }} {{ time.month }}</div>
   </div>
 </template>
 
 
 <style lang="less" scoped>
-.time {
-  // 限制空白区域，最大高度 80px
-  height: 80px;
+.clock {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  overflow: hidden;
 
-  color: white;
-}
-
-.time>.hour-minute {
-  font-size: 80px;
+  * {
+    font-family: 'Aleo';
+  }
+  .time {
+    height: 95px;  // 缩减行高空白
+    color: #FFFE;
+    font-size: 84px;
+  }
+  .date {
+    color: #FFFA;
+    font-size: 20px;
+  }
 }
 </style>
