@@ -143,7 +143,9 @@ onMounted(() => {
 
     div {
       color: #E0E0E0;
-      font-size: 4vw;  // 字体大小，间接调整卡片大小
+      // 字体大小，间接调整卡片大小
+        // 不建议带小数点，卡片翻页使分界线移位
+      font-size: 60px;
     }
     // 上半部分边框背景
     .top, .top-flip {
