@@ -19,23 +19,24 @@ import Error from './routers/Error.vue'
 const isSpawn = inject<boolean>('$isSpawn')
 
 
-/* === 禁用默认事件 === */
-
-// 刷新
-document.addEventListener('keydown', (event: KeyboardEvent) => {
-  if (
-    event.key === 'F5' ||  // F5 刷新
-    (event.ctrlKey && event.key === 'r') ||  // Windows/Linux 上：Ctrl + R 刷新
-    (event.metaKey && event.key === 'r')     // Mac 上：Command + R 刷新
-  ) {
+/* === 生产环境：禁用默认事件 === */
+if (!import.meta.env.DEV as boolean) {
+  // 刷新和开发者工具
+  document.addEventListener('keydown', (event: KeyboardEvent) => {
+    if (
+      event.key === 'F5' ||  // F5 刷新
+      (event.ctrlKey && event.key === 'r') ||  // Windows/Linux 上：Ctrl + R 刷新
+      (event.metaKey && event.key === 'r') ||  // Mac 上：Command + R 刷新
+      event.key === 'F12'  // F12 开发者工具
+    ) {
+      event.preventDefault()
+    }
+  })
+  // 右键菜单
+  document.addEventListener('contextmenu', (event: MouseEvent) => {
     event.preventDefault()
-  }
-})
-
-// 右键菜单
-document.addEventListener('contextmenu', (event: MouseEvent) => {
-  event.preventDefault()
-})
+  })
+}
 </script>
 
 
