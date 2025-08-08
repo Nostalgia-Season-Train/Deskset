@@ -56,6 +56,10 @@ const time = ref('00:00:00')
 const stopwatch = new StopWatch(time)
 
 onBeforeUnmount(() => stopwatch.finish())  // 重要！step 不会自动停止
+
+
+/* === 图标 === */
+import { Icon } from '@iconify/vue'
 </script>
 
 
@@ -63,8 +67,12 @@ onBeforeUnmount(() => stopwatch.finish())  // 重要！step 不会自动停止
 <div class="container">
   <div class="time">{{ time }}</div>
   <div class="button">
-    <div v-if="isTiming == false" @click="stopwatch.begin(); isTiming = true">开始</div>
-    <div v-if="isTiming == true" @click="stopwatch.finish(); isTiming = false">结束</div>
+    <div v-if="isTiming == false" @click="stopwatch.begin(); isTiming = true">
+      <Icon icon="lucide:play"/>
+    </div>
+    <div v-if="isTiming == true" @click="stopwatch.finish(); isTiming = false">
+      <Icon icon="lucide:square"/>
+    </div>
   </div>
 </div>
 </template>
@@ -78,10 +86,14 @@ onBeforeUnmount(() => stopwatch.finish())  // 重要！step 不会自动停止
   align-items: center;  // time 变化会左右移动，后面优化
   color: white;
   .time {
-    font-size: 2em;
+    font-size: 1.6em;
   }
   .button {
     font-size: 1.2em;
+    transition: all .1s ease-out;
+    &:active {
+      transform: translateY(5px);
+    }
   }
 }
 </style>

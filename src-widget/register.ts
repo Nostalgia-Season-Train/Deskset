@@ -19,6 +19,15 @@ export const inlineRawWidgetMap = new Map([
       descript: '以 HHmmss 格式，显示现在时间'
     }
   }],
+  [`${prefixMark}秒表`, {
+    // @ts-ignore
+    main: () => import('/src-widget/简约系列/计时器.vue'),
+    metainfo: {
+      author: '旧日丨四季列车',
+      version: 'v0.0.1',
+      descript: '测量时间经过'
+    }
+  }],
 ])
 
 export const inlineWidgetList = [...inlineRawWidgetMap.keys()]
