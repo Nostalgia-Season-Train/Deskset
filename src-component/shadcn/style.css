@@ -121,3 +121,20 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+/* === 自定义配色 === */
+@theme inline {
+  --color-deskset-primary: var(--deskset-primary);
+  --color-deskset-secondary: var(--deskset-secondary);
+}
+
+:root {
+  --deskset-primary: #000;
+  --deskset-secondary: #000A;
+}
+
+.drak {
+  --deskset-primary: #FFF;
+  --deskset-secondary: #FFFA;
+}
