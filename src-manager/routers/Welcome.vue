@@ -52,7 +52,7 @@ const openReleasePage = () => {
 <style lang="less" scoped>
 .container {
   padding: 0 10px;
-  color: white;
+  color: var(--color-deskset-primary);
 
   .center {
     display: flex;
@@ -72,7 +72,7 @@ const openReleasePage = () => {
     padding: 0;
   }
   a {
-    color: gray;
+    color: var(--color-deskset-secondary);
     text-decoration: none;
   }
 }
