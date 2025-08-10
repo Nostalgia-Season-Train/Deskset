@@ -72,8 +72,8 @@ const getReleasesLatest = async () => {
 
 
 /* === 组件 === */
-import Button from '#desksetui/Button.vue'
-import Switch from '#desksetui/Switch.vue'
+import Button from '#shadcn/components/ui/button/Button.vue'
+import Switch from '#shadcn/components/ui/switch/Switch.vue'
 </script>
 
 

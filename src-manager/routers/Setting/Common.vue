@@ -13,7 +13,7 @@ const switchAutostart = async () => {
 }
 
 /* === 子组件 === */
-import SwitchBrief from '#desksetui/SwitchBrief.vue'
+import SwitchBrief from '#shadcn/components/ui/switch/Switch.vue'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,7 +21,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger
 } from '#shadcn/components/ui/dropdown-menu'
-import Button from '#desksetui/Button.vue'
+import Button from '#shadcn/components/ui/button/Button.vue'
 </script>
 
 

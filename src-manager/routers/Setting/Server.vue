@@ -59,7 +59,7 @@ const updatePassword = async () => {
 }
 
 /* === 子组件 === */
-import Input from '#desksetui/Input.vue'
+import Input from '#shadcn/components/ui/input/Input.vue'
 </script>
 
 
