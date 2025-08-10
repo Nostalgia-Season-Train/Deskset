@@ -13,8 +13,8 @@ const emit = defineEmits([
 
 
 /* === 子组件 === */
-import Button from '#desksetui/Button.vue'
-import Switch from '#desksetui/SwitchBrief.vue'
+import Button from '#shadcn/components/ui/button/Button.vue'
+import Switch from '#shadcn/components/ui/switch/Switch.vue'
 </script>
 
 
@@ -76,7 +76,7 @@ import Switch from '#desksetui/SwitchBrief.vue'
   flex-direction: column;
   justify-content: space-between;
 
-  color: #FFF;
+  color: var(--color-deskset-primary);
 
   .top {
     .first-line {
@@ -127,10 +127,6 @@ import Switch from '#desksetui/SwitchBrief.vue'
         display: flex;
         justify-content: space-between;
         align-items: center;
-
-        :nth-child(2) {
-          all: revert;  // 消除 Tailwind CSS 影响
-        }
       }
     }
   }
