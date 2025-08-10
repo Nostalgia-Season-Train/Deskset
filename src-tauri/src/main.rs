@@ -8,7 +8,7 @@ use tauri::{
   Emitter,  // 调用位置：app.emit
   WebviewWindowBuilder, WebviewUrl, WindowEvent
 };
-use tauri_utils::{WindowEffect, config::WindowEffectsConfig};
+// use tauri_utils::{WindowEffect, config::WindowEffectsConfig};
 use log;
 
 mod desktop;
@@ -96,12 +96,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
   .title("Deskset")
   .inner_size(650.0, 436.0).resizable(false).maximizable(false)
   .transparent(true).decorations(false).shadow(false)
-  .effects(WindowEffectsConfig{
-    effects: vec![WindowEffect::Blur],  // Acrylic 改变窗口大小会有性能问题，拖动不会
-    state: None,
-    radius: None,
-    color: None
-  })
+  // 禁用模糊背景效果，实现跨平台兼容
+  // .effects(WindowEffectsConfig{
+  //   effects: vec![WindowEffect::Blur],  // Acrylic 改变窗口大小会有性能问题，拖动不会
+  //   state: None,
+  //   radius: None,
+  //   color: None
+  // })
   .center()  // 窗口屏幕居中
   .build().unwrap();
 
