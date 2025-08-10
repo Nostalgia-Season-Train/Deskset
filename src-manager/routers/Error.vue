@@ -1,6 +1,6 @@
 <template>
 <div
-  class="flex justify-center items-center text-white"
+  class="flex justify-center items-center text-deskset-primary"
   style="width: 100%; height: calc(100% - 35px);"
 >
   <div>
