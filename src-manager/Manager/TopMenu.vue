@@ -35,7 +35,7 @@ const clickCloseButton = async () => {
 
 <style lang="less" scoped>
 .container {
-  --hover-color: #FFF1;
+  --hover-color: #0001;
 
   width: 100%;
   height: 100%;
@@ -43,7 +43,7 @@ const clickCloseButton = async () => {
   justify-content: space-between;
   align-items: center;
 
-  color: white;
+  color: #000C;
 
   .left {
     height: 100%;
@@ -74,7 +74,7 @@ const clickCloseButton = async () => {
 
       width: 40px;
 
-      transition: .5s;
+      transition: .3s;
       &:hover { background-color: var(--hover-color); }
     }
   }
