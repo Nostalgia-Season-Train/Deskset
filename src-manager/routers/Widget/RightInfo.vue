@@ -11,6 +11,12 @@ const emit = defineEmits([
   'switchProp'
 ])
 
+const ensureTitle = async () => {
+  if (widget.value.title == '') {
+    widget.value.title = widget.value.name.startsWith(prefixMark) ? widget.value.name.replace(prefixMark, '') : widget.value.name
+  }
+}
+
 
 /* === 子组件 === */
 import Button from '#shadcn/components/ui/button/Button.vue'
@@ -23,7 +29,11 @@ import Switch from '#shadcn/components/ui/switch/Switch.vue'
 
   <div class="top">
     <div class="first-line">
-      <div class="title">{{ widget.title }}</div>
+      <input
+        class="title selection:bg-primary selection:text-primary-foreground"
+        v-model="widget.title"
+        @change="ensureTitle"
+      ></input>
       <div class="btns">
         <div class="btn"><Button @click="emit('remove', widget.id)">删除</Button></div>
         <div class="btn"><Button>编辑</Button></div>
