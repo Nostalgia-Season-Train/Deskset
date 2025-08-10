@@ -77,15 +77,15 @@ const applyTheme = async (name: string) => {
 
 /* === 组件 === */
 import ElScrollbar from '#element-plus/ElScrollbar.vue'
-import Button from '#desksetui/Button.vue'
-import Input from '#desksetui/Input.vue'
+import Button from '#shadcn/components/ui/button/Button.vue'
+import Input from '#shadcn/components/ui/input/Input.vue'
 </script>
 
 
 <template>
 <div class="container">
 
-  <div class="header">
+  <div class="header h-[36px]">
     <Input v-model="searchText" placeholder="搜索"/>
     <Button @click="saveTheme">保 存</Button>
   </div>
@@ -111,8 +111,8 @@ import Input from '#desksetui/Input.vue'
 
   <div class="prompt" v-if="activeThemeMap.size == 0"><!-- 可选链访问：themes 挂载后赋值 -->
     <div>
-      <div class="text">暂无可用主题</div>
-      <div class="text">点击右上角按钮保存主题</div>
+      <div class="text text-deskset-primary">暂无可用主题</div>
+      <div class="text text-deskset-primary">点击右上角按钮保存主题</div>
     </div>
   </div>
 
@@ -169,7 +169,7 @@ import Input from '#desksetui/Input.vue'
 
 .prompt {
   width: 100%;
-  height: calc(100% - 35px - 28px);  // 减去 menu 和 theme.header 高度，让文本以窗口高度 100vh 居中，保持视觉平衡
+  height: calc(100% - 35px - 36px);  // 减去 menu 和 theme.header 高度，让文本以窗口高度 100vh 居中，保持视觉平衡
 
   display: flex;
   justify-content: center;
