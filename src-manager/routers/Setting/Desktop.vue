@@ -68,11 +68,11 @@ const refreshPage = async () => {
   .left {
     .name {
       font-size: 16px;
-      color: black;
+      color: var(--color-deskset-primary);
     }
     .description {
       font-size: 14px;
-      color: gray;
+      color: var(--color-deskset-secondary);
     }
   }
 }

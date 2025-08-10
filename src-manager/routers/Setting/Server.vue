@@ -111,11 +111,11 @@ import Input from '#desksetui/Input.vue'
   .left {
     .name {
       font-size: 16px;
-      color: #FFF;
+      color: var(--color-deskset-primary);
     }
     .description {
       font-size: 14px;
-      color: #FFFA;
+      color: var(--color-deskset-secondary);
     }
   }
 }
