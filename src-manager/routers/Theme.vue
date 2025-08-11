@@ -54,10 +54,10 @@ import Input from '#shadcn/components/ui/input/Input.vue'
       <div class="themes" v-for="theme in Array.from(activeThemeMap.values())">
         <div class="theme" v-if="(searchText == '' || theme.name.includes(searchText)) && theme.name != LATEST_THEME">
           <div class="left">
-            <span>{{ theme.name }}</span>
+            <span class="text-deskset-primary">{{ theme.name }}</span>
           </div>
           <div class="middle">
-            <span>{{ theme.savetime }}</span>
+            <span class="text-deskset-primary">{{ theme.savetime }}</span>
           </div>
           <div class="right">
             <Button @click="deleteTheme(theme?.name)">删 除</Button>
