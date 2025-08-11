@@ -45,6 +45,7 @@ if (!isThemeLibExist)
 import { spawnServer, axios } from './global'
 import { error } from '@tauri-apps/plugin-log'
 
+/* --- 运行 DesksetBack 服务 --- */
 let isSpawn = true
 
 try {
@@ -72,7 +73,7 @@ if (isDevEnv) {
   axios.defaults.baseURL = 'http://127.0.0.1:6527'
 }
 
-/* --- 初始化当前主题哈希表 --- */
+/* --- 初始化主题列表 --- */
 import { activeThemeMap } from './global'
 import { getThemes } from './main/theme'
 
@@ -81,7 +82,7 @@ for (const theme of themes) {
   activeThemeMap.set(theme.name, theme)
 }
 
-// 处理 Desktop 单向消息
+/* --- 处理桌面页面消息 --- */
 import { activeWidgetMap } from './global'
 
 const broadcast = new BroadcastChannel('DesktopSend')
@@ -96,7 +97,7 @@ broadcast.onmessage = (ev) => {
   widget!.top = data.top
 }
 
-/* --- 初始化配置 --- */
+/* --- 初始化设置 --- */
 import { config } from './global'
 import { isEnabled } from '@tauri-apps/plugin-autostart'
 
@@ -117,6 +118,17 @@ import { exitDeskset } from './main/tauri'
 listen('quit', async () => {
   await exitDeskset()
 })
+
+/* --- 应用上次关闭时的部件列表（主题） --- */
+import { error as logError } from '@tauri-apps/plugin-log'
+import { LATEST_THEME } from './global'
+import { applyTheme } from './main/theme'
+
+try {
+  await applyTheme(LATEST_THEME)
+} catch (err) {
+  logError(`Fail to apply ${LATEST_THEME} theme(latest widget list), error: ${err}`)
+}
 
 
 /* ==== 应用 ==== */
