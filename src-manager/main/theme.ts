@@ -8,6 +8,11 @@ import {
 } from '@tauri-apps/plugin-fs'
 import { error as logError } from '@tauri-apps/plugin-log'
 import { Theme } from '#manager/global/theme.ts'  // #manager/global 找不到类型声明？原因？
+import {
+  activeWidgetMap,
+  activeWidgetOnSelect,
+  convertWidgetInTheme
+} from '#manager/global/widget'
 
 
 /* === 遍历主题 === */
@@ -37,7 +42,6 @@ export const getThemes = async () => {
 
 /* === 保存主题 === */
 import { activeThemeMap } from '#manager/global/theme'
-import { activeWidgetMap, convertWidgetInTheme } from '#manager/global/widget'
 
 import dayjs from 'dayjs'
 
@@ -73,9 +77,36 @@ export const deleteTheme = async (name: string) => {
 }
 
 
-/* === 读取主题数据 data.json === */
-export const readThemeData = async (name: string) => {
+/* === 应用主题 === */
+import desktop from '#manager/global/page/desktop'
+import { appendWidget } from './widget'
+
+export const applyTheme = async (name: string) => {
+  // 读取主题数据
   const dataText = await readTextFile(`./themes/${name}/data.json`, { baseDir: BaseDirectory.Resource })
   const data = JSON.parse(dataText)
-  return data
+
+  // 移除桌面上的部件 + 部件列表清空 + 部件选中重置
+  for (const widget of [...activeWidgetMap.values()]) {
+    await desktop.removeWidget(widget.id)
+  }
+  activeWidgetMap.clear()
+  activeWidgetOnSelect.value = null
+
+  // 重新挨个添加部件
+  for (const widgetInThemeFile of data) {
+    const widgetInTheme = await convertWidgetInTheme(widgetInThemeFile)
+    if (widgetInTheme == undefined)
+      continue
+
+    await appendWidget(
+      widgetInTheme.name,
+      widgetInTheme.isDragLock,
+      widgetInTheme.isDisableInteract,
+      widgetInTheme.isAutoHide,
+      widgetInTheme.left,
+      widgetInTheme.top,
+      widgetInTheme.title
+    )
+  }
 }

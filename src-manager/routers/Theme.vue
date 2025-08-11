@@ -1,22 +1,17 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { activeThemeMap } from '#manager/global'
-import { activeWidgetMap, activeWidgetOnSelect } from '#manager/global'
-import desktop from '#manager/global/page/desktop'
 
 const searchText = ref('')
 
 
 /* === 主题创建/删除/应用 === */
-import dayjs from 'dayjs'
 import { message, messageInput } from '#desksetui/Message'
 import {
   saveTheme as saveThemeFile,
   deleteTheme as deleteThemeFile,
-  readThemeData as readThemeDataFile
+  applyTheme as applyThemeFile
 } from '#manager/main/theme'
-import { convertWidgetInTheme } from '#manager/global'
-import { appendWidget } from '#manager/main/widget'
 
 const saveTheme = async () => {
   const name = await messageInput('保存主题', '', '在此输入主题名称')
@@ -34,30 +29,7 @@ const deleteTheme = async (name: string) => {
 }
 
 const applyTheme = async (name: string) => {
-  const data = await readThemeDataFile(name)
-
-  // 清空当前部件
-  for (const widget of [...activeWidgetMap.values()]) {
-    await desktop.removeWidget(widget.id)
-  }
-  activeWidgetMap.clear()
-  activeWidgetOnSelect.value = null
-
-  for (const widgetInThemeFile of data) {
-    const widgetInTheme = await convertWidgetInTheme(widgetInThemeFile)
-    if (widgetInTheme == undefined)
-      continue
-
-    await appendWidget(
-      widgetInTheme.name,
-      widgetInTheme.isDragLock,
-      widgetInTheme.isDisableInteract,
-      widgetInTheme.isAutoHide,
-      widgetInTheme.left,
-      widgetInTheme.top,
-      widgetInTheme.title
-    )
-  }
+  await applyThemeFile(name)
 }
 
 
