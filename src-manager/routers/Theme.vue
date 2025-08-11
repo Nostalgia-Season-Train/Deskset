@@ -68,7 +68,7 @@ import Input from '#shadcn/components/ui/input/Input.vue'
     </ElScrollbar>
   </div>
 
-  <div class="prompt" v-if="activeThemeMap.size == 0"><!-- 可选链访问：themes 挂载后赋值 -->
+  <div class="prompt" v-if="activeThemeMap.size == 0 || (activeThemeMap.size == 1 && activeThemeMap.get(LATEST_THEME) != undefined)"><!-- 可选链访问：themes 挂载后赋值 -->
     <div>
       <div class="text text-deskset-primary">暂无可用主题</div>
       <div class="text text-deskset-primary">点击右上角按钮保存主题</div>
