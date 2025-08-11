@@ -7,6 +7,7 @@ const searchText = ref('')
 
 /* === 主题创建/删除/应用 === */
 import { message, messageInput } from '#desksetui/Message'
+import { LATEST_THEME } from '#manager/global'
 import {
   saveTheme as saveThemeFile,
   deleteTheme as deleteThemeFile,
@@ -15,7 +16,7 @@ import {
 
 const saveTheme = async () => {
   const name = await messageInput('保存主题', '', '在此输入主题名称')
-  if (name == null)
+  if (name == null || name == LATEST_THEME)
     return
   await saveThemeFile(name)
 }
@@ -51,7 +52,7 @@ import Input from '#shadcn/components/ui/input/Input.vue'
   <div class="themes-wrapper">
     <ElScrollbar>
       <div class="themes" v-for="theme in Array.from(activeThemeMap.values())">
-        <div class="theme" v-if="searchText == '' || theme.name.includes(searchText)">
+        <div class="theme" v-if="(searchText == '' || theme.name.includes(searchText)) && theme.name != LATEST_THEME">
           <div class="left">
             <span>{{ theme.name }}</span>
           </div>
