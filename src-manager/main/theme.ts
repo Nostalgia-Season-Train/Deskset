@@ -36,12 +36,34 @@ export const getThemes = async () => {
 
 
 /* === 保存主题 === */
-export const saveTheme = async (name: string, data: object, info: object) => {
+import { activeThemeMap } from '#manager/global/theme'
+import { activeWidgetMap, convertWidgetInTheme } from '#manager/global/widget'
+
+import dayjs from 'dayjs'
+
+export const saveTheme = async (name: string) => {
+  // 数据转换 + 信息生成
+  const data = (
+    await Promise.all([...activeWidgetMap.values()].map(convertWidgetInTheme))
+  ).filter(widget => widget != undefined)  // 转换失败的元素返回 undefined
+  const info = {
+    savetime: String(dayjs().format('YYYY-MM-DD HH:mm:ss')),
+    descript: ''
+  }
+
+  // 写入文件
   const dataText = JSON.stringify(data, null, 2)
   const infoText = JSON.stringify(info, null, 2)
   await mkdir(`./themes/${name}`, { baseDir: BaseDirectory.Resource, recursive: true })
   await writeTextFile(`./themes/${name}/data.json`, dataText, { baseDir: BaseDirectory.Resource })
   await writeTextFile(`./themes/${name}/metainfo.json`, infoText, { baseDir: BaseDirectory.Resource })
+
+  // 加入列表
+  activeThemeMap.set(name, {
+    name: name,
+    savetime: info.savetime,
+    descript: info.descript
+  })
 }
 
 

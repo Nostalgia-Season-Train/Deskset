@@ -22,21 +22,7 @@ const saveTheme = async () => {
   const name = await messageInput('保存主题', '', '在此输入主题名称')
   if (name == null)
     return
-
-  const data = (
-    await Promise.all([...activeWidgetMap.values()].map(convertWidgetInTheme))
-  ).filter(widget => widget != undefined)  // 转换失败的元素返回 undefined
-  const info = {
-    savetime: String(dayjs().format('YYYY-MM-DD HH:mm:ss')),
-    descript: ''
-  }
-
-  await saveThemeFile(name, data, info)
-  activeThemeMap.set(name, {
-    name: name,
-    savetime: info.savetime,
-    descript: info.descript
-  })
+  await saveThemeFile(name)
 }
 
 const deleteTheme = async (name: string) => {
