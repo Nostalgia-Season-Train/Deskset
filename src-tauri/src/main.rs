@@ -69,7 +69,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
       }
       "quit" => {
         app.emit("quit", "退出数字桌搭").unwrap();
-        app.exit(0);  // 其他一切正常，除了报错 Failed to unregister class Chrome_WidgetWin_0. Error = 1412
       }
       _ => {
         println!("menu item {:?} not handled", event.id);
@@ -108,10 +107,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
   manager_win.clone().on_window_event(move |event| {
     match event {
-      WindowEvent::CloseRequested { api, .. } => {
-        api.prevent_close();
-        manager_win.hide().unwrap();  // 有点蠢，没找到 on_window_event 传递自身的示例
-      },
+      // 已放弃，会影响 Window.close 函数
+        // 原先作用：阻止系统边框（窗口标题栏）关闭事件
+      // WindowEvent::CloseRequested { api, .. } => {
+      //   api.prevent_close();
+      //   manager_win.hide().unwrap();  // 有点蠢，没找到 on_window_event 传递自身的示例
+      // },
       _ => {}
     }
   });

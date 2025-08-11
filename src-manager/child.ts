@@ -130,12 +130,6 @@ import { getCurrentWindow } from '@tauri-apps/api/window'
 const managerWin = getCurrentWindow()
 
 // 关闭
-import { listen } from '@tauri-apps/api/event'
-
-listen('quit', (event) => {
-  exitDeskset()
-})
-
 const exitDeskset = () => {  // 异步可能无法关闭窗口
   killServer()
   floatManager.closeAll()

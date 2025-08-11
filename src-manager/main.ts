@@ -110,6 +110,14 @@ try {
   config.password = (await axios.get('/v0/config/password', { timeout: timeout })).data.result
 } catch {}
 
+/* --- 监听托盘事件 --- */
+import { listen } from '@tauri-apps/api/event'
+import { exitDeskset } from './main/tauri'
+
+listen('quit', async () => {
+  await exitDeskset()
+})
+
 
 /* ==== 应用 ==== */
 import { createApp } from 'vue'

@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { inject } from 'vue'
 import { Icon } from '@iconify/vue'
-import { exit } from '@tauri-apps/plugin-process'
 
 import win from '#manager/global/win/manager'
 import { config } from '#manager/global'
+import { exitDeskset } from '#manager/main/tauri'
 
 const isSpawn = inject<boolean>('$isSpawn')  // 若服务器启动失败，关闭按钮直接退出
 
@@ -12,7 +12,7 @@ const clickCloseButton = async () => {
   if (config.closeBehavior == 'hide' && isSpawn == true) {
     await win.hide()
   } else {
-    await exit(0)
+    await exitDeskset()
   }
 }
 </script>
