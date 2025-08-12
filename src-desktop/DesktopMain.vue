@@ -6,6 +6,7 @@ const helloworld = async () => {
 
 /* === 全局变量&函数 === */
 import { activeWidgetMap } from './global/widget'
+import { compileCache } from './global/cache'
 import dragAndDrop from './drag'
 
 
@@ -19,6 +20,7 @@ const desktopMain = useTemplateRef('desktopMain')
 import { h, render, defineAsyncComponent } from 'vue'
 import { compile } from './main/compile'
 import { inlineRawWidgetMap, prefixMark } from '#widget/register'
+import { stat, BaseDirectory } from '@tauri-apps/plugin-fs'
 
 const appendWidget = async (
   id: string,
@@ -29,23 +31,34 @@ const appendWidget = async (
   left: number | null,
   top: number | null
 ) => {
-  let url: any  // ts 在某些位置无法确定 url 类型，原因未知...
   let component
   let style
 
   if (name.startsWith(prefixMark)) {
-    url = null
     component = defineAsyncComponent(inlineRawWidgetMap.get(name)!.main)
     style = null
   } else {
-    const code = await compile(id, name)
+    // 查找编译缓存
+    const mtime = (await stat(`./widgets/${name}/main.vue`, { baseDir: BaseDirectory.Resource })).mtime?.toString() ?? null
 
-    const blob = new Blob([code.js], { type: 'text/javascript' })
-    url = URL.createObjectURL(blob)
-    component = defineAsyncComponent(() => import(/* @vite-ignore */url))
+    let cache = compileCache.get(name)
+    if (cache == undefined || cache.mtime != mtime) {
+      const code = await compile(name)
+      compileCache.set(name, {
+        mtime: mtime,
+        jsModule: URL.createObjectURL(new Blob([code.js], { type: 'text/javascript' })),
+        cssCode: code.css
+      })
+    }
+    cache = compileCache.get(name)
 
+    // 导入 JS 代码
+    component = defineAsyncComponent(() => import(/* @vite-ignore */cache!.jsModule))
+
+    // 导入 CSS 代码
+      // - [ ] 后续使用编译缓存管理
     style = Object.assign(document.createElement('style'), {
-      textContent: code.css,
+      textContent: cache!.cssCode,
       type: 'text/css'
     })
     document.head.appendChild(style)
@@ -65,9 +78,9 @@ const appendWidget = async (
   container.style.left = '0px'
   container.style.top = '0px'
   render(vnode, container)
-  if (url != null) {
-    URL.revokeObjectURL(url)  // - [ ] NodeJS 不会析构 url，浏览器环境是否可以？
-  }
+  // if (url != null) {
+  //   URL.revokeObjectURL(url)  // NodeJS 和浏览器均不能析构 import() 缓存
+  // }
 
   // 2、添加监听器
   const drag = dragAndDrop(container)
