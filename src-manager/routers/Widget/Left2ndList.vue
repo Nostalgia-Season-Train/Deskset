@@ -8,7 +8,7 @@ import ElScrollbar from '#element-plus/ElScrollbar.vue'
 
 
 <template>
-<div class="left2ndlist">
+<div class="left2ndlist rounded-md">
   <ElScrollbar>
     <div
       v-for="widget in Array.from(activeWidgetMap.values())"
@@ -26,16 +26,16 @@ import ElScrollbar from '#element-plus/ElScrollbar.vue'
 .left2ndlist {
   width: 100%;
   height: 100%;
-  border: solid 1px rgba(#FFF, .3);
+  border: solid 1px rgba(#000, .3);
 
   // ElScrollbar 高度自适应
     // 注：left2ndlist 高度由父组件 flex 布局分配
   overflow: hidden;
 
   .item {
-    color: #FFF;
+    color: #000;
     &:hover {
-      background-color: #FFF3;
+      background-color: #0003;
     }
   }
 }
