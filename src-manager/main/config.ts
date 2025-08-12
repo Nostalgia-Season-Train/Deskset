@@ -14,7 +14,7 @@ export const readConfFile = async (): Promise<StorageConf> => {
   try {
     const conf = JSON.parse(await readTextFile('./config/deskset.json', { baseDir: BaseDirectory.Resource }))
 
-    if (typeof conf.closeBehavior == 'boolean') {
+    if (conf.closeBehavior == 'hide' || 'exit') {
       storageConf.closeBehavior = conf.closeBehavior
     }
   } catch (err) {
