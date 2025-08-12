@@ -41,6 +41,7 @@ export default defineConfig(async () => ({
 
   resolve: {
     alias: {
+      '@': path.resolve(__dirname),
       '#element-plus': path.resolve(__dirname, 'src-component/element-plus'),
       '#shadcn': path.resolve(__dirname, 'src-component/shadcn'),
       '#desksetui': path.resolve(__dirname, 'src-component/desksetui'),
