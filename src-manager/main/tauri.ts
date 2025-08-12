@@ -9,12 +9,19 @@ import { error as logError } from '@tauri-apps/plugin-log'
 
 import { LATEST_THEME } from '#manager/global/theme'
 import { saveTheme } from './theme'
+import { config } from '#manager/global/config'
+import { writeConfFile } from './config'
 import { killServe } from '#manager/global/child/server'
 import { getAllWindows } from '@tauri-apps/api/window'
 
 export const exitDeskset = async () => {
   // 保存当前部件列表
   await saveTheme(LATEST_THEME)
+
+  // 写入持久化配置
+  writeConfFile({
+    closeBehavior: config.closeBehavior
+  })
 
   // 关闭服务器
   try {

@@ -4,7 +4,22 @@ export const DEFAULT_SERVER_PORT = 6527
 export const DEFAULT_USERNAME = 'username'
 export const DEFAULT_PASSWORD = 'password'
 
-export const config = reactive({
+// 持久化配置：数字桌搭存储在文件中的部分配置
+export interface StorageConf {
+  closeBehavior: string
+}
+
+// 运行时配置：数字桌搭运行时所产生的完整配置，是 StorageConf 的超集
+export interface RuntimeConf {
+  isAutostart: boolean
+  closeBehavior: string
+
+  server_port: number
+  username: string
+  password: string
+}
+
+export const config = reactive<RuntimeConf>({
   isAutostart: false,
   closeBehavior: 'hide',
 
