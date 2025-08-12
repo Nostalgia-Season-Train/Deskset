@@ -1,4 +1,11 @@
 @font-face {
+  font-family: 'MiSans';
+  src: url('../fonts/MiSans-Normal.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
   font-family: 'AlibabaPuHuiTi';
   src: url('../fonts/AlibabaPuHuiTi-3-55-Regular.ttf');
   font-weight: normal;
