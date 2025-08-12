@@ -14,6 +14,8 @@ import { writeConfFile } from './config'
 import { killServe } from '#manager/global/child/server'
 import { getAllWindows } from '@tauri-apps/api/window'
 
+import { exit } from '@tauri-apps/plugin-process'
+
 export const exitDeskset = async () => {
   // 保存当前部件列表
   await saveTheme(LATEST_THEME)
@@ -38,4 +40,7 @@ export const exitDeskset = async () => {
       logError(`While exiting, a error occur: ${err}`)
     }
   }
+
+  // 如果上面执行完后，没有自然退出。那就通过 exit 强行结束进程
+  await exit(0)
 }
