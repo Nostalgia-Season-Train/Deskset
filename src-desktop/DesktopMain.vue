@@ -119,8 +119,8 @@ const appendWidget = async (
     isDragLock: finalIsDragLock,
     isDisableInteract: finalIsDisableInteract,
     isAutoHide: finalIsAutoHide,
-    x: container.offsetLeft + (container.offsetWidth >> 1),
-    y: container.offsetTop + (container.offsetHeight >> 1),
+    x: (container.offsetLeft + (container.offsetWidth >> 1)) * window.devicePixelRatio | 0,
+    y: (container.offsetTop + (container.offsetHeight >> 1)) * window.devicePixelRatio | 0,
     left: container.offsetLeft,
     top: container.offsetTop
   }
