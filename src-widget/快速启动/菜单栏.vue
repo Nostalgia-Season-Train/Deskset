@@ -5,17 +5,18 @@ import { getDesksetReq } from '../request'
 const items = ref([])  // 菜单 dock 保存的元素 items
 
 // 主题保存的菜单栏配置
-const config = defineModel({ type: Object })
-const { getAsset } = defineProps(['getAsset'])
+// const config = defineModel({ type: Object })
+// const { getAsset } = defineProps(['getAsset'])
 
-if (Object.keys(config.value).length != 0) {
-  items.value = structuredClone(config.value)
-  for (const item of items.value) {
-    item.icon = await getAsset(item.icon)
-  }
-}
+// if (Object.keys(config.value).length != 0) {
+//   items.value = structuredClone(config.value)
+//   for (const item of items.value) {
+//     item.icon = await getAsset(item.icon)
+//   }
+// }
 
 const dropFiles = async (event) => {
+  return
   const eventfiles = event.dataTransfer.files
   for (let i = 0; i < eventfiles.length; i++) {
     const dropfile = await electron.retFile(eventfiles[i])
@@ -30,12 +31,54 @@ const openItem = async (item) => {
   const desksetReq = await getDesksetReq()
   desksetReq.get(`/v0/quick/open-default/${item.path}`)
 }
+
+/* --- Tauri 响应并获取拖拽文件绝对路径 --- */
+  // 代码参考：阿阳热爱前端 - https://juejin.cn/post/7504915376901455935
+import { getCurrentWebview } from '@tauri-apps/api/webview'
+import { onMounted, onUnmounted, useTemplateRef } from 'vue'
+
+const dropRef = useTemplateRef('dock')
+const dragenter = ref(false)
+
+let unlisten = null
+onMounted(async () => {
+  unlisten = await getCurrentWebview().onDragDropEvent(({ payload }) => {
+    const { type } = payload
+
+    if (type === 'over') {
+      const { x, y } = payload.position
+
+      if (dropRef.value) {
+        const dpr = window.devicePixelRatio
+        const { left, right, top, bottom } = dropRef.value.getBoundingClientRect()
+
+        const inBoundsX = x >= left * dpr && x <= right * dpr
+        const inBoundsY = y >= top * dpr && y <= bottom * dpr
+
+        dragenter.value = inBoundsX && inBoundsY
+      }
+    } else if (type === 'drop' && dragenter.value) {
+      dragenter.value = false
+
+      console.log('dropped', payload.paths)
+    } else {
+      dragenter.value = false
+    }
+  })
+})
+onUnmounted(async () => {
+  if (unlisten != null) {
+    unlisten()
+  }
+})
 </script>
 
 
 <template>
 <div style="height: 36px;"><!-- 撑开管理/组件预览的高度 -->
-  <div class="dock"
+  <div
+    class="dock"
+    ref="dock"
     @drop="dropFiles"
     @drop.prevent
     @dragover.prevent
