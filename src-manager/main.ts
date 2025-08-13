@@ -93,6 +93,11 @@ const conf = await readConfFile()
 config.language = conf.language
 config.closeBehavior = conf.closeBehavior
 
+// - [ ] 临时：切换 _t 翻译语言...
+import { switchLanguage } from './main/i18n'
+
+await switchLanguage(config.language)
+
 /* --- 初始化主题列表 --- */
 import { activeThemeMap } from './global'
 import { getThemes } from './main/theme'

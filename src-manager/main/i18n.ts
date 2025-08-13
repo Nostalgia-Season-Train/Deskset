@@ -3,7 +3,11 @@ import en from '@/i18n/en.json'
 
 import { config } from '#manager/global'
 
-const language = config.language
+let language = config.language
+
+export const switchLanguage = async (newLanguage: string) => {
+  language = newLanguage
+}
 
 export const _t = (str: string) => {
   if (language == 'zh-cn')
