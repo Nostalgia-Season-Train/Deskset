@@ -90,6 +90,7 @@ try {
 
 // 读取持久化配置
 const conf = await readConfFile()
+config.language = conf.language
 config.closeBehavior = conf.closeBehavior
 
 /* --- 初始化主题列表 --- */

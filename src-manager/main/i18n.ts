@@ -1,7 +1,9 @@
 // @ts-ignore
 import en from '@/i18n/en.json'
 
-const language = 'zh-cn'
+import { config } from '#manager/global'
+
+const language = config.language
 
 export const _t = (str: string) => {
   if (language == 'zh-cn')

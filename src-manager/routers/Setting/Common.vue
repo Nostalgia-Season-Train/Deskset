@@ -30,6 +30,26 @@ import Button from '#shadcn/components/ui/button/Button.vue'
 
   <div class="option">
     <div class="left">
+      <div class="name">语言</div>
+      <div class="description">选择界面语言（需要重启）</div>
+    </div>
+    <div class="right">
+      <DropdownMenu>
+        <DropdownMenuTrigger as-child>
+          <Button>{{ config.language == 'zh-cn' ? '中文' : 'English' }}</Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent class="w-56">
+          <DropdownMenuRadioGroup v-model="config.language">
+            <DropdownMenuRadioItem value="zh-cn">中文</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="en">English</DropdownMenuRadioItem>
+          </DropdownMenuRadioGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  </div>
+
+  <div class="option">
+    <div class="left">
       <div class="name">开机启动</div>
       <div class="description">是否开机自动运行</div>
     </div>

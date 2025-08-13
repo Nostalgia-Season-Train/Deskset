@@ -8,12 +8,16 @@ import { readTextFile } from '@tauri-apps/plugin-fs'
 
 export const readConfFile = async (): Promise<StorageConf> => {
   let storageConf: StorageConf = {
+    language: config.language,
     closeBehavior: config.closeBehavior
   }
 
   try {
     const conf = JSON.parse(await readTextFile('./config/deskset.json', { baseDir: BaseDirectory.Resource }))
 
+    if (conf.language == 'zh-cn' || 'en') {
+      storageConf.language = conf.language
+    }
     if (conf.closeBehavior == 'hide' || 'exit') {
       storageConf.closeBehavior = conf.closeBehavior
     }

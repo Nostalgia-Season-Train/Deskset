@@ -22,6 +22,7 @@ export const exitDeskset = async () => {
 
   // 写入持久化配置
   writeConfFile({
+    language: config.language,
     closeBehavior: config.closeBehavior
   })
 
