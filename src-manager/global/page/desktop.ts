@@ -81,6 +81,10 @@ class BroadcastDesktopClient {
   setWidgetPosition = (id: string, left: number, top: number) => {
     return this.hook('setWidgetPosition', [id, left, top])
   }
+
+  getWindowData = (): Promise<{ width: number, height: number, dpr: number }> => {
+    return this.hook('getWindowData', [])
+  }
 }
 
 

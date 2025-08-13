@@ -156,6 +156,14 @@ const setWidgetPosition = async (id: string, left: number, top: number) => {
   container.style.top = top + 'px'
 }
 
+const getWindowData = async () => {
+  return {
+    width: window.innerWidth,
+    height: window.innerHeight,
+    dpr: window.devicePixelRatio
+  }
+}
+
 
 /* ==== BroadcastDesktopServer ==== */
   // 将 Broadcast 由事件/消息改成请求/响应模型
@@ -166,7 +174,8 @@ const actions = {
   appendWidget,
   removeWidget,
   switchWidgetProp,
-  setWidgetPosition
+  setWidgetPosition,
+  getWindowData
 }
 const broadcast = new BroadcastChannel('Desktop')
 const onReceive = async (msg: MessageEvent) => {
