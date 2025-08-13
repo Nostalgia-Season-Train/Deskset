@@ -24,5 +24,8 @@ pub fn build(app: &App) -> Result<WebviewWindow, Box<dyn std::error::Error>> {
     log::info!("HWND: 0x{:08X}", (win.hwnd().unwrap()).0 as usize);  // win11 临时调试用
   }
 
+  // 消除 Windows DPI 缩放，非整数倍缩放影响 CSS 效果
+  win.set_zoom(1.0 / win.scale_factor().unwrap()).unwrap();
+
   return Ok(win);
 }
