@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { _t } from '#manager/main/i18n'
 import Scrollbar from '#desksetui/Scrollbar.vue'
 
 import { openBrowser } from '#manager/main/tauri'
@@ -16,7 +17,7 @@ const openReleasePage = () => {
     <div>
       <img src="/static/icons/Deskset.png" width="100px"></img>
     </div>
-    <div>欢迎使用数字桌搭 Deskset</div>
+    <div>{{ _t('欢迎使用数字桌搭 Deskset') }}</div>
     <div>一款桌面美化软件</div>
     <div>基于 Web 技术开发</div>
     <div>实现桌面美化与笔记应用间的互动</div>
