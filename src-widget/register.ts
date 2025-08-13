@@ -28,6 +28,15 @@ export const inlineRawWidgetMap = new Map([
       descript: '测量时间经过'
     }
   }],
+  [`${prefixMark}问候语`, {
+    // @ts-ignore
+    main: () => import('/src-widget/问候语/打字机问候.vue'),
+    metainfo: {
+      author: '旧日丨四季列车',
+      version: 'v0.0.1',
+      descript: '根据当前时段，显示个性化问候语'
+    }
+  }],
 ])
 
 export const inlineWidgetList = [...inlineRawWidgetMap.keys()]

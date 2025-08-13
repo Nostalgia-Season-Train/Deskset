@@ -1,12 +1,11 @@
 <script setup>
-import { ref } from "vue"
-import { getDesksetReq } from '../request'
+import { ref } from 'vue'
+import axios from 'axios'
 
-const greeting = ref("简单问候")
+const greeting = ref('')  // 空字符串，避免第一次刷掉时产生闪烁
 
 const greet = async () => {
-  const desksetReq = await getDesksetReq()
-  const repGreeting = (await desksetReq.get('/v0/greet/simple')).data.data.greeting
+  const repGreeting = (await axios.get('/v0/greet/simple')).data.result.greeting
   greeting.value = ''
   for (const [index, char] of Array.from(repGreeting).entries()) {
     setTimeout(() => { greeting.value += char }, 250 * index)  // 首个字符不会延迟出现，因为 index 从 0 开始
@@ -15,9 +14,9 @@ const greet = async () => {
 greet()
 
 
-import { useIntervalFn } from "@vueuse/core"
+import { useIntervalFn } from '@vueuse/core'
 
-useIntervalFn(greet, 60000)
+useIntervalFn(greet, 30 * 1000)
 </script>
 
 
@@ -31,7 +30,7 @@ useIntervalFn(greet, 60000)
 <style lang="less" scoped>
 .greet {
   color: white;
-  font-size: 24px;
+  font-size: 20px;
   white-space: nowrap;
 }
 </style>
