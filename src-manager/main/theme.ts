@@ -7,6 +7,7 @@ import {
   BaseDirectory
 } from '@tauri-apps/plugin-fs'
 import { error as logError } from '@tauri-apps/plugin-log'
+import desktop from '#manager/global/page/desktop'
 import { Theme } from '#manager/global/theme.ts'  // #manager/global 找不到类型声明？原因？
 import {
   activeWidgetMap,
@@ -47,9 +48,12 @@ import dayjs from 'dayjs'
 
 export const saveTheme = async (name: string) => {
   // 数据转换 + 信息生成
-  const data = (
-    await Promise.all([...activeWidgetMap.values()].map(convertWidgetInTheme))
-  ).filter(widget => widget != undefined)  // 转换失败的元素返回 undefined
+  const data = {
+    window: await desktop.getWindowData(),
+    widgets: (
+      await Promise.all([...activeWidgetMap.values()].map(convertWidgetInTheme))
+    ).filter(widget => widget != undefined)  // 转换失败的元素返回 undefined
+  }
   const info = {
     savetime: String(dayjs().format('YYYY-MM-DD HH:mm:ss')),
     descript: ''
@@ -78,7 +82,6 @@ export const deleteTheme = async (name: string) => {
 
 
 /* === 应用主题 === */
-import desktop from '#manager/global/page/desktop'
 import { appendWidget } from './widget'
 
 export const applyTheme = async (name: string) => {
@@ -94,7 +97,7 @@ export const applyTheme = async (name: string) => {
   activeWidgetOnSelect.value = null
 
   // 重新挨个添加部件
-  for (const widgetInThemeFile of data) {
+  for (const widgetInThemeFile of data.widgets) {
     const widgetInTheme = await convertWidgetInTheme(widgetInThemeFile)
     if (widgetInTheme == undefined)
       continue
