@@ -36,7 +36,7 @@ export const exitDeskset = async () => {
   // 关闭所有窗口
   for (const win of await getAllWindows()) {
     try {
-      await win.close()
+      await win.destroy()  // close 不一定能关闭窗口
     } catch (err) {
       logError(`While exiting, a error occur: ${err}`)
     }
