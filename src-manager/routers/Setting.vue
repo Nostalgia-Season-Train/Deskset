@@ -1,4 +1,5 @@
 <script setup>
+import { _t } from '#manager/main/i18n'
 import Common from './Setting/Common.vue'
 import Server from './Setting/Server.vue'
 import Update from './Setting/Update.vue'
@@ -12,14 +13,11 @@ import Divider from '#desksetui/Divider.vue'
 <template>
 <Scrollbar>
 
-  <Divider>通用选项</Divider>
+  <Divider>{{ _t('通用选项') }}</Divider>
   <Common/>
 
-  <Divider>服务器配置</Divider>
+  <Divider>{{ _t('服务器配置') }}</Divider>
   <Server/>
-
-  <Divider>软件更新</Divider>
-  <Update/>
 
 </Scrollbar>
 </template>

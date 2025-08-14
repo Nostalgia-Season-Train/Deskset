@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { _t } from '#manager/main/i18n'
 import { config, axios } from '#manager/global'
 import {
   DEFAULT_SERVER_PORT,
@@ -68,8 +69,8 @@ import Input from '#shadcn/components/ui/input/Input.vue'
 
   <div class="option">
     <div class="left">
-      <div class="name">端口</div>
-      <div class="description">配置服务器端口（需要重启应用）</div>
+      <div class="name">{{ _t('端口') }}</div>
+      <div class="description">{{ _t('配置服务器端口（需要重启）') }}</div>
     </div>
     <div class="right">
       <Input style="width: 120px;" v-model="config.server_port" @change="updateServerPort"/>
@@ -78,8 +79,8 @@ import Input from '#shadcn/components/ui/input/Input.vue'
 
   <div class="option">
     <div class="left">
-      <div class="name">用户名</div>
-      <div class="description">配置服务器用户名</div>
+      <div class="name">{{ _t('用户名') }}</div>
+      <div class="description">{{ _t('配置服务器用户名') }}</div>
     </div>
     <div class="right">
       <Input style="width: 120px;" v-model="config.username" @change="updateUsername"/>
@@ -88,8 +89,8 @@ import Input from '#shadcn/components/ui/input/Input.vue'
 
   <div class="option">
     <div class="left">
-      <div class="name">密码</div>
-      <div class="description">配置服务器密码</div>
+      <div class="name">{{ _t('密码') }}</div>
+      <div class="description">{{ _t('配置服务器密码') }}</div>
     </div>
     <div class="right">
       <Input style="width: 120px;" v-model="config.password" @change="updatePassword"/>

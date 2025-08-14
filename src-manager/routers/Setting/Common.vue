@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { _t } from '#manager/main/i18n'
 import { config } from '#manager/global'
 import { enable, disable, isEnabled } from '@tauri-apps/plugin-autostart'
 
@@ -30,8 +31,8 @@ import Button from '#shadcn/components/ui/button/Button.vue'
 
   <div class="option">
     <div class="left">
-      <div class="name">语言</div>
-      <div class="description">选择界面语言（需要重启）</div>
+      <div class="name">{{ _t('语言') }}</div>
+      <div class="description">{{ _t('选择界面语言（需要重启）') }}</div>
     </div>
     <div class="right">
       <DropdownMenu>
@@ -50,8 +51,8 @@ import Button from '#shadcn/components/ui/button/Button.vue'
 
   <div class="option">
     <div class="left">
-      <div class="name">开机启动</div>
-      <div class="description">是否开机自动运行</div>
+      <div class="name">{{ _t('开机启动') }}</div>
+      <div class="description">{{ _t('是否开机自动运行') }}</div>
     </div>
     <div class="right">
       <SwitchBrief v-model="config.isAutostart" @click="switchAutostart"/>
@@ -60,18 +61,18 @@ import Button from '#shadcn/components/ui/button/Button.vue'
 
   <div class="option">
     <div class="left">
-      <div class="name">关闭行为</div>
-      <div class="description">点击关闭按钮时，是隐藏窗口还是直接退出</div>
+      <div class="name">{{ _t('关闭行为') }}</div>
+      <div class="description">{{ _t('点击关闭按钮时，是隐藏窗口还是直接退出') }}</div>
     </div>
     <div class="right">
       <DropdownMenu>
         <DropdownMenuTrigger as-child>
-          <Button>{{ config.closeBehavior == 'hide' ? '隐藏' : '退出' }}</Button>
+          <Button>{{ config.closeBehavior == 'hide' ? _t('隐藏') : _t('退出') }}</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent class="w-56">
           <DropdownMenuRadioGroup v-model="config.closeBehavior">
-            <DropdownMenuRadioItem value="hide">最小化到系统托盘</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="exit">退出应用</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="hide">{{ _t('最小化到系统托盘') }}</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="exit">{{ _t('退出应用') }}</DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
         </DropdownMenuContent>
       </DropdownMenu>

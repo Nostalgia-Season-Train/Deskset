@@ -1,3 +1,26 @@
 {
-  "欢迎使用数字桌搭 Deskset": "Welcome to use Deskset"
+  "欢迎使用数字桌搭 Deskset": "Welcome to use Deskset",
+
+
+  "====$Setting====": "====$设置====",
+
+  "通用选项": "General Options",
+  "语言": "Language",
+  "选择界面语言（需要重启）": "Select interface language (requires restart)",
+  "开机启动": "Auto Start",
+  "是否开机自动运行": "Run automatically on startup",
+  "关闭行为": "Close Behavior",
+  "点击关闭按钮时，是隐藏窗口还是直接退出": "Choose to hide the window or exit directly when clicking the close button",
+  "隐藏": "Hide",
+  "退出": "Exit",
+  "最小化到系统托盘": "Minimize to system tray",
+  "退出应用": "Exit application",
+
+  "服务器配置": "Server Configs",
+  "端口": "Port",
+  "配置服务器端口（需要重启）": "Configure server port (requires restart)",
+  "用户名": "Username",
+  "配置服务器用户名": "Configure server username",
+  "密码": "Password",
+  "配置服务器密码": "Configure server password"
 }
