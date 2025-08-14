@@ -28,7 +28,6 @@ export const getWidgetInfo = async (name: string) => {
     }
   } catch (err) {
     logError('Get widget metainfo fail: ' + (err as Error).message)
-  } finally {
     return {
       author: '未知',
       version: '未知',
