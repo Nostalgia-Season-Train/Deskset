@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { _t } from '#manager/main/i18n'
 import { Widget } from '#manager/global'
 import { prefixMark } from '#widget/register'
 
@@ -35,9 +36,9 @@ import Switch from '#shadcn/components/ui/switch/Switch.vue'
         @change="ensureTitle"
       ></input>
       <div class="btns">
-        <div class="btn"><Button @click="emit('remove', widget.id)">删除</Button></div>
-        <div class="btn"><Button>编辑</Button></div>
-        <div class="btn"><Button>定位</Button></div>
+        <div class="btn"><Button @click="emit('remove', widget.id)">{{ _t('删除') }}</Button></div>
+        <div class="btn"><Button>{{ _t('编辑') }}</Button></div>
+        <div class="btn"><Button>{{ _t('定位') }}</Button></div>
       </div>
     </div>
     <div class="name">{{ widget.name.startsWith(prefixMark) ? widget.name.replace(prefixMark, '') : widget.name }}</div>
@@ -50,7 +51,7 @@ import Switch from '#shadcn/components/ui/switch/Switch.vue'
     <div class="left">
       <div>
         <div class="flex">
-          <span class="w-1/3 text-center">坐标</span>
+          <span class="w-1/3 text-center">{{ _t('坐标') }}</span>
           <span class="w-1/3 text-center">{{ widget.x }}</span>
           <span class="w-1/3 text-center">{{ widget.y }}</span>
         </div>
@@ -59,15 +60,15 @@ import Switch from '#shadcn/components/ui/switch/Switch.vue'
 
     <div class="right">
       <div class="option">
-        <span>锁定拖动</span>
+        <span>{{ _t('锁定拖动') }}</span>
         <Switch v-model="widget.isDragLock" @click="emit('switchProp', widget.id, 'drag-lock', !widget.isDragLock)"/>
       </div>
       <div class="option">
-        <span>禁用交互</span>
+        <span>{{ _t('禁用交互') }}</span>
         <Switch v-model="widget.isDisableInteract" @click="emit('switchProp', widget.id, 'disable-interact', !widget.isDisableInteract)"/>
       </div>
       <div class="option">
-        <span>自动隐藏</span>
+        <span>{{ _t('自动隐藏') }}</span>
         <Switch v-model="widget.isAutoHide" @click="emit('switchProp', widget.id, 'auto-hide', !widget.isAutoHide)" :size="20.5"/><!-- 错觉？21px 比其他滑块大一点 -->
       </div>
     </div>
