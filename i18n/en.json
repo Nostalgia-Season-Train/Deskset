@@ -12,10 +12,16 @@
   "禁用交互": "Disable Interact",
   "自动隐藏": "Auto Hide",
 
+  "旧日丨四季列车": "Nostalgia Season Train",
+
   "DigitalClock": "Digital Clock",
+  "以 HHmm 格式，显示现在时间": "Display current time in HHmm format",
   "FlipClock": "Flip Clock",
+  "以 HHmmss 格式，显示现在时间": "Display current time in HHmmss format",
   "Stopwatch": "Stopwatch",
+  "测量时间经过": "Measure elapsed time",
   "Greeting": "Greeting",
+  "根据当前时段，显示个性化问候语": "Display a personalized greeting based on the time of day",
 
 
   "====$Theme====": "====$主题====",

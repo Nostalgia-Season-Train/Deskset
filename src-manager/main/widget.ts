@@ -67,7 +67,11 @@ export const appendWidget = async (
   }
 
   // 2、获取部件信息（元数据）
-  const widgetInfo = name.startsWith(prefixMark) ? inlineRawWidgetMap.get(name)!.metainfo : await getWidgetInfo(name)
+  const widgetInfo = name.startsWith(prefixMark) ? {
+    author: _t(inlineRawWidgetMap.get(name)!.metainfo.author),
+    version: inlineRawWidgetMap.get(name)!.metainfo.version,
+    descript: _t(inlineRawWidgetMap.get(name)!.metainfo.descript)
+  } : await getWidgetInfo(name)
 
   // 3、桌面添加部件 > 返回部件数据
   const widgetData = await desktop.appendWidget(
