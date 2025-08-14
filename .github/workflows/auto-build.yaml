@@ -19,8 +19,8 @@ jobs:
     env:
       # PowerShell 通过 $env:VARIABLE 访问环境变量
       DIST: "out/Deskset"
-      DESKSETBACK_URL: "https://github.com/Nostalgia-Season-Train/DesksetBack-Release/releases/download/v0.0.1/DesksetBack-v0.0.1.zip"
-      DESKSETUPDATER_URL: "https://github.com/Nostalgia-Season-Train/DesksetUpdater/releases/download/v0.0.1/DesksetUpdater.zip"
+      DESKSETBACK_URL: "https://github.com/Nostalgia-Season-Train/DesksetBack/releases/latest/download/DesksetBack.zip"
+      DESKSETUPDATER_URL: "https://github.com/Nostalgia-Season-Train/DesksetUpdater/releases/latest/download/DesksetUpdater.zip"
 
     strategy:
       matrix:
