@@ -2,6 +2,21 @@
   "欢迎使用数字桌搭 Deskset": "Welcome to use Deskset",
 
 
+  "====$Theme====": "====$主题====",
+
+  "保存主题": "Save Theme",
+  "在此输入主题名称": "Enter theme name here",
+  "删除主题": "Delete Theme",
+  "是否删除 ": "Are you sure to delete ",
+  " 主题？": " theme?",
+  "保 存": "Save",
+  "删 除": "Delete",
+  "应 用": "Apply",
+  "搜索": "Search",
+  "暂无可用主题": "No themes available",
+  "点击右上角按钮保存主题": "Click the top-right button to save a theme",
+
+
   "====$Setting====": "====$设置====",
 
   "通用选项": "General Options",

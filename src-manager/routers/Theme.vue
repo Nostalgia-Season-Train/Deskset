@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { _t } from '#manager/main/i18n'
 import { ref } from 'vue'
 import { activeThemeMap } from '#manager/global'
 
@@ -15,14 +16,14 @@ import {
 } from '#manager/main/theme'
 
 const saveTheme = async () => {
-  const name = await messageInput('保存主题', '', '在此输入主题名称')
+  const name = await messageInput(_t('保存主题'), '', _t('在此输入主题名称'))
   if (name == null || name == LATEST_THEME)
     return
   await saveThemeFile(name)
 }
 
 const deleteTheme = async (name: string) => {
-  if (!await message('删除主题', `是否删除 ${name} 主题？`))
+  if (!await message(_t('删除主题'), _t(`是否删除 `) + name + _t(` 主题？`))) 
     return
 
   await deleteThemeFile(name)
@@ -45,8 +46,8 @@ import Input from '#shadcn/components/ui/input/Input.vue'
 <div class="container">
 
   <div class="header h-[36px]">
-    <Input v-model="searchText" placeholder="搜索"/>
-    <Button @click="saveTheme">保 存</Button>
+    <Input v-model="searchText" :placeholder="_t('搜索')"/>
+    <Button @click="saveTheme">{{ _t('保 存') }}</Button>
   </div>
 
   <div class="themes-wrapper">
@@ -60,8 +61,8 @@ import Input from '#shadcn/components/ui/input/Input.vue'
             <span class="text-deskset-primary">{{ theme.savetime }}</span>
           </div>
           <div class="right">
-            <Button @click="deleteTheme(theme?.name)">删 除</Button>
-            <Button @click="applyTheme(theme?.name)">应 用</Button>
+            <Button @click="deleteTheme(theme?.name)">{{ _t('删 除') }}</Button>
+            <Button @click="applyTheme(theme?.name)">{{ _t('应 用') }}</Button>
           </div>
         </div>
       </div>
@@ -70,8 +71,8 @@ import Input from '#shadcn/components/ui/input/Input.vue'
 
   <div class="prompt" v-if="activeThemeMap.size == 0 || (activeThemeMap.size == 1 && activeThemeMap.get(LATEST_THEME) != undefined)"><!-- 可选链访问：themes 挂载后赋值 -->
     <div>
-      <div class="text text-deskset-primary">暂无可用主题</div>
-      <div class="text text-deskset-primary">点击右上角按钮保存主题</div>
+      <div class="text text-deskset-primary">{{ _t('暂无可用主题') }}</div>
+      <div class="text text-deskset-primary">{{ _t('点击右上角按钮保存主题') }}</div>
     </div>
   </div>
 
