@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { _t } from '#manager/main/i18n'
+
 /* === 子组件 === */
 import { Plus } from 'lucide-vue-next'
 import Button from '#shadcn/components/ui/button/Button.vue'
@@ -35,7 +37,7 @@ const openMenu = async () => {
     </DropdownMenuTrigger>
     <DropdownMenuContent class="w-full">
       <DropdownMenuItem v-for="option in options" @click="$emit('select', option)">
-        {{ option.startsWith(prefixMark) ? option.replace(prefixMark, '') : option }}
+        {{ option.startsWith(prefixMark) ? _t(option.replace(prefixMark, '')) : option }}
       </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>

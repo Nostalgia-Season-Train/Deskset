@@ -1,7 +1,7 @@
 export const prefixMark = '/@Deskset/'
 
 export const inlineRawWidgetMap = new Map([
-  [`${prefixMark}数字时钟`, {
+  [`${prefixMark}DigitalClock`, {
     // @ts-ignore
     main: () => import('/src-widget/时间日期/简单时间：24时.vue'),
     metainfo: {
@@ -10,7 +10,7 @@ export const inlineRawWidgetMap = new Map([
       descript: '以 HHmm 格式，显示现在时间'
     }
   }],
-  [`${prefixMark}翻页时钟`, {
+  [`${prefixMark}FlipClock`, {
     // @ts-ignore
     main: () => import('/src-widget/简约系列/翻页时钟.vue'),
     metainfo: {
@@ -19,7 +19,7 @@ export const inlineRawWidgetMap = new Map([
       descript: '以 HHmmss 格式，显示现在时间'
     }
   }],
-  [`${prefixMark}秒表`, {
+  [`${prefixMark}Stopwatch`, {
     // @ts-ignore
     main: () => import('/src-widget/简约系列/计时器.vue'),
     metainfo: {
@@ -28,7 +28,7 @@ export const inlineRawWidgetMap = new Map([
       descript: '测量时间经过'
     }
   }],
-  [`${prefixMark}问候语`, {
+  [`${prefixMark}Greeting`, {
     // @ts-ignore
     main: () => import('/src-widget/问候语/打字机问候.vue'),
     metainfo: {

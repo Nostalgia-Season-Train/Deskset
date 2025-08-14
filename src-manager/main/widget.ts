@@ -38,6 +38,7 @@ export const getWidgetInfo = async (name: string) => {
 
 
 /* === 添加部件 === */
+import { _t } from './i18n'
 import desktop from '#manager/global/page/desktop'
 import { activeWidgetMap } from '#manager/global'
 import { inlineRawWidgetMap, prefixMark } from '#widget/register'
@@ -83,7 +84,7 @@ export const appendWidget = async (
   activeWidgetMap.set(id, {
     id: id,
 
-    title: title ?? name.startsWith(prefixMark) ? name.replace(prefixMark, '') : name,
+    title: title ?? name.startsWith(prefixMark) ? _t(name.replace(prefixMark, '')) : name,
     name: name,
 
     author: widgetInfo.author,

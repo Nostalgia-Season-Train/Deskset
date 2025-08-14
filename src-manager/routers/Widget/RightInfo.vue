@@ -14,7 +14,7 @@ const emit = defineEmits([
 
 const ensureTitle = async () => {
   if (widget.value.title == '') {
-    widget.value.title = widget.value.name.startsWith(prefixMark) ? widget.value.name.replace(prefixMark, '') : widget.value.name
+    widget.value.title = widget.value.name.startsWith(prefixMark) ? _t(widget.value.name.replace(prefixMark, '')) : widget.value.name
   }
 }
 
@@ -41,7 +41,7 @@ import Switch from '#shadcn/components/ui/switch/Switch.vue'
         <div class="btn"><Button>{{ _t('定位') }}</Button></div>
       </div>
     </div>
-    <div class="name">{{ widget.name.startsWith(prefixMark) ? widget.name.replace(prefixMark, '') : widget.name }}</div>
+    <div class="name">{{ widget.name.startsWith(prefixMark) ? _t(widget.name.replace(prefixMark, '')) : widget.name }}</div>
     <div class="author">{{ widget.author }}</div>
     <div class="version">{{ widget.version }}</div>
     <div class="descript">{{ widget.descript }}</div>
