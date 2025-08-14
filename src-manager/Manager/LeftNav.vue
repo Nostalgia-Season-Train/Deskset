@@ -211,14 +211,14 @@ const setLightPos = async (e: MouseEvent) => {
     color: white;
     filter: drop-shadow(0 0 5px white);
     background-color: #FFF1;
-    svg {
-      opacity: 0;
-      transform: scale(0);
-    }
-    span {
-      opacity: 1;
-      transform: scale(1);
-    }
+    // svg {
+    //   opacity: 0;
+    //   transform: scale(0);
+    // }
+    // span {
+    //   opacity: 1;
+    //   transform: scale(1);
+    // }
   }
 }
 
@@ -234,7 +234,7 @@ const setLightPos = async (e: MouseEvent) => {
 <style scoped>
 .nav {
   background: #212121;  /* 等于下面滤镜色 background-color */
-  --light-color: white;
+  /* --light-color: white; */
 }
 
 /* --- 流光：光源 --- */
