@@ -18,6 +18,7 @@ const desktopMain = useTemplateRef('desktopMain')
 
 /* === SFC 方法 === */
 import { h, render, defineAsyncComponent } from 'vue'
+import { reactive, watch } from 'vue'
 import { compile } from './main/compile'
 import { inlineRawWidgetMap, prefixMark } from '#widget/register'
 import { stat, BaseDirectory } from '@tauri-apps/plugin-fs'
@@ -70,7 +71,11 @@ const appendWidget = async (
 
   // 1、渲染组件
   const vnode = h(component, {
-    onVnodeMounted: () => mountSignal()
+    onVnodeMounted: () => mountSignal(),
+    // 组件 v-model：虽然不规范，但是这里只能用 reactive
+      // 使用常量：model 无法修改
+      // 使用 ref：嵌套两个 value
+    modelValue: reactive({})
   })
   const container = document.createElement('div')
   container.id = id  // 用于原生 js 根据 id 获取部件所在 div
@@ -106,13 +111,21 @@ const appendWidget = async (
   if (left != null) container.style.left = left + 'px'
   if (top != null) container.style.top = top + 'px'
 
+  // 6、监听组件 v-model 变化
+  const unwatch = watch(
+    vnode.props!.modelValue,
+    async () => console.log(vnode.props!.modelValue)
+  )
+
   activeWidgetMap.set(id, {
     id: id,
     container: container,
     style: style,
     listens: [
       { event: 'mousedown', func: drag }
-    ]
+    ],
+    model: vnode.props!.modelValue,
+    unwatch: unwatch
   })
 
   return {
@@ -129,6 +142,7 @@ const appendWidget = async (
 const removeWidget = async (id: string) => {
   const widget = activeWidgetMap.get(id)
 
+  widget!.unwatch()
   for (const listen of widget!.listens) {
     widget!.container.removeEventListener(listen.event, listen.func)
   }
