@@ -18,10 +18,12 @@ const desktopMain = useTemplateRef('desktopMain')
 
 /* === SFC 方法 === */
 import { h, render, defineAsyncComponent } from 'vue'
-import { reactive, watch } from 'vue'
+import { reactive, watch, toRaw } from 'vue'
 import { compile } from './main/compile'
 import { inlineRawWidgetMap, prefixMark } from '#widget/register'
 import { stat, BaseDirectory } from '@tauri-apps/plugin-fs'
+
+const desktopSend = new BroadcastChannel('DesktopSend')
 
 const appendWidget = async (
   id: string,
@@ -30,7 +32,8 @@ const appendWidget = async (
   isDisableInteract: boolean | null,
   isAutoHide: boolean | null,
   left: number | null,
-  top: number | null
+  top: number | null,
+  model: Record<string, any>
 ) => {
   let component
   let style
@@ -75,7 +78,7 @@ const appendWidget = async (
     // 组件 v-model：虽然不规范，但是这里只能用 reactive
       // 使用常量：model 无法修改
       // 使用 ref：嵌套两个 value
-    modelValue: reactive({})
+    modelValue: reactive(model)
   })
   const container = document.createElement('div')
   container.id = id  // 用于原生 js 根据 id 获取部件所在 div
@@ -114,7 +117,10 @@ const appendWidget = async (
   // 6、监听组件 v-model 变化
   const unwatch = watch(
     vnode.props!.modelValue,
-    async () => console.log(vnode.props!.modelValue)
+    async () => desktopSend.postMessage({
+      id: id,
+      model: toRaw(vnode.props!.modelValue)
+    })
   )
 
   activeWidgetMap.set(id, {
@@ -135,7 +141,8 @@ const appendWidget = async (
     x: (container.offsetLeft + (container.offsetWidth >> 1)) * window.devicePixelRatio | 0,
     y: (container.offsetTop + (container.offsetHeight >> 1)) * window.devicePixelRatio | 0,
     left: container.offsetLeft,
-    top: container.offsetTop
+    top: container.offsetTop,
+    model: vnode.props!.modelValue
   }
 }
 

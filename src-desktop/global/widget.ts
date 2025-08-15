@@ -8,7 +8,7 @@ export interface Widget {
   listens: { event: string, func: any }[]
 
   // v-model 用作部件配置
-  model: Reactive<{ [key: string]: any }>
+  model: Reactive<Record<string, any>>
   unwatch: WatchHandle
 }
 

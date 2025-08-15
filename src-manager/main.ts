@@ -116,10 +116,19 @@ const broadcast = new BroadcastChannel('DesktopSend')
 broadcast.onmessage = (ev) => {
   const data = ev.data
   const widget = activeWidgetMap.get(data.id)
-  widget!.x = data.x
-  widget!.y = data.y
-  widget!.left = data.left
-  widget!.top = data.top
+  if (widget != undefined) {
+    if (data.model) {
+      widget.model = data.model
+    } else {
+      widget!.x = data.x
+      widget!.y = data.y
+      widget!.left = data.left
+      widget!.top = data.top
+    }
+  } else {
+    // 小概率：桌面页 mount 完毕，但是管理页还未 set
+    console.log(`Desktop send ${data.id} before Manager set`)
+  }
 }
 
 /* --- 监听托盘事件 --- */

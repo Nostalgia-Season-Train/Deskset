@@ -22,6 +22,9 @@ export interface Widget {
   // 实际偏移，用于应用主题时设置部件位置
   left: number
   top: number
+
+  // 部件配置
+  model: Record<string, any>
 }
 
 export const activeWidgetMap = reactive(new Map<string, Widget>())
@@ -46,6 +49,8 @@ export const convertWidgetInTheme = async (data: any) => {
     isAutoHide: typeof data?.isAutoHide == 'boolean' ? data.isAutoHide as boolean : false,
 
     left: typeof data?.left == 'number' ? data.left as number : 0,
-    top: typeof data?.top == 'number' ? data.top as number : 0
+    top: typeof data?.top == 'number' ? data.top as number : 0,
+
+    model: Object.prototype.toString.call(data?.model) == '[object Object]' ? data.model as Record<string, any> : {}
   }
 }

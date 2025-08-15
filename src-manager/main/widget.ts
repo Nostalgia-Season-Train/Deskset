@@ -47,12 +47,13 @@ export const appendWidget = async (
   // 部件名称
   name: string,
 
-  // 用于桌面页：部件属性、位置
+  // 用于桌面页：部件属性、位置、配置
   isDragLock: boolean | null = null,
   isDisableInteract: boolean | null = null,
   isAutoHide: boolean | null = null,
   left: number | null = null,
   top: number | null = null,
+  model: Record<string, any> = {},
 
   // 用于管理页：部件标题（用户自定义，默认等于部件名称）
   title: string | null = null
@@ -81,7 +82,8 @@ export const appendWidget = async (
     isDisableInteract,
     isAutoHide,
     left,
-    top
+    top,
+    model
   )
 
   // 4、记录部件
@@ -103,6 +105,8 @@ export const appendWidget = async (
     y: widgetData.y,
 
     left: widgetData.left,
-    top: widgetData.top
+    top: widgetData.top,
+
+    model: widgetData.model
   })
 }
