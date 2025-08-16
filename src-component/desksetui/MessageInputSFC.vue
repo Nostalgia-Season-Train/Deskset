@@ -44,8 +44,8 @@ const btnConfirm = () => {
 
 
 /* === 子组件 === */
-import Button from './Button.vue'
-import Input from './Input.vue'
+import Button from '#shadcn/components/ui/button/Button.vue'
+import Input from '#shadcn/components/ui/input/Input.vue'
 </script>
 
 
@@ -109,8 +109,9 @@ import Input from './Input.vue'
 
     width: 420px;
     height: 128px;
-    border: solid 1px rgba(#FFF, .5);
-    background: #0009;
+    border: solid 1px rgba(#333, .85);
+    border-radius: .15rem;
+    background: #FFF;
 
     .text {
       position: absolute;
@@ -118,11 +119,11 @@ import Input from './Input.vue'
       left: 10px;
 
       .title {
-        color: #FFF;
+        color: #000;
         font-size: 20px;
       }
       .content {
-        color: #FFFA;
+        color: #000A;
         font-size: 16px;
       }
       .input {
