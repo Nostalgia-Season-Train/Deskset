@@ -48,6 +48,8 @@ jobs:
       run: |
         New-Item -ItemType Directory -Path $env:DIST
 
+        Copy-Item -Path "./licenses" -Destination "./$env:DIST/licenses" -Recurse
+
         ./build.bat
         Copy-Item -Path "./setBottom.dll" -Destination "./$env:DIST/"
 
