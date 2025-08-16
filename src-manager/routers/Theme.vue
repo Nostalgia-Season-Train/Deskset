@@ -16,14 +16,14 @@ import {
 } from '#manager/main/theme'
 
 const saveTheme = async () => {
-  const name = await messageInput(_t('保存主题'), '', _t('在此输入主题名称'))
-  if (name == null || name == LATEST_THEME)
+  const name = await messageInput(_t('保存主题'), '', _t('在此输入主题名称'), _t('取消'), _t('确认'))
+  if (name == null || name == '' || name == LATEST_THEME)
     return
   await saveThemeFile(name)
 }
 
 const deleteTheme = async (name: string) => {
-  if (!await message(_t('删除主题'), _t(`是否删除 `) + name + _t(` 主题？`))) 
+  if (!await message(_t('删除主题'), _t(`是否删除 `) + name + _t(` 主题？`), _t('取消'), _t('确认'))) 
     return
 
   await deleteThemeFile(name)
