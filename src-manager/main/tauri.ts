@@ -33,6 +33,10 @@ export const exitDeskset = async () => {
     logError(`While exiting, a error occur: ${err}`)
   }
 
+  // - [ ] 临时：直接退出，关闭窗口可能卡住
+  await exit(0)
+  return
+
   // 关闭所有窗口
   for (const win of await getAllWindows()) {
     try {
