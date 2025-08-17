@@ -18,7 +18,7 @@ BOOL CALLBACK findDefView(HWND hWnd, LPARAM lParam) {
     // 4、如果找到，返回数据并结束遍历
     if (hDefView != NULL) {
       HWND *pReturn = (HWND *)lParam;
-      *pReturn = hWnd;
+      *pReturn = hDefView;
       return FALSE;
     }
   }
