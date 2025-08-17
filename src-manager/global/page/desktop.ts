@@ -102,6 +102,10 @@ class BroadcastDesktopClient {
     return this.hook('setWidgetPosition', [id, left, top])
   }
 
+  setWidgetScale = (id: string, scale: number) => {
+    return this.hook('setWidgetScale', [id, scale])
+  }
+
   getWindowData = (): Promise<{ width: number, height: number, dpr: number }> => {
     return this.hook('getWindowData', [])
   }

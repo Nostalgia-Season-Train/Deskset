@@ -85,6 +85,7 @@ const appendWidget = async (
   container.style.position = 'absolute'
   container.style.left = '0px'
   container.style.top = '0px'
+  container.style.transformOrigin = 'center center'  // 以 container 中心作变换；适用于缩放
   render(vnode, container)
   // if (url != null) {
   //   URL.revokeObjectURL(url)  // NodeJS 和浏览器均不能析构 import() 缓存
@@ -177,6 +178,13 @@ const setWidgetPosition = async (id: string, left: number, top: number) => {
   container.style.top = top + 'px'
 }
 
+const setWidgetScale = async (id: string, scale: number) => {
+  const widget = activeWidgetMap.get(id)
+
+  const container = widget!.container
+  container.style.transform = `scale(${scale})`
+}
+
 const getWindowData = async () => {
   return {
     width: window.innerWidth,
@@ -196,6 +204,7 @@ const actions = {
   removeWidget,
   switchWidgetProp,
   setWidgetPosition,
+  setWidgetScale,
   getWindowData
 }
 const broadcast = new BroadcastChannel('Desktop')
