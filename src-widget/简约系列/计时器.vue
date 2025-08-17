@@ -59,7 +59,7 @@ onBeforeUnmount(() => stopwatch.finish())  // 重要！step 不会自动停止
 
 
 /* === 图标 === */
-import { Icon } from '@iconify/vue'
+import { Play, Square } from 'lucide-vue-next'
 </script>
 
 
@@ -68,10 +68,10 @@ import { Icon } from '@iconify/vue'
   <div class="time">{{ time }}</div>
   <div class="button">
     <div v-if="isTiming == false" @click="stopwatch.begin(); isTiming = true">
-      <Icon icon="lucide:play"/>
+      <Play/>
     </div>
     <div v-if="isTiming == true" @click="stopwatch.finish(); isTiming = false">
-      <Icon icon="lucide:square"/>
+      <Square/>
     </div>
   </div>
 </div>
@@ -86,7 +86,7 @@ import { Icon } from '@iconify/vue'
   align-items: center;  // time 变化会左右移动，后面优化
   color: white;
   .time {
-    font-size: 1.6em;
+    font-size: 1.8em;
   }
   .button {
     font-size: 1.2em;
