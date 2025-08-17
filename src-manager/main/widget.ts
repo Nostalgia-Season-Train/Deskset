@@ -77,13 +77,14 @@ export const appendWidget = async (
   // 3、桌面添加部件 > 返回部件数据
   const widgetData = await desktop.appendWidget(
     id,
-    name,
-    isDragLock,
-    isDisableInteract,
-    isAutoHide,
-    left,
-    top,
-    model
+    name, {
+      isDragLock: isDragLock,
+      isDisableInteract: isDisableInteract,
+      isAutoHide: isAutoHide,
+      left: left,
+      top: top,
+      model: model
+    }
   )
 
   // 4、记录部件

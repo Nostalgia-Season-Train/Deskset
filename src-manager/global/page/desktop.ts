@@ -53,12 +53,21 @@ class BroadcastDesktopClient {
   appendWidget = (
     id: string,
     name: string,
-    isDragLock: boolean | null = null,
-    isDisableInteract: boolean | null = null,
-    isAutoHide: boolean | null = null,
-    left: number | null = null,
-    top: number | null = null,
-    model: Record<string, any> = {}
+    option: {
+      isDragLock?: boolean | null,
+      isDisableInteract?: boolean | null,
+      isAutoHide?: boolean | null,
+      left?: number | null,
+      top?: number | null,
+      model?: Record<string, any>
+    } = {
+      isDragLock: null,
+      isDisableInteract: null,
+      isAutoHide: null,
+      left: null,
+      top: null,
+      model: {}
+    }
   ): Promise<{
     isDragLock: boolean,
     isDisableInteract: boolean,
@@ -69,7 +78,16 @@ class BroadcastDesktopClient {
     top: number,
     model: Record<string, any>
   }> => {
-    return this.hook('appendWidget', [id, name, isDragLock, isDisableInteract, isAutoHide, left, top, model])
+    return this.hook('appendWidget', [
+      id,
+      name,
+      option.isDragLock,
+      option.isDisableInteract,
+      option.isAutoHide,
+      option.left,
+      option.top,
+      option.model
+    ])
   }
 
   removeWidget = (id: string): Promise<void> => {
