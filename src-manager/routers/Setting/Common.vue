@@ -13,6 +13,25 @@ const switchAutostart = async () => {
   }
 }
 
+// - [ ] 临时：一同设置服务器语言
+import axios from 'axios'
+
+const updateLanguage = async (language: string) => {
+  // 设置 Deskset 语言
+  config.language = language
+
+  // 设置 DesksetBack 语言
+  try {
+    await axios.post(
+      '/v0/config/language',
+      new URLSearchParams({ language: language }), {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      }
+    )
+  } catch {}
+}
+
+
 /* === 子组件 === */
 import SwitchBrief from '#shadcn/components/ui/switch/Switch.vue'
 import {
@@ -40,9 +59,9 @@ import Button from '#shadcn/components/ui/button/Button.vue'
           <Button>{{ config.language == 'zh-cn' ? '中文' : 'English' }}</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent class="w-56">
-          <DropdownMenuRadioGroup v-model="config.language">
-            <DropdownMenuRadioItem value="zh-cn">中文</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="en">English</DropdownMenuRadioItem>
+          <DropdownMenuRadioGroup>
+            <DropdownMenuRadioItem value="zh-cn" @select="updateLanguage('zh-cn')">中文</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="en" @select="updateLanguage('en')">English</DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
         </DropdownMenuContent>
       </DropdownMenu>
