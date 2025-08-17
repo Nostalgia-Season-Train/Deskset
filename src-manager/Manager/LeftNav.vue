@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, defineEmits } from 'vue'
-import { Icon } from '@iconify/vue'
+import { Info, LayoutDashboard, Palette, Settings } from 'lucide-vue-next'
 
 const emit = defineEmits(['jump'])  // 此 emit 非 $emit
 
@@ -67,7 +67,11 @@ const setLightPos = async (e: MouseEvent) => {
         @click="select(item?.page, $event)"
         href="#"
       >
-        <div class="icon" v-if="item?.icon"><Icon :icon="item.icon"/></div>
+        <div class="icon" v-if="item?.icon">
+          <Info v-if="item.icon == 'lucide:info'" style="width: 1em; height: 1em;"/>
+          <LayoutDashboard v-if="item.icon == 'lucide:layout-dashboard'" style="width: 1em; height: 1em;"/>
+          <Palette v-if="item.icon == 'lucide:palette'" style="width: 1em; height: 1em;"/>
+        </div>
         <div class="text" v-if="item?.text"><span>{{ item.text }}</span></div>
       </component>
     </div>
@@ -80,7 +84,9 @@ const setLightPos = async (e: MouseEvent) => {
         @click="select(item?.page, $event)"
         href="#"
       >
-        <div class="icon" v-if="item?.icon"><Icon :icon="item.icon"/></div>
+        <div class="icon" v-if="item?.icon">
+          <Settings v-if="item.icon == 'line-md:cog-loop'" style="width: 1em; height: 1em;"/>
+        </div>
         <div class="text" v-if="item?.text"><span>{{ item.text }}</span></div>
       </component>
     </div>
