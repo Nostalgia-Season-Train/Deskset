@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { inject } from 'vue'
-import { Icon } from '@iconify/vue'
+import { Minus, Square, X } from 'lucide-vue-next'
 
 import win from '#manager/global/win/manager'
 import { config } from '#manager/global'
@@ -26,10 +26,9 @@ const clickCloseButton = async () => {
   </div>
 
   <div class="right">
-    <span><Icon icon="lucide:messages-square"/></span>
-    <span @click="win.minimize()"><Icon icon="lucide:minus" style="width: 18px; height: 18px;"/></span>
-    <span><Icon icon="lucide:square" style="width: 14px; height: 14px;"/></span>
-    <span @click="clickCloseButton" style="--hover-color: #D32F2FD0;"><Icon icon="lucide:x"/></span>
+    <span @click="win.minimize()"><Minus style="width: 18px; height: 18px;"/></span>
+    <span><Square style="width: 14px; height: 14px;"/></span>
+    <span @click="clickCloseButton" style="--hover-color: #D32F2FD0;"><X style="width: 18px; height: 18px;"/></span>
   </div>
 
 </div>
