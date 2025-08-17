@@ -109,6 +109,7 @@ export const applyTheme = async (name: string) => {
       widgetInTheme.isAutoHide,
       widgetInTheme.left,
       widgetInTheme.top,
+      widgetInTheme.scale,
       widgetInTheme.model,
       widgetInTheme.title
     )

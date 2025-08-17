@@ -51,6 +51,7 @@ export const convertWidgetInTheme = async (data: any) => {
 
     left: typeof data?.left == 'number' ? data.left as number : 0,
     top: typeof data?.top == 'number' ? data.top as number : 0,
+    scale: typeof data?.scale == 'number' ? data.scale as number : 1,
 
     model: Object.prototype.toString.call(data?.model) == '[object Object]' ? data.model as Record<string, any> : {}
   }

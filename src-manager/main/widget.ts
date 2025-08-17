@@ -53,6 +53,7 @@ export const appendWidget = async (
   isAutoHide: boolean | null = null,
   left: number | null = null,
   top: number | null = null,
+  scale: number | null = null,
   model: Record<string, any> = {},
 
   // 用于管理页：部件标题（用户自定义，默认等于部件名称）
@@ -83,6 +84,7 @@ export const appendWidget = async (
       isAutoHide: isAutoHide,
       left: left,
       top: top,
+      scale: scale,
       model: model
     }
   )
