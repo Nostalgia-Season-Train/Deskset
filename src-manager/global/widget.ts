@@ -22,6 +22,7 @@ export interface Widget {
   // 实际偏移，用于应用主题时设置部件位置
   left: number
   top: number
+  scale: number  // 缩放
 
   // 部件配置
   model: Record<string, any>

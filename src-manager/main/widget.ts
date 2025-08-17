@@ -107,6 +107,7 @@ export const appendWidget = async (
 
     left: widgetData.left,
     top: widgetData.top,
+    scale: widgetData.scale,
 
     model: widgetData.model
   })

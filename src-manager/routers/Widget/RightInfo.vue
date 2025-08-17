@@ -18,6 +18,14 @@ const ensureTitle = async () => {
   }
 }
 
+// - [ ] 后续：回退上个值而非默认值
+import desktop from '#manager/global/page/desktop'
+
+const ensureScale = async () => {
+  widget.value.scale = Number(widget.value.scale) > 0 ? Number(widget.value.scale) : 1
+  await desktop.setWidgetScale(widget.value.id, widget.value.scale)
+}
+
 
 /* === 子组件 === */
 import Button from '#shadcn/components/ui/button/Button.vue'
@@ -57,7 +65,7 @@ import Switch from '#shadcn/components/ui/switch/Switch.vue'
         </div>
         <div class="flex">
           <span class="w-1/3 text-center">{{ _t('缩放') }}</span>
-          <input class="w-2/3 text-center"/>
+          <input class="w-2/3 text-center" v-model="widget.scale" @change="ensureScale"/>
         </div>
       </div>
     </div>

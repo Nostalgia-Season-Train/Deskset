@@ -33,6 +33,7 @@ const appendWidget = async (
   isAutoHide: boolean | null,
   left: number | null,
   top: number | null,
+  scale: number | null,
   model: Record<string, any>
 ) => {
   let component
@@ -115,6 +116,9 @@ const appendWidget = async (
   if (left != null) container.style.left = left + 'px'
   if (top != null) container.style.top = top + 'px'
 
+  const finalScale = scale != null ? scale : 1
+  container.style.transform = `scale(${finalScale})`
+
   // 6、监听组件 v-model 变化
   const unwatch = watch(
     vnode.props!.modelValue,
@@ -143,6 +147,7 @@ const appendWidget = async (
     y: (container.offsetTop + (container.offsetHeight >> 1)) * window.devicePixelRatio | 0,
     left: container.offsetLeft,
     top: container.offsetTop,
+    scale: finalScale,
     model: vnode.props!.modelValue
   }
 }

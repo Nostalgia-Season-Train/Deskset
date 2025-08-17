@@ -59,6 +59,7 @@ class BroadcastDesktopClient {
       isAutoHide?: boolean | null,
       left?: number | null,
       top?: number | null,
+      scale?: number | null,
       model?: Record<string, any>
     } = {
       isDragLock: null,
@@ -66,6 +67,7 @@ class BroadcastDesktopClient {
       isAutoHide: null,
       left: null,
       top: null,
+      scale: null,
       model: {}
     }
   ): Promise<{
@@ -76,6 +78,7 @@ class BroadcastDesktopClient {
     y: number,
     left: number,
     top: number,
+    scale: number,
     model: Record<string, any>
   }> => {
     return this.hook('appendWidget', [
@@ -86,6 +89,7 @@ class BroadcastDesktopClient {
       option.isAutoHide,
       option.left,
       option.top,
+      option.scale,
       option.model
     ])
   }
