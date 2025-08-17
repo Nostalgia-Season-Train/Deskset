@@ -55,6 +55,10 @@ import Switch from '#shadcn/components/ui/switch/Switch.vue'
           <span class="w-1/3 text-center">{{ widget.x }}</span>
           <span class="w-1/3 text-center">{{ widget.y }}</span>
         </div>
+        <div class="flex">
+          <span class="w-1/3 text-center">{{ _t('缩放') }}</span>
+          <input class="w-2/3 text-center"/>
+        </div>
       </div>
     </div>
 

@@ -20,7 +20,10 @@
   "删除": "Delete",
   "编辑": "Edit",
   "定位": "Locate",
+
   "坐标": "Axis",
+  "缩放": "Scale",
+
   "锁定拖动": "Drag Lock",
   "禁用交互": "Disable Interact",
   "自动隐藏": "Auto Hide",
