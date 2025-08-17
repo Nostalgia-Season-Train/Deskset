@@ -174,13 +174,25 @@ const switchWidgetProp = async (id: string, prop: string, state: boolean) => {
   widget!.container.classList.toggle('deskset_' + prop, state)
 }
 
-const setWidgetPosition = async (id: string, left: number, top: number) => {
+const setWidgetAxis = async (id: string, x: number | null, y: number | null) => {
   const widget = activeWidgetMap.get(id)
 
   const container = widget!.container
-  container.style.position = 'absolute'
+
+  const dpr = window.devicePixelRatio
+  const width = container.offsetWidth
+  const height = container.offsetHeight
+
+  const left = x ? (x / dpr) - (width >> 1) : desktopMain.value!.offsetWidth / 2 - width / 2
+  const top = y ? (y / dpr) - (height >> 1) : desktopMain.value!.offsetHeight / 2 - height / 2
   container.style.left = left + 'px'
   container.style.top = top + 'px'
+
+  // 计算并传出最终 x, y，方便检查是否跟传入最初 x, y 一致
+  return {
+    x: (container.offsetLeft + (container.offsetWidth >> 1)) * window.devicePixelRatio | 0,
+    y: (container.offsetTop + (container.offsetHeight >> 1)) * window.devicePixelRatio | 0
+  }
 }
 
 const setWidgetScale = async (id: string, scale: number) => {
@@ -208,7 +220,7 @@ const actions = {
   appendWidget,
   removeWidget,
   switchWidgetProp,
-  setWidgetPosition,
+  setWidgetAxis,
   setWidgetScale,
   getWindowData
 }

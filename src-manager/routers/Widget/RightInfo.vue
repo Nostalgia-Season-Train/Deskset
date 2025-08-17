@@ -21,6 +21,20 @@ const ensureTitle = async () => {
 // - [ ] 后续：回退上个值而非默认值
 import desktop from '#manager/global/page/desktop'
 
+const ensureAxisX = async () => {
+  const x = Number(widget.value.x) > 0 ? Number(widget.value.x) : null
+  const axis = await desktop.setWidgetAxis(widget.value.id, x, widget.value.y)
+  widget.value.x = axis.x
+  widget.value.y = axis.y
+}
+
+const ensureAxisY = async () => {
+  const y = Number(widget.value.y) > 0 ? Number(widget.value.y) : null
+  const axis = await desktop.setWidgetAxis(widget.value.id, widget.value.x, y)
+  widget.value.x = axis.x
+  widget.value.y = axis.y
+}
+
 const ensureScale = async () => {
   widget.value.scale = Number(widget.value.scale) > 0 ? Number(widget.value.scale) : 1
   await desktop.setWidgetScale(widget.value.id, widget.value.scale)
@@ -60,8 +74,8 @@ import Switch from '#shadcn/components/ui/switch/Switch.vue'
       <div>
         <div class="flex">
           <span class="w-1/3 text-center">{{ _t('坐标') }}</span>
-          <span class="w-1/3 text-center">{{ widget.x }}</span>
-          <span class="w-1/3 text-center">{{ widget.y }}</span>
+          <input class="w-1/3 text-center" v-model="widget.x" @change="ensureAxisX"/>
+          <input class="w-1/3 text-center" v-model="widget.y" @change="ensureAxisY"/>
         </div>
         <div class="flex">
           <span class="w-1/3 text-center">{{ _t('缩放') }}</span>
