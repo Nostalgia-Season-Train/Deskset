@@ -64,14 +64,15 @@ import Switch from '#shadcn/components/ui/switch/Switch.vue'
       </div>
     </div>
     <div class="name">{{ widget.name.startsWith(prefixMark) ? _t(widget.name.replace(prefixMark, '')) : widget.name }}</div>
-    <div class="author">{{ widget.author }}</div>
-    <div class="version">{{ widget.version }}</div>
-    <div class="descript">{{ widget.descript }}</div>
+    <div class="author">作者：{{ widget.author }}</div><!-- - [ ] 需要翻译 -->
+    <div class="version">版本：{{ widget.version }}</div><!-- - [ ] 需要翻译 -->
+    <div class="descript">描述：{{ widget.descript }}</div><!-- - [ ] 需要翻译 -->
   </div>
 
   <div class="bottom">
     <div class="left">
       <div>
+        <div class="text-center">位置 & 大小</div><!-- - [ ] 需要翻译 -->
         <div class="flex">
           <span class="w-1/3 text-center">{{ _t('坐标') }}</span>
           <input class="w-1/3 text-center" v-model="widget.x" @change="ensureAxisX"/>
@@ -85,6 +86,7 @@ import Switch from '#shadcn/components/ui/switch/Switch.vue'
     </div>
 
     <div class="right">
+      <div class="text-center">属性</div><!-- - [ ] 需要翻译 -->
       <div class="option">
         <span>{{ _t('锁定拖动') }}</span>
         <Switch v-model="widget.isDragLock" @click="emit('switchProp', widget.id, 'drag-lock', !widget.isDragLock)"/>
@@ -143,7 +145,7 @@ import Switch from '#shadcn/components/ui/switch/Switch.vue'
     }
   }
   .bottom {
-    height: 35%;
+    height: 30%;
 
     display: flex;
     justify-content: space-between;
