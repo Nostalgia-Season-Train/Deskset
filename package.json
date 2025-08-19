@@ -48,6 +48,7 @@
     "@vueuse/core": "^12.8.2",
     "acorn": "^8.15.0",
     "axios": "^1.7.8",
+    "charts.css": "^1.2.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
