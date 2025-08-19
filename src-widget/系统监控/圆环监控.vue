@@ -7,11 +7,9 @@ const ram_percent = ref('50')
 
 
 /* === 轮询 === */
-import { inject } from 'vue'
-import { Axios } from 'axios'
+import axios from 'axios'
 import { useIntervalFn } from '@vueuse/core'
 
-const axios = inject('$axios') as Axios
 const refresh = async () => {
   const data = (await axios.get('/v0/device/realtime')).data
   cpu_percent.value = data.result.cpu.percent
@@ -25,6 +23,7 @@ useIntervalFn(refresh, 1200)
 
 <template>
 <div class="container">
+
   <div class="progress">
     <div>
       <Cpu />
@@ -32,6 +31,7 @@ useIntervalFn(refresh, 1200)
     </div>
     <div class="ring cpu-ring"></div>
   </div>
+
   <div class="progress">
     <div>
       <MemoryStick />
@@ -39,6 +39,7 @@ useIntervalFn(refresh, 1200)
     </div>
     <div class="ring ram-ring"></div>
   </div>
+
 </div>
 </template>
 
@@ -48,10 +49,7 @@ useIntervalFn(refresh, 1200)
   padding: 3px;
 
   display: flex;
-  gap: 5px;
-
-  background-color: #FFF3;
-  border-radius: 5px;
+  gap: 15px;
 }
 
 .progress {
