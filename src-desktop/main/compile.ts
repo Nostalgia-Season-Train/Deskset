@@ -12,7 +12,11 @@ import MagicString from 'magic-string'
 
 export const compile = async (name: string): Promise<{ js: string, css: string }> => {
   /* --- 0、读取 vue 文件 --- */
-  const text = await readTextFile(`./widgets/${name}/main.vue`, { baseDir: BaseDirectory.Resource })
+  const rawText = await readTextFile(`./widgets/${name}/main.vue`, { baseDir: BaseDirectory.Resource })
+
+  // 预检 rawText 确保 <script setup> 存在且不为空（<script setup></script>）
+  const { descriptor: preDescriptor } = sfcParse(rawText)
+  const text = preDescriptor.scriptSetup != null ? rawText : rawText + '<script setup>const n = 0</script>'
 
   /* --- 1、预处理 SFC 代码 --- */
   const { descriptor, errors } = sfcParse(text)
