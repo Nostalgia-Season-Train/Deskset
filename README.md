@@ -42,6 +42,18 @@ Tauri + FastAPI 前后端分离架构，通过嵌入桌面背景的网页显示�
 - 主题：支持部件布局的创建与共享，可以保存/应用主题模板
 
 
+## 架构设计
+数字桌搭主要由前端 Deskset 和后端 DesksetBack 两部分所组成：
+
+Deskset：由 Tauri 编写的主程序，拥有两个窗口
+- Desktop 桌面窗口：调用 setBottom.dll/SetParent 嵌入系统桌面的全屏窗口，显示桌面部件
+- Manager 管理窗口：管理部件/主题的增删改查，配置 DesksetBack 工作流
+
+DesksetBack：是 Deskset 的子程序，运行一个 FastAPI 服务器
+- 前端桌面部件通过 axios 访问 DesksetBack REST API 获取数据
+- （正在开发）工作流引擎，允许用户编写自己的自动化脚本
+
+
 ## 关联项目
 [数字桌搭后端](https://github.com/Nostalgia-Season-Train/DesksetBack)：数字桌搭的数据中心和自动化引擎<br/>
 [数字桌搭笔记接口](https://github.com/Nostalgia-Season-Train/DesksetNoteAPI)：负责与后端通信的 Obsidian 插件
