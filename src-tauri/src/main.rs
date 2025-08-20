@@ -107,12 +107,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
   manager_win.clone().on_window_event(move |event| {
     match event {
-      // 已放弃，会影响 Window.close 函数
-        // 原先作用：阻止系统边框（窗口标题栏）关闭事件
-      // WindowEvent::CloseRequested { api, .. } => {
-      //   api.prevent_close();
-      //   manager_win.hide().unwrap();  // 有点蠢，没找到 on_window_event 传递自身的示例
-      // },
+      // 阻止系统边框（窗口标题栏）关闭事件
+        // 包括通过 Alt + Tab 关闭
+      WindowEvent::CloseRequested { api, .. } => {
+        api.prevent_close();
+        manager_win.hide().unwrap();  // 有点蠢，没找到 on_window_event 传递自身的示例
+      },
       _ => {}
     }
   });
