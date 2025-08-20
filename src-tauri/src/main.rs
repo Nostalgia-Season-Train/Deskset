@@ -109,10 +109,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     match event {
       // 阻止系统边框（窗口标题栏）关闭事件
         // 包括通过 Alt + Tab 关闭
-      WindowEvent::CloseRequested { api, .. } => {
-        api.prevent_close();
-        manager_win.hide().unwrap();  // 有点蠢，没找到 on_window_event 传递自身的示例
-      },
+      // WindowEvent::CloseRequested { api, .. } => {
+      //   api.prevent_close();
+      //   manager_win.hide().unwrap();  // 有点蠢，没找到 on_window_event 传递自身的示例
+      // },
       _ => {}
     }
   });

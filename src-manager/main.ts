@@ -107,6 +107,19 @@ for (const theme of themes) {
   activeThemeMap.set(theme.name, theme)
 }
 
+/* --- 处理管理窗口消息 --- */
+import winManager from './global/win/manager'
+
+winManager.onCloseRequested(async (event) => {
+  event.preventDefault()
+
+  if (config.closeBehavior == 'hide' && isSpawn == true) {
+    await winManager.hide()
+  } else {
+    await exitDeskset()
+  }
+})
+
 /* --- 处理桌面页面消息 --- */
 import { activeWidgetMap } from './global'
 
