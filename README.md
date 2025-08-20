@@ -28,12 +28,12 @@
 
 
 <!-- 用户手册 -->
-## 使用教程
-请按照以下步骤进行下载和配置
-- 确保电脑拥有 [WebView2](https://developer.microsoft.com/microsoft-edge/webview2) 运行库
-- 在 Obsidian 中安装 [DesksetNoteAPI](https://github.com/Nostalgia-Season-Train/DesksetNoteAPI) 和 [Dataview](https://github.com/blacksmithgu/obsidian-dataview) 插件
-- 前往 [Releases](https://github.com/Nostalgia-Season-Train/Deskset/releases) 下载数字桌搭本体的压缩包，解压到独立目录
-- 运行数字桌搭，进入设置页面后输入 DesksetNoteAPI 插件中的端口号、用户名和密码，即可绑定笔记仓库
+## 快速开始
+
+### 下载&运行
+1、确认电脑装有 [WebView2](https://developer.microsoft.com/microsoft-edge/webview2) 运行库（Win11 及高版本 Win10 通常预装此库）<br/>
+2、前往 [Releases](https://github.com/Nostalgia-Season-Train/Deskset/releases) 下载 Deskset.zip 压缩包<br/>
+3、压缩包解压到独立文件夹，双击 Deskset.exe 即可运行数字桌搭
 
 
 ## 亮点
