@@ -47,6 +47,24 @@ Tauri + FastAPI 前后端分离架构，通过嵌入桌面背景的网页显示�
 
 
 <!-- 开发指南 -->
+## 开发你自己的部件 Widget 和插件 Plugin
+
+### 插件开发
+1、环境准备：
+- 创建 plugins 目录（若不存在）
+- 将示例插件 sample_plugin 复制到该目录内
+
+2、启动开发模式：
+- 通过命令行执行
+```cmd
+DesksetBack.exe -dev -no-access
+```
+
+3、开发与测试
+- 服务器运行时，访问 http://127.0.0.1:6527/docs 查看交互式 API 文档，可以在此测试接口
+- 在 plugins/sample_plugin 中编辑代码。服务器自带热重载，自动监控文件变化，保存修改后无需重启程序即可生效
+
+
 ## 架构设计
 数字桌搭主要由前端 Deskset 和后端 DesksetBack 两部分所组成：
 
