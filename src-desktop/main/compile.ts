@@ -59,7 +59,7 @@ export const compile = async (name: string): Promise<{ js: string, css: string }
       if (specifiers.length == 0)
         return
 
-      const replaceValue = `$deskset_${value}`
+      const replaceValue = `$deskset_${value}`.replace('-', '_')  // replace('-', '_')：替换 element-plus 之类的包名
       let requireStatement = ''
 
       if (specifiers.length == 1) {
