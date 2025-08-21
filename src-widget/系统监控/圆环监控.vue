@@ -73,9 +73,9 @@ useIntervalFn(refresh, 1200)
   border-radius: 50%;
 }
 .ring.cpu-ring {
-  mask-image: conic-gradient(#FFF v-bind((cpu_percent / 100) * 360 + 'deg'), transparent 0deg);
+  mask-image: conic-gradient(#FFF v-bind((cpu_percent / 100) * 360 + 'deg'), #FFF5 0deg);
 }
 .ring.ram-ring {
-  mask-image: conic-gradient(#FFF v-bind((ram_percent / 100) * 360 + 'deg'), transparent 0deg);
+  mask-image: conic-gradient(#FFF v-bind((ram_percent / 100) * 360 + 'deg'), #FFF5 0deg);
 }
 </style>
