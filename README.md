@@ -49,6 +49,33 @@ Tauri + FastAPI 前后端分离架构，通过嵌入桌面背景的网页显示�
 <!-- 开发指南 -->
 ## 开发你自己的部件 Widget 和插件 Plugin
 
+### 部件开发
+1、启动开发服务器：
+- 通过命令行执行以下命令，启动 DesksetBack 服务器的开发模式
+```cmd
+DesksetBack.exe -dev -no-access
+```
+
+2、进入演练场
+- 访问 http://127.0.0.1:6527/playground 进入数字桌搭演练场
+
+3、创建部件
+- 新建 my_widget 文件夹
+- 新建 my_widget/main.vue 文件，复制粘贴演练场中的 Vue 代码
+- 新建 my_widget/metainfo.json 文件，输入
+```json
+{
+  "author": "作者",
+  "version": "版本",
+  "descript": "描述"
+}
+```
+
+4、导入部件
+- 打开 widgets 目录，若不存在则新建同名目录
+- 复制你的部件 my_widget 文件夹到该目录内
+- 运行 Deskset 添加 my_widget 部件，查看显示效果
+
 ### 插件开发
 1、环境准备：
 - 打开 plugins 目录，若不存在则新建同名目录
