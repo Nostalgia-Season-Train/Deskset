@@ -58,6 +58,19 @@ DesksetBack.exe -dev -no-access
 
 2、进入演练场
 - 访问 http://127.0.0.1:6527/playground 进入数字桌搭演练场
+- 除 Vue 之外，数字桌搭本体和演练场还集成下列模块，开发者可以直接通过 import 调用
+  - [Axios](https://github.com/axios/axios)
+  - [Element Plus](https://github.com/element-plus/element-plus)
+  - [VueHooks Plus](https://github.com/InhiblabCore/vue-hooks-plus)
+- 注：如果演练场 TypeScript 语言服务器无法访问网络，将会触发 ts(2307): Cannot find module 错误
+  - 临时解决方案：修改演练场中的 tsconfig.json 配置，关闭类型检查
+  ```json
+  {
+    "compilerOptions": {
+      "checkJs": false
+    }
+  }
+  ```
 
 3、创建部件
 - 新建 my_widget 文件夹
