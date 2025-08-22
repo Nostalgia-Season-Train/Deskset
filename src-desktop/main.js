@@ -56,10 +56,12 @@ if (isDevEnv) {
 import * as Vue from 'vue'
 import * as Axios from 'axios'
 import * as Element_Plus from 'element-plus'
+import * as Vue_Hooks_Plus from 'vue-hooks-plus'
 
 window.$deskset_vue = Vue
 window.$deskset_axios = Axios
 window.$deskset_element_plus = Element_Plus
+window.$deskset_vue_hooks_plus = Vue_Hooks_Plus
 
 
 /* === 创建 Vue 应用 === */
