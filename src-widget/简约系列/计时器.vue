@@ -88,7 +88,7 @@ import { Play, Square } from 'lucide-vue-next'
 <div class="container">
   <div class="time">
     <span>{{ time.high }}</span>
-    <span>{{ time.low }}</span>
+    <span style="color: #4FC3F7;">{{ time.low }}</span>
   </div>
   <div class="button">
     <div v-if="isTiming == false" @click="stopwatch.begin(); isTiming = true">
@@ -109,6 +109,10 @@ import { Play, Square } from 'lucide-vue-next'
   flex-direction: column;
   align-items: center;  // time 变化会左右移动，后面优化
   color: white;
+
+  background: #FFF2;
+  border: solid 1px #FFF8;
+
   .time {
     font-size: 1.8em;
     width: 121px;  // 固定宽度，避免数字变化（每个数字宽度不一样）带动位置变化
