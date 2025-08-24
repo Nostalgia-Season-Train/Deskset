@@ -25,14 +25,16 @@ export const getWidgetInfo = async (name: string) => {
     return {
       author: typeof info?.author == 'string' ? info.author as string : _t('未知'),
       version: typeof info?.version == 'string' ? info.version as string : _t('未知'),
-      descript: typeof info?.descript == 'string' ? info.descript as string : _t('未知')
+      descript: typeof info?.descript == 'string' ? info.descript as string : _t('未知'),
+      options: null
     }
   } catch (err) {
     logError('Get widget metainfo fail: ' + (err as Error).message)
     return {
       author: _t('未知'),
       version: _t('未知'),
-      descript: _t('未知')
+      descript: _t('未知'),
+      options: null
     }
   }
 }
@@ -72,7 +74,8 @@ export const appendWidget = async (
   const widgetInfo = name.startsWith(prefixMark) ? {
     author: _t(inlineRawWidgetMap.get(name)!.metainfo.author),
     version: inlineRawWidgetMap.get(name)!.metainfo.version,
-    descript: _t(inlineRawWidgetMap.get(name)!.metainfo.descript)
+    descript: _t(inlineRawWidgetMap.get(name)!.metainfo.descript),
+    options: inlineRawWidgetMap.get(name)!.metainfo?.options ?? null
   } : await getWidgetInfo(name)
 
   // 3、桌面添加部件 > 返回部件数据
@@ -111,6 +114,7 @@ export const appendWidget = async (
     top: widgetData.top,
     scale: widgetData.scale,
 
-    model: widgetData.model
+    model: widgetData.model,
+    options: widgetInfo.options
   })
 }

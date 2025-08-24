@@ -24,8 +24,11 @@ export interface Widget {
   top: number
   scale: number  // 缩放
 
-  // 部件配置
+  /* --- 部件配置 --- */
+  // 配置数据
   model: Record<string, any>
+  // 配置选项
+  options: { name: string, type: string }[] | null
 }
 
 export const activeWidgetMap = reactive(new Map<string, Widget>())
