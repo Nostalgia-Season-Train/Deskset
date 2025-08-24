@@ -110,6 +110,10 @@ class BroadcastDesktopClient {
     return this.hook('setWidgetScale', [id, scale])
   }
 
+  setWidgetModel = (id: string, model: Record<string, any>) => {
+    return this.hook('setWidgetModel', [id, model])  // 不返回任何值，model 通过 DesktopSend 更新
+  }
+
   getWindowData = (): Promise<{ width: number, height: number, dpr: number }> => {
     return this.hook('getWindowData', [])
   }

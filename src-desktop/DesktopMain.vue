@@ -202,6 +202,12 @@ const setWidgetScale = async (id: string, scale: number) => {
   container.style.transform = `scale(${scale})`
 }
 
+const setWidgetModel = async (id: string, model: Record<string, any>) => {
+  const widget = activeWidgetMap.get(id)
+
+  Object.assign(widget!.model, model)
+}
+
 const getWindowData = async () => {
   return {
     width: window.innerWidth,
@@ -222,6 +228,7 @@ const actions = {
   switchWidgetProp,
   setWidgetAxis,
   setWidgetScale,
+  setWidgetModel,
   getWindowData
 }
 const broadcast = new BroadcastChannel('Desktop')
