@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const title = ref('倒计时')  // 用户设置：标题
-const deadline = ref(new Date('2025-08-12T00:00:00'))  // 用户设置：截止日期时间
+const model = defineModel<{
+  title: string,
+  deadline: number
+}>({ required: true })
 
 const isExpire = ref(false)  // 到期标志
 
@@ -13,7 +15,7 @@ const second = ref(0)
 
 const updateCountdown = async () => {
   const datetimeNow = new Date().getTime()
-  const datetimeDeadline = deadline.value.getTime()
+  const datetimeDeadline = new Date(model.value.deadline).getTime()
   const remain = datetimeDeadline - datetimeNow
 
   if (remain <= 0) {
@@ -38,10 +40,10 @@ useIntervalFn(updateCountdown, 500)
 <template>
 <div class="countdown">
 
-  <div class="title">{{ title }}</div>
+  <div class="title">{{ model.title }}</div>
 
   <div v-if="isExpire">
-    <span class="text-expired">截止时间已到！</span>
+    <span class="text-expired">截止日期已到！</span>
   </div>
   <div v-else>
     <span class="text-datetime">

@@ -82,7 +82,11 @@ import {
   DialogHeader,
   DialogTitle
 } from '#shadcn/components/ui/dialog'
-import { ElColorPicker } from 'element-plus'
+import {
+  ElInput,
+  ElDatePicker,
+  ElColorPicker
+} from 'element-plus'
 </script>
 
 
@@ -132,8 +136,22 @@ import { ElColorPicker } from 'element-plus'
       >
         <div>{{ option.name }}</div>
         <component
+          v-if="option.type == 'Input'"
+          :is="ElInput"
+          v-model="option.value"
+          @change="option.change(option.value)"
+        />
+        <component
+          v-if="option.type == 'DateTimePicker'"
+          :is="ElDatePicker"
+          type="datetime"
+          v-model="option.value"
+          @change="option.change(option.value)"
+        />
+        <component
           v-if="option.type == 'ColorPicker'"
           :is="ElColorPicker"
+          show-alpha
           v-model="option.value"
           @change="option.change(option.value)"
         />
@@ -152,6 +170,7 @@ import { ElColorPicker } from 'element-plus'
   padding: 0;
 }
 
+/* --- Transition --- */
 .v-enter-active,
 .v-leave-active {
   transition: opacity .15s ease;
@@ -159,6 +178,11 @@ import { ElColorPicker } from 'element-plus'
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+
+/* --- Element Plus --- */
+:deep(.el-input) {
+  width: 185px;  // 缩小输入框宽度，让选择器在左侧显示
 }
 
 .container {

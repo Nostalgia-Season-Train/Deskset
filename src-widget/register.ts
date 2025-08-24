@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'
+
 export const prefixMark = '/@Deskset/'
 
 export const inlineRawWidgetMap = new Map([
@@ -52,6 +54,28 @@ export const inlineRawWidgetMap = new Map([
       author: '旧日丨四季列车',
       version: 'v0.0.1',
       descript: '查看芯片和内存的占用率'
+    }
+  }],
+  [`${prefixMark}倒计时`, {
+    // @ts-ignore
+    main: () => import('/src-widget/时间日期/倒计时.vue'),
+    metainfo: {
+      author: '旧日丨四季列车',
+      version: 'v0.0.1',
+      descript: '计算距离某天某时还剩多久',
+      model: {
+        title: `距离 ${dayjs().add(1, 'day').format('YYYY-MM-DD')} 还剩`,
+        deadline: Number(new Date().setDate(new Date().getDate() + 1))
+      },
+      options: [{
+        name: '标题',
+        type: 'Input',
+        key: 'title'
+      }, {
+        name: '截止日期',
+        type: 'DateTimePicker',
+        key: 'deadline'
+      }]
     }
   }],
 ])
