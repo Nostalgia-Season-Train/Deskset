@@ -105,6 +105,17 @@ import { ElColorPicker } from 'element-plus'
     />
   </div>
 
+  <!-- 配置编辑时覆盖背景，避免误操作（如删除部件） -->
+  <Transition>
+    <div
+      class="
+        fixed top-0 left-0
+        w-screen h-screen bg-black/80
+      "
+      v-show="isOpenDialog"
+    ></div>
+  </Transition>
+
   <!-- @openAutoFocus.prevent：禁用自动聚焦 -->
   <!-- :modal=false：让 Element Plus 选择器能被点击 -->
   <!-- @interact-outside.prevent：让 Element Plus 选择器确认后，DialogContent 不会直接关闭 -->
@@ -138,6 +149,15 @@ import { ElColorPicker } from 'element-plus'
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity .15s ease;
+}
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 
 .container {
