@@ -53,3 +53,28 @@ useIntervalFn(updateCountdown, 500)
 
 </div>
 </template>
+
+
+<style lang="less" scoped>
+.countdown {
+  width: 280px;
+  height: 120px;
+
+  color: #FFF;
+  background: #FFF2;
+  border: solid 1px #FFF8;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .title {
+    font-size: 24px;
+  }
+  .text-expired,
+  .text-datetime {
+    font-size: 20px;
+  }
+}
+</style>
