@@ -26,6 +26,9 @@ export const inlineRawWidgetMap = new Map([
       author: '旧日丨四季列车',
       version: 'v0.0.1',
       descript: '测量时间经过',
+      model: {
+        lowcolor: '#4FC3F7'
+      },
       options: [{
         name: '低位颜色',
         type: 'ColorPicker'

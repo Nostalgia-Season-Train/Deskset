@@ -26,6 +26,7 @@ export const getWidgetInfo = async (name: string) => {
       author: typeof info?.author == 'string' ? info.author as string : _t('未知'),
       version: typeof info?.version == 'string' ? info.version as string : _t('未知'),
       descript: typeof info?.descript == 'string' ? info.descript as string : _t('未知'),
+      model: {},
       options: null
     }
   } catch (err) {
@@ -34,6 +35,7 @@ export const getWidgetInfo = async (name: string) => {
       author: _t('未知'),
       version: _t('未知'),
       descript: _t('未知'),
+      model: {},
       options: null
     }
   }
@@ -75,6 +77,7 @@ export const appendWidget = async (
     author: _t(inlineRawWidgetMap.get(name)!.metainfo.author),
     version: inlineRawWidgetMap.get(name)!.metainfo.version,
     descript: _t(inlineRawWidgetMap.get(name)!.metainfo.descript),
+    model: inlineRawWidgetMap.get(name)!.metainfo?.model ?? {},
     options: inlineRawWidgetMap.get(name)!.metainfo?.options ?? null
   } : await getWidgetInfo(name)
 
@@ -88,7 +91,7 @@ export const appendWidget = async (
       left: left,
       top: top,
       scale: scale,
-      model: model
+      model: Object.keys(model).length != 0 ? model : widgetInfo.model  // model 为空则传入默认值
     }
   )
 

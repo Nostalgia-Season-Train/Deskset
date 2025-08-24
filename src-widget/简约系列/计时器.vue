@@ -81,6 +81,10 @@ onBeforeUnmount(() => stopwatch.finish())  // 重要！step 不会自动停止
 
 /* === 图标 === */
 import { Play, Square } from 'lucide-vue-next'
+
+
+/* === 配置 === */
+const model = defineModel<{ lowcolor: string }>({ required: true })
 </script>
 
 
@@ -88,7 +92,7 @@ import { Play, Square } from 'lucide-vue-next'
 <div class="container">
   <div class="time">
     <span>{{ time.high }}</span>
-    <span style="color: #4FC3F7;">{{ time.low }}</span>
+    <span :style="`color: ${model.lowcolor};`">{{ time.low }}</span>
   </div>
   <div class="button">
     <div v-if="isTiming == false" @click="stopwatch.begin(); isTiming = true">
