@@ -28,7 +28,7 @@ export interface Widget {
   // 配置数据
   model: Record<string, any>
   // 配置选项
-  options: { name: string, type: string }[] | null
+  options: { name: string, type: string, key: string }[] | null
 }
 
 export const activeWidgetMap = reactive(new Map<string, Widget>())

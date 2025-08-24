@@ -24,18 +24,34 @@ const removeWidget = async (id: string) => {
 }
 
 /* --- 编辑部件配置 --- */
+  // 这就是彻头彻尾的屎山，后面重构...
+  // 问题 1：option.value 并不随 widget.model 变化，仅在初始化时赋值
+  // 问题 2：缺乏输入验证
+  // 问题 3：缺乏修改失败后的错误处理
 import { ref } from 'vue'
 
 const isOpenDialog = ref(false)
 const dialogTitle = ref<string>('')
-const dialogOptions = ref<{ name: string, type: string }[]>([])
+const dialogOptions = ref<{
+  name: string,
+  type: string,
+  key: string,
+  value: any,
+  change: Function
+}[]>([])
 
 const editWidget = async (id: string) => {
   const widget = activeWidgetMap.get(id)
   if (widget!.options == null)
     return
   dialogTitle.value = `编辑 ${widget!.title} 配置`
-  dialogOptions.value = widget!.options
+  dialogOptions.value = widget!.options.map(item => {
+    return {
+      ...item,
+      value: widget!.model[item.key],
+      change: (value: any) => desktop.setWidgetModel(id, { [item.key]: value })
+    }
+  })
   isOpenDialog.value = true
 }
 
@@ -103,7 +119,12 @@ import { ElColorPicker } from 'element-plus'
         v-for="option in dialogOptions"
       >
         <div>{{ option.name }}</div>
-        <component v-if="option.type == 'ColorPicker'" :is="ElColorPicker"/>
+        <component
+          v-if="option.type == 'ColorPicker'"
+          :is="ElColorPicker"
+          v-model="option.value"
+          @change="option.change(option.value)"
+        />
       </div>
     </DialogContent>
   </Dialog>

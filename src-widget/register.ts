@@ -31,7 +31,8 @@ export const inlineRawWidgetMap = new Map([
       },
       options: [{
         name: '低位颜色',
-        type: 'ColorPicker'
+        type: 'ColorPicker',
+        key: 'lowcolor'
       }]
     }
   }],
