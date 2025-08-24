@@ -25,7 +25,11 @@ export const inlineRawWidgetMap = new Map([
     metainfo: {
       author: '旧日丨四季列车',
       version: 'v0.0.1',
-      descript: '测量时间经过'
+      descript: '测量时间经过',
+      options: [{
+        name: '低位颜色',
+        type: 'ColorPicker'
+      }]
     }
   }],
   [`${prefixMark}Greeting`, {

@@ -9,6 +9,7 @@ const widget = defineModel<Widget>({ required: true })
 /* === 事件 === */
 const emit = defineEmits([
   'remove',
+  'edit',
   'switchProp'
 ])
 
@@ -59,7 +60,7 @@ import Switch from '#shadcn/components/ui/switch/Switch.vue'
       ></input>
       <div class="btns">
         <div class="btn"><Button @click="emit('remove', widget.id)">{{ _t('删除') }}</Button></div>
-        <div class="btn"><Button>{{ _t('编辑') }}</Button></div>
+        <div class="btn"><Button @click="emit('edit', widget.id)">{{ _t('编辑') }}</Button></div>
         <div class="btn"><Button>{{ _t('定位') }}</Button></div>
       </div>
     </div>

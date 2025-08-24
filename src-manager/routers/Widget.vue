@@ -23,6 +23,22 @@ const removeWidget = async (id: string) => {
   activeWidgetOnSelect.value = null
 }
 
+/* --- 编辑部件配置 --- */
+import { ref } from 'vue'
+
+const isOpenDialog = ref(false)
+const dialogTitle = ref<string>('')
+const dialogOptions = ref<{ name: string, type: string }[]>([])
+
+const editWidget = async (id: string) => {
+  const widget = activeWidgetMap.get(id)
+  if (widget!.options == null)
+    return
+  dialogTitle.value = `编辑 ${widget!.title} 配置`
+  dialogOptions.value = widget!.options
+  isOpenDialog.value = true
+}
+
 const switchWidgetProp = async (id: string, prop: string, state: boolean) => {
   await desktop.switchWidgetProp(id, prop, state)
 
@@ -43,6 +59,14 @@ const selectActiveWidget = async (id: string) => {
 import Menu from './Widget/Left1stMenu.vue'
 import List from './Widget/Left2ndList.vue'
 import Info from './Widget/RightInfo.vue'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle
+} from '#shadcn/components/ui/dialog'
+import { ElColorPicker } from 'element-plus'
 </script>
 
 
@@ -60,9 +84,29 @@ import Info from './Widget/RightInfo.vue'
       v-model="activeWidgetOnSelect"
       class="info"
       @remove="removeWidget"
+      @edit="editWidget"
       @switchProp="switchWidgetProp"
     />
   </div>
+
+  <!-- @openAutoFocus.prevent：禁用自动聚焦 -->
+  <!-- :modal=false：让 Element Plus 选择器能被点击 -->
+  <!-- @interact-outside.prevent：让 Element Plus 选择器确认后，DialogContent 不会直接关闭 -->
+  <Dialog v-model:open="isOpenDialog" :modal="false">
+    <DialogContent @openAutoFocus.prevent @interact-outside.prevent>
+      <DialogHeader>
+        <DialogTitle>{{ dialogTitle }}</DialogTitle>
+        <DialogDescription></DialogDescription>
+      </DialogHeader>
+      <div
+        class="flex justify-between items-center"
+        v-for="option in dialogOptions"
+      >
+        <div>{{ option.name }}</div>
+        <component v-if="option.type == 'ColorPicker'" :is="ElColorPicker"/>
+      </div>
+    </DialogContent>
+  </Dialog>
 
 </div>
 </template>
