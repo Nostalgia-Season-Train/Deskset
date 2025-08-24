@@ -84,7 +84,7 @@ body {
   display: flex;
 
   aside {
-    z-index: 2;
+    z-index: 1;  // 跟 main 同一堆叠顺序，允许 main 中的元素覆盖
     width: var(--aside-width);
     height: 100vh;
     -webkit-app-region: drag;
