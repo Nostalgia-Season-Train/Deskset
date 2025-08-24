@@ -113,6 +113,7 @@ import { ElColorPicker } from 'element-plus'
         w-screen h-screen bg-black/80
       "
       v-show="isOpenDialog"
+      @click="isOpenDialog = false"
     ></div>
   </Transition>
 
