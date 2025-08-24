@@ -67,6 +67,13 @@ onMounted(() => {
     flipCard.append(topFlip, bottomFlip)
   }
 })
+
+
+/* === 配置 === */
+const model = defineModel<{
+  top_bgcolor: string,
+  bottom_bgcolor: string
+}>({ required: true })
 </script>
 
 
@@ -150,12 +157,10 @@ onMounted(() => {
     // 上半部分边框背景
     .top, .top-flip {
       border-radius: .07em .07em 0 0;
-      background-color: #212121;
     }
     // 下半部分边框背景
     .bottom, .bottom-flip {
       border-radius: 0 0 .07em .07em;
-      background-color: #757575;
     }
   }
 }
@@ -180,5 +185,15 @@ onMounted(() => {
 }
 @keyframes flip-bottom {
   100% { transform: rotateX(0deg); }
+}
+</style>
+
+<!-- 这么写没问题，请无视报错 -->
+<style scoped>
+.top, .top-flip {
+  background-color: v-bind(model.top_bgcolor);
+}
+.bottom, .bottom-flip {
+  background-color: v-bind(model.bottom_bgcolor);
 }
 </style>

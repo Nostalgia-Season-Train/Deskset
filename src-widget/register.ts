@@ -18,7 +18,20 @@ export const inlineRawWidgetMap = new Map([
     metainfo: {
       author: '旧日丨四季列车',
       version: 'v0.0.1',
-      descript: '以 HHmmss 格式，显示现在时间'
+      descript: '以 HHmmss 格式，显示现在时间',
+      model: {
+        top_bgcolor: '#212121',
+        bottom_bgcolor: '#757575'
+      },
+      options: [{
+        name: '上半部分颜色',
+        type: 'ColorPicker',
+        key: 'top_bgcolor'
+      }, {
+        name: '下半部分颜色',
+        type: 'ColorPicker',
+        key: 'bottom_bgcolor'
+      }]
     }
   }],
   [`${prefixMark}Stopwatch`, {
