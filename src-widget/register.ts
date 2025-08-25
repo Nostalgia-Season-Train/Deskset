@@ -91,6 +91,15 @@ export const inlineRawWidgetMap = new Map([
       }]
     }
   }],
+  [`${prefixMark}硬盘统计`, {
+    // @ts-ignore
+    main: () => import('/src-widget/系统监控/简单监控 - 硬盘.vue'),
+    metainfo: {
+      author: '旧日丨四季列车',
+      version: 'v0.0.1',
+      descript: '展示所有硬盘分区剩余容量和总存储空间'
+    }
+  }],
 ])
 
 export const inlineWidgetList = [...inlineRawWidgetMap.keys()]

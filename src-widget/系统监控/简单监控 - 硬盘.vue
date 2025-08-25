@@ -1,18 +1,17 @@
 <script setup>
-import { ref } from "vue"
-import { getDesksetReq } from '../request'
+import { ref } from 'vue'
+import axios from 'axios'
 
 const disks = ref()
 
 const disk = async () => {
-  const desksetReq = await getDesksetReq()
-  const response_disk = await desksetReq.get("/v0/device/disk")
-  disks.value = response_disk.data.data
+  const result = (await axios.get('/v0/device/partitions')).data.result
+  disks.value = result
 }
 disk()
 
 
-import { useIntervalFn } from "@vueuse/core"
+import { useIntervalFn } from '@vueuse/core'
 
 useIntervalFn(disk, 60000)
 </script>
