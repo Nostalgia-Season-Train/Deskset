@@ -54,7 +54,7 @@ if (isDevEnv) {
 /* === 上下文 === */
   // 通过 const XXX = $deskset_vue 导入 Vue 依赖
 import * as Vue from 'vue'
-import * as Axios from 'axios'
+import Axios from 'axios'
 import * as Element_Plus from 'element-plus'
 import * as Vue_Hooks_Plus from 'vue-hooks-plus'
 

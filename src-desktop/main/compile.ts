@@ -62,9 +62,12 @@ export const compile = async (name: string): Promise<{ js: string, css: string }
       const replaceValue = `$deskset_${value}`.replaceAll('-', '_')  // replace('-', '_')：替换 element-plus 之类的包名
       let requireStatement = ''
 
-      if (specifiers.length == 1) {
-        requireStatement = `const {${specifiers[0].local.name}} = ${replaceValue}`
+      // @ts-ignore
+      if (specifiers.length == 1 && !specifiers[0]?.imported) {
+        // 替换默认导出 import axios from 'axios' => const axios = $deskset_axios
+        requireStatement = `const ${specifiers[0].local.name} = ${replaceValue}`
       } else {
+        // 替换命名导出 import { ref } from 'vue' => const { ref } = $deskset_vue
         requireStatement = `const { ${specifiers
           // @ts-ignore
           .map((specifier: { imported: { name: string }, local: { name: string } }) => {
