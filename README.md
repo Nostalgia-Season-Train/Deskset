@@ -51,6 +51,8 @@ Tauri + FastAPI 前后端分离架构，通过嵌入桌面背景的网页显示�
 ## 开发你自己的部件 Widget 和插件 Plugin
 
 ### 部件开发
+0、建议开发前先浏览本仓库 sample_widget 示例部件
+
 1、启动开发服务器：
 - 通过命令行执行以下命令，启动 DesksetBack 服务器的开发模式
 ```cmd
