@@ -9,7 +9,20 @@ export const inlineRawWidgetMap = new Map([
     metainfo: {
       author: '旧日丨四季列车',
       version: 'v0.0.1',
-      descript: '以 HHmm 格式，显示现在时间'
+      descript: '以 HHmm 格式，显示现在时间',
+      model: {
+        time_color: '#FFFFFFF0',
+        date_color: '#FFFFFFA0'
+      },
+      options: [{
+        name: '时间文字颜色',
+        type: 'ColorPicker',
+        key: 'time_color'
+      }, {
+        name: '日期文字颜色',
+        type: 'ColorPicker',
+        key: 'date_color'
+      }]
     }
   }],
   [`${prefixMark}FlipClock`, {

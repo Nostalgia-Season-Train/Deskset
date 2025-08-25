@@ -26,6 +26,13 @@ import { useIntervalFn } from '@vueuse/core'
 // 1、await 以便 onErrorCaptured 接住错误
 // 2、不要用 onMounted，会使 useIntervalFn 自动清理失效
 useIntervalFn(refresh, 250)
+
+
+/* === 配置 === */
+const model = defineModel<{
+  time_color: string,
+  date_color: string
+}>({ required: true })
 </script>
 
 
@@ -48,12 +55,19 @@ useIntervalFn(refresh, 250)
   }
   .time {
     height: 95px;  // 缩减行高空白
-    color: #FFFE;
     font-size: 84px;
   }
   .date {
-    color: #FFFA;
     font-size: 20px;
   }
+}
+</style>
+
+<style scoped>
+.time {
+  color: v-bind(model.time_color);
+}
+.date {
+  color: v-bind(model.date_color);
 }
 </style>
