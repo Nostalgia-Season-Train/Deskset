@@ -91,7 +91,7 @@ export const inlineRawWidgetMap = new Map([
       descript: '计算距离某天某时还剩多久',
       model: {
         title: `距离 ${dayjs().add(1, 'day').format('YYYY-MM-DD')} 还剩`,
-        deadline: Number(new Date().setDate(new Date().getDate() + 1))
+        deadline: async () => { return Number(new Date().setDate(new Date().getDate() + 1)) }
       },
       options: [{
         name: '标题',

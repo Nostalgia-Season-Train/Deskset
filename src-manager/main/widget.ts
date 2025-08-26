@@ -81,6 +81,16 @@ export const appendWidget = async (
     options: inlineRawWidgetMap.get(name)!.metainfo?.options ?? null
   } : await getWidgetInfo(name)
 
+  // 2.1、若值为函数，执行此函数，动态生成默认配置项
+  let defaultModel: Record<string, any> = {}
+
+  for (const key in widgetInfo.model) {
+    if (typeof (widgetInfo.model as any)[key] == 'function')
+      defaultModel[key] = await (widgetInfo.model as any)[key]()
+    else
+      defaultModel[key] = (widgetInfo.model as any)[key]
+  }
+
   // 3、桌面添加部件 > 返回部件数据
   const widgetData = await desktop.appendWidget(
     id,
@@ -91,7 +101,7 @@ export const appendWidget = async (
       left: left,
       top: top,
       scale: scale,
-      model: Object.keys(model).length != 0 ? model : widgetInfo.model  // model 为空则传入默认值
+      model: Object.keys(model).length != 0 ? model : defaultModel  // model 为空则传入默认值
     }
   )
 
