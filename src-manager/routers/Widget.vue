@@ -87,6 +87,13 @@ import {
   ElDatePicker,
   ElColorPicker
 } from 'element-plus'
+
+// Element Plus 翻译
+import { config } from '#manager/global/config'
+import { ElConfigProvider } from 'element-plus'
+import zh_cn from 'element-plus/es/locale/lang/zh-cn'
+
+const locale = config.language == 'zh-cn' ? zh_cn : undefined
 </script>
 
 
@@ -135,26 +142,32 @@ import {
         v-for="option in dialogOptions"
       >
         <div>{{ option.name }}</div>
-        <component
-          v-if="option.type == 'Input'"
-          :is="ElInput"
-          v-model="option.value"
-          @change="option.change(option.value)"
-        />
-        <component
-          v-if="option.type == 'DateTimePicker'"
-          :is="ElDatePicker"
-          type="datetime"
-          v-model="option.value"
-          @change="option.change(option.value)"
-        />
-        <component
-          v-if="option.type == 'ColorPicker'"
-          :is="ElColorPicker"
-          show-alpha
-          v-model="option.value"
-          @change="option.change(option.value)"
-        />
+        <ElConfigProvider :locale="locale">
+          <component
+            v-if="option.type == 'Input'"
+            :is="ElInput"
+            v-model="option.value"
+            @change="option.change(option.value)"
+          />
+        </ElConfigProvider>
+        <ElConfigProvider :locale="locale">
+          <component
+            v-if="option.type == 'DateTimePicker'"
+            :is="ElDatePicker"
+            type="datetime"
+            v-model="option.value"
+            @change="option.change(option.value)"
+          />
+        </ElConfigProvider>
+        <ElConfigProvider :locale="locale">
+          <component
+            v-if="option.type == 'ColorPicker'"
+            :is="ElColorPicker"
+            show-alpha
+            v-model="option.value"
+            @change="option.change(option.value)"
+          />
+        </ElConfigProvider>
       </div>
     </DialogContent>
   </Dialog>
