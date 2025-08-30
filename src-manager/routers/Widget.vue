@@ -76,6 +76,7 @@ const selectActiveWidget = async (id: string) => {
 import Menu from './Widget/Left1stMenu.vue'
 import List from './Widget/Left2ndList.vue'
 import Info from './Widget/RightInfo.vue'
+import OptionFilter from './Widget/OptionFilter.vue'
 import {
   Dialog,
   DialogContent,
@@ -175,64 +176,7 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
             <!-- *** 笔记过滤 *** -->
             <div>
               <div v-if="option.type == 'ArrayFilter'">
-                <!-- 添加按钮 -->
-                <ElButton
-                  style="padding: 0 6px;"
-                  @click="option.value.push({
-                    type: 'is',
-                    isInvert: false,
-                    frontmatterKey: '',
-                    compareValue: ''
-                  }); option.change()"
-                >添加条件</ElButton>
-                <div class="flex">
-                  <span style="width: 120px;">属性名</span>
-                  <span style="width: 40px;">取反</span>
-                  <span style="width: 120px">条件</span>
-                  <span class="flex-1">比较值</span>
-                  <span>删除</span>
-                </div>
-                <!-- 过滤器 -->
-                <div
-                  class="flex"
-                  v-for="(filter, index) in option.value"
-                >
-                  <ElInput
-                    style="width: 120px;"
-                    v-model="filter.frontmatterKey"
-                    placeholder="Frontmatter"
-                    @change="option.change()"
-                  />
-                  <ElSwitch
-                    style="width: 40px;"
-                    v-model="filter.isInvert"
-                    @change="option.change()"
-                  />
-                  <ElSelect v-model="filter.type" @change="option.change()" style="width: 120px">
-                    <ElOption value="is" style="padding: 0 12px;"/>
-                    <ElOption value="startsWith" style="padding: 0 12px;"/>
-                    <ElOption value="endsWith" style="padding: 0 12px;"/>
-                    <ElOption value="isEmpty" style="padding: 0 12px;"/>
-                    <ElOption value="contains" style="padding: 0 12px;"/>
-                  </ElSelect>
-                  <ElInput
-                    class="flex-1"
-                    style="width: 0;"
-                    v-model="filter.compareValue"
-                    placeholder="Value"
-                    :disabled="filter.type == 'isEmpty'"
-                    @change="option.change()"
-                  /><!-- width: 0; 抵消默认宽度 -->
-                  <ElButton
-                    style="width: 30px;"
-                    @click="
-                      option.value.splice(index, 1);
-                      option.change()
-                    "
-                  >
-                    <X style="width: 16px; height: 16px;"/>
-                  </ElButton>
-                </div>
+                <OptionFilter v-model="option.value" @change="option.change()"/>
               </div>
             </div>
 
