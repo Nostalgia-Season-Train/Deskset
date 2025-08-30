@@ -1,15 +1,22 @@
 <script lang="ts" setup>
-import { onMounted, onBeforeUnmount } from 'vue'
+import { onMounted, onBeforeUnmount, useTemplateRef } from 'vue'
 import dayjs from 'dayjs'
+
+const ref_hour_tens = useTemplateRef('data-hour-tens')
+const ref_hour_ones = useTemplateRef('data-hour-ones')
+const ref_min_tens = useTemplateRef('data-min-tens')
+const ref_min_ones = useTemplateRef('data-min-ones')
+const ref_sec_tens = useTemplateRef('data-sec-tens')
+const ref_sec_ones = useTemplateRef('data-sec-ones')
 
 /* === 挂载后才能用 querySelector 匹配网页元素 === */
 onMounted(() => {
-  const hour_tens = document.querySelector('[data-hour-tens]')
-  const hour_ones = document.querySelector('[data-hour-ones]')
-  const min_tens = document.querySelector('[data-min-tens]')
-  const min_ones = document.querySelector('[data-min-ones]')
-  const sec_tens = document.querySelector('[data-sec-tens]')
-  const sec_ones = document.querySelector('[data-sec-ones]')
+  const hour_tens = ref_hour_tens.value
+  const hour_ones = ref_hour_ones.value
+  const min_tens = ref_min_tens.value
+  const min_ones = ref_min_ones.value
+  const sec_tens = ref_sec_tens.value
+  const sec_ones = ref_sec_ones.value
   if (hour_tens == null) return
   if (hour_ones == null) return
   if (min_tens == null) return
@@ -80,31 +87,31 @@ const model = defineModel<{
 <template>
 <div class="container">
   <div class="segment">
-    <div class="flip-card" data-hour-tens>
+    <div class="flip-card" ref="data-hour-tens">
       <div class="top">0</div>
       <div class="bottom">0</div>
     </div>
-    <div class="flip-card" data-hour-ones>
-      <div class="top">0</div>
-      <div class="bottom">0</div>
-    </div>
-  </div>
-  <div class="segment">
-    <div class="flip-card" data-min-tens>
-      <div class="top">0</div>
-      <div class="bottom">0</div>
-    </div>
-    <div class="flip-card" data-min-ones>
+    <div class="flip-card" ref="data-hour-ones">
       <div class="top">0</div>
       <div class="bottom">0</div>
     </div>
   </div>
   <div class="segment">
-    <div class="flip-card" data-sec-tens>
+    <div class="flip-card" ref="data-min-tens">
       <div class="top">0</div>
       <div class="bottom">0</div>
     </div>
-    <div class="flip-card" data-sec-ones>
+    <div class="flip-card" ref="data-min-ones">
+      <div class="top">0</div>
+      <div class="bottom">0</div>
+    </div>
+  </div>
+  <div class="segment">
+    <div class="flip-card" ref="data-sec-tens">
+      <div class="top">0</div>
+      <div class="bottom">0</div>
+    </div>
+    <div class="flip-card" ref="data-sec-ones">
       <div class="top">0</div>
       <div class="bottom">0</div>
     </div>
