@@ -88,12 +88,14 @@ import {
 import {
   ElButton,
   ElInput,
+  ElSwitch,
   ElSelect,
   ElOption,
   ElDatePicker,
   ElColorPicker,
   ElScrollbar
 } from 'element-plus'
+import { X } from 'lucide-vue-next'
 
 // Element Plus 翻译
 import { config } from '#manager/global/config'
@@ -193,14 +195,26 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
       <!-- 彻 底 疯 狂 ! -->
       <div v-if="dialogOptions[dialogOptions.length - 1].type == 'ArrayFilter'">
         <ElScrollbar max-height="220"><!-- 暂不进行动态计算 -->
+          <div class="flex">
+            <span style="width: 120px;">属性名</span>
+            <span style="width: 40px;">取反</span>
+            <span style="width: 120px">条件</span>
+            <span class="flex-1">比较值</span>
+            <span>删除</span>
+          </div>
           <div
             class="flex"
-            v-for="filter in dialogOptions[dialogOptions.length - 1].value"
+            v-for="(filter, index) in dialogOptions[dialogOptions.length - 1].value"
           >
             <ElInput
               style="width: 120px;"
               v-model="filter.frontmatterKey"
               placeholder="Frontmatter"
+              @change="dialogOptions[dialogOptions.length - 1].change(null)"
+            />
+            <ElSwitch
+              style="width: 40px;"
+              v-model="filter.isInvert"
               @change="dialogOptions[dialogOptions.length - 1].change(null)"
             />
             <ElSelect v-model="filter.type" @change="dialogOptions[dialogOptions.length - 1].change(null)" style="width: 120px">
@@ -212,10 +226,20 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
             </ElSelect>
             <ElInput
               class="flex-1"
+              style="width: 0;"
               v-model="filter.compareValue"
               placeholder="Value"
               @change="dialogOptions[dialogOptions.length - 1].change(null)"
-            />
+            /><!-- width: 0; 抵消默认宽度 -->
+            <ElButton
+              style="width: 30px;"
+              @click="
+                dialogOptions[dialogOptions.length - 1].value.splice(index, 1);
+                dialogOptions[dialogOptions.length - 1].change(null)
+              "
+            >
+              <X style="width: 16px; height: 16px;"/>
+            </ElButton>
           </div>
         </ElScrollbar>
       </div>
