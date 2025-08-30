@@ -24,7 +24,7 @@ const removeWidget = async (id: string) => {
 }
 
 /* --- 编辑部件配置 --- */
-  // 这就是彻头彻尾的屎山，后面重构...
+  // - [ ] 重构：这就是彻头彻尾的屎山...
   // 问题 1：option.value 并不随 widget.model 变化，仅在初始化时赋值
   // 问题 2：缺乏输入验证
   // 问题 3：缺乏修改失败后的错误处理
@@ -46,10 +46,13 @@ const editWidget = async (id: string) => {
     return
   dialogTitle.value = `编辑 ${widget!.title} 配置`
   dialogOptions.value = widget!.options.map(item => {
+    const value = widget!.model[item.key]
     return {
       ...item,
-      value: widget!.model[item.key],
-      change: (value: any) => desktop.setWidgetModel(id, { [item.key]: value })
+      value: value,
+      // baseValue 用于更改基本类型（当 value 不是 object 时）...
+      // 我是屎山之皇 XD
+      change: (baseValue: any) => desktop.setWidgetModel(id, { [item.key]: baseValue ? baseValue : value })
     }
   })
   isOpenDialog.value = true
@@ -83,9 +86,13 @@ import {
   DialogTitle
 } from '#shadcn/components/ui/dialog'
 import {
+  ElButton,
   ElInput,
+  ElSelect,
+  ElOption,
   ElDatePicker,
-  ElColorPicker
+  ElColorPicker,
+  ElScrollbar
 } from 'element-plus'
 
 // Element Plus 翻译
@@ -168,6 +175,49 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
             @change="option.change(option.value)"
           />
         </ElConfigProvider>
+        <ElConfigProvider :locale="locale">
+          <component
+            v-if="option.type == 'ArrayFilter'"
+            :is="ElButton"
+            @click="option.value.push({
+              type: 'is',
+              isInvert: false,
+              frontmatterKey: '',
+              compareValue: ''
+            }); option.change(null)"
+            style="padding: 0 6px;"
+          >添加条件</component>
+        </ElConfigProvider>
+      </div>
+
+      <!-- 彻 底 疯 狂 ! -->
+      <div v-if="dialogOptions[dialogOptions.length - 1].type == 'ArrayFilter'">
+        <ElScrollbar max-height="220"><!-- 暂不进行动态计算 -->
+          <div
+            class="flex"
+            v-for="filter in dialogOptions[dialogOptions.length - 1].value"
+          >
+            <ElInput
+              style="width: 120px;"
+              v-model="filter.frontmatterKey"
+              placeholder="Frontmatter"
+              @change="dialogOptions[dialogOptions.length - 1].change(null)"
+            />
+            <ElSelect v-model="filter.type" @change="dialogOptions[dialogOptions.length - 1].change(null)" style="width: 120px">
+              <ElOption value="is" style="padding: 0 12px;"/>
+              <ElOption value="startsWith" style="padding: 0 12px;"/>
+              <ElOption value="endsWith" style="padding: 0 12px;"/>
+              <ElOption value="isEmpty" style="padding: 0 12px;"/>
+              <ElOption value="contains" style="padding: 0 12px;"/>
+            </ElSelect>
+            <ElInput
+              class="flex-1"
+              v-model="filter.compareValue"
+              placeholder="Value"
+              @change="dialogOptions[dialogOptions.length - 1].change(null)"
+            />
+          </div>
+        </ElScrollbar>
       </div>
     </DialogContent>
   </Dialog>

@@ -113,6 +113,28 @@ export const inlineRawWidgetMap = new Map([
       descript: '展示所有硬盘分区剩余容量和总存储空间'
     }
   }],
+  [`${prefixMark}笔记统计`, {
+    // @ts-ignore
+    main: () => import('/src-widget/笔记/笔记统计.vue'),
+    metainfo: {
+      author: '旧日丨四季列车',
+      version: 'v0.0.1',
+      descript: '通过条件过滤笔记后统计数量',
+      model: {
+        title: '笔记总数',
+        filters: []
+      },
+      options: [{
+        name: '标题',
+        type: 'Input',
+        key: 'title'
+      }, {
+        name: '点击右边的按钮，加入一个条件',
+        type: 'ArrayFilter',
+        key: 'filters'
+      }]
+    }
+  }],
 ])
 
 export const inlineWidgetList = [...inlineRawWidgetMap.keys()]
