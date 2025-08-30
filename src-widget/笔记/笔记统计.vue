@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
+import { ref, watch, toRaw } from 'vue'
 import axios from 'axios'
 
 const model = defineModel<{
@@ -10,7 +10,8 @@ const model = defineModel<{
 const number = ref(0)
 
 const refresh = async () => {
-  const rep = await axios.post('/v0/note/obsidian/stats/filter-frontmatter-number', model.value.filters)
+  const filters = toRaw(model.value.filters)
+  const rep = await axios.post('/v0/note/obsidian/stats/filter-frontmatter-number', filters)
   number.value = rep.data.result
 }
 refresh()
