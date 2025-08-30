@@ -47,7 +47,22 @@ useIntervalFn(updateCountdown, 500)
   </div>
   <div v-else>
     <span class="text-datetime">
-      {{ day }} 天 {{ hour }} 时 {{ minute }} 分 {{ second }} 秒
+      <div>
+        <div>{{ day }}</div>
+        <div>天</div>
+      </div>
+      <div>
+        <div>{{ hour }}</div>
+        <div>时</div>
+      </div>
+      <div>
+        <div>{{ minute }}</div>
+        <div>分</div>
+      </div>
+      <div>
+        <div>{{ second }}</div>
+        <div>秒</div>
+      </div>
     </span>
   </div>
 
@@ -57,12 +72,13 @@ useIntervalFn(updateCountdown, 500)
 
 <style lang="less" scoped>
 .countdown {
-  width: 280px;
+  box-sizing: border-box;
+  width: 270px;
   height: 120px;
 
-  color: #FFF;
-  background: #FFF2;
-  border: solid 1px #FFF8;
+  color: #000;
+  background: #FFF7;
+  border: solid 1px #FFF;
 
   display: flex;
   flex-direction: column;
@@ -75,6 +91,19 @@ useIntervalFn(updateCountdown, 500)
   .text-expired,
   .text-datetime {
     font-size: 20px;
+  }
+  .text-datetime {
+    display: flex;
+    gap: 10px;
+    :nth-child(n) {
+      width: 25px;
+      text-align: center;
+      :nth-child(1) {
+        color: #000D;
+        font-weight: 1000;
+        text-align: center;
+      }
+    }
   }
 }
 </style>

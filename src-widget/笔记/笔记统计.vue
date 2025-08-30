@@ -29,8 +29,8 @@ watch(model.value, async () => await refresh())
 
 <style lang="less" scoped>
 .note-stats {
-  width: 240px;
-  height: 80px;
+  width: 244px;  // 全宽 270 = 244 + 12*2 + 1*2
+  height: 82px;  // 全高 100 = 82 + 8*2 + 1*2
   padding: 8px 12px;
   background: #FFF7;
   border: solid 1px #FFF;
