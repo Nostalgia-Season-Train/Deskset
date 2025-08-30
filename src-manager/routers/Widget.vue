@@ -144,104 +144,101 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
         <DialogTitle>{{ dialogTitle }}</DialogTitle>
         <DialogDescription></DialogDescription>
       </DialogHeader>
-      <div
-        class="flex justify-between items-center"
-        v-for="option in dialogOptions"
-      >
-        <div>{{ option.name }}</div>
-        <ElConfigProvider :locale="locale">
-          <component
-            v-if="option.type == 'Input'"
-            :is="ElInput"
-            v-model="option.value"
-            @change="option.change()"
-          />
-        </ElConfigProvider>
-        <ElConfigProvider :locale="locale">
-          <component
-            v-if="option.type == 'DateTimePicker'"
-            :is="ElDatePicker"
-            type="datetime"
-            v-model="option.value"
-            @change="option.change()"
-          />
-        </ElConfigProvider>
-        <ElConfigProvider :locale="locale">
-          <component
-            v-if="option.type == 'ColorPicker'"
-            :is="ElColorPicker"
-            show-alpha
-            v-model="option.value"
-            @change="option.change()"
-          />
-        </ElConfigProvider>
-        <ElConfigProvider :locale="locale">
-          <component
-            v-if="option.type == 'ArrayFilter'"
-            :is="ElButton"
-            @click="option.value.push({
-              type: 'is',
-              isInvert: false,
-              frontmatterKey: '',
-              compareValue: ''
-            }); option.change()"
-            style="padding: 0 6px;"
-          >添加条件</component>
-        </ElConfigProvider>
-      </div>
+      <ElConfigProvider :locale="locale">
+        <ElScrollbar max-height="70vh"><!-- 暂不进行动态计算 -->
+          <div v-for="option in dialogOptions">
 
-      <!-- 彻 底 疯 狂 ! -->
-      <div v-if="dialogOptions[dialogOptions.length - 1].type == 'ArrayFilter'">
-        <ElScrollbar max-height="220"><!-- 暂不进行动态计算 -->
-          <div class="flex">
-            <span style="width: 120px;">属性名</span>
-            <span style="width: 40px;">取反</span>
-            <span style="width: 120px">条件</span>
-            <span class="flex-1">比较值</span>
-            <span>删除</span>
-          </div>
-          <div
-            class="flex"
-            v-for="(filter, index) in dialogOptions[dialogOptions.length - 1].value"
-          >
-            <ElInput
-              style="width: 120px;"
-              v-model="filter.frontmatterKey"
-              placeholder="Frontmatter"
-              @change="dialogOptions[dialogOptions.length - 1].change()"
-            />
-            <ElSwitch
-              style="width: 40px;"
-              v-model="filter.isInvert"
-              @change="dialogOptions[dialogOptions.length - 1].change()"
-            />
-            <ElSelect v-model="filter.type" @change="dialogOptions[dialogOptions.length - 1].change()" style="width: 120px">
-              <ElOption value="is" style="padding: 0 12px;"/>
-              <ElOption value="startsWith" style="padding: 0 12px;"/>
-              <ElOption value="endsWith" style="padding: 0 12px;"/>
-              <ElOption value="isEmpty" style="padding: 0 12px;"/>
-              <ElOption value="contains" style="padding: 0 12px;"/>
-            </ElSelect>
-            <ElInput
-              class="flex-1"
-              style="width: 0;"
-              v-model="filter.compareValue"
-              placeholder="Value"
-              :disabled="filter.type == 'isEmpty'"
-              @change="dialogOptions[dialogOptions.length - 1].change()"
-            /><!-- width: 0; 抵消默认宽度 -->
-            <ElButton
-              style="width: 30px;"
-              @click="
-                dialogOptions[dialogOptions.length - 1].value.splice(index, 1);
-                dialogOptions[dialogOptions.length - 1].change()
-              "
-            >
-              <X style="width: 16px; height: 16px;"/>
-            </ElButton>
+            <!-- *** 输入框 *** -->
+            <div v-if="option.type == 'Input'">
+              <div class="flex justify-between items-center">
+                <div>{{ option.name }}</div>
+                <ElInput v-model="option.value" @change="option.change()"/>
+              </div>
+            </div>
+
+            <!-- *** 日期选择器 *** -->
+            <div v-if="option.type == 'DateTimePicker'">
+              <div class="flex justify-between items-center">
+                <div>{{ option.name }}</div>
+                <ElDatePicker type="datetime" v-model="option.value" @change="option.change()"/>
+              </div>
+            </div>
+
+            <!-- *** 颜色选择器 *** -->
+            <div v-if="option.type == 'ColorPicker'">
+              <div class="flex justify-between items-center">
+                <div>{{ option.name }}</div>
+                <ElColorPicker show-alpha v-model="option.value" @change="option.change()"/>
+              </div>
+            </div>
+
+            <!-- *** 笔记过滤 *** -->
+            <div>
+              <div v-if="option.type == 'ArrayFilter'">
+                <!-- 添加按钮 -->
+                <ElButton
+                  style="padding: 0 6px;"
+                  @click="option.value.push({
+                    type: 'is',
+                    isInvert: false,
+                    frontmatterKey: '',
+                    compareValue: ''
+                  }); option.change()"
+                >添加条件</ElButton>
+                <div class="flex">
+                  <span style="width: 120px;">属性名</span>
+                  <span style="width: 40px;">取反</span>
+                  <span style="width: 120px">条件</span>
+                  <span class="flex-1">比较值</span>
+                  <span>删除</span>
+                </div>
+                <!-- 过滤器 -->
+                <div
+                  class="flex"
+                  v-for="(filter, index) in option.value"
+                >
+                  <ElInput
+                    style="width: 120px;"
+                    v-model="filter.frontmatterKey"
+                    placeholder="Frontmatter"
+                    @change="option.change()"
+                  />
+                  <ElSwitch
+                    style="width: 40px;"
+                    v-model="filter.isInvert"
+                    @change="option.change()"
+                  />
+                  <ElSelect v-model="filter.type" @change="option.change()" style="width: 120px">
+                    <ElOption value="is" style="padding: 0 12px;"/>
+                    <ElOption value="startsWith" style="padding: 0 12px;"/>
+                    <ElOption value="endsWith" style="padding: 0 12px;"/>
+                    <ElOption value="isEmpty" style="padding: 0 12px;"/>
+                    <ElOption value="contains" style="padding: 0 12px;"/>
+                  </ElSelect>
+                  <ElInput
+                    class="flex-1"
+                    style="width: 0;"
+                    v-model="filter.compareValue"
+                    placeholder="Value"
+                    :disabled="filter.type == 'isEmpty'"
+                    @change="option.change()"
+                  /><!-- width: 0; 抵消默认宽度 -->
+                  <ElButton
+                    style="width: 30px;"
+                    @click="
+                      option.value.splice(index, 1);
+                      option.change()
+                    "
+                  >
+                    <X style="width: 16px; height: 16px;"/>
+                  </ElButton>
+                </div>
+              </div>
+            </div>
+
           </div>
         </ElScrollbar>
-      </div>
+      </ElConfigProvider>
     </DialogContent>
   </Dialog>
 
