@@ -46,14 +46,12 @@ const editWidget = async (id: string) => {
     return
   dialogTitle.value = `编辑 ${widget!.title} 配置`
   dialogOptions.value = widget!.options.map(item => {
-    const value = widget!.model[item.key]
-    return {
+    const newItem = {
       ...item,
-      value: value,
-      // baseValue 用于更改基本类型（当 value 不是 object 时）...
-      // 我是屎山之皇 XD
-      change: (baseValue: any) => desktop.setWidgetModel(id, { [item.key]: baseValue != null ? baseValue : value })
+      value: widget!.model[item.key],
+      change: () => desktop.setWidgetModel(id, { [item.key]: newItem.value })
     }
+    return newItem
   })
   isOpenDialog.value = true
 }
@@ -156,7 +154,7 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
             v-if="option.type == 'Input'"
             :is="ElInput"
             v-model="option.value"
-            @change="option.change(option.value)"
+            @change="option.change()"
           />
         </ElConfigProvider>
         <ElConfigProvider :locale="locale">
@@ -165,7 +163,7 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
             :is="ElDatePicker"
             type="datetime"
             v-model="option.value"
-            @change="option.change(option.value)"
+            @change="option.change()"
           />
         </ElConfigProvider>
         <ElConfigProvider :locale="locale">
@@ -174,7 +172,7 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
             :is="ElColorPicker"
             show-alpha
             v-model="option.value"
-            @change="option.change(option.value)"
+            @change="option.change()"
           />
         </ElConfigProvider>
         <ElConfigProvider :locale="locale">
@@ -186,7 +184,7 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
               isInvert: false,
               frontmatterKey: '',
               compareValue: ''
-            }); option.change(null)"
+            }); option.change()"
             style="padding: 0 6px;"
           >添加条件</component>
         </ElConfigProvider>
@@ -210,14 +208,14 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
               style="width: 120px;"
               v-model="filter.frontmatterKey"
               placeholder="Frontmatter"
-              @change="dialogOptions[dialogOptions.length - 1].change(null)"
+              @change="dialogOptions[dialogOptions.length - 1].change()"
             />
             <ElSwitch
               style="width: 40px;"
               v-model="filter.isInvert"
-              @change="dialogOptions[dialogOptions.length - 1].change(null)"
+              @change="dialogOptions[dialogOptions.length - 1].change()"
             />
-            <ElSelect v-model="filter.type" @change="dialogOptions[dialogOptions.length - 1].change(null)" style="width: 120px">
+            <ElSelect v-model="filter.type" @change="dialogOptions[dialogOptions.length - 1].change()" style="width: 120px">
               <ElOption value="is" style="padding: 0 12px;"/>
               <ElOption value="startsWith" style="padding: 0 12px;"/>
               <ElOption value="endsWith" style="padding: 0 12px;"/>
@@ -230,13 +228,13 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
               v-model="filter.compareValue"
               placeholder="Value"
               :disabled="filter.type == 'isEmpty'"
-              @change="dialogOptions[dialogOptions.length - 1].change(null)"
+              @change="dialogOptions[dialogOptions.length - 1].change()"
             /><!-- width: 0; 抵消默认宽度 -->
             <ElButton
               style="width: 30px;"
               @click="
                 dialogOptions[dialogOptions.length - 1].value.splice(index, 1);
-                dialogOptions[dialogOptions.length - 1].change(null)
+                dialogOptions[dialogOptions.length - 1].change()
               "
             >
               <X style="width: 16px; height: 16px;"/>
