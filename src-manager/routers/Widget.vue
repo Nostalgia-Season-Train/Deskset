@@ -52,7 +52,7 @@ const editWidget = async (id: string) => {
       value: value,
       // baseValue 用于更改基本类型（当 value 不是 object 时）...
       // 我是屎山之皇 XD
-      change: (baseValue: any) => desktop.setWidgetModel(id, { [item.key]: baseValue ? baseValue : value })
+      change: (baseValue: any) => desktop.setWidgetModel(id, { [item.key]: baseValue != null ? baseValue : value })
     }
   })
   isOpenDialog.value = true
@@ -229,6 +229,7 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
               style="width: 0;"
               v-model="filter.compareValue"
               placeholder="Value"
+              :disabled="filter.type == 'isEmpty'"
               @change="dialogOptions[dialogOptions.length - 1].change(null)"
             /><!-- width: 0; 抵消默认宽度 -->
             <ElButton

@@ -32,14 +32,15 @@ watch(model.value, async () => await refresh())
   width: 240px;
   height: 80px;
   padding: 8px 12px;
-  color: #000;
   background: #FFF7;
   border: solid 1px #FFF;
 
   .title {
+    color: #000;
     font-size: 24px;
   }
   .number {
+    color: #000D;
     font-size: 40px;
     font-weight: 1000;
   }
