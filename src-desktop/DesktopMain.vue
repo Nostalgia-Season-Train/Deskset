@@ -170,7 +170,7 @@ const removeWidget = async (id: string) => {
 }
 
 /* --- 编辑部件 --- */
-const setWidgetModel = async (id: string, model: Record<string, any>) => {
+const editWidget = async (id: string, model: Record<string, any>) => {
   const widget = activeWidgetMap.get(id)
 
   Object.assign(widget!.model, model)
@@ -228,12 +228,15 @@ import { onMounted, onUnmounted } from 'vue'
 
 const actions = {
   helloworld,
+
   appendWidget,
   removeWidget,
-  switchWidgetProp,
+  editWidget,
+
   setWidgetAxis,
   setWidgetScale,
-  setWidgetModel,
+  switchWidgetProp,
+
   getWindowData
 }
 const broadcast = new BroadcastChannel('Desktop')

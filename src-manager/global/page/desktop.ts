@@ -93,25 +93,21 @@ class BroadcastDesktopClient {
       option.model
     ])
   }
-
   removeWidget = (id: string): Promise<void> => {
     return this.hook('removeWidget', [id])
   }
-
-  switchWidgetProp = (id: string, prop: string, state: boolean): Promise<void> => {
-    return this.hook('switchWidgetProp', [id, prop, state])
+  editWidget = (id: string, model: Record<string, any>) => {
+    return this.hook('editWidget', [id, model])  // 不返回任何值，model 通过 DesktopSend 更新
   }
 
   setWidgetAxis = (id: string, x: number | null = null, y: number | null = null): Promise<{ x: number, y: number }> => {
     return this.hook('setWidgetAxis', [id, x, y])
   }
-
   setWidgetScale = (id: string, scale: number) => {
     return this.hook('setWidgetScale', [id, scale])
   }
-
-  setWidgetModel = (id: string, model: Record<string, any>) => {
-    return this.hook('setWidgetModel', [id, model])  // 不返回任何值，model 通过 DesktopSend 更新
+  switchWidgetProp = (id: string, prop: string, state: boolean): Promise<void> => {
+    return this.hook('switchWidgetProp', [id, prop, state])
   }
 
   getWindowData = (): Promise<{ width: number, height: number, dpr: number }> => {

@@ -49,7 +49,7 @@ const editWidget = async (id: string) => {
     const newItem = {
       ...item,
       value: widget!.model[item.key],
-      change: () => desktop.setWidgetModel(id, { [item.key]: newItem.value })
+      change: () => desktop.editWidget(id, { [item.key]: newItem.value })
     }
     return newItem
   })
