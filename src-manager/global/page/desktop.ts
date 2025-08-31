@@ -99,6 +99,9 @@ class BroadcastDesktopClient {
   editWidget = (id: string, model: Record<string, any>) => {
     return this.hook('editWidget', [id, model])  // 不返回任何值，model 通过 DesktopSend 更新
   }
+  locateWidget = (id: string) => {
+    return this.hook('locateWidget', [id])
+  }
 
   setWidgetAxis = (id: string, x: number | null = null, y: number | null = null): Promise<{ x: number, y: number }> => {
     return this.hook('setWidgetAxis', [id, x, y])

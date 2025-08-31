@@ -176,6 +176,17 @@ const editWidget = async (id: string, model: Record<string, any>) => {
   Object.assign(widget!.model, model)
 }
 
+/* --- 定位部件 --- */
+const locateWidget = async (id: string) => {
+  activeWidgetMap.get(id)!.container.classList.toggle('deskset_locate', true)
+
+  setInterval(async () => {
+    const container = activeWidgetMap.get(id)?.container
+    if (container != undefined)  // 检查部件是否删除
+      container.classList.toggle('deskset_locate', false)
+  }, 3 * 1000)
+}
+
 /* --- 设置部件位置 --- */
 const setWidgetAxis = async (id: string, x: number | null, y: number | null) => {
   const widget = activeWidgetMap.get(id)
@@ -232,6 +243,7 @@ const actions = {
   appendWidget,
   removeWidget,
   editWidget,
+  locateWidget,
 
   setWidgetAxis,
   setWidgetScale,
@@ -304,6 +316,11 @@ onUnmounted(() => broadcast.onmessage = null)
 </style>
 
 <style>
+/* --- 定位部件 --- */
+.deskset_locate {
+  outline: 3px solid Red;
+}
+
 /* --- 禁用交互 --- */
   /* 注：* 使子元素也禁用交互 */
 .deskset_disable-interact * {

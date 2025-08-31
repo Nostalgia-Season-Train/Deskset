@@ -56,6 +56,10 @@ const editWidget = async (id: string) => {
   isOpenDialog.value = true
 }
 
+const locateWidget = async (id: string) => {
+  await desktop.locateWidget(id)
+}
+
 const switchWidgetProp = async (id: string, prop: string, state: boolean) => {
   await desktop.switchWidgetProp(id, prop, state)
 
@@ -120,6 +124,7 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
       class="info"
       @remove="removeWidget"
       @edit="editWidget"
+      @locate="locateWidget"
       @switchProp="switchWidgetProp"
     />
   </div>
