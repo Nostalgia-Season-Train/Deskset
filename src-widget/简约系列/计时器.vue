@@ -84,22 +84,30 @@ import { Play, Square } from 'lucide-vue-next'
 
 
 /* === 配置 === */
-const model = defineModel<{ lowcolor: string }>({ required: true })
+const model = defineModel<{
+  highcolor: string,
+  lowcolor: string
+}>({ required: true })
 </script>
 
 
 <template>
 <div class="container">
   <div class="time">
-    <span>{{ time.high }}</span>
-    <span :style="`color: ${model.lowcolor};`">{{ time.low }}</span>
+    <span :style="`
+      color: ${model.highcolor};
+    `">{{ time.high }}</span>
+    <span :style="`
+      color: ${model.lowcolor};
+      font-weight: 1000;
+    `">{{ time.low }}</span>
   </div>
   <div class="button">
     <div v-if="isTiming == false" @click="stopwatch.begin(); isTiming = true">
-      <Play/>
+      <Play :style="`color: ${model.highcolor};`" :stroke-width="2.25"/>
     </div>
     <div v-if="isTiming == true" @click="stopwatch.finish(); isTiming = false">
-      <Square/>
+      <Square :style="`color: ${model.lowcolor};`" :stroke-width="2.25"/>
     </div>
   </div>
 </div>
@@ -108,14 +116,16 @@ const model = defineModel<{ lowcolor: string }>({ required: true })
 
 <style lang="less" scoped>
 .container {
-  width: 150px;
+  width: 148px;
+  height: 78px;
   display: flex;
   flex-direction: column;
-  align-items: center;  // time 变化会左右移动，后面优化
-  color: white;
+  align-items: center;
+  justify-content: center;
 
-  background: #FFF2;
-  border: solid 1px #FFF8;
+  color: #000;
+  background: #FFF7;
+  border: solid 1px #FFF;
 
   .time {
     font-size: 1.8em;

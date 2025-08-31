@@ -55,9 +55,14 @@ export const inlineRawWidgetMap = new Map([
       version: 'v0.0.1',
       descript: '测量时间经过',
       model: {
-        lowcolor: '#4FC3F7'
+        highcolor: '#000000C0',
+        lowcolor: '#000000'
       },
       options: [{
+        name: '高位颜色',
+        type: 'ColorPicker',
+        key: 'highcolor'
+      }, {
         name: '低位颜色',
         type: 'ColorPicker',
         key: 'lowcolor'
