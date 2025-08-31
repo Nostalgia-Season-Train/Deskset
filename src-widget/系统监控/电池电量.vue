@@ -1,39 +1,22 @@
 <script setup>
 import { ref } from 'vue'
+import axios from 'axios'
 
 const battery_percent = ref(100)
 const is_plug = ref(true)
 
+const refresh = async () => {
+  const result = (await axios.get('/v0/device/battery')).data.result
+  battery_percent = result.percent
+  is_plug = result.isplug
+}
+refresh()
 
-/* === SSE === */
-import { getServerInfo } from '../request'
 
-const server = await getServerInfo()
+/* ==== 轮询 ==== */
+import { useInterval } from 'vue-hooks-plus'
 
-// 绑定
-import { EventSource } from 'eventsource'
-
-const stream = new EventSource(`http://${ server.host }:${ server.port }/v0/device/stream`, {
-  fetch: (input, init) =>
-    fetch(input, {
-      ...init,
-      headers: {
-        ...init.headers,
-        Authorization: `Bearer ${ server.token }`
-      }
-    })
-})
-
-stream.addEventListener('message', (event) => {
-  const info = JSON.parse(event.data)
-  battery_percent.value = info.percent
-  is_plug.value = info.plug
-})
-
-// 解绑
-import { onBeforeUnmount } from 'vue'
-
-onBeforeUnmount(() => stream.close())
+useInterval(refresh, 60 * 1000)
 </script>
 
 
@@ -55,7 +38,7 @@ onBeforeUnmount(() => stream.close())
   height: 25px;
   box-sizing: border-box;  /* 确保总宽总高为 60 * 25 */
 
-  padding: 2.4px;
+  padding: 2px;
 
   border: 3px solid #FFF;
 }

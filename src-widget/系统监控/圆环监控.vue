@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Cpu, MemoryStick } from 'lucide-vue-next'
+import { Cpu, MemoryStick, HardDrive } from 'lucide-vue-next'
 
 const cpu_percent = ref('50')
 const ram_percent = ref('50')
+const disk_percent = ref('50')
 
 
 /* === 轮询 === */
@@ -14,6 +15,7 @@ const refresh = async () => {
   const data = (await axios.get('/v0/device/realtime')).data
   cpu_percent.value = data.result.cpu.percent
   ram_percent.value = data.result.ram.percent
+  disk_percent.value = data.result.disk.percent
 }
 
 refresh()
@@ -26,7 +28,7 @@ useIntervalFn(refresh, 1200)
 
   <div class="progress">
     <div>
-      <Cpu />
+      <Cpu/>
       <div>{{ cpu_percent }}</div>
     </div>
     <div class="ring cpu-ring"></div>
@@ -34,10 +36,18 @@ useIntervalFn(refresh, 1200)
 
   <div class="progress">
     <div>
-      <MemoryStick />
+      <MemoryStick/>
       <div>{{ ram_percent }}</div>
     </div>
     <div class="ring ram-ring"></div>
+  </div>
+
+  <div class="progress">
+    <div>
+      <HardDrive/>
+      <div>{{ disk_percent }}</div>
+    </div>
+    <div class="ring disk-ring"></div>
   </div>
 
 </div>
@@ -77,5 +87,8 @@ useIntervalFn(refresh, 1200)
 }
 .ring.ram-ring {
   mask-image: conic-gradient(#FFF v-bind((ram_percent / 100) * 360 + 'deg'), #FFF5 0deg);
+}
+.ring.disk-ring {
+  mask-image: conic-gradient(#FFF v-bind((disk_percent / 100) * 360 + 'deg'), #FFF5 0deg);
 }
 </style>

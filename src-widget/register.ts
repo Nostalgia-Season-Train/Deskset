@@ -105,7 +105,7 @@ export const inlineRawWidgetMap = new Map([
   }],
 
   /* --- 硬件监控 --- */
-  [`${prefixMark}圆环监控`, {
+  [`${prefixMark}实时监控`, {
     // @ts-ignore
     main: () => import('/src-widget/系统监控/圆环监控.vue'),
     metainfo: {
@@ -114,13 +114,22 @@ export const inlineRawWidgetMap = new Map([
       descript: '查看芯片和内存的占用率'
     }
   }],
-  [`${prefixMark}硬盘统计`, {
+  [`${prefixMark}硬盘容量`, {
     // @ts-ignore
     main: () => import('/src-widget/系统监控/简单监控 - 硬盘.vue'),
     metainfo: {
       author: '旧日丨四季列车',
       version: 'v0.0.1',
       descript: '展示所有硬盘分区剩余容量和总存储空间'
+    }
+  }],
+  [`${prefixMark}电池电量`, {
+    // @ts-ignore
+    main: () => import('/src-widget/系统监控/电池电量.vue'),
+    metainfo: {
+      author: '旧日丨四季列车',
+      version: 'v0.0.1',
+      descript: '显示电脑电池剩余电量，是否正在充电'
     }
   }],
 
