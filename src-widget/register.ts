@@ -122,7 +122,10 @@ export const inlineRawWidgetMap = new Map([
       descript: '通过条件过滤笔记后统计数量',
       model: {
         title: '笔记总数',
-        filters: []
+        filterGroup: {
+          match: 'all',
+          filters: []
+        }
       },
       options: [{
         name: '标题',
@@ -131,7 +134,7 @@ export const inlineRawWidgetMap = new Map([
       }, {
         name: '点击右边的按钮，加入一个条件',
         type: 'ArrayFilter',
-        key: 'filters'
+        key: 'filterGroup'
       }]
     }
   }],

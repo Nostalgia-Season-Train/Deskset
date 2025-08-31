@@ -7,9 +7,12 @@ type Filter = {
   frontmatterKey: string
   compareValue: string
 }
-type FilterArray = Array<Filter | FilterArray>
+type FilterGroup = {
+  match: string,
+  filters: Array<Filter | FilterGroup>
+}
 
-const filters = defineModel<FilterArray>({ required: true })
+const filterGroup = defineModel<FilterGroup>({ required: true })
 
 import {
   ElButton,
@@ -27,7 +30,7 @@ import { X } from 'lucide-vue-next'
   <!-- 添加按钮 -->
   <ElButton
     style="padding: 0 6px;"
-    @click="filters.push({
+    @click="filterGroup.filters.push({
       type: 'is',
       isInvert: false,
       frontmatterKey: '',
@@ -36,13 +39,20 @@ import { X } from 'lucide-vue-next'
   >添加条件</ElButton>
   <ElButton
     style="margin: 0; padding: 0 6px;"
-    @click="filters.push([{
-      type: 'is',
-      isInvert: false,
-      frontmatterKey: '',
-      compareValue: ''
-    }]); emit('change')"
+    @click="filterGroup.filters.push({
+      match: 'all',
+      filters: [{
+        type: 'is',
+        isInvert: false,
+        frontmatterKey: '',
+        compareValue: ''
+      }]
+    }); emit('change')"
   >添加条件组</ElButton>
+  <ElSelect v-model="filterGroup.match" @change="emit('change')" style="width: 100px">
+    <ElOption value="all" label="匹配全部"/>
+    <ElOption value="any" label="匹配任意"/>
+  </ElSelect>
   <div class="flex">
     <span style="width: 120px;">属性名</span>
     <span style="width: 40px;">取反</span>
@@ -51,20 +61,20 @@ import { X } from 'lucide-vue-next'
     <span>删除</span>
   </div>
   <!-- 过滤器 -->
-  <div v-for="(filter, index) in filters">
-    <div v-if="!Array.isArray(filter)" class="flex">
+  <div v-for="(filter, index) in filterGroup.filters">
+    <div v-if="(filter as any)?.match == undefined" class="flex">
       <ElInput
         style="width: 120px;"
-        v-model="filter.frontmatterKey"
+        v-model="(filter as Filter).frontmatterKey"
         placeholder="Frontmatter"
         @change="emit('change')"
       />
       <ElSwitch
         style="width: 40px;"
-        v-model="filter.isInvert"
+        v-model="(filter as Filter).isInvert"
         @change="emit('change')"
       />
-      <ElSelect v-model="filter.type" @change="emit('change')" style="width: 120px">
+      <ElSelect v-model="(filter as Filter).type" @change="emit('change')" style="width: 120px">
         <ElOption value="is" style="padding: 0 12px;"/>
         <ElOption value="startsWith" style="padding: 0 12px;"/>
         <ElOption value="endsWith" style="padding: 0 12px;"/>
@@ -74,15 +84,15 @@ import { X } from 'lucide-vue-next'
       <ElInput
         class="flex-1"
         style="width: 0;"
-        v-model="filter.compareValue"
+        v-model="(filter as Filter).compareValue"
         placeholder="Value"
-        :disabled="filter.type == 'isEmpty'"
+        :disabled="(filter as Filter).type == 'isEmpty'"
         @change="emit('change')"
       /><!-- width: 0; 抵消默认宽度 -->
       <ElButton
         style="width: 30px;"
         @click="
-          filters.splice(index, 1);
+          filterGroup.filters.splice(index, 1);
           emit('change')
         "
       >
@@ -91,10 +101,10 @@ import { X } from 'lucide-vue-next'
     </div>
     <div v-else class="ml-1 border border-gray-300">
       <OptionFilter
-        v-model="filters[index] as any[]"
+        v-model="filterGroup.filters[index] as FilterGroup"
         @change="() => {
-          if ((filters[index] as any[]).length == 0)
-            filters.splice(index, 1)
+          if ((filterGroup.filters[index] as FilterGroup).filters.length == 0)
+            filterGroup.filters.splice(index, 1)
           emit('change')
         }"
       />

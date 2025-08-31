@@ -4,14 +4,14 @@ import axios from 'axios'
 
 const model = defineModel<{
   title: string,
-  filters: any[]
+  filterGroup: any
 }>({ required: true })
 
 const number = ref(0)
 
 const refresh = async () => {
-  const filters = toRaw(model.value.filters)
-  const rep = await axios.post('/v0/note/obsidian/stats/filter-frontmatter-number', filters)
+  const filterGroup = toRaw(model.value.filterGroup)
+  const rep = await axios.post('/v0/note/obsidian/stats/filter-frontmatter-number', filterGroup)
   number.value = rep.data.result
 }
 refresh()
