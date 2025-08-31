@@ -178,9 +178,11 @@ const editWidget = async (id: string, model: Record<string, any>) => {
 
 /* --- 定位部件 --- */
 const locateWidget = async (id: string) => {
+  if (activeWidgetMap.get(id)!.container.classList.contains('deskset_locate'))  // 确保上一个定时器已经清除 deskset_locate
+    return
   activeWidgetMap.get(id)!.container.classList.toggle('deskset_locate', true)
 
-  setInterval(async () => {
+  setTimeout(async () => {
     const container = activeWidgetMap.get(id)?.container
     if (container != undefined)  // 检查部件是否删除
       container.classList.toggle('deskset_locate', false)
