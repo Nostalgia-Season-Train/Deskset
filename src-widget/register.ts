@@ -3,6 +3,7 @@ import dayjs from 'dayjs'
 export const prefixMark = '/@Deskset/'
 
 export const inlineRawWidgetMap = new Map([
+  /* --- 时间与日期 --- */
   [`${prefixMark}DigitalClock`, {
     // @ts-ignore
     main: () => import('/src-widget/时间日期/简单时间：24时.vue'),
@@ -69,24 +70,6 @@ export const inlineRawWidgetMap = new Map([
       }]
     }
   }],
-  [`${prefixMark}Greeting`, {
-    // @ts-ignore
-    main: () => import('/src-widget/问候语/打字机问候.vue'),
-    metainfo: {
-      author: '旧日丨四季列车',
-      version: 'v0.0.1',
-      descript: '根据当前时段，显示个性化问候语'
-    }
-  }],
-  [`${prefixMark}圆环监控`, {
-    // @ts-ignore
-    main: () => import('/src-widget/系统监控/圆环监控.vue'),
-    metainfo: {
-      author: '旧日丨四季列车',
-      version: 'v0.0.1',
-      descript: '查看芯片和内存的占用率'
-    }
-  }],
   [`${prefixMark}倒计时`, {
     // @ts-ignore
     main: () => import('/src-widget/时间日期/倒计时.vue'),
@@ -109,6 +92,28 @@ export const inlineRawWidgetMap = new Map([
       }]
     }
   }],
+
+  /* --- 个性资料、问候语 --- */
+  [`${prefixMark}Greeting`, {
+    // @ts-ignore
+    main: () => import('/src-widget/问候语/打字机问候.vue'),
+    metainfo: {
+      author: '旧日丨四季列车',
+      version: 'v0.0.1',
+      descript: '根据当前时段，显示个性化问候语'
+    }
+  }],
+
+  /* --- 硬件监控 --- */
+  [`${prefixMark}圆环监控`, {
+    // @ts-ignore
+    main: () => import('/src-widget/系统监控/圆环监控.vue'),
+    metainfo: {
+      author: '旧日丨四季列车',
+      version: 'v0.0.1',
+      descript: '查看芯片和内存的占用率'
+    }
+  }],
   [`${prefixMark}硬盘统计`, {
     // @ts-ignore
     main: () => import('/src-widget/系统监控/简单监控 - 硬盘.vue'),
@@ -118,6 +123,8 @@ export const inlineRawWidgetMap = new Map([
       descript: '展示所有硬盘分区剩余容量和总存储空间'
     }
   }],
+
+  /* --- 笔记 --- */
   [`${prefixMark}笔记统计`, {
     // @ts-ignore
     main: () => import('/src-widget/笔记/笔记统计.vue'),
