@@ -7,8 +7,8 @@ const is_plug = ref(true)
 
 const refresh = async () => {
   const result = (await axios.get('/v0/device/battery')).data.result
-  battery_percent = result.percent
-  is_plug = result.isplug
+  battery_percent.value = result.percent
+  is_plug.value = result.isplug
 }
 refresh()
 
