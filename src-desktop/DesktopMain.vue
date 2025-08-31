@@ -152,6 +152,7 @@ const appendWidget = async (
   }
 }
 
+/* --- 删除部件 --- */
 const removeWidget = async (id: string) => {
   const widget = activeWidgetMap.get(id)
 
@@ -168,12 +169,14 @@ const removeWidget = async (id: string) => {
   activeWidgetMap.delete(id)
 }
 
-const switchWidgetProp = async (id: string, prop: string, state: boolean) => {
+/* --- 编辑部件 --- */
+const setWidgetModel = async (id: string, model: Record<string, any>) => {
   const widget = activeWidgetMap.get(id)
 
-  widget!.container.classList.toggle('deskset_' + prop, state)
+  Object.assign(widget!.model, model)
 }
 
+/* --- 设置部件位置 --- */
 const setWidgetAxis = async (id: string, x: number | null, y: number | null) => {
   const widget = activeWidgetMap.get(id)
 
@@ -195,6 +198,7 @@ const setWidgetAxis = async (id: string, x: number | null, y: number | null) => 
   }
 }
 
+/* --- 设置部件大小 --- */
 const setWidgetScale = async (id: string, scale: number) => {
   const widget = activeWidgetMap.get(id)
 
@@ -202,10 +206,11 @@ const setWidgetScale = async (id: string, scale: number) => {
   container.style.transform = `scale(${scale})`
 }
 
-const setWidgetModel = async (id: string, model: Record<string, any>) => {
+/* --- 切换部件属性 --- */
+const switchWidgetProp = async (id: string, prop: string, state: boolean) => {
   const widget = activeWidgetMap.get(id)
 
-  Object.assign(widget!.model, model)
+  widget!.container.classList.toggle('deskset_' + prop, state)
 }
 
 const getWindowData = async () => {
