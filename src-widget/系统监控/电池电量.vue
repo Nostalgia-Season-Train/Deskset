@@ -34,8 +34,8 @@ useInterval(refresh, 60 * 1000)
 <style scoped>
 .battery {
   position: relative;  /* 帮助伪元素定位 */
-  width: 60px;
-  height: 25px;
+  width: 56px;
+  height: 24px;
   box-sizing: border-box;  /* 确保总宽总高为 60 * 25 */
 
   padding: 2px;
@@ -64,19 +64,21 @@ useInterval(refresh, 60 * 1000)
 .num::before {
   content: '';
   display: inline-block;  /* 与百分比同一行撑开间距 */
-  width: 20px;
+  width: 16px;
 }
 .num {
   color: white;
-  font-size: 36px;
+  font-size: 24px;
 }
 .text::before {
   content: '';
   display: inline-block;
-  width: 12px;
+  width: 10px;
 }
 .text {
+  position: relative;
+  top: -1px;
   color: #FFFA;
-  font-size: 24px;
+  font-size: 20px;
 }
 </style>
