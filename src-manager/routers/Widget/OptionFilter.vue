@@ -4,7 +4,7 @@ const emit = defineEmits(['change'])
 type Filter = {
   type: string
   isInvert: boolean
-  frontmatterKey: string
+  propertyKey: string
   compareValue: string
 }
 type FilterGroup = {
@@ -33,7 +33,7 @@ import { X } from 'lucide-vue-next'
     @click="filterGroup.filters.push({
       type: 'is',
       isInvert: false,
-      frontmatterKey: '',
+      propertyKey: '',
       compareValue: ''
     }); emit('change')"
   >添加条件</ElButton>
@@ -44,7 +44,7 @@ import { X } from 'lucide-vue-next'
       filters: [{
         type: 'is',
         isInvert: false,
-        frontmatterKey: '',
+        propertyKey: '',
         compareValue: ''
       }]
     }); emit('change')"
@@ -65,7 +65,7 @@ import { X } from 'lucide-vue-next'
     <div v-if="(filter as any)?.match == undefined" class="flex">
       <ElInput
         style="width: 120px;"
-        v-model="(filter as Filter).frontmatterKey"
+        v-model="(filter as Filter).propertyKey"
         placeholder="Frontmatter"
         @change="emit('change')"
       />
