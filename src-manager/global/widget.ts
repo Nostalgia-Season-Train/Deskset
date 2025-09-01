@@ -54,7 +54,10 @@ export const convertWidgetInTheme = async (data: any) => {
     model: Record<string, any>,
     defaultModel: Record<string, any>
   ): Promise<Record<string, any>> => {
-    const result = { ...model }
+    // const result = { ...model }
+    // 上面是错误方法，可能会将内部数组 Record<string, Array> 转换成对象 Record<string, Record<number, Any>>
+      // 例如 { filters: [Any] } > { filters: { 0: Any } }
+    const result = JSON.parse(JSON.stringify(model))
 
     for (const key in defaultModel) {
       // 补全缺失的键
