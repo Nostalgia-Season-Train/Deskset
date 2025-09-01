@@ -18,7 +18,10 @@ const querySearch = (queryString: string, cb: any) => {
   const results = queryString ? [
     { value: 'file.name' },
     { value: 'file.folder' },
-    { value: 'file.path' }
+    { value: 'file.path' },
+    { value: 'file.ctime' },
+    { value: 'file.mtime' },
+    { value: 'file.size' }
   ].filter(item => item.value.includes(queryString)) : []
   cb(results)
 }
@@ -85,7 +88,20 @@ import { X } from 'lucide-vue-next'
         v-model="(filter as Filter).isInvert"
         @change="emit('change')"
       />
-      <ElSelect v-model="(filter as Filter).type" @change="emit('change')" style="width: 120px">
+      <ElSelect
+        v-if="
+          // @ts-ignore
+          filter.propertyKey == 'file.ctime' || filter.propertyKey == 'file.mtime' || filter.propertyKey == 'file.size'
+        "
+        v-model="(filter as Filter).type" @change="emit('change')" style="width: 120px"
+      >
+        <ElOption value="=" style="padding: 0 12px;"/>
+        <ElOption value=">" style="padding: 0 12px;"/>
+        <ElOption value="<" style="padding: 0 12px;"/>
+        <ElOption value=">=" style="padding: 0 12px;"/>
+        <ElOption value="<=" style="padding: 0 12px;"/>
+      </ElSelect>
+      <ElSelect v-else v-model="(filter as Filter).type" @change="emit('change')" style="width: 120px">
         <ElOption value="is" style="padding: 0 12px;"/>
         <ElOption value="startsWith" style="padding: 0 12px;"/>
         <ElOption value="endsWith" style="padding: 0 12px;"/>
