@@ -14,9 +14,19 @@ type FilterGroup = {
 
 const filterGroup = defineModel<FilterGroup>({ required: true })
 
+const querySearch = (queryString: string, cb: any) => {
+  const results = queryString ? [
+    { value: 'file.name' },
+    { value: 'file.folder' },
+    { value: 'file.path' }
+  ].filter(item => item.value.includes(queryString)) : []
+  cb(results)
+}
+
 import {
   ElButton,
   ElInput,
+  ElAutocomplete,
   ElSwitch,
   ElSelect,
   ElOption
@@ -63,10 +73,11 @@ import { X } from 'lucide-vue-next'
   <!-- 过滤器 -->
   <div v-for="(filter, index) in filterGroup.filters">
     <div v-if="(filter as any)?.match == undefined" class="flex">
-      <ElInput
+      <ElAutocomplete
         style="width: 120px;"
         v-model="(filter as Filter).propertyKey"
-        placeholder="Frontmatter"
+        placeholder="Property"
+        :fetch-suggestions="querySearch"
         @change="emit('change')"
       />
       <ElSwitch
@@ -112,3 +123,10 @@ import { X } from 'lucide-vue-next'
   </div>
 </div>
 </template>
+
+
+<style lang="less" scoped>
+:deep(.el-autocomplete>.el-input) {
+  width: 100%;
+}
+</style>
