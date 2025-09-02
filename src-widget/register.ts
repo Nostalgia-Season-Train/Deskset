@@ -159,6 +159,15 @@ export const inlineRawWidgetMap = new Map([
       }]
     }
   }],
+  [`${prefixMark}日记`, {
+    // @ts-ignore
+    main: () => import('/src-widget/笔记/新日记.vue'),
+    metainfo: {
+      author: '旧日丨四季列车',
+      version: 'v0.0.1',
+      descript: '展示今天的日记，双击在 Obsidian 中打开'
+    }
+  }],
 ])
 
 export const inlineWidgetList = [...inlineRawWidgetMap.keys()]
