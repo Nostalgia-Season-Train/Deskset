@@ -159,6 +159,31 @@ export const inlineRawWidgetMap = new Map([
       }]
     }
   }],
+  [`${prefixMark}数据库`, {
+    // @ts-ignore
+    main: () => import('/src-widget/笔记/数据库.vue'),
+    metainfo: {
+      author: '旧日丨四季列车',
+      version: 'v0.0.1',
+      descript: '通过表格统计你的笔记，双击在 Obsidian 中打开',
+      model: {
+        title: '笔记总数',
+        filterGroup: {
+          match: 'all',
+          filters: []
+        }
+      },
+      options: [{
+        name: '标题',
+        type: 'Input',
+        key: 'title'
+      }, {
+        name: '点击右边的按钮，加入一个条件',
+        type: 'ArrayFilter',
+        key: 'filterGroup'
+      }]
+    }
+  }],
   [`${prefixMark}日记`, {
     // @ts-ignore
     main: () => import('/src-widget/笔记/新日记.vue'),
