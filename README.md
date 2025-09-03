@@ -17,7 +17,7 @@
 
 <div align="center">
   <code>注 1：数字桌搭由于嵌入桌面，与桌面图标和右键菜单均不兼容</code><br/>
-  <code>注 2：数字桌搭正处于早期开发阶段，为了避免数据损失，建议定期备份重要文件</code>
+  <code>注 2：数字桌搭正处于早期开发阶段，为了避免数据损失，建议定期备份以下文件：/config 配置、/themes 主题和你连接的 Obsidian 仓库</code>
 </div>
 
 
@@ -35,6 +35,14 @@
 1、确认电脑装有 [WebView2](https://developer.microsoft.com/microsoft-edge/webview2) 运行库（Win11 及高版本 Win10 通常预装此库）<br/>
 2、前往 [Releases](https://github.com/Nostalgia-Season-Train/Deskset/releases) 下载 Deskset.zip 压缩包<br/>
 3、压缩包解压到独立文件夹，双击 Deskset.exe 即可运行数字桌搭
+
+### 连接 Obsidian 仓库（可选）
+1、在 Obsidian 中安装并启用下列插件
+- 核心插件：快速切换
+- 第三方插件：[Dataview](https://github.com/blacksmithgu/obsidian-dataview)、[DesksetNoteAPI](https://github.com/Nostalgia-Season-Train/DesksetNoteAPI)
+
+2、运行 Obsidian 和数字桌搭<br/>
+3、进入 DesksetNoteAPI 插件设置，输入数字桌搭设置中的端口、用户名和密码，重启插件即可连接
 
 
 ## 亮点
