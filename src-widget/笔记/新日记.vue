@@ -20,7 +20,10 @@ const refresh = async () => {
     return
   name.value = diary.name
   path.value = diary.path
-  content.value.innerHTML = marked(diary.content, { renderer: render })
+  content.value.innerHTML = marked(diary.content, {
+    renderer: render,
+    breaks: true  // 允许单换行符换行
+  })
 }
 refresh()
 
