@@ -134,6 +134,15 @@ export const inlineRawWidgetMap = new Map([
   }],
 
   /* --- 笔记 --- */
+  [`${prefixMark}仓库统计`, {
+    // @ts-ignore
+    main: () => import('/src-widget/笔记/仓库统计.vue'),
+    metainfo: {
+      author: '旧日丨四季列车',
+      version: 'v0.0.1',
+      descript: '统计仓库的笔记数量、附件数量和累计使用天数'
+    }
+  }],
   [`${prefixMark}笔记统计`, {
     // @ts-ignore
     main: () => import('/src-widget/笔记/笔记统计.vue'),
