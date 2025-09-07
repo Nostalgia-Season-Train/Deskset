@@ -70,7 +70,7 @@ export const inlineRawWidgetMap = new Map([
       }]
     }
   }],
-  [`${prefixMark}倒计时`, {
+  [`${prefixMark}Countdown`, {
     // @ts-ignore
     main: () => import('/src-widget/时间日期/倒计时.vue'),
     metainfo: {
@@ -105,7 +105,7 @@ export const inlineRawWidgetMap = new Map([
   }],
 
   /* --- 硬件监控 --- */
-  [`${prefixMark}实时监控`, {
+  [`${prefixMark}RealtimeMonitoring`, {
     // @ts-ignore
     main: () => import('/src-widget/系统监控/圆环监控.vue'),
     metainfo: {
@@ -114,7 +114,7 @@ export const inlineRawWidgetMap = new Map([
       descript: '查看芯片和内存的占用率'
     }
   }],
-  [`${prefixMark}硬盘容量`, {
+  [`${prefixMark}DiskCapacity`, {
     // @ts-ignore
     main: () => import('/src-widget/系统监控/简单监控 - 硬盘.vue'),
     metainfo: {
@@ -123,7 +123,7 @@ export const inlineRawWidgetMap = new Map([
       descript: '展示所有硬盘分区剩余容量和总存储空间'
     }
   }],
-  [`${prefixMark}电池电量`, {
+  [`${prefixMark}BatteryPower`, {
     // @ts-ignore
     main: () => import('/src-widget/系统监控/电池电量.vue'),
     metainfo: {
@@ -134,7 +134,7 @@ export const inlineRawWidgetMap = new Map([
   }],
 
   /* --- 笔记 --- */
-  [`${prefixMark}仓库统计`, {
+  [`${prefixMark}VaultStats`, {
     // @ts-ignore
     main: () => import('/src-widget/笔记/仓库统计.vue'),
     metainfo: {
@@ -143,7 +143,7 @@ export const inlineRawWidgetMap = new Map([
       descript: '统计仓库的笔记数量、附件数量和累计使用天数'
     }
   }],
-  [`${prefixMark}笔记统计`, {
+  [`${prefixMark}NoteStats`, {
     // @ts-ignore
     main: () => import('/src-widget/笔记/笔记统计.vue'),
     metainfo: {
@@ -168,7 +168,7 @@ export const inlineRawWidgetMap = new Map([
       }]
     }
   }],
-  [`${prefixMark}数据库`, {
+  [`${prefixMark}Database`, {
     // @ts-ignore
     main: () => import('/src-widget/笔记/数据库.vue'),
     metainfo: {
@@ -193,7 +193,7 @@ export const inlineRawWidgetMap = new Map([
       }]
     }
   }],
-  [`${prefixMark}日记`, {
+  [`${prefixMark}Diary`, {
     // @ts-ignore
     main: () => import('/src-widget/笔记/新日记.vue'),
     metainfo: {

@@ -2,5 +2,16 @@
   "DigitalClock": "数字时钟",
   "FlipClock": "翻页时钟",
   "Stopwatch": "秒表",
-  "Greeting": "问候语"
+  "Countdown": "倒计时",
+
+  "Greeting": "问候语",
+
+  "RealtimeMonitoring": "实时监控",
+  "DiskCapacity": "硬盘容量",
+  "BatteryPower": "电池电量",
+
+  "VaultStats": "仓库统计",
+  "NoteStats": "笔记统计",
+  "Database": "数据库",
+  "Diary": "日记"
 }
