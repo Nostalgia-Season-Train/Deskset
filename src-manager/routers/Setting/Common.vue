@@ -1,36 +1,5 @@
 <script lang="ts" setup>
 import { _t } from '#manager/main/i18n'
-import { config } from '#manager/global'
-import { enable, disable, isEnabled } from '@tauri-apps/plugin-autostart'
-
-const switchAutostart = async () => {
-  if (config.isAutostart) {
-    await disable()
-    config.isAutostart = await isEnabled()
-  } else {
-    await enable()
-    config.isAutostart = await isEnabled()
-  }
-}
-
-// - [ ] 临时：一同设置服务器语言
-import axios from 'axios'
-
-const updateLanguage = async (language: string) => {
-  // 设置 Deskset 语言
-  config.language = language
-
-  // 设置 DesksetBack 语言
-  try {
-    await axios.post(
-      '/v0/config/language',
-      new URLSearchParams({ language: language }), {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-      }
-    )
-  } catch {}
-}
-
 
 /* === 子组件 === */
 import SwitchBrief from '#shadcn/components/ui/switch/Switch.vue'
@@ -62,7 +31,7 @@ const store = useConfigStore()
     <div class="right">
       <DropdownMenu>
         <DropdownMenuTrigger as-child>
-          <Button>{{ store.language }}</Button>
+          <Button>{{ store.language == 'zh-cn' ? '中文' : 'English' }}</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent class="w-56">
           <DropdownMenuRadioGroup v-model="store.language">
@@ -80,7 +49,7 @@ const store = useConfigStore()
       <div class="description">{{ _t('是否开机自动运行') }}</div>
     </div>
     <div class="right">
-      <SwitchBrief v-model="config.isAutostart" @click="switchAutostart"/>
+      <SwitchBrief v-model="store.isAutostart"/>
     </div>
   </div>
 
@@ -92,10 +61,10 @@ const store = useConfigStore()
     <div class="right">
       <DropdownMenu>
         <DropdownMenuTrigger as-child>
-          <Button>{{ config.closeBehavior == 'hide' ? _t('隐藏') : _t('退出') }}</Button>
+          <Button>{{ store.closeBehavior == 'hide' ? _t('隐藏') : _t('退出') }}</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent class="w-56">
-          <DropdownMenuRadioGroup v-model="config.closeBehavior">
+          <DropdownMenuRadioGroup v-model="store.closeBehavior">
             <DropdownMenuRadioItem value="hide">{{ _t('最小化到系统托盘') }}</DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="exit">{{ _t('退出应用') }}</DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
