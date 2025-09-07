@@ -29,8 +29,12 @@ const router = createRouter({
 })
 
 
-/* === 创建部件库、主题库 === */
+/* ==== 创建配置目录、部件库、主题库 ==== */
 import { exists, mkdir, BaseDirectory } from '@tauri-apps/plugin-fs'
+
+const isConfigDirExist = await exists('./config', { baseDir: BaseDirectory.Resource })
+if (!isConfigDirExist)
+  await mkdir('./config', { baseDir: BaseDirectory.Resource })
 
 const isWidgetLibExist = await exists('./widgets', { baseDir: BaseDirectory.Resource })
 if (!isWidgetLibExist)
