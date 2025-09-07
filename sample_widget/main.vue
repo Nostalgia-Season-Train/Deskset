@@ -9,7 +9,7 @@ const percent = ref(0)
 // useInterval 组件卸载时停止轮询
 useInterval(async () => {
   // Axios 使用事项：
-    // 1、请求自动添加地址前缀 http://127.0.0.1:6527
+    // 1、请求将会自动添加地址前缀 http://127.0.0.1:6527，不必手动添加
     // 2、可在 http://127.0.0.1:6527/docs 查看 API 文档
     // 3、后端返回格式 {
     //   success: bool 是否成功
