@@ -92,18 +92,24 @@ export const appendWidget = async (
   }
 
   // 3、桌面添加部件 > 返回部件数据
-  const widgetData = await desktop.appendWidget(
-    id,
-    name, {
-      isDragLock: isDragLock,
-      isDisableInteract: isDisableInteract,
-      isAutoHide: isAutoHide,
-      left: left,
-      top: top,
-      scale: scale,
-      model: Object.keys(model).length != 0 ? model : defaultModel  // model 为空则传入默认值
-    }
-  )
+  let widgetData = null
+  try {
+    widgetData = await desktop.appendWidget(
+      id,
+      name, {
+        isDragLock: isDragLock,
+        isDisableInteract: isDisableInteract,
+        isAutoHide: isAutoHide,
+        left: left,
+        top: top,
+        scale: scale,
+        model: Object.keys(model).length != 0 ? model : defaultModel  // model 为空则传入默认值
+      }
+    )
+  } catch (err) {
+    logError('Append widget fail: ' + (err as Error).message)
+    return
+  }
 
   // 4、记录部件
   activeWidgetMap.set(id, {
