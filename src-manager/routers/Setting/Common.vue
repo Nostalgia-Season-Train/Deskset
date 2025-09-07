@@ -42,6 +42,12 @@ import {
   DropdownMenuTrigger
 } from '#shadcn/components/ui/dropdown-menu'
 import Button from '#shadcn/components/ui/button/Button.vue'
+
+
+/* ==== [ ] 测试中 Pinia ==== */
+import { useConfigStore } from '#manager/main/config'
+
+const store = useConfigStore()
 </script>
 
 
@@ -56,12 +62,12 @@ import Button from '#shadcn/components/ui/button/Button.vue'
     <div class="right">
       <DropdownMenu>
         <DropdownMenuTrigger as-child>
-          <Button>{{ config.language == 'zh-cn' ? '中文' : 'English' }}</Button>
+          <Button>{{ store.language }}</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent class="w-56">
-          <DropdownMenuRadioGroup>
-            <DropdownMenuRadioItem value="zh-cn" @select="updateLanguage('zh-cn')">中文</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="en" @select="updateLanguage('en')">English</DropdownMenuRadioItem>
+          <DropdownMenuRadioGroup v-model="store.language">
+            <DropdownMenuRadioItem value="zh-cn">中文</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="en">English</DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
         </DropdownMenuContent>
       </DropdownMenu>

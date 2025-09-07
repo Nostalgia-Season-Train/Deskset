@@ -166,10 +166,12 @@ try {
 
 /* ==== 应用 ==== */
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import Manager from './Manager.vue'
 
 const app = createApp(Manager)
   .use(router)
   .provide('$axios', axios)
   .provide('$isSpawn', isSpawn)
+  .use(createPinia())
   .mount('#manager')

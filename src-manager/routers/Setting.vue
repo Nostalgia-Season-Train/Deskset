@@ -2,7 +2,6 @@
 import { _t } from '#manager/main/i18n'
 import Common from './Setting/Common.vue'
 import Server from './Setting/Server.vue'
-import Update from './Setting/Update.vue'
 
 /* === 子组件 === */
 import Scrollbar from '#desksetui/Scrollbar.vue'

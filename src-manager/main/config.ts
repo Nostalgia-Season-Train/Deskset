@@ -39,3 +39,25 @@ export const writeConfFile = async (conf: StorageConf) => {
     logError(`Fail to write conf, error: ${err}`)
   }
 }
+
+
+/* ==== [ ] 测试中 Pinia ==== */
+import { defineStore } from 'pinia'
+import { computed } from 'vue'
+
+export const useConfigStore = defineStore('config', () => {
+  const language = computed({
+    get() {
+      // 必需加上 as string 不然 TypeScript 语言服务器无法识别 language 类型
+      return config.language == 'zh-cn' ? '中文' : 'English' as string
+    },
+    set(value) {
+      if (value == 'zh-cn')
+        config.language = value
+      else
+        config.language = 'en'
+    }
+  })
+
+  return { language }
+})
