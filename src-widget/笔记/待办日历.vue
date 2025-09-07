@@ -17,12 +17,10 @@ const calendarOptions = reactive({
 
 /* === 定时刷新 === */
 import { ref } from 'vue'
-const refFC = ref()
-
-import { getDesksetReq } from '../request'
-const desksetReq = await getDesksetReq()
-
+import axios from 'axios'
 import dayjs from 'dayjs'
+
+const refFC = ref()
 
 const refresh = async () => {
   const api = refFC.value?.getApi()
@@ -35,10 +33,11 @@ const refresh = async () => {
   const date = api.getDate()
   const month = dayjs(date).format('YYYYMM')
 
-  const diarys = (await desksetReq.get(`/v0/note/obsidian/diary/read-month/${month}`)).data.result
+  const diarys = (await axios.get(`/v0/note/obsidian/diary/read-month/${month}`)).data.result
   for (const diary of diarys) {        // 读取日记列表
     for (const task of diary.tasks) {  // 读取日记中的任务列表
-      calendarOptions.events.push({ title: task.text, start: diary.id })
+      // @ts-ignore
+      calendarOptions.events.push({ title: task.content, start: diary.id })
     }
   }
 }
@@ -60,7 +59,11 @@ const refresh = async () => {
 .fc {
   width: 700px;
   height: 500px;
-
   color: white;
+
+  // 隐藏滚动条
+  :deep(.fc-scroller::-webkit-scrollbar) {
+    display: none;
+  }
 }
 </style>

@@ -202,6 +202,15 @@ export const inlineRawWidgetMap = new Map([
       descript: '展示今天的日记，双击在 Obsidian 中打开'
     }
   }],
+  [`${prefixMark}待办日历`, {
+    // @ts-ignore
+    main: () => import('/src-widget/笔记/待办日历.vue'),
+    metainfo: {
+      author: '旧日丨四季列车',
+      version: 'v0.0.1',
+      descript: '在事件日历里统计日记中的待办事项'
+    }
+  }],
 ])
 
 export const inlineWidgetList = [...inlineRawWidgetMap.keys()]
