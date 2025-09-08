@@ -48,6 +48,7 @@ import axios from 'axios'
 import { enable, disable, isEnabled } from '@tauri-apps/plugin-autostart'
 
 export const useConfigStore = defineStore('config', () => {
+  /* --- 通用选项 --- */
   const language = computed({
     get() {
       // 必需加上 as string 不然 TypeScript 语言服务器无法识别 language 类型
@@ -96,5 +97,62 @@ export const useConfigStore = defineStore('config', () => {
     }
   })
 
-  return { language, isAutostart, closeBehavior }
+  /* --- 服务器配置 --- */
+  const server_port = computed({
+    get() {
+      return config.server_port as number
+    },
+    async set(value) {
+      try {
+        config.server_port = (await axios.post(
+          '/v0/config/server-port',
+          new URLSearchParams({ server_port: String(value) }), {
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+          }
+        )).data.result
+      } catch {}
+    }
+  })
+
+  const username = computed({
+    get() {
+      return config.username as string
+    },
+    async set(value) {
+      try {
+        config.username = (await axios.post(
+          '/v0/config/username',
+          new URLSearchParams({ username: value }), {
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+          }
+        )).data.result
+      } catch {}
+    }
+  })
+
+  const password = computed({
+    get() {
+      return config.password as string
+    },
+    async set(value) {
+      try {
+        config.password = (await axios.post(
+          '/v0/config/password',
+          new URLSearchParams({ password: value }), {
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+          }
+        )).data.result
+      } catch {}
+    }
+  })
+
+  return {
+    language,
+    isAutostart,
+    closeBehavior,
+
+    server_port,
+    username,
+    password
+  }
 })
