@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { ref, watch, toRaw } from 'vue'
+import { ref, watch, toRaw, h } from 'vue'
 import axios from 'axios'
+import dayjs from 'dayjs'
 
 const model = defineModel<{
   title: string,
@@ -13,6 +14,13 @@ const columns = [{
   dataKey: 'file.name',
   title: '名称',
   width: 300
+}, {
+  dataKey: 'file.mtime',
+  title: '修改日期',
+  width: 200,
+  cellRenderer: ({ cellData: date }: { cellData: number }) => {
+    return h('div', dayjs(date).format('YYYY-MM-DD HH:mm:ss'))
+  }
 }]
 const data = ref<any[]>([])
 
