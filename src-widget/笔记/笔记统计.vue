@@ -16,12 +16,16 @@ const refresh = async () => {
 }
 refresh()
 
+const openInObsidian = async () => {
+  await axios.post('/v0/note/obsidian/stats/filter-and-random-open-in-obsidian', toRaw(model.value.filterGroup))
+}
+
 watch(model.value, async () => await refresh())
 </script>
 
 
 <template>
-<div class="note-stats">
+<div class="note-stats" @dblclick="openInObsidian">
   <div class="title">{{ model.title }}</div>
   <div class="number">{{ number }}</div>
 </div>
