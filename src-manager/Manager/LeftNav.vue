@@ -198,7 +198,7 @@ const setLightPos = async (e: MouseEvent) => {
 
 /* --- 动画 --- */
 .nav {
-  transition: ease .5s;
+  // transition: ease .5s;  // 影响窗口调整大小时的性能
   .item {
     transition: ease .5s;
     svg {

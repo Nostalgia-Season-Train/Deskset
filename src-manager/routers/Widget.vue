@@ -110,7 +110,7 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
 
 
 <template>
-<div class="container">
+<div class="container-widget">
 
   <div class="left">
     <Menu @select="appendWidget" class="menu"/>
@@ -217,7 +217,7 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
   width: 185px;  // 缩小输入框宽度，让选择器在左侧显示
 }
 
-.container {
+.container-widget {
   width: 100%;
   height: 100%;
   padding: 0 10px 5px 10px;

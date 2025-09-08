@@ -43,7 +43,7 @@ import Input from '#shadcn/components/ui/input/Input.vue'
 
 
 <template>
-<div class="container">
+<div class="container-theme">
 
   <div class="header h-[36px]">
     <Input v-model="searchText" :placeholder="_t('搜索')"/>
@@ -81,7 +81,7 @@ import Input from '#shadcn/components/ui/input/Input.vue'
 
 
 <style lang="less" scoped>
-.container {
+.container-theme {
   padding: 0 10px;
 
   // themes-wrapper 高度自适应

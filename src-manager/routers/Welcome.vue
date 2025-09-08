@@ -11,7 +11,7 @@ const openReleasePage = () => {
 
 <template>
 <Scrollbar>
-<div class="container">
+<div class="container-welcome">
 
   <div class="center">
     <div>
@@ -57,7 +57,8 @@ const openReleasePage = () => {
 
 
 <style lang="less" scoped>
-.container {
+// 若类名等于 container，则无法填满 content，原因未知
+.container-welcome {
   padding: 0 10px;
   color: var(--color-deskset-primary);
 
