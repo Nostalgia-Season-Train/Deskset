@@ -121,6 +121,7 @@ import Input from '#shadcn/components/ui/input/Input.vue'
       .title {
         color: #000;
         font-size: 20px;
+        font-weight: 1000;
       }
       .content {
         color: #000A;

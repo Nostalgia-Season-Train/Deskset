@@ -115,6 +115,7 @@ import Button from '#shadcn/components/ui/button/Button.vue'
       .title {
         color: #000;
         font-size: 20px;
+        font-weight: 1000;
       }
       .content {
         color: #000A;
