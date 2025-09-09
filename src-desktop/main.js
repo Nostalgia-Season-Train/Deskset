@@ -70,10 +70,7 @@ import './style.css'
 
 import Desktop from './Desktop.vue'
 
-import drag from './widgetDrag'  // 拖拽指令
-
 const app = createApp(Desktop)
   .use(router)
-  .use(drag)
   .provide('$axios', axios)
   .mount('#desktop')
