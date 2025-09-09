@@ -107,7 +107,7 @@ export const inlineRawWidgetMap = new Map([
   /* --- 硬件监控 --- */
   [`${prefixMark}RealtimeMonitoring`, {
     // @ts-ignore
-    main: () => import('/src-widget/系统监控/圆环监控.vue'),
+    main: () => import('/src-widget/硬件监控/实时监控.vue'),
     metainfo: {
       author: '旧日丨四季列车',
       version: 'v0.0.1',
@@ -116,7 +116,7 @@ export const inlineRawWidgetMap = new Map([
   }],
   [`${prefixMark}DiskCapacity`, {
     // @ts-ignore
-    main: () => import('/src-widget/系统监控/简单监控 - 硬盘.vue'),
+    main: () => import('/src-widget/硬件监控/硬盘容量.vue'),
     metainfo: {
       author: '旧日丨四季列车',
       version: 'v0.0.1',
@@ -125,7 +125,7 @@ export const inlineRawWidgetMap = new Map([
   }],
   [`${prefixMark}BatteryPower`, {
     // @ts-ignore
-    main: () => import('/src-widget/系统监控/电池电量.vue'),
+    main: () => import('/src-widget/硬件监控/电池电量.vue'),
     metainfo: {
       author: '旧日丨四季列车',
       version: 'v0.0.1',
