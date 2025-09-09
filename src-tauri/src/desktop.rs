@@ -47,21 +47,29 @@ pub fn build(app: &App) -> Result<WebviewWindow, Box<dyn std::error::Error>> {
 /* ==== setBottom ==== */
   // 参考：https://github.com/meslzy/electron-as-wallpaper
 /* --- 嵌入桌面 --- */
-extern "system" fn enum_window(h_wnd: HWND, l_parm: LPARAM) -> BOOL {
-  unsafe {
-    let h_def_view = FindWindowExW(
-      Some(h_wnd),
-      Some(HWND::default()),
-      w!("SHELLDLL_DefView"),
-      None,
-    ).unwrap_or(HWND::default());
+unsafe extern "system" fn enum_window(hwnd: HWND, lparm: LPARAM) -> BOOL {
+  let h_def_view = FindWindowExW(
+    Some(hwnd),
+    Some(HWND::default()),
+    w!("SHELLDLL_DefView"),
+    None,
+  ).unwrap_or(HWND::default());
 
-    if !HWND::is_invalid(&h_def_view) {
-      *(l_parm.0 as *mut HWND) = h_def_view;
+  if !HWND::is_invalid(&h_def_view) {
+    // 1、直接返回 SHELLDLL_DefView 句柄
+    // *(lparm.0 as *mut HWND) = h_def_view;
+
+    // 2、Win10 下返回 WorkerW
+      // |-- WorkerW <- hwnd
+      //   |-- DefView
+      // |-- WorkerW <- 返回第二个 WorkerW
+    let h_worker_w = WindowsAndMessaging::GetWindow(hwnd, WindowsAndMessaging::GW_HWNDNEXT).unwrap();
+    if !HWND::is_invalid(&h_worker_w) {
+      *(lparm.0 as *mut HWND) = h_worker_w;
     }
-
-    BOOL(1)
   }
+
+  BOOL(1)
 }
 
 pub fn attach(h_tauri: HWND) {
