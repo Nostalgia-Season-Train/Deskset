@@ -27,16 +27,15 @@ tauri-utils = "2.2.0"
 tauri-plugin-upload = "2.2.1"
 tauri-plugin-http = "2.4.3"
 tauri-plugin-log = "2.4.0"
+tauri-plugin-process = "2.3.0"
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+tauri-plugin-autostart = "2"
 
 log = "0.4"  # 在 tauri-plugin-log 中设置 level 级别
+
+windows = "0.61.3"  # Win32 API
+libloading = "0.7.4"  # 加载 C/C++ DLL 库
 
 # --- Serde ---
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-
-# --- 杂项 ---
-libloading = "0.7.4"  # 加载 DLL 库
-tauri-plugin-process = "2.3.0"
-
-[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
-tauri-plugin-autostart = "2"

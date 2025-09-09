@@ -6,7 +6,8 @@ use tauri::{
   tray::TrayIconBuilder, tray::TrayIconEvent,
   Manager,  // 调用位置：app.get_webview_window
   Emitter,  // 调用位置：app.emit
-  WebviewWindowBuilder, WebviewUrl, WindowEvent
+  WebviewWindowBuilder, WebviewUrl,
+  // WindowEvent
 };
 // use tauri_utils::{WindowEffect, config::WindowEffectsConfig};
 use log;
