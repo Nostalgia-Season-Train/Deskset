@@ -50,9 +50,6 @@ jobs:
 
         Copy-Item -Path "./licenses" -Destination "./$env:DIST/licenses" -Recurse
 
-        ./build.bat
-        Copy-Item -Path "./setBottom.dll" -Destination "./$env:DIST/"
-
         npm run build
         Copy-Item -Path "./src-tauri/target/release/Deskset.exe" -Destination "./$env:DIST/"
 
