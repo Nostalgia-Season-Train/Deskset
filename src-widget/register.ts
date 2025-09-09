@@ -6,7 +6,7 @@ export const inlineRawWidgetMap = new Map([
   /* --- 时间与日期 --- */
   [`${prefixMark}DigitalClock`, {
     // @ts-ignore
-    main: () => import('/src-widget/时间日期/简单时间：24时.vue'),
+    main: () => import('/src-widget/时间与日期/数字时钟.vue'),
     metainfo: {
       author: '旧日丨四季列车',
       version: 'v0.0.1',
@@ -28,7 +28,7 @@ export const inlineRawWidgetMap = new Map([
   }],
   [`${prefixMark}FlipClock`, {
     // @ts-ignore
-    main: () => import('/src-widget/简约系列/翻页时钟.vue'),
+    main: () => import('/src-widget/时间与日期/翻页时钟.vue'),
     metainfo: {
       author: '旧日丨四季列车',
       version: 'v0.0.1',
@@ -50,7 +50,7 @@ export const inlineRawWidgetMap = new Map([
   }],
   [`${prefixMark}Stopwatch`, {
     // @ts-ignore
-    main: () => import('/src-widget/简约系列/计时器.vue'),
+    main: () => import('/src-widget/时间与日期/秒表.vue'),
     metainfo: {
       author: '旧日丨四季列车',
       version: 'v0.0.1',
@@ -72,7 +72,7 @@ export const inlineRawWidgetMap = new Map([
   }],
   [`${prefixMark}Countdown`, {
     // @ts-ignore
-    main: () => import('/src-widget/时间日期/倒计时.vue'),
+    main: () => import('/src-widget/时间与日期/倒计时.vue'),
     metainfo: {
       author: '旧日丨四季列车',
       version: 'v0.0.1',
