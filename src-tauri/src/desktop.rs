@@ -4,12 +4,15 @@ use tauri::{
 };
 use windows::core::{BOOL, w};
 use windows::Win32::{
-  Foundation::{HWND, LPARAM, WPARAM},
+  Foundation::{HINSTANCE, HWND, LPARAM, LRESULT, WPARAM},
   UI::WindowsAndMessaging::{
     SendMessageTimeoutW, FindWindowW, SMTO_NORMAL,
     EnumWindows, FindWindowExW,
     SetParent
-  }
+  },
+  System::LibraryLoader::GetModuleHandleW,
+  UI::{WindowsAndMessaging, Input},
+  Devices::HumanInterfaceDevice::{HID_USAGE_PAGE_GENERIC, HID_USAGE_GENERIC_MOUSE, HID_USAGE_GENERIC_KEYBOARD}
 };
 // use libloading;
 // use log;
@@ -43,6 +46,7 @@ pub fn build(app: &App) -> Result<WebviewWindow, Box<dyn std::error::Error>> {
 
 /* ==== setBottom ==== */
   // 参考：https://github.com/meslzy/electron-as-wallpaper
+/* --- 嵌入桌面 --- */
 extern "system" fn enum_window(h_wnd: HWND, l_parm: LPARAM) -> BOOL {
   unsafe {
     let h_def_view = FindWindowExW(
@@ -79,5 +83,60 @@ pub fn attach(h_tauri: HWND) {
 
     // 第三步：嵌入桌面
     SetParent(h_tauri, Some(h_def_view)).unwrap();
+  }
+}
+
+/* --- 转发输入 --- */
+unsafe extern "system" fn handle_window_message(hwnd: HWND, umsg: u32, wparam: WPARAM, lparam: LPARAM) -> LRESULT {
+  if umsg == WindowsAndMessaging::WM_INPUT {
+    print!("input\n");
+  }
+  WindowsAndMessaging::DefWindowProcW(hwnd, umsg, wparam, lparam)
+}
+
+pub fn forward_input() {
+  unsafe {
+    // 第一步：创建原始输入窗口
+      // 附：还有个方法是子类化 Tauri 窗口，但在 Win11 的测试上发现此方法会导致程序崩溃
+    let h_instance = GetModuleHandleW(None).unwrap();
+
+    let wnd_class = WindowsAndMessaging::WNDCLASSW {
+      lpfnWndProc: Some(handle_window_message),
+      hInstance: HINSTANCE::from(h_instance),
+      lpszClassName: w!("DesksetRawInputWindowClass"),
+      ..WindowsAndMessaging::WNDCLASSW::default()
+    };
+    WindowsAndMessaging::RegisterClassW(&wnd_class);
+
+    let raw_input_window = WindowsAndMessaging::CreateWindowExW(
+      WindowsAndMessaging::WINDOW_EX_STYLE::default(),
+      wnd_class.lpszClassName,      // 窗口类名
+      w!("DesksetRawInputWindow"),  // 窗口标题
+      WindowsAndMessaging::WINDOW_STYLE::default(),
+      0, 0,  // 窗口位置 (x, y)
+      0, 0,  // 窗口大小 [w, h]
+      None,
+      None,
+      Some(HINSTANCE::from(h_instance)),
+      None
+    ).unwrap();
+
+    // 第二步：注册原始输入设备
+    let inputs: [Input::RAWINPUTDEVICE; 2] = [
+      Input::RAWINPUTDEVICE {
+        hwndTarget: raw_input_window,
+        usUsagePage: HID_USAGE_PAGE_GENERIC,
+        usUsage: HID_USAGE_GENERIC_MOUSE,
+        dwFlags: Input::RIDEV_INPUTSINK
+      },
+      Input::RAWINPUTDEVICE {
+        hwndTarget: raw_input_window,
+        usUsagePage: HID_USAGE_PAGE_GENERIC,
+        usUsage: HID_USAGE_GENERIC_KEYBOARD,
+        dwFlags: Input::RIDEV_INPUTSINK
+      }
+    ];
+
+    Input::RegisterRawInputDevices(&inputs, size_of::<Input::RAWINPUTDEVICE>() as u32).unwrap();
   }
 }
