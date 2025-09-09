@@ -195,7 +195,7 @@ export const inlineRawWidgetMap = new Map([
   }],
   [`${prefixMark}Diary`, {
     // @ts-ignore
-    main: () => import('/src-widget/笔记/新日记.vue'),
+    main: () => import('/src-widget/笔记/日记.vue'),
     metainfo: {
       author: '旧日丨四季列车',
       version: 'v0.0.1',
