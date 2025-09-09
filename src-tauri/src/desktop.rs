@@ -4,11 +4,12 @@ use tauri::{
 };
 use windows::core::{BOOL, w};
 use windows::Win32::{
-  Foundation::{HINSTANCE, HWND, LPARAM, LRESULT, WPARAM},
+  Foundation::{HINSTANCE, HWND, LPARAM, LRESULT, WPARAM, POINT},
   UI::WindowsAndMessaging::{
     SendMessageTimeoutW, FindWindowW, SMTO_NORMAL,
     EnumWindows, FindWindowExW,
-    SetParent
+    SetParent,
+    PostMessageW, WM_MOUSEMOVE, WM_LBUTTONDOWN, WM_LBUTTONUP
   },
   System::LibraryLoader::GetModuleHandleW,
   UI::{WindowsAndMessaging, Input},
@@ -36,6 +37,7 @@ pub fn build(app: &App) -> Result<WebviewWindow, Box<dyn std::error::Error>> {
   //   log::info!("HWND: 0x{:08X}", (win.hwnd().unwrap()).0 as usize);  // win11 临时调试用
   // }
   attach(win.hwnd().unwrap());
+  forward_input(win.hwnd().unwrap());
 
   // 消除 Windows DPI 缩放，非整数倍缩放影响 CSS 效果
   win.set_zoom(1.0 / win.scale_factor().unwrap()).unwrap();
@@ -95,15 +97,69 @@ pub fn attach(h_tauri: HWND) {
 }
 
 /* --- 转发输入 --- */
+static mut H_CHROME_WIDGETWIN_1: Option<HWND> = None;
+
 unsafe extern "system" fn handle_window_message(hwnd: HWND, umsg: u32, wparam: WPARAM, lparam: LPARAM) -> LRESULT {
-  if umsg == WindowsAndMessaging::WM_INPUT {
-    print!("input\n");
+  // 过滤：非输入消息
+  if umsg != WindowsAndMessaging::WM_INPUT {
+    return WindowsAndMessaging::DefWindowProcW(hwnd, umsg, wparam, lparam);
   }
-  WindowsAndMessaging::DefWindowProcW(hwnd, umsg, wparam, lparam)
+
+  // 获取：指针及鼠标参数（指针位置）
+  let mut point = POINT::default();
+  let _ = WindowsAndMessaging::GetCursorPos(&mut point).unwrap();
+  let mouse_param = LPARAM(((point.x as isize) & 0xFFFF) | ((point.y as isize) & 0xFFFF) << 16);
+
+  // 过滤：指针不在桌面
+  let h_point = WindowsAndMessaging::WindowFromPoint(point);  // 指针位于哪个窗口之上的句柄
+  let mut point_class_name_buffer = vec![0; 256];
+  let point_class_name_length = WindowsAndMessaging::GetClassNameW(h_point, point_class_name_buffer.as_mut_slice());
+  point_class_name_buffer.truncate(point_class_name_length as usize);
+  let point_class_name = String::from_utf16(&point_class_name_buffer).unwrap();
+  if
+    point_class_name != "SysListView32" &&
+    point_class_name != "SHELLDLL_DefView" &&
+    point_class_name != "Progman" &&
+    point_class_name != "WorkerW"
+  {
+    return WindowsAndMessaging::DefWindowProcW(hwnd, umsg, wparam, lparam);
+  }
+
+  // 解析：原始（输入）数据
+  let mut raw_data = Input::RAWINPUT::default();
+  let mut raw_data_size = size_of::<Input::RAWINPUT>() as u32;
+  let raw_data_header_size = size_of::<Input::RAWINPUTHEADER>() as u32;
+  let _ = Input::GetRawInputData(
+    Input::HRAWINPUT(lparam.0 as _),
+    Input::RID_INPUT,
+    Some(&mut raw_data as *mut _ as *mut _),
+    &mut raw_data_size,
+    raw_data_header_size
+  );
+
+  let device_type = Input::RID_DEVICE_INFO_TYPE(raw_data.header.dwType);
+
+  // 转发：鼠标消息
+  if device_type == Input::RIM_TYPEMOUSE {
+    let mouse_button_flags = raw_data.data.mouse.Anonymous.Anonymous.usButtonFlags;
+    match mouse_button_flags {
+      0x0000 => { let _ = PostMessageW(H_CHROME_WIDGETWIN_1, WM_MOUSEMOVE, WPARAM(0x0020), mouse_param); }
+      0x0001 => { let _ = PostMessageW(H_CHROME_WIDGETWIN_1, WM_LBUTTONDOWN, WPARAM(0x0001), mouse_param); }
+      0x0002 => { let _ = PostMessageW(H_CHROME_WIDGETWIN_1, WM_LBUTTONUP, WPARAM(0x0001), mouse_param); }
+      _ => {}
+    }
+  }
+
+  return WindowsAndMessaging::DefWindowProcW(hwnd, umsg, wparam, lparam);
 }
 
-pub fn forward_input() {
+pub fn forward_input(h_tauri: HWND) {
   unsafe {
+    // 第零步：获取 Chrome_WidgetWin_1 窗口的句柄
+    let h_wry_webview = FindWindowExW(Some(h_tauri), Some(HWND::default()), w!("WRY_WEBVIEW"), None).unwrap();
+    let h_chrome_widgetwin_0 = FindWindowExW(Some(h_wry_webview), Some(HWND::default()), w!("Chrome_WidgetWin_0"), None).unwrap();
+    H_CHROME_WIDGETWIN_1 = Some(FindWindowExW(Some(h_chrome_widgetwin_0), Some(HWND::default()), w!("Chrome_WidgetWin_1"), None).unwrap());
+
     // 第一步：创建原始输入窗口
       // 附：还有个方法是子类化 Tauri 窗口，但在 Win11 的测试上发现此方法会导致程序崩溃
     let h_instance = GetModuleHandleW(None).unwrap();
