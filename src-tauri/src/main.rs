@@ -94,7 +94,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
   )
   .title("Deskset")
   .inner_size(650.0, 436.0).resizable(true).maximizable(false)
-  .transparent(false).decorations(false).shadow(false)
+  .transparent(true).decorations(false).shadow(false)
   // 禁用模糊背景效果，实现跨平台兼容
   // .effects(WindowEffectsConfig{
   //   effects: vec![WindowEffect::Blur],  // Acrylic 改变窗口大小会有性能问题，拖动不会
