@@ -16,8 +16,7 @@
 <br/>
 
 <div align="center">
-  <code>注 1：数字桌搭由于嵌入桌面，与桌面图标和右键菜单均不兼容</code><br/>
-  <code>注 2：数字桌搭正处于早期开发阶段，为了避免数据损失，建议定期备份以下文件：/config 配置、/themes 主题和你连接的 Obsidian 仓库</code>
+  <code>注：数字桌搭正处于早期开发阶段，为了避免数据损失，建议定期备份以下文件：/config 配置、/themes 主题和你连接的 Obsidian 仓库</code>
 </div>
 
 
