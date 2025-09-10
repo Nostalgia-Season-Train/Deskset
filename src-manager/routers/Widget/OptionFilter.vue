@@ -15,14 +15,14 @@ type FilterGroup = {
 const filterGroup = defineModel<FilterGroup>({ required: true })
 
 const querySearch = (queryString: string, cb: any) => {
-  const results = queryString ? [
+  const results = [
     { value: 'file.name' },
     { value: 'file.folder' },
     { value: 'file.path' },
     { value: 'file.ctime' },
     { value: 'file.mtime' },
     { value: 'file.size' }
-  ].filter(item => item.value.includes(queryString)) : []
+  ].filter(item => item.value.includes(queryString))
   cb(results)
 }
 
