@@ -89,16 +89,11 @@ import {
   DialogTitle
 } from '#shadcn/components/ui/dialog'
 import {
-  ElButton,
   ElInput,
-  ElSwitch,
-  ElSelect,
-  ElOption,
   ElDatePicker,
   ElColorPicker,
   ElScrollbar
 } from 'element-plus'
-import { X } from 'lucide-vue-next'
 
 // Element Plus 翻译
 import { config } from '#manager/global/config'
@@ -162,7 +157,7 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
               </div>
             </div>
 
-            <!-- *** 日期选择器 *** -->
+            <!-- *** 日期时间选择器 *** -->
             <div v-if="option.type == 'DateTimePicker'">
               <div class="flex justify-between items-center">
                 <div>{{ option.name }}</div>

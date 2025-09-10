@@ -5,7 +5,7 @@ type Filter = {
   type: string
   isInvert: boolean
   propertyKey: string
-  compareValue: string
+  compareValue: string | number
 }
 type FilterGroup = {
   match: string,
@@ -32,7 +32,8 @@ import {
   ElAutocomplete,
   ElSwitch,
   ElSelect,
-  ElOption
+  ElOption,
+  ElDatePicker
 } from 'element-plus'
 import { X } from 'lucide-vue-next'
 </script>
@@ -108,7 +109,16 @@ import { X } from 'lucide-vue-next'
         <ElOption value="isEmpty" style="padding: 0 12px;"/>
         <ElOption value="contains" style="padding: 0 12px;"/>
       </ElSelect>
+      <ElDatePicker
+        v-if="(filter as Filter).propertyKey == 'file.ctime' || (filter as Filter).propertyKey == 'file.mtime'"
+        class="flex-1"
+        type="datetime"
+        value-format="x"
+        v-model="(filter as Filter).compareValue"
+        @change="emit('change')"
+      /><!-- value-format="x" compareValue 数字时间戳 -->
       <ElInput
+        v-else
         class="flex-1"
         style="width: 0;"
         v-model="(filter as Filter).compareValue"
