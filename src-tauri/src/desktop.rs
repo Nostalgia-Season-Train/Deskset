@@ -169,6 +169,20 @@ unsafe extern "system" fn handle_window_message(hwnd: HWND, umsg: u32, wparam: W
     }
   }
 
+  // 转发：键盘消息
+  if device_type == Input::RIM_TYPEKEYBOARD {
+    let keyboard_data = raw_data.data.keyboard;
+
+    let is_pressed = keyboard_data.Flags as u32 != WindowsAndMessaging::RI_KEY_BREAK;
+    let mut keyboard_param = 1u32;
+    keyboard_param |= (keyboard_data.MakeCode as u32) << 16;
+    keyboard_param |= 1u32 << 24;
+    keyboard_param |= 0u32 << 29;
+    keyboard_param = if is_pressed { keyboard_param } else { keyboard_param | 3u32 << 30 };
+
+    let _ = PostMessageW(H_CHROME_WIDGETWIN_1, keyboard_data.Message, WPARAM(keyboard_data.VKey as usize), LPARAM(keyboard_param as isize));
+  }
+
   return WindowsAndMessaging::DefWindowProcW(hwnd, umsg, wparam, lparam);
 }
 
