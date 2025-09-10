@@ -9,7 +9,7 @@ use windows::Win32::{
     SendMessageTimeoutW, FindWindowW, SMTO_NORMAL,
     EnumWindows, FindWindowExW,
     SetParent,
-    PostMessageW, WM_MOUSEMOVE, WM_LBUTTONDOWN, WM_LBUTTONUP
+    PostMessageW, WM_MOUSEMOVE, WM_LBUTTONDOWN, WM_LBUTTONUP, WM_VSCROLL
   },
   System::LibraryLoader::GetModuleHandleW,
   UI::{WindowsAndMessaging, Input},
@@ -165,6 +165,11 @@ unsafe extern "system" fn handle_window_message(hwnd: HWND, umsg: u32, wparam: W
       0x0000 => { let _ = PostMessageW(H_CHROME_WIDGETWIN_1, WM_MOUSEMOVE, WPARAM(0x0020), mouse_param); }
       0x0001 => { let _ = PostMessageW(H_CHROME_WIDGETWIN_1, WM_LBUTTONDOWN, WPARAM(0x0001), mouse_param); }
       0x0002 => { let _ = PostMessageW(H_CHROME_WIDGETWIN_1, WM_LBUTTONUP, WPARAM(0x0001), mouse_param); }
+      // 鼠标滚轮消息：高位(正值向前旋转，负值向后旋转) + 低位(虚拟按键)
+      0x0400 => {
+        let mouse_button_data = raw_data.data.mouse.Anonymous.Anonymous.usButtonData;
+        let _ = PostMessageW(H_CHROME_WIDGETWIN_1, WM_VSCROLL, WPARAM((mouse_button_data as usize) << 16 | 0x0001), mouse_param);
+      }
       _ => {}
     }
   }
