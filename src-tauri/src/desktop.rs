@@ -65,9 +65,28 @@ unsafe extern "system" fn enum_window(hwnd: HWND, lparm: LPARAM) -> BOOL {
       // |-- WorkerW <- hwnd
       //   |-- DefView
       // |-- WorkerW <- 返回第二个 WorkerW
-    let h_worker_w = WindowsAndMessaging::GetWindow(hwnd, WindowsAndMessaging::GW_HWNDNEXT).unwrap();
-    if !HWND::is_invalid(&h_worker_w) {
-      *(lparm.0 as *mut HWND) = h_worker_w;
+    let h_worker_w = WindowsAndMessaging::GetWindow(hwnd, WindowsAndMessaging::GW_HWNDNEXT);
+    match h_worker_w {
+      Ok(h_worker_w) => {
+        if !HWND::is_invalid(&h_worker_w) {
+          *(lparm.0 as *mut HWND) = h_worker_w;
+        }
+      },
+      _ => {}
+    }
+
+    // 3、Win11 下返回 WorkerW
+      // |-- Progman
+      //   |-- DefView <- h_def_view
+      //   |-- WorkerW <- 返回下一个窗口（兄弟窗口）
+    let h_win11_worker_w = WindowsAndMessaging::GetWindow(h_def_view, WindowsAndMessaging::GW_HWNDNEXT);
+    match h_win11_worker_w {
+      Ok(h_win11_worker_w) => {
+        if !HWND::is_invalid(&h_win11_worker_w) {
+          *(lparm.0 as *mut HWND) = h_win11_worker_w;
+        }
+      },
+      _ => {}
     }
   }
 
