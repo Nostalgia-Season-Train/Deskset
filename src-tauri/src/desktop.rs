@@ -168,7 +168,13 @@ unsafe extern "system" fn handle_window_message(hwnd: HWND, umsg: u32, wparam: W
       // 鼠标滚轮消息：高位(正值向前旋转，负值向后旋转) + 低位(虚拟按键)
       0x0400 => {
         let mouse_button_data = raw_data.data.mouse.Anonymous.Anonymous.usButtonData;
-        let _ = PostMessageW(H_CHROME_WIDGETWIN_1, WM_VSCROLL, WPARAM((mouse_button_data as usize) << 16 | 0x0001), mouse_param);
+        let wheel_delta = mouse_button_data as i16;
+        // H_CHROME_WIDGETWIN_1 无法处理 WM_MOUSEWHEEL 消息
+        if wheel_delta > 0 {
+          let _ = PostMessageW(H_CHROME_WIDGETWIN_1, WM_VSCROLL, WPARAM(0x0000), mouse_param);
+        } else {
+          let _ = PostMessageW(H_CHROME_WIDGETWIN_1, WM_VSCROLL, WPARAM(0x0001), mouse_param);
+        }
       }
       _ => {}
     }
