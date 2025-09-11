@@ -35,7 +35,14 @@ const dialogTitle = ref<string>('')
 const dialogOptions = ref<{
   name: string,
   type: string,
+  // type != 'tab'
   key: string,
+  // type == 'tab'：分层面板
+  content?: {
+    name: string,
+    type: string,
+    key: string
+  }[],
   value: any,
   change: Function
 }[]>([])
@@ -48,8 +55,8 @@ const editWidget = async (id: string) => {
   dialogOptions.value = widget!.options.map(item => {
     const newItem = {
       ...item,
-      value: widget!.model[item.key],
-      change: () => desktop.editWidget(id, { [item.key]: newItem.value })
+      value: item.type != 'tab' ? widget!.model[item.key] : widget!.model,
+      change: () => item.type != 'tab' ? desktop.editWidget(id, { [item.key]: newItem.value }) : desktop.editWidget(id, { ...newItem.value })
     }
     return newItem
   })
@@ -88,6 +95,12 @@ import {
   DialogHeader,
   DialogTitle
 } from '#shadcn/components/ui/dialog'
+import {
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent
+} from '#shadcn/components/ui/tabs'
 import {
   ElInput,
   ElDatePicker,
@@ -146,9 +159,9 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
         <DialogDescription></DialogDescription>
       </DialogHeader>
       <ElConfigProvider :locale="locale">
-        <ElScrollbar max-height="70vh"><!-- 暂不进行动态计算 -->
-          <div v-for="option in dialogOptions">
 
+        <ElScrollbar v-if="dialogOptions[0].type != 'tab'" max-height="70vh"><!-- 暂不进行动态计算 -->
+          <div v-for="option in dialogOptions">
             <!-- *** 输入框 *** -->
             <div v-if="option.type == 'Input'">
               <div class="flex justify-between items-center">
@@ -156,7 +169,6 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
                 <ElInput v-model="option.value" @change="option.change()"/>
               </div>
             </div>
-
             <!-- *** 日期时间选择器 *** -->
             <div v-if="option.type == 'DateTimePicker'">
               <div class="flex justify-between items-center">
@@ -164,7 +176,6 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
                 <ElDatePicker type="datetime" v-model="option.value" @change="option.change()"/>
               </div>
             </div>
-
             <!-- *** 颜色选择器 *** -->
             <div v-if="option.type == 'ColorPicker'">
               <div class="flex justify-between items-center">
@@ -172,16 +183,44 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
                 <ElColorPicker show-alpha v-model="option.value" @change="option.change()"/>
               </div>
             </div>
-
             <!-- *** 笔记过滤 *** -->
             <div>
               <div v-if="option.type == 'ArrayFilter'">
                 <OptionFilter v-model="option.value" @change="option.change()"/>
               </div>
             </div>
-
           </div>
         </ElScrollbar>
+
+        <!-- 分层面板：将选项 option 按面板 tab 分层 -->
+        <Tabs v-else :default-value="0">
+          <TabsList>
+            <!-- style 覆盖本文件 * { padding: 0; } 样式 -->
+            <TabsTrigger v-for="(tab, index) in dialogOptions" :value="index" style="padding: 0 10px;">
+              {{ tab.name }}
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent v-for="(tab, index) in dialogOptions" :value="index">
+            <ElScrollbar height="60vh">
+              <div v-for="option in tab!.content">
+                <!-- *** 输入框 *** -->
+                <div v-if="option.type == 'Input'">
+                  <div class="flex justify-between items-center">
+                    <div>{{ option.name }}</div>
+                    <ElInput v-model="tab.value[option.key]" @change="tab.change()"/>
+                  </div>
+                </div>
+                <!-- *** 笔记过滤 *** -->
+                <div>
+                  <div v-if="option.type == 'ArrayFilter'">
+                    <OptionFilter v-model="tab.value[option.key]" @change="tab.change()"/>
+                  </div>
+                </div>
+              </div>
+            </ElScrollbar>
+          </TabsContent>
+        </Tabs>
+
       </ElConfigProvider>
     </DialogContent>
   </Dialog>

@@ -158,13 +158,21 @@ export const inlineRawWidgetMap = new Map([
         }
       },
       options: [{
-        name: '标题',
-        type: 'Input',
-        key: 'title'
+        name: '基础',
+        type: 'tab',
+        content: [{
+          name: '标题',
+          type: 'Input',
+          key: 'title'
+        }]
       }, {
-        name: '点击右边的按钮，加入一个条件',
-        type: 'ArrayFilter',
-        key: 'filterGroup'
+        name: '筛选',
+        type: 'tab',
+        content: [{
+          name: '点击右边的按钮，加入一个条件',
+          type: 'ArrayFilter',
+          key: 'filterGroup'
+        }]
       }]
     }
   }],
