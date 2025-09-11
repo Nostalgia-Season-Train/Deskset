@@ -149,7 +149,7 @@ export const inlineRawWidgetMap = new Map([
     metainfo: {
       author: '旧日丨四季列车',
       version: 'v0.0.1',
-      descript: '通过条件过滤笔记后统计数量，双击随机打开一篇笔记',
+      descript: '通过条件过滤笔记后统计数量，双击随机打开其中一篇笔记',
       model: {
         title: '笔记总数',
         filterGroup: {
