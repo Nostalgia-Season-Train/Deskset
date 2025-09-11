@@ -61,7 +61,7 @@
     "motion-v": "^1.5.0",
     "octokit": "^4.1.2",
     "pinia": "^2.3.0",
-    "reka-ui": "^2.4.1",
+    "reka-ui": "^2.5.0",
     "semver": "^7.7.1",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.11",
