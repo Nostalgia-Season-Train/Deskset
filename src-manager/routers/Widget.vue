@@ -210,6 +210,13 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
                     <ElInput v-model="tab.value[option.key]" @change="tab.change()"/>
                   </div>
                 </div>
+                <!-- *** 颜色选择器 *** -->
+                <div v-if="option.type == 'ColorPicker'">
+                  <div class="flex justify-between items-center">
+                    <div>{{ option.name }}</div>
+                    <ElColorPicker show-alpha v-model="tab.value[option.key]" @change="tab.change()"/>
+                  </div>
+                </div>
                 <!-- *** 笔记过滤 *** -->
                 <div>
                   <div v-if="option.type == 'ArrayFilter'">

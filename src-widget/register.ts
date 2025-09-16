@@ -151,11 +151,19 @@ export const inlineRawWidgetMap = new Map([
       version: 'v0.0.1',
       descript: '通过条件过滤笔记后统计数量，双击随机打开其中一篇笔记',
       model: {
+        // 基础
         title: '笔记总数',
+        // 筛选
         filterGroup: {
           match: 'all',
           filters: []
-        }
+        },
+        // 样式
+        width: 240,
+        height: 120,
+        titleColor: '#000000',
+        numberColor: '#000000',
+        backgroundColor: '#FFFFFF'
       },
       options: [{
         name: '基础',
@@ -172,6 +180,30 @@ export const inlineRawWidgetMap = new Map([
           name: '点击右边的按钮，加入一个条件',
           type: 'ArrayFilter',
           key: 'filterGroup'
+        }]
+      }, {
+        name: '样式',
+        type: 'tab',
+        content: [{
+          name: '宽度',
+          type: 'Input',
+          key: 'width'
+        }, {
+          name: '高度',
+          type: 'Input',
+          key: 'height'
+        }, {
+          name: '标题颜色',
+          type: 'ColorPicker',
+          key: 'titleColor'
+        }, {
+          name: '数字颜色',
+          type: 'ColorPicker',
+          key: 'numberColor'
+        }, {
+          name: '背景颜色',
+          type: 'ColorPicker',
+          key: 'backgroundColor'
         }]
       }]
     }

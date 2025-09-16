@@ -3,8 +3,18 @@ import { ref, watch, toRaw } from 'vue'
 import axios from 'axios'
 
 const model = defineModel<{
+  /* --- 基础 --- */
   title: string,
-  filterGroup: any
+
+  /* --- 筛选 --- */
+  filterGroup: any,
+
+  /* --- 样式 --- */
+  width: number,
+  height: number,
+  titleColor: string,
+  numberColor: string,
+  backgroundColor: string
 }>({ required: true })
 
 const number = ref(0)
@@ -25,28 +35,34 @@ watch(model.value, async () => await refresh())
 
 
 <template>
-<div class="note-stats" @dblclick="openInObsidian">
-  <div class="title">{{ model.title }}</div>
-  <div class="number">{{ number }}</div>
+<div
+  class="note-stats"
+  :style="`width: ${model.width}px; height: ${model.height}px; background: ${model.backgroundColor};`"
+  @dblclick="openInObsidian"
+>
+  <div class="title" :style="`color: ${model.titleColor};`">{{ model.title }}</div>
+  <div class="number" :style="`color: ${model.numberColor};`">{{ number }}</div>
 </div>
 </template>
 
 
 <style lang="less" scoped>
 .note-stats {
-  width: 244px;  // 全宽 270 = 244 + 12*2 + 1*2
-  height: 82px;  // 全高 100 = 82 + 8*2 + 1*2
-  padding: 8px 12px;
-  background: #FFF7;
-  border: solid 1px #FFF;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  white-space: nowrap;
+  overflow: hidden;
 
   .title {
-    color: #000;
-    font-size: 24px;
+    font-size: 20px;
   }
   .number {
-    color: #000D;
-    font-size: 40px;
+    font-size: 36px;
     font-weight: 1000;
   }
 }
