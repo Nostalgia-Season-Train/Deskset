@@ -30,6 +30,7 @@ useIntervalFn(refresh, 1200)
     <div>
       <Cpu/>
       <div>{{ cpu_percent }}</div>
+      <div>CPU</div>
     </div>
     <div class="ring cpu-ring"></div>
   </div>
@@ -38,6 +39,7 @@ useIntervalFn(refresh, 1200)
     <div>
       <MemoryStick/>
       <div>{{ ram_percent }}</div>
+      <div>RAM</div>
     </div>
     <div class="ring ram-ring"></div>
   </div>
@@ -46,6 +48,7 @@ useIntervalFn(refresh, 1200)
     <div>
       <HardDrive/>
       <div>{{ disk_percent }}</div>
+      <div>DISK</div>
     </div>
     <div class="ring disk-ring"></div>
   </div>
@@ -73,6 +76,12 @@ useIntervalFn(refresh, 1200)
 
   color: white;
   text-align: center;
+}
+.progress>div>div:nth-child(3) {
+  position: absolute;
+  top: 75px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .ring {
