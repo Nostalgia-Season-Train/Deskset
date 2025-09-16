@@ -159,8 +159,8 @@ export const inlineRawWidgetMap = new Map([
           filters: []
         },
         // 样式
-        width: 240,
-        height: 120,
+        width: 200,
+        height: 100,
         titleColor: '#000000',
         numberColor: '#000000',
         backgroundColor: '#FFFFFF'
