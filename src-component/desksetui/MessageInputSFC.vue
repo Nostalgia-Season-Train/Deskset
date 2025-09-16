@@ -46,13 +46,34 @@ const btnConfirm = () => {
 /* === 子组件 === */
 import Button from '#shadcn/components/ui/button/Button.vue'
 import Input from '#shadcn/components/ui/input/Input.vue'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter
+} from '#shadcn/components/ui/dialog'
 </script>
 
 
 <template>
-<transition @after-leave="onDestory()"><!-- 由 v-if 变化触发 -->
+<Dialog v-model:open="is_show">
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>{{ title }}</DialogTitle>
+      <DialogDescription>{{ content }}</DialogDescription>
+    </DialogHeader>
+    <Input v-model="input" :placeholder="placeholder"/>
+    <DialogFooter>
+      <Button @click="btnCancel">{{ cancel }}</Button>
+      <Button @click="btnConfirm">{{ confirm }}</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+<!-- <transition @after-leave="onDestory()"><!-- 由 v-if 变化触发 ->
 <div class="container" @click="areaClose()" v-if="is_show">
-  <div class="message" @click.stop><!-- stop 阻止子元素事件向上传递 -->
+  <div class="message" @click.stop><!-- stop 阻止子元素事件向上传递 ->
 
     <div class="text">
       <div class="title">{{ title }}</div>
@@ -71,7 +92,7 @@ import Input from '#shadcn/components/ui/input/Input.vue'
 
   </div>
 </div>
-</transition>
+</transition> -->
 </template>
 
 
