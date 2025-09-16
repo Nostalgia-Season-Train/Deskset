@@ -115,7 +115,7 @@ export const appendWidget = async (
   activeWidgetMap.set(id, {
     id: id,
 
-    title: title ?? name.startsWith(prefixMark) ? _t(name.replace(prefixMark, '')) : name,
+    title: title ?? (name.startsWith(prefixMark) ? _t(name.replace(prefixMark, '')) : name),
     name: name,
 
     author: widgetInfo.author,
