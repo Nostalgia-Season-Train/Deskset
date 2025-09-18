@@ -186,11 +186,11 @@ export const inlineRawWidgetMap = new Map([
         type: 'tab',
         content: [{
           name: '宽度',
-          type: 'Input',
+          type: 'InputNumber',
           key: 'width'
         }, {
           name: '高度',
-          type: 'Input',
+          type: 'InputNumber',
           key: 'height'
         }, {
           name: '标题颜色',

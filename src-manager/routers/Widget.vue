@@ -212,6 +212,16 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
                     <ElInput v-model="tab.value[option.key]" @change="tab.change()"/>
                   </div>
                 </div>
+                <!-- *** 数字输入框 *** -->
+                <div v-if="option.type == 'InputNumber'">
+                  <div class="flex justify-between items-center">
+                    <div>{{ option.name }}</div>
+                    <ElInput v-model="tab.value[option.key]" @change="
+                      tab.value[option.key] = Number(tab.value[option.key]);
+                      tab.change()
+                    "/>
+                  </div>
+                </div>
                 <!-- *** 颜色选择器 *** -->
                 <div v-if="option.type == 'ColorPicker'">
                   <div class="flex justify-between items-center">
