@@ -15,7 +15,7 @@ const columns = ref([])
 const data = ref<any[]>([])
 
 const refresh = async () => {
-  columns.value = model.value.noteProperty.props.map((item: any) => {
+  columns.value = structuredClone(toRaw(model.value.noteProperty.props)).map((item: any) => {
     if (item.dataKey == 'file.ctime' || item.dataKey == 'file.mtime') {
       item.cellRenderer = ({ cellData: date }: { cellData: number }) => {
         return h('div', dayjs(date).format('YYYY-MM-DD HH:mm:ss'))
