@@ -216,20 +216,38 @@ export const inlineRawWidgetMap = new Map([
       version: 'v0.0.1',
       descript: '通过表格统计你的笔记，双击在 Obsidian 中打开',
       model: {
-        title: '笔记总数',
         filterGroup: {
           match: 'all',
           filters: []
+        },
+        noteProperty: {
+          props: [{
+            dataKey: 'file.name',
+            title: '名称',
+            width: 300
+          }, {
+            dataKey: 'file.mtime',
+            title: '修改日期',
+            width: 200
+          }]
         }
       },
       options: [{
-        name: '标题',
-        type: 'Input',
-        key: 'title'
+        name: '筛选',
+        type: 'tab',
+        content: [{
+          name: '笔记过滤',
+          type: 'ArrayFilter',
+          key: 'filterGroup'
+        }]
       }, {
-        name: '点击右边的按钮，加入一个条件',
-        type: 'ArrayFilter',
-        key: 'filterGroup'
+        name: '属性',
+        type: 'tab',
+        content: [{
+          name: '笔记属性',
+          type: 'Property',
+          key: 'noteProperty'
+        }]
       }]
     }
   }],

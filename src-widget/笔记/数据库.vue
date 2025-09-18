@@ -5,26 +5,25 @@ import dayjs from 'dayjs'
 
 const model = defineModel<{
   title: string,
-  filterGroup: any
+  filterGroup: any,
+  noteProperty: any
 }>({ required: true })
 
 // 列宽：ElTableV2.columns[n].width
 // 行高：ElTableV2.row-height
-const columns = [{
-  dataKey: 'file.name',
-  title: '名称',
-  width: 300
-}, {
-  dataKey: 'file.mtime',
-  title: '修改日期',
-  width: 200,
-  cellRenderer: ({ cellData: date }: { cellData: number }) => {
-    return h('div', dayjs(date).format('YYYY-MM-DD HH:mm:ss'))
-  }
-}]
+const columns = ref([])
 const data = ref<any[]>([])
 
 const refresh = async () => {
+  columns.value = model.value.noteProperty.props.map((item: any) => {
+    if (item.dataKey == 'file.ctime' || item.dataKey == 'file.mtime') {
+      item.cellRenderer = ({ cellData: date }: { cellData: number }) => {
+        return h('div', dayjs(date).format('YYYY-MM-DD HH:mm:ss'))
+      }
+    }
+    return item
+  })
+
   const filterGroup = toRaw(model.value.filterGroup)
   const rep = await axios.post('/v0/note/obsidian/stats/filter-frontmatter', filterGroup)
   data.value = rep.data.result
