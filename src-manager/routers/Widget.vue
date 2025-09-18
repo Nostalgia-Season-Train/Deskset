@@ -240,7 +240,7 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
                       <div style="width: 120px;">属性名</div>
                       <div class="flex-1">标题</div>
                       <div style="width: 80px;">宽度</div>
-                      <div class="whitespace-nowrap" style="width: 30px;">删除</div>
+                      <div>删除</div>
                     </div>
                     <div v-for="(prop, index) in tab.value[option.key].props" class="flex">
                       <ElInput
