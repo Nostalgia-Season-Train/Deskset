@@ -2,9 +2,9 @@
 import { ref } from 'vue'
 import { Cpu, MemoryStick, HardDrive } from 'lucide-vue-next'
 
-const cpu_percent = ref('50')
-const ram_percent = ref('50')
-const disk_percent = ref('50')
+const cpu_percent = ref(50)
+const ram_percent = ref(50)
+const disk_percent = ref(50)
 
 
 /* === 轮询 === */
@@ -29,7 +29,7 @@ useIntervalFn(refresh, 1200)
   <div class="progress">
     <div>
       <Cpu/>
-      <div>{{ cpu_percent }}</div>
+      <div>{{ cpu_percent.toFixed(1) }}</div>
       <div>CPU</div>
     </div>
     <div class="ring cpu-ring"></div>
@@ -38,7 +38,7 @@ useIntervalFn(refresh, 1200)
   <div class="progress">
     <div>
       <MemoryStick/>
-      <div>{{ ram_percent }}</div>
+      <div>{{ ram_percent.toFixed(1) }}</div>
       <div>RAM</div>
     </div>
     <div class="ring ram-ring"></div>
@@ -47,7 +47,7 @@ useIntervalFn(refresh, 1200)
   <div class="progress">
     <div>
       <HardDrive/>
-      <div>{{ disk_percent }}</div>
+      <div>{{ disk_percent.toFixed(1) }}</div>
       <div>DISK</div>
     </div>
     <div class="ring disk-ring"></div>
