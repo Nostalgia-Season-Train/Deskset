@@ -33,6 +33,21 @@ const model = defineModel<{
   time_color: string,
   date_color: string
 }>({ required: true })
+
+
+/* === 绑定前刷新 === */
+import { onBeforeMount } from 'vue'
+
+onBeforeMount(() => {
+  // 好处 1：不会出现 00:00 > 12:00 之类的跳变
+  // 好处 2：保证宽高确定（变化完成）后，执行坐标计算
+  const now = dayjs()
+  time.hour = now.format('HH')
+  time.minute = now.format('mm')
+  time.dayofweek = now.format('dddd')
+  time.dayofmonth = now.format('D')
+  time.month = now.format('MMMM')
+})
 </script>
 
 
