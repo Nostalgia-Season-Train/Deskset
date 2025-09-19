@@ -102,16 +102,6 @@ export const applyTheme = async (name: string) => {
     if (widgetInTheme == undefined)
       continue
 
-    await appendWidget(
-      widgetInTheme.name,
-      widgetInTheme.isDragLock,
-      widgetInTheme.isDisableInteract,
-      widgetInTheme.isAutoHide,
-      widgetInTheme.left,
-      widgetInTheme.top,
-      widgetInTheme.scale,
-      widgetInTheme.model,
-      widgetInTheme.title
-    )
+    await appendWidget(widgetInTheme)
   }
 }

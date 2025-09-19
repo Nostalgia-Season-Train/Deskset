@@ -47,22 +47,32 @@ import desktop from '#manager/global/page/desktop'
 import { activeWidgetMap } from '#manager/global'
 import { inlineRawWidgetMap, prefixMark } from '#widget/register'
 
-export const appendWidget = async (
+export const appendWidget = async ({
   // 部件名称
-  name: string,
+  name,
 
   // 用于桌面页：部件属性、位置、配置
-  isDragLock: boolean | null = null,
-  isDisableInteract: boolean | null = null,
-  isAutoHide: boolean | null = null,
-  left: number | null = null,
-  top: number | null = null,
-  scale: number | null = null,
-  model: Record<string, any> = {},
+  isDragLock = null,
+  isDisableInteract = null,
+  isAutoHide = null,
+  left = null,
+  top = null,
+  scale = null,
+  model = {},
 
   // 用于管理页：部件标题（用户自定义，默认等于部件名称）
-  title: string | null = null
-) => {
+  title = null
+}: {
+  name: string,
+  isDragLock?: boolean | null,
+  isDisableInteract?: boolean | null,
+  isAutoHide?: boolean | null,
+  left?: number | null,
+  top?: number | null,
+  scale?: number | null,
+  model?: Record<string, any>,
+  title?: string | null
+}) => {
   // 1、生成 ID
   let id = Math.random().toString(16).slice(2)
 
@@ -112,28 +122,13 @@ export const appendWidget = async (
   }
 
   // 4、记录部件
-  activeWidgetMap.set(id, {
-    id: id,
-
-    title: title ?? (name.startsWith(prefixMark) ? _t(name.replace(prefixMark, '')) : name),
-    name: name,
-
-    author: widgetInfo.author,
-    version: widgetInfo.version,
-    descript: widgetInfo.descript,
-
-    isDragLock: widgetData.isDragLock,
-    isDisableInteract: widgetData.isDisableInteract,
-    isAutoHide: widgetData.isAutoHide,
-
-    x: widgetData.x,
-    y: widgetData.y,
-
-    left: widgetData.left,
-    top: widgetData.top,
-    scale: widgetData.scale,
-
-    model: widgetData.model,
-    options: widgetInfo.options
-  })
+  activeWidgetMap.set(id, Object.assign(
+    {
+      id: id,
+      name: name,
+      title: title ?? (name.startsWith(prefixMark) ? _t(name.replace(prefixMark, '')) : name)
+    },
+    widgetInfo,
+    widgetData
+  ))
 }

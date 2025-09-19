@@ -36,7 +36,7 @@ const openMenu = async () => {
       <Button class="w-full" @click="openMenu"><Plus/></Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent class="w-full">
-      <DropdownMenuItem v-for="option in options" @click="$emit('select', option)">
+      <DropdownMenuItem v-for="option in options" @click="$emit('select', { name: option })">
         {{ option.startsWith(prefixMark) ? _t(option.replace(prefixMark, '')) : option }}
       </DropdownMenuItem>
     </DropdownMenuContent>
