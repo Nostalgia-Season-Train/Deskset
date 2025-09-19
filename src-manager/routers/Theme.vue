@@ -51,15 +51,17 @@ const store = useThemeStore()
   <div class="themes-wrapper">
     <ElScrollbar>
       <div class="themes" v-for="theme in store.themes">
-        <div class="left">
-          <span class="text-deskset-primary">{{ theme.name }}</span>
-        </div>
-        <div class="middle">
-          <span class="text-deskset-primary">{{ theme.savetime }}</span>
-        </div>
-        <div class="right">
-          <Button @click="deleteTheme(theme?.name)">{{ _t('删 除') }}</Button>
-          <Button @click="applyTheme(theme?.name)">{{ _t('应 用') }}</Button>
+        <div class="theme">
+          <div class="left">
+            <span class="text-deskset-primary">{{ theme.name }}</span>
+          </div>
+          <div class="middle">
+            <span class="text-deskset-primary">{{ theme.savetime }}</span>
+          </div>
+          <div class="right">
+            <Button @click="deleteTheme(theme?.name)">{{ _t('删 除') }}</Button>
+            <Button @click="applyTheme(theme?.name)">{{ _t('应 用') }}</Button>
+          </div>
         </div>
       </div>
     </ElScrollbar>
