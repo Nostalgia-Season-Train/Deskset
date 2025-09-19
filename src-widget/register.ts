@@ -152,7 +152,7 @@ export const inlineRawWidgetMap = new Map([
       descript: '通过条件过滤笔记后统计数量，双击随机打开其中一篇笔记',
       model: {
         // 基础
-        title: '笔记总数',
+        title: '📝笔记总数',
         // 筛选
         filterGroup: {
           match: 'all',
@@ -169,7 +169,7 @@ export const inlineRawWidgetMap = new Map([
         name: '基础',
         type: 'tab',
         content: [{
-          name: '标题',
+          name: '标题（可以插入 Emoji 表情）',
           type: 'Input',
           key: 'title'
         }]
