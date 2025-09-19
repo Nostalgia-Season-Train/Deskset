@@ -103,7 +103,7 @@ class BroadcastDesktopClient {
     return this.hook('locateWidget', [id])
   }
 
-  setWidgetAxis = (id: string, x: number | null = null, y: number | null = null): Promise<{ x: number, y: number }> => {
+  setWidgetAxis = (id: string, x: number | null = null, y: number | null = null): Promise<{ x: number, y: number, left: number, top: number }> => {
     return this.hook('setWidgetAxis', [id, x, y])
   }
   setWidgetScale = (id: string, scale: number) => {

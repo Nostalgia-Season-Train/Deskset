@@ -28,6 +28,9 @@ const ensureAxisX = async () => {
   const axis = await desktop.setWidgetAxis(widget.value.id, x, widget.value.y)
   widget.value.x = axis.x
   widget.value.y = axis.y
+  // setWidgetAxis 不会触发事件链 drag.ts > DesktopSend > main.ts 更新 widget 位置（left、top）
+  widget.value.left = axis.left
+  widget.value.top = axis.top
 }
 
 const ensureAxisY = async () => {
@@ -35,6 +38,8 @@ const ensureAxisY = async () => {
   const axis = await desktop.setWidgetAxis(widget.value.id, widget.value.x, y)
   widget.value.x = axis.x
   widget.value.y = axis.y
+  widget.value.left = axis.left
+  widget.value.top = axis.top
 }
 
 const ensureScale = async () => {

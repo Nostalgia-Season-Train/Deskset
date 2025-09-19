@@ -207,7 +207,9 @@ const setWidgetAxis = async (id: string, x: number | null, y: number | null) => 
   // 计算并传出最终 x, y，方便检查是否跟传入最初 x, y 一致
   return {
     x: (container.offsetLeft + (container.offsetWidth >> 1)) * window.devicePixelRatio | 0,
-    y: (container.offsetTop + (container.offsetHeight >> 1)) * window.devicePixelRatio | 0
+    y: (container.offsetTop + (container.offsetHeight >> 1)) * window.devicePixelRatio | 0,
+    left: left,
+    top: top
   }
 }
 
