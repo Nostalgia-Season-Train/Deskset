@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { _t } from '#manager/main/i18n'
 import { ref } from 'vue'
-import { activeThemeMap } from '#manager/global'
 
 const searchText = ref('')
 
@@ -9,29 +8,22 @@ const searchText = ref('')
 /* === 主题创建/删除/应用 === */
 import { message, messageInput } from '#desksetui/Message'
 import { LATEST_THEME } from '#manager/global'
-import {
-  saveTheme as saveThemeFile,
-  deleteTheme as deleteThemeFile,
-  applyTheme as applyThemeFile
-} from '#manager/main/theme'
 
 const saveTheme = async () => {
   const name = await messageInput(_t('保存主题'), '', _t('在此输入主题名称'), _t('取消'), _t('确认'))
   if (name == null || name == '' || name == LATEST_THEME)
     return
-  await saveThemeFile(name)
+  await store.saveTheme(name)
 }
 
 const deleteTheme = async (name: string) => {
   if (!await message(_t('删除主题'), _t(`是否删除 `) + name + _t(` 主题？`), _t('取消'), _t('确认'))) 
     return
-
-  await deleteThemeFile(name)
-  activeThemeMap.delete(name)
+  await store.deleteTheme(name)
 }
 
 const applyTheme = async (name: string) => {
-  await applyThemeFile(name)
+  await store.applyTheme(name)
 }
 
 
@@ -39,6 +31,12 @@ const applyTheme = async (name: string) => {
 import ElScrollbar from '#element-plus/ElScrollbar.vue'
 import Button from '#shadcn/components/ui/button/Button.vue'
 import Input from '#shadcn/components/ui/input/Input.vue'
+
+
+/* ==== [ ] 测试中 Pinia ==== */
+import { useThemeStore } from '#manager/main/theme'
+
+const store = useThemeStore()
 </script>
 
 
@@ -52,24 +50,22 @@ import Input from '#shadcn/components/ui/input/Input.vue'
 
   <div class="themes-wrapper">
     <ElScrollbar>
-      <div class="themes" v-for="theme in Array.from(activeThemeMap.values())">
-        <div class="theme" v-if="(searchText == '' || theme.name.includes(searchText)) && theme.name != LATEST_THEME">
-          <div class="left">
-            <span class="text-deskset-primary">{{ theme.name }}</span>
-          </div>
-          <div class="middle">
-            <span class="text-deskset-primary">{{ theme.savetime }}</span>
-          </div>
-          <div class="right">
-            <Button @click="deleteTheme(theme?.name)">{{ _t('删 除') }}</Button>
-            <Button @click="applyTheme(theme?.name)">{{ _t('应 用') }}</Button>
-          </div>
+      <div class="themes" v-for="theme in store.themes">
+        <div class="left">
+          <span class="text-deskset-primary">{{ theme.name }}</span>
+        </div>
+        <div class="middle">
+          <span class="text-deskset-primary">{{ theme.savetime }}</span>
+        </div>
+        <div class="right">
+          <Button @click="deleteTheme(theme?.name)">{{ _t('删 除') }}</Button>
+          <Button @click="applyTheme(theme?.name)">{{ _t('应 用') }}</Button>
         </div>
       </div>
     </ElScrollbar>
   </div>
 
-  <div class="prompt" v-if="activeThemeMap.size == 0 || (activeThemeMap.size == 1 && activeThemeMap.get(LATEST_THEME) != undefined)"><!-- 可选链访问：themes 挂载后赋值 -->
+  <div class="prompt" v-if="store.themes.length == 0"><!-- 可选链访问：themes 挂载后赋值 -->
     <div>
       <div class="text text-deskset-primary">{{ _t('暂无可用主题') }}</div>
       <div class="text text-deskset-primary">{{ _t('点击右上角按钮保存主题') }}</div>

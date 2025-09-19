@@ -8,7 +8,7 @@ export const openBrowser = async (url: string) => openUrl(url)
 import { error as logError } from '@tauri-apps/plugin-log'
 
 import { LATEST_THEME } from '#manager/global/theme'
-import { saveTheme } from './theme'
+import { _saveTheme } from './theme'
 import { config } from '#manager/global/config'
 import { writeConfFile } from './config'
 import { killServe } from '#manager/global/child/server'
@@ -18,7 +18,7 @@ import { exit } from '@tauri-apps/plugin-process'
 
 export const exitDeskset = async () => {
   // 保存当前部件列表
-  await saveTheme(LATEST_THEME)
+  await _saveTheme(LATEST_THEME)
 
   // 写入持久化配置
   writeConfFile({

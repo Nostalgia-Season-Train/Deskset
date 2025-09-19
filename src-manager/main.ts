@@ -104,9 +104,9 @@ await switchLanguage(config.language)
 
 /* --- 初始化主题列表 --- */
 import { activeThemeMap } from './global'
-import { getThemes } from './main/theme'
+import { _getThemes } from './main/theme'
 
-const themes = await getThemes()
+const themes = await _getThemes()
 for (const theme of themes) {
   activeThemeMap.set(theme.name, theme)
 }
@@ -159,10 +159,10 @@ listen('quit', async () => {
 /* --- 应用上次关闭时的部件列表（主题） --- */
 import { error as logError } from '@tauri-apps/plugin-log'
 import { LATEST_THEME } from './global'
-import { applyTheme } from './main/theme'
+import { _applyTheme } from './main/theme'
 
 try {
-  await applyTheme(LATEST_THEME)
+  await _applyTheme(LATEST_THEME)
 } catch (err) {
   logError(`Fail to apply ${LATEST_THEME} theme(latest widget list), error: ${err}`)
 }

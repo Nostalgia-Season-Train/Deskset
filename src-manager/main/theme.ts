@@ -8,7 +8,7 @@ import {
 } from '@tauri-apps/plugin-fs'
 import { error as logError } from '@tauri-apps/plugin-log'
 import desktop from '#manager/global/page/desktop'
-import { Theme } from '#manager/global/theme.ts'  // #manager/global 找不到类型声明？原因？
+import { Theme, activeThemeMap, LATEST_THEME } from '#manager/global/theme.ts'  // #manager/global 找不到类型声明？原因？
 import {
   activeWidgetMap,
   activeWidgetOnSelect,
@@ -17,7 +17,7 @@ import {
 
 
 /* === 遍历主题 === */
-export const getThemes = async () => {
+export const _getThemes = async () => {
   const entrys = await readDir('./themes', { baseDir: BaseDirectory.Resource })
 
   let themes: Theme[] = []
@@ -42,11 +42,9 @@ export const getThemes = async () => {
 
 
 /* === 保存主题 === */
-import { activeThemeMap } from '#manager/global/theme'
-
 import dayjs from 'dayjs'
 
-export const saveTheme = async (name: string) => {
+export const _saveTheme = async (name: string) => {
   // 数据转换 + 信息生成
   const data = {
     window: await desktop.getWindowData(),
@@ -76,15 +74,16 @@ export const saveTheme = async (name: string) => {
 
 
 /* === 删除主题 === */
-export const deleteTheme = async (name: string) => {
+export const _deleteTheme = async (name: string) => {
   await remove(`./themes/${name}`, { baseDir: BaseDirectory.Resource, recursive: true })
+  activeThemeMap.delete(name)
 }
 
 
 /* === 应用主题 === */
 import { appendWidget } from './widget'
 
-export const applyTheme = async (name: string) => {
+export const _applyTheme = async (name: string) => {
   // 读取主题数据
   const dataText = await readTextFile(`./themes/${name}/data.json`, { baseDir: BaseDirectory.Resource })
   const data = JSON.parse(dataText)
@@ -105,3 +104,23 @@ export const applyTheme = async (name: string) => {
     await appendWidget(widgetInTheme)
   }
 }
+
+
+/* ==== [ ] 测试中 Pinia ==== */
+import { defineStore } from 'pinia'
+import { computed } from 'vue'
+
+export const useThemeStore = defineStore('theme', () => {
+  const themes = computed({
+    get() {
+      return Array.from(activeThemeMap.values()).filter((item: Theme) => item.name != LATEST_THEME)
+    },
+    set() {}
+  })
+
+  const saveTheme = _saveTheme
+  const deleteTheme = _deleteTheme
+  const applyTheme = _applyTheme
+
+  return { themes, saveTheme, deleteTheme, applyTheme }
+})
