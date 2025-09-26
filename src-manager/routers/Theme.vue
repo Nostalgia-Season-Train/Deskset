@@ -7,11 +7,10 @@ const searchText = ref('')
 
 /* === 主题创建/删除/应用 === */
 import { message, messageInput } from '#desksetui/Message'
-import { LATEST_THEME } from '#manager/global'
 
 const saveTheme = async () => {
   const name = await messageInput(_t('保存主题'), '', _t('在此输入主题名称'), _t('取消'), _t('确认'))
-  if (name == null || name == '' || name == LATEST_THEME)
+  if (name == null || name == '')
     return
   await store.saveTheme(name)
 }

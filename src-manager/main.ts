@@ -158,13 +158,13 @@ listen('quit', async () => {
 
 /* --- 应用上次关闭时的部件列表（主题） --- */
 import { error as logError } from '@tauri-apps/plugin-log'
-import { LATEST_THEME } from './global'
+import { LATEST_THEME_ROOT, LATEST_THEME_NAME } from './global'
 import { _applyTheme } from './main/theme'
 
 try {
-  await _applyTheme(LATEST_THEME)
+  await _applyTheme(LATEST_THEME_NAME, LATEST_THEME_ROOT)
 } catch (err) {
-  logError(`Fail to apply ${LATEST_THEME} theme(latest widget list), error: ${err}`)
+  logError(`Fail to apply ${LATEST_THEME_ROOT}/${LATEST_THEME_NAME} theme(latest widget list), error: ${err}`)
 }
 
 

@@ -7,18 +7,18 @@ export const openBrowser = async (url: string) => openUrl(url)
 /* === 退出数字桌搭 === */
 import { error as logError } from '@tauri-apps/plugin-log'
 
-import { LATEST_THEME } from '#manager/global/theme'
+import { LATEST_THEME_ROOT, LATEST_THEME_NAME } from '#manager/global/theme.ts'
 import { _saveTheme } from './theme'
-import { config } from '#manager/global/config'
+import { config } from '#manager/global/config.ts'
 import { writeConfFile } from './config'
-import { killServe } from '#manager/global/child/server'
+import { killServe } from '#manager/global/child/server.ts'
 import { getAllWindows } from '@tauri-apps/api/window'
 
 import { exit } from '@tauri-apps/plugin-process'
 
 export const exitDeskset = async () => {
   // 保存当前部件列表
-  await _saveTheme(LATEST_THEME)
+  await _saveTheme(LATEST_THEME_NAME, LATEST_THEME_ROOT)
 
   // 写入持久化配置
   writeConfFile({

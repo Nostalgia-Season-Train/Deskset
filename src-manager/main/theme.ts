@@ -7,18 +7,18 @@ import {
   BaseDirectory
 } from '@tauri-apps/plugin-fs'
 import { error as logError } from '@tauri-apps/plugin-log'
-import desktop from '#manager/global/page/desktop'
-import { Theme, activeThemeMap, LATEST_THEME } from '#manager/global/theme.ts'  // #manager/global 找不到类型声明？原因？
+import desktop from '#manager/global/page/desktop.ts'
+import { Theme, activeThemeMap, THEME_LIB } from '#manager/global/theme.ts'  // #manager/global 找不到类型声明？原因？
 import {
   activeWidgetMap,
   activeWidgetOnSelect,
   convertWidgetInTheme
-} from '#manager/global/widget'
+} from '#manager/global/widget.ts'
 
 
 /* === 遍历主题 === */
-export const _getThemes = async () => {
-  const entrys = await readDir('./themes', { baseDir: BaseDirectory.Resource })
+export const _getThemes = async (root: string = THEME_LIB) => {
+  const entrys = await readDir(`./${root}`, { baseDir: BaseDirectory.Resource })
 
   let themes: Theme[] = []
   for (const entry of entrys) {
@@ -26,7 +26,7 @@ export const _getThemes = async () => {
       if (entry.isDirectory == false)
         continue
       const name = entry.name
-      const infoText = await readTextFile(`./themes/${name}/metainfo.json`, { baseDir: BaseDirectory.Resource })
+      const infoText = await readTextFile(`./${root}/${name}/metainfo.json`, { baseDir: BaseDirectory.Resource })
       const info = JSON.parse(infoText)
       themes.push({
         name: name,
@@ -44,7 +44,7 @@ export const _getThemes = async () => {
 /* === 保存主题 === */
 import dayjs from 'dayjs'
 
-export const _saveTheme = async (name: string) => {
+export const _saveTheme = async (name: string, root: string = THEME_LIB) => {
   // 数据转换 + 信息生成
   const data = {
     window: await desktop.getWindowData(),
@@ -60,9 +60,9 @@ export const _saveTheme = async (name: string) => {
   // 写入文件
   const dataText = JSON.stringify(data, null, 2)
   const infoText = JSON.stringify(info, null, 2)
-  await mkdir(`./themes/${name}`, { baseDir: BaseDirectory.Resource, recursive: true })
-  await writeTextFile(`./themes/${name}/data.json`, dataText, { baseDir: BaseDirectory.Resource })
-  await writeTextFile(`./themes/${name}/metainfo.json`, infoText, { baseDir: BaseDirectory.Resource })
+  await mkdir(`./${root}/${name}`, { baseDir: BaseDirectory.Resource, recursive: true })
+  await writeTextFile(`./${root}/${name}/data.json`, dataText, { baseDir: BaseDirectory.Resource })
+  await writeTextFile(`./${root}/${name}/metainfo.json`, infoText, { baseDir: BaseDirectory.Resource })
 
   // 加入列表
   activeThemeMap.set(name, {
@@ -74,8 +74,8 @@ export const _saveTheme = async (name: string) => {
 
 
 /* === 删除主题 === */
-export const _deleteTheme = async (name: string) => {
-  await remove(`./themes/${name}`, { baseDir: BaseDirectory.Resource, recursive: true })
+export const _deleteTheme = async (name: string, root: string = THEME_LIB) => {
+  await remove(`./${root}/${name}`, { baseDir: BaseDirectory.Resource, recursive: true })
   activeThemeMap.delete(name)
 }
 
@@ -83,9 +83,9 @@ export const _deleteTheme = async (name: string) => {
 /* === 应用主题 === */
 import { appendWidget } from './widget'
 
-export const _applyTheme = async (name: string) => {
+export const _applyTheme = async (name: string, root: string = THEME_LIB) => {
   // 读取主题数据
-  const dataText = await readTextFile(`./themes/${name}/data.json`, { baseDir: BaseDirectory.Resource })
+  const dataText = await readTextFile(`./${root}/${name}/data.json`, { baseDir: BaseDirectory.Resource })
   const data = JSON.parse(dataText)
 
   // 移除桌面上的部件 + 部件列表清空 + 部件选中重置
@@ -113,14 +113,20 @@ import { computed } from 'vue'
 export const useThemeStore = defineStore('theme', () => {
   const themes = computed({
     get() {
-      return Array.from(activeThemeMap.values()).filter((item: Theme) => item.name != LATEST_THEME)
+      return Array.from(activeThemeMap.values())
     },
     set() {}
   })
 
-  const saveTheme = _saveTheme
-  const deleteTheme = _deleteTheme
-  const applyTheme = _applyTheme
+  async function saveTheme(name: string) {
+    return await _saveTheme(name)
+  }
+  async function deleteTheme(name: string) {
+    return await _deleteTheme(name)
+  }
+  async function applyTheme(name: string) {
+    return await _applyTheme(name)
+  }
 
   return { themes, saveTheme, deleteTheme, applyTheme }
 })
