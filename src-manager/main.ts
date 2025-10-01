@@ -45,15 +45,26 @@ if (!isThemeLibExist)
   await mkdir('./themes', { baseDir: BaseDirectory.Resource })
 
 
-/* ==== 项目全局变量 ==== */
-import { spawnServer, axios } from './global'
-import { error } from '@tauri-apps/plugin-log'
 
-/* --- 运行 DesksetBack 服务 --- */
+/* =========================== */
+/* =                         = */
+/* =    软件生命: 状态构造    = */
+/* =                         = */
+/* =========================== */
+
+import { error as logError } from '@tauri-apps/plugin-log'
+import { exitDeskset } from './main/tauri'
+
+const isDevEnv = (import.meta as any).env.DEV as boolean
+
+
+/* ==== 启动服务器 ==== */
+import { spawnServer, axios } from './global'
+
 let isSpawn = true
 
 try {
-  // 启动服务器
+  // 运行 DesksetBack.exe 桌设后端服务器进程
   const serverInfo = await spawnServer()
 
   // Manager 设置 axios 参数
@@ -65,19 +76,17 @@ try {
   broadcast.postMessage({url: serverInfo.url, token: serverInfo.token})
 } catch (err) {
   isSpawn = false
-  error('Spawn DesksetBack Fail')
+  logError('Spawn DesksetBack Fail')
 }
 
 // 开发环境：无需考虑服务器是否启动成功
-// @ts-ignore
-const isDevEnv = import.meta.env.DEV as boolean
-
 if (isDevEnv) {
   isSpawn = true
   axios.defaults.baseURL = 'http://127.0.0.1:6527'
 }
 
-/* --- 初始化设置 --- */
+
+/* ==== 加载配置 ==== */
 import { config } from './global'
 import { readConfFile } from './main/config'
 import { isEnabled } from '@tauri-apps/plugin-autostart'
@@ -92,7 +101,7 @@ try {
   config.password = (await axios.get('/v0/config/password', { timeout: timeout })).data.result
 } catch {}
 
-// 读取持久化配置
+// 读取文件中的配置/持久化配置
 const conf = await readConfFile()
 config.language = conf.language
 config.closeBehavior = conf.closeBehavior
@@ -102,16 +111,16 @@ import { switchLanguage } from './main/i18n'
 
 await switchLanguage(config.language)
 
-/* --- 初始化主题列表 --- */
-import { activeThemeMap } from './global'
-import { _getThemes } from './main/theme'
 
-const themes = await _getThemes()
-for (const theme of themes) {
-  activeThemeMap.set(theme.name, theme)
-}
+/* ==== 监听主进程 ==== */
+import { listen } from '@tauri-apps/api/event'
 
-/* --- 处理管理窗口消息 --- */
+listen('quit', async () => {
+  await exitDeskset()
+})
+
+
+/* ==== 监听管理窗口 ==== */
 import winManager from './global/win/manager'
 
 winManager.onCloseRequested(async (event) => {
@@ -124,7 +133,8 @@ winManager.onCloseRequested(async (event) => {
   }
 })
 
-/* --- 处理桌面页面消息 --- */
+
+/* ==== 监听桌面页面 ==== */
 import { activeWidgetMap } from './global'
 
 const broadcast = new BroadcastChannel('DesktopSend')
@@ -148,19 +158,18 @@ broadcast.onmessage = (ev) => {
   }
 }
 
-/* --- 监听托盘事件 --- */
-import { listen } from '@tauri-apps/api/event'
-import { exitDeskset } from './main/tauri'
 
-listen('quit', async () => {
-  await exitDeskset()
-})
+/* ==== 加载部件、主题 ==== */
+import { activeThemeMap, LATEST_THEME_ROOT, LATEST_THEME_NAME } from './global'
+import { _getThemes, _applyTheme } from './main/theme'
 
-/* --- 应用上次关闭时的部件列表（主题） --- */
-import { error as logError } from '@tauri-apps/plugin-log'
-import { LATEST_THEME_ROOT, LATEST_THEME_NAME } from './global'
-import { _applyTheme } from './main/theme'
+// 读取主题库
+const themes = await _getThemes()
+for (const theme of themes) {
+  activeThemeMap.set(theme.name, theme)
+}
 
+// 应用上次关闭时的主题
 try {
   await _applyTheme(LATEST_THEME_NAME, LATEST_THEME_ROOT)
 } catch (err) {
