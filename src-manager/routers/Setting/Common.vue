@@ -33,7 +33,7 @@ const store = useConfigStore()
         <DropdownMenuTrigger as-child>
           <Button>{{ store.language == 'zh-cn' ? '中文' : 'English' }}</Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent class="w-56">
+        <DropdownMenuContent class="w-50">
           <DropdownMenuRadioGroup v-model="store.language">
             <DropdownMenuRadioItem value="zh-cn">中文</DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="en">English</DropdownMenuRadioItem>
@@ -63,7 +63,7 @@ const store = useConfigStore()
         <DropdownMenuTrigger as-child>
           <Button>{{ store.closeBehavior == 'hide' ? _t('隐藏') : _t('退出') }}</Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent class="w-56">
+        <DropdownMenuContent class="w-50">
           <DropdownMenuRadioGroup v-model="store.closeBehavior">
             <DropdownMenuRadioItem value="hide">{{ _t('最小化到系统托盘') }}</DropdownMenuRadioItem>
             <DropdownMenuRadioItem value="exit">{{ _t('退出应用') }}</DropdownMenuRadioItem>
