@@ -1,0 +1,8 @@
+{
+    // 强制缩进 4 空格
+    "editor.detectIndentation": false,
+    "editor.tabSize": 4,
+
+    // 开启类型检查
+    "python.analysis.typeCheckingMode": "standard",
+}

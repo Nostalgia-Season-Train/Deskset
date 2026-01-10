@@ -1,0 +1,39 @@
+helloworld: 你好，世界
+
+# === standard ===
+Success: 成功
+Failure: 失败
+Not Sure Success Or Failure: 不能确定成功或失败
+
+'DesksetError Dynamic Message! Extra Placeholder: ': 'DesksetError 动态注释错误！额外占位符：'
+
+
+# === root path ===
+路径 {} 不存在: 路径“{}”不存在
+根路径 {} 下文件 {} 不存在: 根路径“{}”下文件“{}”不存在
+根路径 {} 下文件 {} 已存在: 根路径“{}”下文件“{}”已存在
+根路径 {} 内存与硬盘中条目不一致，需要更新: 根路径“{}”内存与硬盘中条目不一致，需要更新
+根路径 {} 不能找到或创建回收站: 根路径“{}”不能找到或创建回收站
+
+
+# === 日记模块 ===
+diary: 日记
+
+# 错误信息
+Diary Not Found:            无此日记！
+Diary Already Exist:        日记已经存在！
+Cant Find Nor Create Trash: 不能找到或创建回收站！
+Incorrect Date Format:      日期格式错误！
+
+
+# ==== 问候语 ====
+
+# feature/greet
+早上好: 早上好
+今天也是元气满满的一天！: 今天也是元气满满的一天！
+下午好: 下午好
+一杯绿茶如何？: 一杯绿茶如何？
+晚上好: 晚上好
+是时候休息了: 是时候休息了
+夜深了: 夜深了
+忘记工作，睡觉去吧~: 忘记工作，睡觉去吧~

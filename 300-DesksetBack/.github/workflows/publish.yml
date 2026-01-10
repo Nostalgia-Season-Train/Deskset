@@ -1,0 +1,50 @@
+name: Deskset Publish to PyPI
+
+
+on:
+  push:
+    tags:
+      # git tag -a v0.0.0  带注释的标签
+      # git push --follow-tags  连提交带标签一起推送
+      - 'v*.*.*'
+
+
+# CI 配置参考：https://pgjones.dev/blog/trusted-plublishing-2023/
+jobs:
+  build:
+    name: 构建
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+
+      - run: |
+          pip install poetry
+          poetry build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          path: ./dist
+
+  pypi-publish:
+    name: 发布
+
+    runs-on: ubuntu-latest
+
+    needs: [build]
+    environment: publish
+    permissions:
+      id-token: write
+
+    steps:
+      - uses: actions/download-artifact@v4
+
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: ./artifact

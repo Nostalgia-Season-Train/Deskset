@@ -1,0 +1,45 @@
+name: DesksetBack Auto Build
+
+
+on:
+  push:
+    tags:
+      # git tag -a v0.0.0  带注释的标签
+      # git push --follow-tags  连提交带标签一起推送
+      - 'v*.*.*'
+
+
+jobs:
+  release:
+    name: Build and Release
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [windows-latest]
+
+    steps:
+    # 第一步：检出（下载）仓库
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Install a specific version of uv
+      uses: astral-sh/setup-uv@v6
+      with:
+        version: "0.7.7"
+
+    # 第二步：执行构建
+    - name: Build
+      run: |
+        uv sync
+        python setup.py
+
+    # 第三步：发布
+    - name: Release
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: "dist/DesksetBack.zip"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

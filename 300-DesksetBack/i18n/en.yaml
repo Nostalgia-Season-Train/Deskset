@@ -1,0 +1,29 @@
+helloworld: Hello World
+
+# === standard ===
+Success: Success
+Failure: Failure
+Not Sure Success Or Failure: Not sure success or failure
+
+
+# === diary module ===
+diary: Diary
+
+# Error Information
+Diary Not Found:            Diary not found
+Diary Already Exist:        Diary already exist
+Cant Find Nor Create Trash: Can't find nor create trash folder
+Incorrect Date Format:      Incorrect date format
+
+
+# ==== Greeting ====
+
+# feature/greet
+早上好: Good morning
+今天也是元气满满的一天！: Another energetic day ahead!
+下午好: Good afternoon
+一杯绿茶如何？: How about a cup of green tea?
+晚上好: Good evening
+是时候休息了: Time for rest
+夜深了: It's late
+忘记工作，睡觉去吧~: Forget work, hit the sack~
