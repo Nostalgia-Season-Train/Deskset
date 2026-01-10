@@ -1,7 +1,19 @@
 {
   "editor.detectIndentation": false,
-  "editor.tabSize": 2,
+  "[javascript]": {
+    "editor.tabSize": 2,
+  },
+  "[typescript]": {
+    "editor.tabSize": 2,
+  },
   "[vue]": {
-    "editor.hover.enabled": false
-  }
+    "editor.tabSize": 2,
+    "editor.hover.enabled": false,
+  },
+  "[python]": {
+    "editor.tabSize": 4,
+  },
+  "[json]": {
+    "editor.tabSize": 2,
+  },
 }

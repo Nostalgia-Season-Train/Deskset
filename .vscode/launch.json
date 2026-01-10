@@ -1,0 +1,45 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "DesksetFront",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/200-DesksetFront",
+      "console": "integratedTerminal",
+      "runtimeArgs": [
+        "run",
+        "run",
+      ],
+      "runtimeExecutable": "npm",
+      "skipFiles": [
+        "<node_internals>/**",
+      ],
+    },
+    {
+      "name": "DesksetBack",
+      "consoleName": "DesksetBack",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/300-DesksetBack/main.py",
+      "cwd": "${workspaceFolder}/300-DesksetBack",
+      "console": "integratedTerminal",
+      "args": [
+        "-dev",
+        "-no-access",
+      ],
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/300-DesksetBack/src",
+      },
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Deskset",
+      "configurations": [
+        "DesksetFront",
+        "DesksetBack",
+      ],
+    }
+  ],
+}
