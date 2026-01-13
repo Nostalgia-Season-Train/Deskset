@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./Deskset.png" width="160px"></img>
+  <img src="./Deskset LOGO v2.1.png" width="160px"></img>
 
   # 数字桌搭 Deskset
 

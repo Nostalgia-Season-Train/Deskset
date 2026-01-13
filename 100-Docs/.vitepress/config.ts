@@ -4,23 +4,11 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "数字桌搭 Deskset",
   description: "整合笔记和美化",
-  locales: {
-    root: {
-      label: '简体中文',
-      lang: 'zh-cn',
-      link: '/zh-cn/'
-    },
-    en: {
-      label: 'English',
-      lang: 'en',
-      link: '/en/'
-    }
-  },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: '用户手册', link: '/manual' },
+      { text: '开发文档', link: '/develop' }
     ],
 
     sidebar: [
