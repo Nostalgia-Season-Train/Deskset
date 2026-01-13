@@ -30,6 +30,7 @@
       ],
       "env": {
         "PYTHONPATH": "${workspaceFolder}/300-DesksetBack/src",
+        "PYTHONPYCACHEPREFIX": "${workspaceFolder}/300-DesksetBack/__pycache__",
       },
     }
   ],
