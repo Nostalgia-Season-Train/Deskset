@@ -9,7 +9,7 @@ use tauri::{
   WebviewWindowBuilder, WebviewUrl,
   // WindowEvent
 };
-// use tauri_utils::{WindowEffect, config::WindowEffectsConfig};
+use tauri_utils::{WindowEffect, config::WindowEffectsConfig};
 use log;
 
 mod desktop;
@@ -80,11 +80,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 
   /* === 桌面窗口 === */
-  let _desktop_win = desktop::build(&app)
+  let desktop_win = desktop::build(&app)
   .map_err(|e| {
     log::error!("Build desktop win fail, error: {}", e);
     e  // 向上继续传递错误
   })?;
+
+  // 获取系统 DPI 缩放
+  let dpi = desktop_win.scale_factor().unwrap();
 
 
   /* === 管理窗口 === */
@@ -94,20 +97,21 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     WebviewUrl::App("manager.html".into())
   )
   .title("Deskset")
-  .inner_size(650.0, 436.0).resizable(true).maximizable(false)
+  // 消除 DPI 缩放造成窗口变大的问题，强制尺寸等于 1280.0*720.0
+  .inner_size(1280.0 / dpi, 720.0 / dpi).resizable(true).maximizable(false)
   .transparent(true).decorations(false).shadow(false)
   // 禁用模糊背景效果，实现跨平台兼容
-  // .effects(WindowEffectsConfig{
-  //   effects: vec![WindowEffect::Blur],  // Acrylic 改变窗口大小会有性能问题，拖动不会
-  //   state: None,
-  //   radius: None,
-  //   color: None
-  // })
+  .effects(WindowEffectsConfig{
+    effects: vec![WindowEffect::Blur],  // Acrylic 改变窗口大小会有性能问题，拖动不会
+    state: None,
+    radius: None,
+    color: None
+  })
   .center()  // 窗口屏幕居中
   .build().unwrap();
 
   // 强制 DPI 缩放等于 1，方便实现 Linear 风格
-  manager_win.set_zoom(1.0 / manager_win.scale_factor().unwrap()).unwrap();
+  manager_win.set_zoom(1.0 / dpi).unwrap();
 
   manager_win.clone().on_window_event(move |event| {
     match event {
