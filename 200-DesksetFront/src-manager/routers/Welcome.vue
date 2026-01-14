@@ -15,7 +15,7 @@ const openReleasePage = () => {
 
   <div class="center">
     <div>
-      <img src="/static/icons/Deskset.png" width="100px"></img>
+      <img src="/static/icons/Deskset LOGO v2.1.png" width="100px"></img>
     </div>
     <div>{{ _t('欢迎使用数字桌搭 Deskset') }}</div>
     <div>{{ _t('一款桌面美化软件') }}</div>
