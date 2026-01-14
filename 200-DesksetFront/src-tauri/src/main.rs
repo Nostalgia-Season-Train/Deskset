@@ -106,6 +106,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
   .center()  // 窗口屏幕居中
   .build().unwrap();
 
+  // 强制 DPI 缩放等于 1，方便实现 Linear 风格
+  manager_win.set_zoom(1.0 / manager_win.scale_factor().unwrap()).unwrap();
+
   manager_win.clone().on_window_event(move |event| {
     match event {
       // 阻止系统边框（窗口标题栏）关闭事件
