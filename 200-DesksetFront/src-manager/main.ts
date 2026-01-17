@@ -10,23 +10,19 @@ import './style.css'
 /* ==== 动态路由 ==== */
 import { createMemoryHistory, createRouter } from 'vue-router'
 
-import Welcome from './routers/Welcome.vue'
-
 const routes = [
-  { path: '/', component: Welcome },
-
-  { path: '/welcome', component: Welcome },
-  { path: '/homepage', component: () => import('./routers/HomePage.vue') },
-  { path: '/float',   component: () => import('./routers/Float.vue') },
-  { path: '/widget',  component: () => import('./routers/Widget.vue') },
-  { path: '/theme',   component: () => import('./routers/Theme.vue') },
-  { path: '/setting', component: () => import('./routers/Setting.vue') }
+  { path: '/welcome', name: 'welcome', component: () => import('./routers/Welcome.vue') },
+  { path: '/widget',  name: 'widget',  component: () => import('./routers/Widget.vue') },
+  { path: '/theme',   name: 'theme',   component: () => import('./routers/Theme.vue') },
+  { path: '/setting', name: 'setting', component: () => import('./routers/Setting.vue') }
 ]
 
 const router = createRouter({
   history: createMemoryHistory(),
   routes: routes
 })
+
+await router.push({ name: 'welcome' })  // 确保 router.currentRoute.value.name 拿到有效值
 
 
 /* ==== 创建配置目录、部件库、主题库 ==== */

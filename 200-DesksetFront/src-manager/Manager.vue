@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 /* === 组件 === */
-import LeftNav from './Manager/LeftNav.vue'
+import Aside from './ManagerAside.vue'
 import TopMenu from './Manager/TopMenu.vue'
 
 
@@ -8,7 +8,7 @@ import TopMenu from './Manager/TopMenu.vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 const jump = async (page: string) => {
-  router.push({ path: `/${page}` })
+  await router.push({ path: `/${page}` })
 }
 
 
@@ -45,7 +45,7 @@ if (!import.meta.env.DEV as boolean) {
 <body>
 
   <aside>
-    <LeftNav @jump="jump"/>
+    <Aside :router="router" @jump="jump"/>
   </aside>
 
   <main>
@@ -77,17 +77,20 @@ if (!import.meta.env.DEV as boolean) {
 }
 
 body {
-  --aside-width: 60px;  // 跟 LeftNav 组件 --fold-width 一致
+  // --aside-width: 60px;  // 跟 LeftNav 组件 --fold-width 一致
   --menu-height: 35px;
 
-  background-color: #FFFD;
+  background: var(--bg-dark);
   display: flex;
 
   aside {
-    z-index: 1;  // 跟 main 同一堆叠顺序，允许 main 中的元素覆盖
-    width: var(--aside-width);
-    height: 100vh;
-    -webkit-app-region: drag;
+    // z-index: 1;  // 跟 main 同一堆叠顺序，允许 main 中的元素覆盖
+    // width: var(--aside-width);
+    width: 250px;
+    min-width: 250px;
+    max-width: 250px;
+    height: 100%;
+    // -webkit-app-region: drag;
   }
   main {
     z-index: 1;

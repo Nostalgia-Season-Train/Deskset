@@ -12,6 +12,29 @@ html, body, #manager {
   background: transparent;
 }
 
-* {
+:root {
   font-family: 'MiSans';
+  user-select: none;
+
+  --bg-dark: hsla(0, 0%, 90%, 0.85);
+  --bg: hsl(0, 0%, 95%);
+  --bg-light: hsl(0, 0%, 100%);
+
+  --text: hsl(0, 0%, 30%);
+  --text-sharp: hsl(0, 0, 5%);
+
+  --shadow-s:
+    inset 0 1px 2px #FFFFFF30,
+    0 1px 2px #00000030,
+    0 2px 4px #00000015;
+
+  --shadow-m:
+    inset 0 1px 2px #FFFFFF50,
+    0 2px 4px #00000030,
+    0 4px 8px #00000015;
+
+  --shadow-l:
+    inset 0 1px 2px #FFFFFF70,
+    0 4px 6px #00000030,
+    0 6px 10px #00000015;
 }
