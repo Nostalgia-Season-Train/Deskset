@@ -94,8 +94,8 @@ body {
   }
   main {
     z-index: 1;
-    width: calc(100vw - var(--aside-width));
-    height: 100vh;
+    width: 100%;
+    height: 100%;
 
     .menu {
       height: var(--menu-height);
