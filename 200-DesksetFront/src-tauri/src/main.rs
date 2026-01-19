@@ -98,7 +98,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
   )
   .title("Deskset")
   // 消除 DPI 缩放造成窗口变大的问题，强制尺寸等于 1280.0*720.0
-  .inner_size(1280.0 / dpi, 720.0 / dpi).resizable(true).maximizable(false)
+  .inner_size(960.0 / dpi, 600.0 / dpi).resizable(true).maximizable(false)
   .transparent(true).decorations(false).shadow(false)
   // 禁用模糊背景效果，实现跨平台兼容
   .effects(WindowEffectsConfig{

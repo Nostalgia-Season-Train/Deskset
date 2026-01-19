@@ -13,5 +13,14 @@
   "VaultStats": "仓库统计",
   "NoteStats": "笔记统计",
   "Database": "数据库",
-  "Diary": "日记"
+  "Diary": "日记",
+
+
+  "====$PageName====": "====$页面名称====",
+
+  "welcome":   "主页",
+  "widget":    "部件",
+  "wallpaper": "壁纸",
+  "theme":     "主题",
+  "setting":   "设置"
 }

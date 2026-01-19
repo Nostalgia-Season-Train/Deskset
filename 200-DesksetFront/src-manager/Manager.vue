@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 /* === 组件 === */
 import Aside from './ManagerAside.vue'
-import TopMenu from './Manager/TopMenu.vue'
+import Header from './ManagerHeader.vue'
 
 
 /* === 路由 === */
@@ -44,22 +44,28 @@ if (!import.meta.env.DEV as boolean) {
 <template>
 <body>
 
+  <!-- 左导航栏 -->
   <aside>
     <Aside :router="router" @jump="jump"/>
   </aside>
 
   <main>
-    <TopMenu class="menu"/>
-    <div class="content" v-if="isSpawn">
+    <!-- 右标题栏 -->
+    <header>
+      <Header :router="router"/>
+    </header>
+    <!-- 右正文区：服务器正常 -->
+    <article v-if="isSpawn">
       <router-view v-slot="{ Component }">
         <keep-alive>
           <component :is="Component"/>
         </keep-alive>
       </router-view>
-    </div>
-    <div class="content" v-if="!isSpawn">
+    </article>
+    <!-- 右正文区：服务器不正常 -->
+    <article v-if="!isSpawn">
       <Error/>
-    </div>
+    </article>
   </main>
 
 </body>
@@ -67,42 +73,29 @@ if (!import.meta.env.DEV as boolean) {
 
 
 <style lang="less" scoped>
-* {
-  margin: 0;
-  padding: 0;
-  user-select: none;
-}
-:deep(.el-scrollbar__thumb) {
-  display: none;
-}
-
 body {
-  // --aside-width: 60px;  // 跟 LeftNav 组件 --fold-width 一致
-  --menu-height: 35px;
-
   background: var(--bg-dark);
   display: flex;
 
   aside {
-    // z-index: 1;  // 跟 main 同一堆叠顺序，允许 main 中的元素覆盖
-    // width: var(--aside-width);
-    width: 250px;
-    min-width: 250px;
-    max-width: 250px;
+    z-index: 1;  // 跟 main 同一堆叠顺序，允许 main 中的元素覆盖
+    width: var(--aside-width);
+    min-width: var(--aside-width);
     height: 100%;
-    // -webkit-app-region: drag;
   }
   main {
     z-index: 1;
     width: 100%;
     height: 100%;
 
-    .menu {
-      height: var(--menu-height);
-      -webkit-app-region: drag;
+    header {
+      width: 100%;
+      height: var(--header-height);
+      min-height: var(--header-height);
     }
-    .content {
-      height: calc(100vh - var(--menu-height));
+    article {
+      width: 100%;
+      height: 100%;
     }
   }
 }

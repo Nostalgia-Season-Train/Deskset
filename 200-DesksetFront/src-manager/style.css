@@ -37,4 +37,7 @@ html, body, #manager {
     inset 0 1px 2px #FFFFFF70,
     0 4px 6px #00000030,
     0 6px 10px #00000015;
+
+  --aside-width: 210px;
+  --header-height: 42px;  /* 跟 Aside 顶部 LOGO 高度相等 */
 }
