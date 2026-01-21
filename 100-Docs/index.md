@@ -4,10 +4,10 @@ layout: home
 
 hero:
   name: 数字桌搭 Deskset
-  text: 整合笔记和桌面
-  tagline: 打造专属于你的高效工作台
+  text: 整合数字笔记的<br/>桌面美化软件
+  tagline: 打造你的专属高效工作台
   image:
-    src: ./Deskset LOGO v2.1.png
+    src: /Deskset LOGO v2.1.png
     alt: Deskset LOGO
   actions:
     - theme: brand

@@ -2,10 +2,14 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "数字桌搭 Deskset",
-  description: "整合笔记和美化",
+  head: [['link', { rel: 'icon', href: '/Deskset LOGO v2.1.png' }]],
+  title: '数字桌搭 Deskset',
+
+  // https://vitepress.dev/reference/default-theme-config
   themeConfig: {
-    // https://vitepress.dev/reference/default-theme-config
+    logo: '/Deskset LOGO v2.1.png',
+    siteTitle: '数字桌搭 Deskset',
+
     nav: [
       { text: '用户手册', link: '/manual' },
       { text: '开发文档', link: '/develop' }
