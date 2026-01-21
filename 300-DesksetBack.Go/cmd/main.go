@@ -1,7 +1,7 @@
 package main
 
 import (
-	"DesksetBack/router"
+	"DesksetBack/internal/router"
 
 	"github.com/gofiber/fiber/v3"
 )
