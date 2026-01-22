@@ -3,6 +3,7 @@ package router
 import (
 	"DesksetBack/internal/router/_unify"
 
+	Battery "github.com/distatus/battery"
 	"github.com/gofiber/fiber/v3"
 	GopsutilDisk "github.com/shirou/gopsutil/v4/disk"
 )
@@ -12,6 +13,7 @@ func RegisterDevice(app *fiber.App) {
 
 	_unify.BoundGet(router, "/monitor", monitor)
 	_unify.BoundGet(router, "/disk", disk)
+	_unify.BoundGet(router, "/battery", battery)
 }
 
 func monitor(ctx *_unify.DesksetCtx) error {
@@ -51,6 +53,37 @@ func disk(ctx *_unify.DesksetCtx) error {
 			Total:   total,
 			Free:    free,
 			Percent: percent,
+		})
+	}
+
+	return ctx.DesksetSend(results)
+}
+
+/* ==== 电池电量 ==== */
+type BatteryResult struct {
+	IsCharge bool    `json:"is_charge"` // 是否正在充电
+	Percent  float64 `json:"percent"`   // 电量百分比
+}
+
+func battery(ctx *_unify.DesksetCtx) error {
+	batterys, err := Battery.GetAll()
+	if err != nil {
+		return ctx.DesksetSendError(1, err.Error(), nil)
+	}
+
+	var results []BatteryResult
+
+	for _, battery := range batterys {
+		is_charge := false
+		if battery.State.Raw == Battery.Charging || battery.State.Raw == Battery.Full {
+			is_charge = true
+		}
+
+		percent := battery.Current / battery.Full
+
+		results = append(results, BatteryResult{
+			IsCharge: is_charge,
+			Percent:  percent,
 		})
 	}
 
