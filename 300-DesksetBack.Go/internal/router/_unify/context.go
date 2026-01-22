@@ -13,11 +13,20 @@ func BoundGet(router fiber.Router, path string, handler func(*DesksetCtx) error)
 	})
 }
 
-func (ctx *DesksetCtx) DesksetSend(data any) error {
+func (ctx *DesksetCtx) DesksetSend(result any) error {
 	return ctx.DefaultCtx.JSON(DesksetResponseJSON{
 		Success: true,
 		Code:    0,
 		Message: "",
-		Result:  data,
+		Result:  result,
+	})
+}
+
+func (ctx *DesksetCtx) DesksetSendError(code int, message string, result any) error {
+	return ctx.DefaultCtx.JSON(DesksetResponseJSON{
+		Success: false,
+		Code:    code,
+		Message: message,
+		Result:  result,
 	})
 }
