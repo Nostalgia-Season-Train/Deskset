@@ -2,12 +2,17 @@ package main
 
 import (
 	"DesksetBack/internal/router"
+	"DesksetBack/internal/router/_unify"
 
 	"github.com/gofiber/fiber/v3"
 )
 
 func main() {
-	app := fiber.New()
+	app := fiber.NewWithCustomCtx(func(app *fiber.App) fiber.CustomCtx {
+		return &_unify.DesksetCtx{
+			DefaultCtx: *fiber.NewDefaultCtx(app),
+		}
+	})
 
 	router.RegisterDevice(app)
 
