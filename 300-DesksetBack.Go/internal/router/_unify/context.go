@@ -6,8 +6,14 @@ type DesksetCtx struct {
 	fiber.DefaultCtx
 }
 
-// 重写 Ctx.SendString 方法
-func (ctx *DesksetCtx) SendString(data string) error {
+// router 无法绑定参数为自定义上下文的函数
+func BoundGet(router fiber.Router, path string, handler func(*DesksetCtx) error) {
+	router.Get(path, func(ctx fiber.Ctx) error {
+		return handler(ctx.(*DesksetCtx))
+	})
+}
+
+func (ctx *DesksetCtx) DesksetSend(data any) error {
 	return ctx.DefaultCtx.JSON(DesksetResponseJSON{
 		Success: true,
 		Code:    0,
