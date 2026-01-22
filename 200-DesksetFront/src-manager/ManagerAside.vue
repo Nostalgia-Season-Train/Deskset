@@ -90,6 +90,10 @@ const items = [
   .item:hover {
     box-shadow: var(--shadow-s);
   }
+  .item:active {
+    background: var(--bg-light);
+    box-shadow: var(--shadow-m);
+  }
   .item.currentPage {
     background: var(--bg-light);
     box-shadow: var(--shadow-m);
