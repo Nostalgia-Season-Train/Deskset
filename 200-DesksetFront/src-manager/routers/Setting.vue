@@ -11,12 +11,36 @@ import Divider from '#desksetui/Divider.vue'
 
 <template>
 <Scrollbar>
+<div class="content">
 
-  <Divider>{{ _t('通用选项') }}</Divider>
-  <Common/>
+  <div class="item">
+    <Divider>{{ _t('通用选项') }}</Divider>
+    <Common/>
+  </div>
 
-  <Divider>{{ _t('服务器配置') }}</Divider>
-  <Server/>
+  <div class="item">
+    <Divider>{{ _t('服务器配置') }}</Divider>
+    <Server/>
+  </div>
 
+</div>
 </Scrollbar>
 </template>
+
+
+<style lang="less" scoped>
+.content {
+  padding: 0 var(--content-padding);
+  display: flex;
+  flex-direction: column;
+
+  .item>*:first-child {
+    font-size: var(--text-sharp-size);
+  }
+  .item>*:last-child {
+    margin-bottom: 12px;
+    padding: 5px;
+    background: var(--bg);
+  }
+}
+</style>

@@ -59,12 +59,12 @@ const store = useConfigStore()
 
   .left {
     .name {
-      font-size: 16px;
-      color: var(--color-deskset-primary);
+      font-size: var(--text-sharp-size);
+      color: var(--text-sharp);
     }
     .description {
-      font-size: 14px;
-      color: var(--color-deskset-secondary);
+      font-size: var(--text-size);
+      color: var(--text);
     }
   }
 }
