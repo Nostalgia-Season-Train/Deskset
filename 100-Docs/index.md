@@ -11,14 +11,14 @@ hero:
     alt: Deskset LOGO
   actions:
     - theme: brand
-      text: 什么是数字桌搭?
-      link: /markdown-examples
+      text: 什么是数字桌搭？
+      link: /manual/what-is-deskset
     - theme: alt
-      text: 快速开始
-      link: /api-examples
+      text: 入门指南
+      link: /manual/get-started
     - theme: alt
       text: GitHub
-      link: /api-examples
+      link: https://github.com/Nostalgia-Season-Train/Deskset
 
 features:
   - title: 🖼️ 桌面美化  # framed picture

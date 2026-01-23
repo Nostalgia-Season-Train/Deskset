@@ -11,12 +11,22 @@ export default defineConfig({
     siteTitle: '数字桌搭 Deskset',
 
     nav: [
-      { text: '用户手册', link: '/manual' },
+      { text: '用户手册', link: '/manual/what-is-deskset' },
       { text: '开发文档', link: '/develop' }
     ],
 
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/Nostalgia-Season-Train/Deskset' }
+    ],
+
+    outlineTitle: '导航',  // 替换右侧大纲 On this page 文本
+
     sidebar: {
       '/manual/': [
+        { text: '简介', collapsed: false, items: [
+          { text: '什么是数字桌搭？', link: '/manual/what-is-deskset' },
+          { text: '入门指南', link: '/manual/get-started' }
+        ]},
         { text: '部件', collapsed: false, items: [
           { text: '笔记', collapsed: true, items: [
             { text: '数据库' },
@@ -44,10 +54,6 @@ export default defineConfig({
           ]}
         ]}
       ]
-    },
-
-    socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
-    ]
+    }
   }
 })
