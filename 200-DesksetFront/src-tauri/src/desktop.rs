@@ -29,6 +29,7 @@ pub fn build(app: &App) -> Result<WebviewWindow, Box<dyn std::error::Error>> {
   .focused(false)  // 静默打开，不要聚焦这个窗口
   .build().unwrap();
 
+  // 嵌入桌面（C 动态库）
   // unsafe {
   //   // setBottom.dll：将 Tauri 绑定为桌面子窗口
   //   let lib = libloading::Library::new("setBottom.dll")?;  // target/debug 目录
@@ -36,8 +37,22 @@ pub fn build(app: &App) -> Result<WebviewWindow, Box<dyn std::error::Error>> {
   //   main((win.hwnd().unwrap()).0 as i32, 0 as i32);
   //   log::info!("HWND: 0x{:08X}", (win.hwnd().unwrap()).0 as usize);  // win11 临时调试用
   // }
-  attach(win.hwnd().unwrap());
-  forward_input(win.hwnd().unwrap());
+
+  // 嵌入桌面（纯 Rust 版）
+  let mode = 1;
+
+  match mode {
+    // 模式 0：放在系统桌面之下（z 轴），不影响桌面图标和鼠标右键
+    0 => {
+      attach(win.hwnd().unwrap(), "WorkerW");
+      forward_input(win.hwnd().unwrap());
+    },
+    // 模式 1：完全替换系统桌面，可以输入文本、改变光标样式
+    1 => {
+      attach(win.hwnd().unwrap(), "DefView");
+    },
+    _ => todo!()
+  }
 
   // 消除 Windows DPI 缩放，非整数倍缩放影响 CSS 效果
   win.set_zoom(1.0 / win.scale_factor().unwrap()).unwrap();
@@ -49,7 +64,8 @@ pub fn build(app: &App) -> Result<WebviewWindow, Box<dyn std::error::Error>> {
 /* ==== setBottom ==== */
   // 参考：https://github.com/meslzy/electron-as-wallpaper
 /* --- 嵌入桌面 --- */
-unsafe extern "system" fn enum_window(hwnd: HWND, lparm: LPARAM) -> BOOL {
+// 查找类名 WorkerW 的窗口
+unsafe extern "system" fn enum_window_workerw(hwnd: HWND, lparm: LPARAM) -> BOOL {
   let h_def_view = FindWindowExW(
     Some(hwnd),
     Some(HWND::default()),
@@ -93,7 +109,23 @@ unsafe extern "system" fn enum_window(hwnd: HWND, lparm: LPARAM) -> BOOL {
   BOOL(1)
 }
 
-pub fn attach(h_tauri: HWND) {
+// 查找类名 SHELLDLL_DefView 的窗口
+unsafe extern "system" fn enum_window_defview(hwnd: HWND, lparm: LPARAM) -> BOOL {
+  let h_def_view = FindWindowExW(
+    Some(hwnd),
+    Some(HWND::default()),
+    w!("SHELLDLL_DefView"),
+    None,
+  ).unwrap_or(HWND::default());
+
+  if !HWND::is_invalid(&h_def_view) {
+    *(lparm.0 as *mut HWND) = h_def_view;
+  }
+
+  BOOL(1)
+}
+
+pub fn attach(h_tauri: HWND, which_class: &str) {
   unsafe {
     // 第一步：发送 0x52C 指令
     SendMessageTimeoutW(
@@ -106,12 +138,16 @@ pub fn attach(h_tauri: HWND) {
       None,
     );
 
-    // 第二步：遍历查找 SHELLDLL_DefView 窗口句柄
-    let mut h_def_view: HWND = HWND::default();
-    EnumWindows(Some(enum_window), LPARAM(&mut h_def_view as *mut HWND as isize)).unwrap();
+    // 第二步：遍历查找父窗口句柄（类名包含 WorkerW 或 DefView）
+    let mut h_parent: HWND = HWND::default();
+    match which_class {
+      "WorkerW" => EnumWindows(Some(enum_window_workerw), LPARAM(&mut h_parent as *mut HWND as isize)).unwrap(),
+      "DefView" => EnumWindows(Some(enum_window_defview), LPARAM(&mut h_parent as *mut HWND as isize)).unwrap(),
+      &_ => todo!()
+    }
 
     // 第三步：嵌入桌面
-    SetParent(h_tauri, Some(h_def_view)).unwrap();
+    SetParent(h_tauri, Some(h_parent)).unwrap();
   }
 }
 
