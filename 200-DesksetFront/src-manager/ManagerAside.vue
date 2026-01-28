@@ -4,13 +4,14 @@ import { _t } from '#manager/main/i18n'
 import { Router } from 'vue-router'
 const props = defineProps<{ router: Router }>()
 
-import { Home, LayoutDashboard, Image, Palette, Settings } from 'lucide-vue-next'
+import { Home, LayoutDashboard, Image, Palette } from 'lucide-vue-next'
+import CogLoop from '#desksetui/icons/MaterialLineIcons/CogLoop.vue'
 const items = [
   { icon: Home,            page: 'welcome' },
   { icon: LayoutDashboard, page: 'widget' },
   { icon: Image,           page: 'wallpaper' },
   { icon: Palette,         page: 'theme' },
-  { icon: Settings,        page: 'setting' }
+  { icon: CogLoop,         page: 'setting' }
 ]
 </script>
 
@@ -95,8 +96,9 @@ const items = [
     box-shadow: var(--shadow-m);
   }
   .item.currentPage {
-    background: var(--bg-light);
-    box-shadow: var(--shadow-m);
+    // 色卡来源：https://www.bilibili.com/video/BV1JPJhzSEED?t=22.0
+    color: #315BB8;
+    background: #D0ECF4;
   }
   .item:last-child {
     margin-top: auto;

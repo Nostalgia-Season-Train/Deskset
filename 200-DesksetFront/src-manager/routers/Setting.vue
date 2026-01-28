@@ -5,7 +5,7 @@ import Server from './Setting/Server.vue'
 
 /* === 子组件 === */
 import Scrollbar from '#desksetui/Scrollbar.vue'
-import Divider from '#desksetui/Divider.vue'
+// import Divider from '#desksetui/Divider.vue'
 </script>
 
 
@@ -14,12 +14,12 @@ import Divider from '#desksetui/Divider.vue'
 <div class="content">
 
   <div class="item">
-    <Divider>{{ _t('通用选项') }}</Divider>
+    <!-- <Divider>{{ _t('通用选项') }}</Divider> -->
     <Common/>
   </div>
 
   <div class="item">
-    <Divider>{{ _t('服务器配置') }}</Divider>
+    <!-- <Divider>{{ _t('服务器配置') }}</Divider> -->
     <Server/>
   </div>
 
@@ -34,9 +34,9 @@ import Divider from '#desksetui/Divider.vue'
   display: flex;
   flex-direction: column;
 
-  .item>*:first-child {
-    font-size: var(--text-sharp-size);
-  }
+  // .item>*:first-child {
+  //   font-size: var(--text-sharp-size);
+  // }
   .item>*:last-child {
     margin-bottom: 12px;
     padding: 5px;
