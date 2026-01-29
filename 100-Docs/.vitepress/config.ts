@@ -28,12 +28,13 @@ export default defineConfig({
           { text: '入门指南', link: '/manual/get-started' }
         ]},
         { text: '部件', collapsed: false, items: [
+          { text: '部件简介', link: '/manual/widget/widget-overview' },
           { text: '笔记', collapsed: true, items: [
-            { text: '数据库' },
-            { text: '数字统计' },
-            { text: '热力图' },
-            { text: '仓库状态' },
-            { text: '日记' }
+            { text: '数据库', link: '/manual/widget/note/base' },
+            { text: '数字统计', link: '/manual/widget/note/num-stats' },
+            { text: '日记', link: '/manual/widget/note/diary' },
+            { text: '热力图', link: '/manual/widget/note/heatmap' },
+            { text: '仓库状态', link: '/manual/widget/note/vault-status' }
           ]},
           { text: '时间和日期', collapsed: true, items: [
             { text: '时钟' },
