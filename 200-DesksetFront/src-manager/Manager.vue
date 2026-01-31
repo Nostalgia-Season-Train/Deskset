@@ -77,25 +77,26 @@ body {
   background: var(--bg-dark);
   display: flex;
 
+  // calc 计算 aside、main 宽度，header、article 高度
+    // 作用 1：固定布局宽度和高度
+    // 作用 2：article>.content 设置 100% 宽高不会溢出窗口
   aside {
     z-index: 1;  // 跟 main 同一堆叠顺序，允许 main 中的元素覆盖
     width: var(--aside-width);
-    min-width: var(--aside-width);
-    height: 100%;
+    height: 100vh;
   }
   main {
     z-index: 1;
-    width: 100%;
-    height: 100%;
+    width: calc(100vw - var(--aside-width));
+    height: 100vh;
 
     header {
       width: 100%;
       height: var(--header-height);
-      min-height: var(--header-height);
     }
     article {
       width: 100%;
-      height: 100%;
+      height: calc(100% - var(--header-height));
     }
   }
 }
