@@ -45,3 +45,21 @@ const correctInput = () => {
     )"
   >
 </template>
+
+<style scoped lang="less">
+input {
+  font-size: var(--text-size);
+  background: var(--bg-light);
+  border: none;
+  box-shadow: none;
+
+  transition: .3s;
+
+  &:hover {
+    box-shadow: var(--shadow-s);
+  }
+  &:focus {
+    box-shadow: var(--shadow-m);
+  }
+}
+</style>
