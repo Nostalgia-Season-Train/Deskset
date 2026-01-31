@@ -21,7 +21,7 @@ const store = useConfigStore()
       <div class="description">{{ _t('配置服务器端口（需要重启）') }}</div>
     </div>
     <div class="right">
-      <InputLazy style="width: 120px;" v-model="store.server_port"/>
+      <InputLazy style="width: 150px;" v-model="store.server_port"/>
     </div>
   </div>
 
@@ -31,7 +31,7 @@ const store = useConfigStore()
       <div class="description">{{ _t('配置服务器用户名') }}</div>
     </div>
     <div class="right">
-      <InputLazy style="width: 120px;" v-model="store.username"/>
+      <InputLazy style="width: 150px;" v-model="store.username"/>
     </div>
   </div>
 
@@ -41,7 +41,7 @@ const store = useConfigStore()
       <div class="description">{{ _t('配置服务器密码') }}</div>
     </div>
     <div class="right">
-      <InputLazy style="width: 120px;" v-model="store.password"/>
+      <InputLazy style="width: 150px;" v-model="store.password"/>
     </div>
   </div>
 
