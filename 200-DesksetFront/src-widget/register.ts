@@ -3,6 +3,14 @@ import dayjs from 'dayjs'
 export const prefixMark = '/@Deskset/'
 
 export const inlineRawWidgetMap = new Map([
+  /* --- Note --- */
+  [`${prefixMark}Base`, {
+    // @ts-ignore
+    main: () => import('/src-widget/note/base.vue'),
+    // @ts-ignore
+    metainfo: await import('/src-widget/note/base.json')
+  }],
+
   /* --- 时间与日期 --- */
   [`${prefixMark}DigitalClock`, {
     // @ts-ignore
@@ -204,49 +212,6 @@ export const inlineRawWidgetMap = new Map([
           name: '背景颜色',
           type: 'ColorPicker',
           key: 'backgroundColor'
-        }]
-      }]
-    }
-  }],
-  [`${prefixMark}Database`, {
-    // @ts-ignore
-    main: () => import('/src-widget/笔记/数据库.vue'),
-    metainfo: {
-      author: '旧日丨四季列车',
-      version: 'v0.0.1',
-      descript: '通过表格统计你的笔记，双击在 Obsidian 中打开',
-      model: {
-        filterGroup: {
-          match: 'all',
-          filters: []
-        },
-        noteProperty: {
-          props: [{
-            dataKey: 'file.name',
-            title: '名称',
-            width: 300
-          }, {
-            dataKey: 'file.mtime',
-            title: '修改日期',
-            width: 200
-          }]
-        }
-      },
-      options: [{
-        name: '筛选',
-        type: 'tab',
-        content: [{
-          name: '笔记过滤',
-          type: 'ArrayFilter',
-          key: 'filterGroup'
-        }]
-      }, {
-        name: '属性',
-        type: 'tab',
-        content: [{
-          name: '笔记属性',
-          type: 'Property',
-          key: 'noteProperty'
         }]
       }]
     }

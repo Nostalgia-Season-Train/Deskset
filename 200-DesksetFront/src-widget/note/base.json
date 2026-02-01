@@ -1,0 +1,49 @@
+{
+  "author": "旧日丨四季列车",
+  "version": "v0.0.1",
+  "descript": "通过表格统计你的笔记，双击在 Obsidian 中打开",
+  "model": {
+    "filterGroup": {
+      "match": "all",
+      "filters": []
+    },
+    "noteProperty": {
+      "props": [
+        {
+          "dataKey": "file.name",
+          "title": "名称",
+          "width": 300
+        },
+        {
+          "dataKey": "file.mtime",
+          "title": "修改日期",
+          "width": 200
+        }
+      ]
+    }
+  },
+  "options": [
+    {
+      "name": "筛选",
+      "type": "tab",
+      "content": [
+        {
+          "name": "笔记过滤",
+          "type": "ArrayFilter",
+          "key": "filterGroup"
+        }
+      ]
+    },
+    {
+      "name": "属性",
+      "type": "tab",
+      "content": [
+        {
+          "name": "笔记属性",
+          "type": "Property",
+          "key": "noteProperty"
+        }
+      ]
+    }
+  ]
+}
