@@ -37,7 +37,7 @@ const refresh = async () => {
       return h('div', { style: 'position: relative; width: 100%; height: 100%; display: flex;' }, [
         h('div', { style: 'display: flex; align-items: center;' }, title),
         h('div', {
-          style: 'position: absolute; right: 0; width: 2px; height: 100%; background: var(--el-table-header-text-color);',
+          style: 'position: absolute; right: 0; width: 2px; height: 100%; background: var(--el-table-header-text-color); cursor: ew-resize;',
           onMousedown: (event) => down(event, event.target as HTMLElement, dataKey)
         })
       ])
@@ -62,8 +62,11 @@ const openInObsidian = async (event: any) => {
 
 /* ==== 拖动改变列宽 ==== */
 const down = (event: MouseEvent, element: HTMLElement, dataKey: string) => {
-  event.stopPropagation()  // 阻止事件冒泡，避免触发整个组件的拖动行为（drag 函数）
-
+  // 阻止事件冒泡，避免触发整个组件的拖动行为（drag 函数）
+  event.stopPropagation()
+  // 保持指针样式不变
+  document.body.style.cursor = 'ew-resize'
+  // 保存拖动起始位置
   const originX = element.offsetLeft  // 元素起始位置
   const beginX = event.clientX        // 鼠标起始位置
   let moveX = 0  // 鼠标移动距离
@@ -77,6 +80,8 @@ const down = (event: MouseEvent, element: HTMLElement, dataKey: string) => {
     // 停止监听
     document.onmousemove = null
     document.onmouseup = null
+    // 还原指针样式默认
+    document.body.style.cursor = 'default'
     // 设置拖动后列宽
     const item: any = columns.value.find((item: any) => item.dataKey == dataKey) || null
     const modelItem: any = model.value.noteProperty.props.find((item: any) => item.dataKey == dataKey) || null
