@@ -90,6 +90,18 @@ class API:
             raise DesksetError(message='Obsidian not online')
         return await self._rpc.call_remote_procedure('get_useday_number', [])
 
+    class VaultStatus(TypedDict):
+        note_num: int    # 笔记总数
+        attach_num: int  # 附件总数
+        useday_num: int  # 使用天数
+        tag_num: int     # 标签总数
+        task_num: int    # 任务总数
+
+    async def get_vault_status(self) -> API.VaultStatus:
+        if self._rpc is None:
+            raise DesksetError(message='Obsidian not online')
+        return await self._rpc.call_remote_procedure('get_vault_status', [])
+
     class Heat(TypedDict):
         date: str
         number: int

@@ -17,6 +17,10 @@ async def attachment_number():
 async def useday_number():
     return await noteapi.get_useday_number()
 
+@router_stats.get('/vault_status')
+async def vault_status():
+    return await noteapi.get_vault_status()
+
 @router_stats.get('/heatmap/{num}')
 async def heatmap(req: DesksetReqNumberInt = Depends()):
     weeknum = req.num  # 统计范围：前 weeknum 周 + 本周
