@@ -3,6 +3,8 @@
   "version": "v0.0.1",
   "descript": "通过表格统计你的笔记，双击在 Obsidian 中打开",
   "model": {
+    "width": 540,
+    "height": 250,
     "filterGroup": {
       "match": "all",
       "filters": []

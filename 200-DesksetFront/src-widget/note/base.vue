@@ -12,7 +12,8 @@ import dayjs from 'dayjs'
 import { ElTableV2, ElAutoResizer } from 'element-plus'
 
 const model = defineModel<{
-  title: string,
+  width: number,
+  height: number,
   filterGroup: any,
   noteProperty: any
 }>({ required: true })
@@ -37,7 +38,13 @@ const refresh = async () => {
       return h('div', { style: 'position: relative; width: 100%; height: 100%; display: flex;' }, [
         h('div', { style: 'display: flex; align-items: center;' }, title),
         h('div', {
-          style: 'position: absolute; right: 0; width: 2px; height: 100%; background: var(--el-table-header-text-color); cursor: ew-resize;',
+          class: 'column-divider',
+          style: `
+            position: absolute; right: 0;
+            width: 4px; height: ${model.value.height}px;
+            background: transparent;
+            cursor: ew-resize;
+          `,
           onMousedown: (event) => down(event, event.target as HTMLElement, dataKey)
         })
       ])
@@ -94,12 +101,7 @@ const down = (event: MouseEvent, element: HTMLElement, dataKey: string) => {
 
 
 /* ==== 拖动 本组件边角 改变 本组件宽高 ==== */
-import { useTemplateRef } from 'vue'
-
-const containerRef = useTemplateRef('container')
-
 const resize = (event: MouseEvent) => {
-  const container = containerRef.value as HTMLElement        // 本组件实例
   const className = (event.target as HTMLElement).className  // 本组件被拖动边角的类名
   event.stopPropagation()
   if (className == 'right-border') { document.body.style.cursor = 'ew-resize' }
@@ -107,8 +109,8 @@ const resize = (event: MouseEvent) => {
   if (className == 'right-bottom-corner') { document.body.style.cursor = 'nwse-resize' }
   const beginX = event.clientX
   const beginY = event.clientY
-  const width = container.offsetWidth    // databaseEl.offsetWidth 直接加 moveX 是双倍变化
-  const height = container.offsetHeight  // 同上
+  const width = model.value.width    // model.value.width 直接加 moveX 是双倍变化
+  const height = model.value.height  // 同上
   let moveX = 0
   let moveY = 0
 
@@ -116,14 +118,14 @@ const resize = (event: MouseEvent) => {
     moveX = event.clientX - beginX
     moveY = event.clientY - beginY
     if (className == 'right-border') {
-      container.style.width = width + moveX + 'px'
+      model.value.width = width + moveX
     }
     if (className == 'bottom-border') {
-      container.style.height = height + moveY + 'px'
+      model.value.height = height + moveY
     }
     if (className == 'right-bottom-corner') {
-      container.style.width = width + moveX + 'px'
-      container.style.height = height + moveY + 'px'
+      model.value.width = width + moveX
+      model.value.height = height + moveY
     }
   }
   document.onmouseup = () => {
@@ -136,7 +138,7 @@ const resize = (event: MouseEvent) => {
 
 
 <template>
-<div class="database" ref="container">
+<div class="database" :style="`width: ${model.width}px; height: ${model.height}px;`">
   <ElAutoResizer>
     <template #default="{ width, height }">
       <ElTableV2
@@ -161,8 +163,6 @@ const resize = (event: MouseEvent) => {
 <style lang="less" scoped>
 .database {
   position: relative;
-  width: 540px;
-  height: 250px;
 
   // ElTableV2样式
   :deep(.el-empty) {
@@ -171,6 +171,22 @@ const resize = (event: MouseEvent) => {
   // 让分割线拖出所在格后仍显示
   :deep(.el-table-v2__header-cell) {
     overflow: visible;
+  }
+  // 让分割线溢出表头
+  :deep(.el-table-v2__header-wrapper) {
+    overflow: visible;
+    .el-table-v2__header {
+      overflow: visible;
+    }
+  }
+  // 显示分割线，从交互分割线内部向外发散阴影
+  :deep(.column-divider::after) {
+    content: '';
+    position: absolute;
+    left: -4px;
+    width: 100%;
+    height: 100%;
+    box-shadow: 2px 0 4px #0002;
   }
 
   // 被拖动边角样式
