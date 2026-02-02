@@ -60,7 +60,7 @@ const openInObsidian = async (event: any) => {
 }
 
 
-/* ==== 拖动改变列宽 ==== */
+/* ==== 拖动 ElTableV2列分割线 改变 ElTableV2列宽 ==== */
 const down = (event: MouseEvent, element: HTMLElement, dataKey: string) => {
   // 阻止事件冒泡，避免触发整个组件的拖动行为（drag 函数）
   event.stopPropagation()
@@ -91,11 +91,52 @@ const down = (event: MouseEvent, element: HTMLElement, dataKey: string) => {
     }
   }
 }
+
+
+/* ==== 拖动 本组件边角 改变 本组件宽高 ==== */
+import { useTemplateRef } from 'vue'
+
+const containerRef = useTemplateRef('container')
+
+const resize = (event: MouseEvent) => {
+  const container = containerRef.value as HTMLElement        // 本组件实例
+  const className = (event.target as HTMLElement).className  // 本组件被拖动边角的类名
+  event.stopPropagation()
+  if (className == 'right-border') { document.body.style.cursor = 'ew-resize' }
+  if (className == 'bottom-border') { document.body.style.cursor = 'ns-resize' }
+  if (className == 'right-bottom-corner') { document.body.style.cursor = 'nwse-resize' }
+  const beginX = event.clientX
+  const beginY = event.clientY
+  const width = container.offsetWidth    // databaseEl.offsetWidth 直接加 moveX 是双倍变化
+  const height = container.offsetHeight  // 同上
+  let moveX = 0
+  let moveY = 0
+
+  document.onmousemove = (event: MouseEvent) => {
+    moveX = event.clientX - beginX
+    moveY = event.clientY - beginY
+    if (className == 'right-border') {
+      container.style.width = width + moveX + 'px'
+    }
+    if (className == 'bottom-border') {
+      container.style.height = height + moveY + 'px'
+    }
+    if (className == 'right-bottom-corner') {
+      container.style.width = width + moveX + 'px'
+      container.style.height = height + moveY + 'px'
+    }
+  }
+  document.onmouseup = () => {
+    document.onmousemove = null
+    document.onmouseup = null
+    document.body.style.cursor = 'default'
+  }
+}
 </script>
 
 
 <template>
-<div class="database">
+<div class="database" ref="container">
   <ElAutoResizer>
     <template #default="{ width, height }">
       <ElTableV2
@@ -110,21 +151,56 @@ const down = (event: MouseEvent, element: HTMLElement, dataKey: string) => {
       />
     </template>
   </ElAutoResizer>
+  <div class="right-border" @mousedown="resize"></div>
+  <div class="bottom-border" @mousedown="resize"></div>
+  <div class="right-bottom-corner" @mousedown="resize"></div>
 </div>
 </template>
 
 
 <style lang="less" scoped>
 .database {
+  position: relative;
   width: 540px;
   height: 250px;
 
+  // ElTableV2样式
   :deep(.el-empty) {
     padding: 0;
   }
   // 让分割线拖出所在格后仍显示
   :deep(.el-table-v2__header-cell) {
     overflow: visible;
+  }
+
+  // 被拖动边角样式
+  --len: 2px;  // 被拖动边角的长度（右边宽度，下边高度，右下角宽高）
+  .right-border {
+    position: absolute;
+    top: 0px;
+    right: calc(0px - var(--len));
+    width: var(--len);
+    height: 100%;
+    background: black;
+    cursor: ew-resize;
+  }
+  .bottom-border {
+    position: absolute;
+    bottom: calc(0px - var(--len));
+    left: 0px;
+    width: 100%;
+    height: var(--len);
+    background: black;
+    cursor: ns-resize;
+  }
+  .right-bottom-corner {
+    position: absolute;
+    bottom: calc(0px - var(--len));
+    right: calc(0px - var(--len));
+    width: var(--len);
+    height: var(--len);
+    background: black;
+    cursor: nwse-resize;
   }
 }
 </style>
