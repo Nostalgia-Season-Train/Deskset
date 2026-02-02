@@ -1,0 +1,72 @@
+{
+  "author": "旧日丨四季列车",
+  "version": "v0.0.1",
+  "descript": "通过条件过滤笔记后统计数量，双击随机打开其中一篇笔记",
+  "model": {
+    "title": "📝笔记总数",
+    "filterGroup": {
+      "match": "all",
+      "filters": []
+    },
+    "width": 200,
+    "height": 100,
+    "titleColor": "#000000",
+    "numberColor": "#000000",
+    "backgroundColor": "#FFFFFF"
+  },
+  "options": [
+    {
+      "name": "基础",
+      "type": "tab",
+      "content": [
+        {
+          "name": "标题（可以插入 Emoji 表情）",
+          "type": "Input",
+          "key": "title"
+        }
+      ]
+    },
+    {
+      "name": "筛选",
+      "type": "tab",
+      "content": [
+        {
+          "name": "点击右边的按钮，加入一个条件",
+          "type": "ArrayFilter",
+          "key": "filterGroup"
+        }
+      ]
+    },
+    {
+      "name": "样式",
+      "type": "tab",
+      "content": [
+        {
+          "name": "宽度",
+          "type": "InputNumber",
+          "key": "width"
+        },
+        {
+          "name": "高度",
+          "type": "InputNumber",
+          "key": "height"
+        },
+        {
+          "name": "标题颜色",
+          "type": "ColorPicker",
+          "key": "titleColor"
+        },
+        {
+          "name": "数字颜色",
+          "type": "ColorPicker",
+          "key": "numberColor"
+        },
+        {
+          "name": "背景颜色",
+          "type": "ColorPicker",
+          "key": "backgroundColor"
+        }
+      ]
+    }
+  ]
+}

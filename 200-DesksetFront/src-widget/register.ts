@@ -1,3 +1,4 @@
+// @ts-nocheck
 import dayjs from 'dayjs'
 
 export const prefixMark = '/@Deskset/'
@@ -5,10 +6,16 @@ export const prefixMark = '/@Deskset/'
 export const inlineRawWidgetMap = new Map([
   /* --- Note --- */
   [`${prefixMark}Base`, {
-    // @ts-ignore
     main: () => import('/src-widget/note/base.vue'),
-    // @ts-ignore
     metainfo: await import('/src-widget/note/base.json')
+  }],
+  [`${prefixMark}NumStats`, {
+    main: () => import('/src-widget/note/num-stats.vue'),
+    metainfo: await import('/src-widget/note/num-stats.json')
+  }],
+  [`${prefixMark}Diary`, {
+    main: () => import('/src-widget/note/diary.vue'),
+    metainfo: await import('/src-widget/note/diary.json')
   }],
 
   /* --- 时间与日期 --- */
@@ -149,80 +156,6 @@ export const inlineRawWidgetMap = new Map([
       author: '旧日丨四季列车',
       version: 'v0.0.1',
       descript: '统计仓库的笔记数量、附件数量和累计使用天数'
-    }
-  }],
-  [`${prefixMark}NoteStats`, {
-    // @ts-ignore
-    main: () => import('/src-widget/笔记/笔记统计.vue'),
-    metainfo: {
-      author: '旧日丨四季列车',
-      version: 'v0.0.1',
-      descript: '通过条件过滤笔记后统计数量，双击随机打开其中一篇笔记',
-      model: {
-        // 基础
-        title: '📝笔记总数',
-        // 筛选
-        filterGroup: {
-          match: 'all',
-          filters: []
-        },
-        // 样式
-        width: 200,
-        height: 100,
-        titleColor: '#000000',
-        numberColor: '#000000',
-        backgroundColor: '#FFFFFF'
-      },
-      options: [{
-        name: '基础',
-        type: 'tab',
-        content: [{
-          name: '标题（可以插入 Emoji 表情）',
-          type: 'Input',
-          key: 'title'
-        }]
-      }, {
-        name: '筛选',
-        type: 'tab',
-        content: [{
-          name: '点击右边的按钮，加入一个条件',
-          type: 'ArrayFilter',
-          key: 'filterGroup'
-        }]
-      }, {
-        name: '样式',
-        type: 'tab',
-        content: [{
-          name: '宽度',
-          type: 'InputNumber',
-          key: 'width'
-        }, {
-          name: '高度',
-          type: 'InputNumber',
-          key: 'height'
-        }, {
-          name: '标题颜色',
-          type: 'ColorPicker',
-          key: 'titleColor'
-        }, {
-          name: '数字颜色',
-          type: 'ColorPicker',
-          key: 'numberColor'
-        }, {
-          name: '背景颜色',
-          type: 'ColorPicker',
-          key: 'backgroundColor'
-        }]
-      }]
-    }
-  }],
-  [`${prefixMark}Diary`, {
-    // @ts-ignore
-    main: () => import('/src-widget/笔记/日记.vue'),
-    metainfo: {
-      author: '旧日丨四季列车',
-      version: 'v0.0.1',
-      descript: '展示今天的日记，双击在 Obsidian 中打开'
     }
   }],
   [`${prefixMark}待办日历`, {
