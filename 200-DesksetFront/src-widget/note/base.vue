@@ -190,32 +190,32 @@ const resize = (event: MouseEvent) => {
   }
 
   // 被拖动边角样式
-  --len: 2px;  // 被拖动边角的长度（右边宽度，下边高度，右下角宽高）
+  --len: 4px;  // 被拖动边角的长度（右边宽度，下边高度，右下角宽高）
   .right-border {
     position: absolute;
     top: 0px;
-    right: calc(0px - var(--len));
+    right: calc(2px - var(--len));
     width: var(--len);
     height: 100%;
-    background: black;
+    background: transparent;
     cursor: ew-resize;
   }
   .bottom-border {
     position: absolute;
-    bottom: calc(0px - var(--len));
+    bottom: calc(2px - var(--len));
     left: 0px;
     width: 100%;
     height: var(--len);
-    background: black;
+    background: transparent;
     cursor: ns-resize;
   }
   .right-bottom-corner {
     position: absolute;
-    bottom: calc(0px - var(--len));
-    right: calc(0px - var(--len));
+    bottom: calc(2px - var(--len));
+    right: calc(2px - var(--len));
     width: var(--len);
     height: var(--len);
-    background: black;
+    background: transparent;
     cursor: nwse-resize;
   }
 }
