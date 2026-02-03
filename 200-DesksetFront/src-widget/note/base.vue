@@ -188,6 +188,19 @@ const resize = (event: MouseEvent) => {
     height: 100%;
     box-shadow: 2px 0 4px #0002;
   }
+  // 最右边的列分割线自动隐藏
+  :deep(.el-table-v2__header-cell:last-child) {
+    .column-divider {
+      opacity: 0;
+      transition: opacity .1s;
+    }
+    .column-divider:hover {
+      opacity: 1;
+    }
+    .column-divider:active {
+      opacity: 1;
+    }
+  }
 
   // 被拖动边角样式
   --len: 4px;  // 被拖动边角的长度（右边宽度，下边高度，右下角宽高）
