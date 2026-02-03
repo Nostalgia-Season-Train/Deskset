@@ -10,7 +10,6 @@ parser.add_argument('-dev', action='store_true', help='以开发者环境启动'
 args, _ = parser.parse_known_args()  # 忽略 uvicorn 热重载传入的参数
 
 DEVELOP_ENV = args.dev
-DEBUG_MODE  = False  # 调试模式
 
 
 # ==== 确保各模块所需目录存在 ====
@@ -30,8 +29,6 @@ from deskset.core.log import logging
 
 if DEVELOP_ENV:
     logging.info('Running on Development Environment')
-if DEBUG_MODE:
-    logging.info('Open Debug Mode')
 
 
 # ==== 服务器地址 host 和端口 port ====
@@ -194,12 +191,6 @@ if DEVELOP_ENV:
         with open('static/playground/index.html', 'r', encoding='utf-8') as file:
             content = file.read()
         return Response(content=content, media_type='text/html')
-
-
-# ==== FastAPI Router：调试接口 ====
-if DEBUG_MODE:
-    from deskset.router.debug import router_debug
-    app.include_router(router_debug)
 
 
 # ==== FastAPI Router：路由注册 ====
