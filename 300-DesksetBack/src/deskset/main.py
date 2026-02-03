@@ -16,9 +16,6 @@ DEVELOP_ENV = args.dev
 from pathlib import Path
 
 Path('./config').mkdir(exist_ok=True)  # 配置 core.config
-Path('./logs').mkdir(exist_ok=True)    # 日志 core.log
-
-Path('./i18n').mkdir(exist_ok=True)  # 翻译 core.locale
 
 Path('./scripts').mkdir(exist_ok=True)  # 脚本 feature.quick.open
 Path('./plugins').mkdir(exist_ok=True)  # 插件 router.plugin
