@@ -92,7 +92,7 @@ config.isAutostart = await isEnabled()  // 是否注册开机启动
 try {
   let timeout = 1000
   if (isDevEnv) timeout = 100  // 开发环境可能没有启动服务器，缩短超时时间，加快 main 加载速度
-  config.server_port = (await axios.get('/v0/config/server-port', { timeout: timeout })).data.result
+  config.server_port = (await axios.get('/v0/config/server_port', { timeout: timeout })).data.result
   config.username = (await axios.get('/v0/config/username', { timeout: timeout })).data.result
   config.password = (await axios.get('/v0/config/password', { timeout: timeout })).data.result
 } catch {}

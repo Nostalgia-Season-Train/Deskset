@@ -105,7 +105,7 @@ export const useConfigStore = defineStore('config', () => {
     async set(value) {
       try {
         config.server_port = (await axios.post(
-          '/v0/config/server-port',
+          '/v0/config/server_port',
           new URLSearchParams({ server_port: String(value) }), {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
           }
