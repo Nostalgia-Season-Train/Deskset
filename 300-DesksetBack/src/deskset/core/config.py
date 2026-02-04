@@ -92,14 +92,15 @@ class Config:
         # --- 1、设置默认值 ---
         self._validate_config = ValidateConfig()
 
-        # runtime 代表运行时属性，是程序当前生效的属性值
-        # storage 代表持久化属性，是配置文件保存的属性值
-        self._language_runtime: str | None = None
-        self._server_port_runtime: int | None = None  # 如果 _confitem_server_port 变化，记录服务器当前运行端口
-
         # --- 2、先读再写，覆盖无效配置项 ---
         self.__load_config(self._validate_config)
         self.__save_config(self._validate_config)
+
+        # --- 3、记录运行时配置 ---
+          # runtime 代表运行时属性，是程序当前生效的属性值
+          # storage 代表持久化属性，是配置文件保存的属性值
+        self._language_runtime = self._validate_config.language
+        self._server_port_runtime = self._validate_config.server_port
 
     @classmethod
     def __load_config(cls, instance: object) -> None:
@@ -158,8 +159,6 @@ class Config:
         return self._validate_config.language
     @language.setter
     def language(self, language: str) -> None:
-        if self._language_runtime is None:
-            self._language_runtime = self._validate_config.language
         self.__save_config(self._validate_config, 'language', language)
 
     @property
@@ -180,8 +179,6 @@ class Config:
         return self._validate_config.server_port
     @server_port.setter
     def server_port(self, server_port: int) -> None:
-        if self._server_port_runtime is None:
-            self._server_port_runtime = self._validate_config.server_port  # 第一次修改，记录当前端口
         self.__save_config(self._validate_config, 'server-port', server_port)
 
     @property
