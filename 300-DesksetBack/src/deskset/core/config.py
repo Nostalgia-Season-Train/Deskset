@@ -71,6 +71,8 @@ class ValidateConfig(
     @field_validator('username')
     @classmethod
     def check_username(cls, v: str) -> str:
+        if len(v) == 0:
+            raise ValueError('Invalid username, username cannot be empty string')
         if not all(char in CHARS_STR for char in v):
             raise ValueError(f'Invalid username.\nchar range = \'{CHARS_STR}\'')
         return v
@@ -78,6 +80,8 @@ class ValidateConfig(
     @field_validator('password')
     @classmethod
     def check_password(cls, v: str) -> str:
+        if len(v) == 0:
+            raise ValueError('Invalid password, password cannot be empty string')
         if not all(char in CHARS_STR for char in v):
             raise ValueError(f'Invalid password.\nchar range = \'{CHARS_STR}\'')
         return v
@@ -185,8 +189,6 @@ class Config:
         return self._validate_config.username
     @username.setter
     def username(self, username: str) -> None:
-        if len(username) == 0:
-            raise ValueError('username cannot be empty string')
         self._write_config_file(self._validate_config, 'username', username)
 
     @property
@@ -194,8 +196,6 @@ class Config:
         return self._validate_config.password
     @password.setter
     def password(self, password: str) -> None:
-        if len(password) == 0:
-            raise ValueError('password cannot be empty string')
         self._write_config_file(self._validate_config, 'password', password)
 
 
