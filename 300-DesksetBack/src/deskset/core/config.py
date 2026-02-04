@@ -98,11 +98,11 @@ class Config:
         self._server_port_runtime: int | None = None  # 如果 _confitem_server_port 变化，记录服务器当前运行端口
 
         # --- 2、先读再写，覆盖无效配置项 ---
-        self._read_config_file(self._validate_config)
-        self._write_config_file(self._validate_config)
+        self.__load_config(self._validate_config)
+        self.__save_config(self._validate_config)
 
     @classmethod
-    def _read_config_file(cls, instance: object) -> None:
+    def __load_config(cls, instance: object) -> None:
         try:
             with open(CONFIG_MAIN_PATH, 'r', encoding=CONFIG_MAIN_ENCODE) as file:
                 data: dict = yaml.safe_load(file)
@@ -129,7 +129,7 @@ class Config:
             logging.warning(f'{CONFIG_MAIN_PATH} decode failed')
 
     @classmethod
-    def _write_config_file(cls, instance: object, yaml_key: str | None = None, yaml_value: object | None = None) -> None:
+    def __save_config(cls, instance: object, yaml_key: str | None = None, yaml_value: object | None = None) -> None:
         # 检查属性
           # 注：如果在写入文件时抛出异常，会使文件内容清空
         if yaml_key is not None and yaml_value is not None:
@@ -160,7 +160,7 @@ class Config:
     def language(self, language: str) -> None:
         if self._language_runtime is None:
             self._language_runtime = self._validate_config.language
-        self._write_config_file(self._validate_config, 'language', language)
+        self.__save_config(self._validate_config, 'language', language)
 
     @property
     def encoding(self) -> str:
@@ -182,21 +182,21 @@ class Config:
     def server_port(self, server_port: int) -> None:
         if self._server_port_runtime is None:
             self._server_port_runtime = self._validate_config.server_port  # 第一次修改，记录当前端口
-        self._write_config_file(self._validate_config, 'server-port', server_port)
+        self.__save_config(self._validate_config, 'server-port', server_port)
 
     @property
     def username(self) -> str:
         return self._validate_config.username
     @username.setter
     def username(self, username: str) -> None:
-        self._write_config_file(self._validate_config, 'username', username)
+        self.__save_config(self._validate_config, 'username', username)
 
     @property
     def password(self) -> str:
         return self._validate_config.password
     @password.setter
     def password(self, password: str) -> None:
-        self._write_config_file(self._validate_config, 'password', password)
+        self.__save_config(self._validate_config, 'password', password)
 
 
 config = Config()
