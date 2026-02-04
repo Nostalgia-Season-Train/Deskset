@@ -84,8 +84,10 @@ class Config:
         # --- 1、设置默认值 ---
         self._validate_config = ValidateConfig()
 
-        self._runtime_language: str | None = None
-        self._runtime_server_port: int | None = None  # 如果 _confitem_server_port 变化，记录服务器当前运行端口
+        # runtime 代表运行时属性，是程序当前生效的属性值
+        # storage 代表持久化属性，是配置文件保存的属性值
+        self._language_runtime: str | None = None
+        self._server_port_runtime: int | None = None  # 如果 _confitem_server_port 变化，记录服务器当前运行端口
 
         # --- 2、先读再写，覆盖无效配置项 ---
         self._read_config_file(self._validate_config)
@@ -140,18 +142,16 @@ class Config:
 
     @property
     def language(self) -> str:
-        if self._runtime_language:
-            return self._runtime_language
+        if self._language_runtime:
+            return self._language_runtime
         return self._validate_config.language
-
     @property
-    def language_in_yaml(self) -> str:
+    def language_storage(self) -> str:
         return self._validate_config.language
-
     @language.setter
     def language(self, language: str) -> None:
-        if self._runtime_language is None:
-            self._runtime_language = self._validate_config.language
+        if self._language_runtime is None:
+            self._language_runtime = self._validate_config.language
         self._write_config_file(self._validate_config, 'language', language)
 
     @property
@@ -164,24 +164,21 @@ class Config:
 
     @property
     def server_port(self) -> int:
-        if self._runtime_server_port:
-            return self._runtime_server_port
+        if self._server_port_runtime:
+            return self._server_port_runtime
         return self._validate_config.server_port
-
     @property
-    def server_port_in_yaml(self) -> int:
+    def server_port_storage(self) -> int:
         return self._validate_config.server_port
-
     @server_port.setter
     def server_port(self, server_port: int) -> None:
-        if self._runtime_server_port is None:
-            self._runtime_server_port = self._validate_config.server_port  # 第一次修改，记录当前端口
+        if self._server_port_runtime is None:
+            self._server_port_runtime = self._validate_config.server_port  # 第一次修改，记录当前端口
         self._write_config_file(self._validate_config, 'server-port', server_port)
 
     @property
     def username(self) -> str:
         return self._validate_config.username
-
     @username.setter
     def username(self, username: str) -> None:
         if len(username) == 0:
@@ -191,7 +188,6 @@ class Config:
     @property
     def password(self) -> str:
         return self._validate_config.password
-
     @password.setter
     def password(self, password: str) -> None:
         if len(password) == 0:

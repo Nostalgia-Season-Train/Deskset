@@ -16,27 +16,27 @@ from deskset.core.standard import DesksetError
 
 @router_config.get('/language')
 def get_language():
-    return config.language_in_yaml
+    return config.language_storage
 
 @router_config.post('/language')
 def post_language(language: str = Form()):
     try:
         config.language = language
-        return config.language_in_yaml
+        return config.language_storage
     except ValueError as value_error:
-        raise DesksetError(message=str(value_error), data=config.language_in_yaml)
+        raise DesksetError(message=str(value_error), data=config.language_storage)
 
 @router_config.get('/server-port')
 def get_server_port():
-    return config.server_port_in_yaml
+    return config.server_port_storage
 
 @router_config.post('/server-port')
 def post_server_port(server_port: int = Form()):
     try:
         config.server_port = server_port
-        return config.server_port_in_yaml
+        return config.server_port_storage
     except ValueError as value_error:
-        raise DesksetError(message=str(value_error), data=config.server_port_in_yaml)
+        raise DesksetError(message=str(value_error), data=config.server_port_storage)
 
 @router_config.get('/username')
 def get_username():
