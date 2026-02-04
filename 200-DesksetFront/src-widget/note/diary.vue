@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { marked } from 'marked'
 import axios from 'axios'
+import dayjs from 'dayjs'
 
 const render = new marked.Renderer()
 // 禁用外部链接
@@ -13,11 +14,24 @@ const name = ref('')
 const path = ref('')
 const content = ref()
 
+const dateRaw = ref(new Date())
+const date = computed({
+  get () {
+    return dateRaw.value
+  },
+  async set (newValue) {
+    dateRaw.value = newValue
+    await refresh()
+  }
+})
+
 const refresh = async () => {
-  const response = await axios.get('/v0/note/obsidian/diary/today')
+  const response = await axios.get(`/v0/note/obsidian/diary/read-day/${dayjs(dateRaw.value).format('YYYYMMDD')}`)
   const diary = response.data.result
-  if (diary == null)
+  if (diary == null) {
+    content.value.innerHTML = marked('')
     return
+  }
   name.value = diary.name
   path.value = diary.path
   content.value.innerHTML = marked(diary.content, {
@@ -40,16 +54,16 @@ useInterval(refresh, 3 * 60 * 1000)
 
 
 /* ==== 子组件 ==== */
-import { ElScrollbar } from 'element-plus'
+import { ElScrollbar, ElDatePicker } from 'element-plus'
 </script>
 
 
 <template>
 <div class="diary">
-  <div class="name">
-    <span v-if="name != ''">{{ name }}</span>
-    <span v-else>暂无今日日记</span>
-  </div>
+  <ElDatePicker
+    v-model="date"
+    type="date"
+  />
   <div class="content" @dblclick="openInObsidian">
     <ElScrollbar>
       <div ref="content"></div>
@@ -102,6 +116,29 @@ import { ElScrollbar } from 'element-plus'
   }
   :deep(ul) {
     padding-left: 30px;
+  }
+
+  :deep(.el-input) {
+    width: 100%;
+    height: 30px;
+    .el-input__wrapper {
+      padding-left: 5px;
+      display: flex;
+      align-items: center;
+      background: orange;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      .el-icon {
+        color: #000;
+        font-size: 16px;
+      }
+      input {
+        margin: 5px;
+        color: #000;
+        font-size: 16px;
+      }
+    }
   }
 }
 </style>
