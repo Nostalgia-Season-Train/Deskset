@@ -179,7 +179,7 @@ class Config:
         return self._validate_config.server_port
     @server_port.setter
     def server_port(self, server_port: int) -> None:
-        self.__save_config(self._validate_config, 'server-port', server_port)
+        self.__save_config(self._validate_config, 'server_port', server_port)
 
     @property
     def username(self) -> str:
