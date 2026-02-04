@@ -105,44 +105,35 @@ class Config:
                     if attr_key.startswith('_'):
                         continue
 
-                    # 配置类型跟默认值一致
-                    config_key = attr_key.replace('_', '-')
-                    config_type = type(attr_value)
-                    if type(data.get(config_key)) != config_type:
-                        continue
-
                     # 修改属性。注：setattr 不会丢掉类型检查
-                    value = data.get(config_key)
+                    value = data.get(attr_key)
                     try:
                         setattr(instance, attr_key, value)
                     except ValueError as value_error:
-                        logging.warning(f'Validate \'{config_key}\' fail on reading {CONFIG_MAIN_PATH[2:]}\n{value_error}')
+                        logging.warning(f'Validate \'{attr_key}\' fail on reading {CONFIG_MAIN_PATH[2:]}\n{value_error}')
         except FileNotFoundError:
             logging.warning(f'{CONFIG_MAIN_PATH} not found')
-            pass
         except TypeError as type_error:
             logging.warning(f'{CONFIG_MAIN_PATH} is empty. Error message: {type_error}')
-            pass
         except yaml.YAMLError:
             logging.warning(f'{CONFIG_MAIN_PATH} decode failed')
-            pass
 
     @classmethod
     def _write_config_file(cls, instance: object, yaml_key: str | None = None, yaml_value: object | None = None) -> None:
         # 检查属性
           # 注：如果在写入文件时抛出异常，会使文件内容清空
         if yaml_key is not None and yaml_value is not None:
-            getattr(instance, 'check_' + yaml_key.replace('-', '_'))(yaml_value)
+            getattr(instance, 'check_' + yaml_key)(yaml_value)
 
         with open(CONFIG_MAIN_PATH, 'w', encoding=CONFIG_MAIN_ENCODE) as file:
             data: dict = {
-                key.replace('_', '-'): value for key, value in instance.__dict__.items() if not key.startswith('_')
+                key: value for key, value in instance.__dict__.items() if not key.startswith('_')
             }
             # 先写入文件，再修改属性
             if yaml_key is not None and yaml_value is not None and data.get(yaml_key, None) is not None:
                 data[yaml_key] = yaml_value                                 # 修改 data 属性，新值更新旧值
                 yaml.dump(data, file, allow_unicode=True, sort_keys=False)  # 写入文件
-                setattr(instance, yaml_key.replace('-', '_'), yaml_value)   # 修改 instance 属性；预期行为：触发二次检查
+                setattr(instance, yaml_key, yaml_value)   # 修改 instance 属性；预期行为：触发二次检查
             # 直接写入文件
             else:
                 yaml.dump(data, file, allow_unicode=True, sort_keys=False)
