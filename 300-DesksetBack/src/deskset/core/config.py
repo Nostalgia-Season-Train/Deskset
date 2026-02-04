@@ -53,14 +53,14 @@ class ValidateConfig(
     @classmethod
     def check_server_host(cls, v: str) -> str:
         if v != '127.0.0.1':  # 后续改进，暂时限定仅监听 127.0.0.1 IP
-            raise ValueError(f'Invalid server-host\nonly allow 127.0.0.1')
+            raise ValueError(f'Invalid server_host\nonly allow 127.0.0.1')
         return v
 
     @field_validator('server_port')
     @classmethod
     def check_server_port(cls, v: int) -> int:
         if not (1024 <= v <= 65535):
-            raise ValueError(f'Invalid server-port.\nport between 1024 ~ 65535')
+            raise ValueError(f'Invalid server_port.\nport between 1024 ~ 65535')
         return v
 
     @field_validator('username')
