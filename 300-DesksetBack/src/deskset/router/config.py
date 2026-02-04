@@ -26,11 +26,11 @@ def post_language(language: str = Form()):
     except ValueError as value_error:
         raise DesksetError(message=str(value_error), data=config.language_storage)
 
-@router_config.get('/server-port')
+@router_config.get('/server_port')
 def get_server_port():
     return config.server_port_storage
 
-@router_config.post('/server-port')
+@router_config.post('/server_port')
 def post_server_port(server_port: int = Form()):
     try:
         config.server_port = server_port
