@@ -1,22 +1,5 @@
-# 检查参数
-import sys
-
-DEVELOP_ENV = False     # 开发环境
-DISABLE_ACCESS = False  # （仅限开发环境）是否禁用认证，方便调试
-ACCESS_TOKEN = None     # （不为空，见下）使用命令行传入的 token
-
-for arg in sys.argv:
-    if arg == '-dev':
-        DEVELOP_ENV = True
-        continue
-    if arg == '-no-access':
-        DISABLE_ACCESS = True
-        continue
-    if arg.startswith('-token='):
-        token = arg.replace('-token=', '')
-        if token != '':
-            ACCESS_TOKEN = token
-        continue
+# 命令行参数
+from deskset.core.args import DEVELOP_ENV, DISABLE_ACCESS
 
 
 # access 权限
@@ -84,9 +67,6 @@ class Access(object):
             await asyncify(logging.critical)(f'Access fail {self.Max_Fail_Count} times, lock server')
 
 access = Access()
-
-if ACCESS_TOKEN is not None:
-    access.set_token(ACCESS_TOKEN)
 
 
 # oauth2_scheme 获取 token => check_token 验证 token
