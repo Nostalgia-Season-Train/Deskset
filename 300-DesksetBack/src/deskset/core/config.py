@@ -25,8 +25,12 @@ VALID_ENCODING_LIST = ['utf-8']
 CHARS_STR = 'abcdefghijklmnopqrstuvwxyz' + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' + '0123456789' + '-'
 
 
-class ValidateConfig(BaseModel, validate_assignment=True):
-    language: str = DEFAULT_LANGUAGE  # 语言
+class ValidateConfig(
+    BaseModel,
+    validate_assignment=True,  # 验证属性修改
+    validate_default=True      # 验证默认值
+):
+    language: str = 'en'     # 语言
     encoding: str = 'utf-8'  # 编码
 
     server_host: str = '127.0.0.1'  # 监听 IP
