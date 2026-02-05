@@ -16,10 +16,10 @@ const content = ref()
 
 const dateRaw = ref(new Date())
 const date = computed({
-  get () {
+  get() {
     return dateRaw.value
   },
-  async set (newValue) {
+  async set(newValue) {
     dateRaw.value = newValue
     await refresh()
   }
@@ -40,6 +40,13 @@ const refresh = async () => {
   })
 }
 refresh()
+
+const diaryIDList = ref<any>([])
+const refreshPanel = async (date: Date) => {
+  const response = await axios.get(`/v0/note/obsidian/diary/read-month/${dayjs(date).format('YYYYMM')}`)
+  diaryIDList.value = response.data.result.map((item: any) => item.id)
+}
+refreshPanel(new Date())
 
 const openInObsidian = async () => {
   if (path.value != '')
@@ -63,7 +70,16 @@ import { ElScrollbar, ElDatePicker } from 'element-plus'
   <ElDatePicker
     v-model="date"
     type="date"
-  />
+    @panel-change="refreshPanel"
+  >
+    <template #default="cell">
+      <div class="cell">
+        <!-- cell.renderText != null 时显示的是月份 -->
+        <span class="text">{{ cell.renderText != null ? cell.renderText : cell.text }}</span>
+        <span class="mark" v-if="cell.dayjs != null ? diaryIDList.includes(cell.dayjs.format('YYYYMMDD')) : false"></span>
+      </div>
+    </template>
+  </ElDatePicker>
   <div class="content" @dblclick="openInObsidian">
     <ElScrollbar>
       <div ref="content"></div>
@@ -140,5 +156,17 @@ import { ElScrollbar, ElDatePicker } from 'element-plus'
       }
     }
   }
+}
+
+// ElDatePicker 弹出的日期面板是 body 不是 .diary 子元素
+.cell>.mark {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background: var(--el-color-primary);
+  border-radius: 50%;
 }
 </style>
