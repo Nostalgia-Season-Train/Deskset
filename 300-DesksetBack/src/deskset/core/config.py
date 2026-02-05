@@ -99,24 +99,11 @@ class Config:
 
     @classmethod
     def __load_config(cls, instance: object) -> None:
+        # 读取文件
+        data: dict | None = None
         try:
             with open(CONFIG_MAIN_PATH, 'r', encoding=CONFIG_MAIN_ENCODE) as file:
-                data: dict = yaml.safe_load(file)
-                # 配置文件内容为空，读取的 data 为 None
-                if data is None:
-                    raise TypeError('data is None')
-
-                for attr_key, attr_value in list(instance.__dict__.items()):  # list 创建副本后修改 self 属性
-                    # 不是私有成员属性
-                    if attr_key.startswith('_'):
-                        continue
-
-                    # 修改属性。注：setattr 不会丢掉类型检查
-                    value = data.get(attr_key)
-                    try:
-                        setattr(instance, attr_key, value)
-                    except ValueError as value_error:
-                        logging.warning(f'Validate \'{attr_key}\' fail on reading {CONFIG_MAIN_PATH[2:]}\n{value_error}')
+                data = yaml.safe_load(file)
         except FileNotFoundError:
             logging.warning(f'{CONFIG_MAIN_PATH} not found')
         except TypeError as type_error:
@@ -124,37 +111,37 @@ class Config:
         except yaml.YAMLError:
             logging.warning(f'{CONFIG_MAIN_PATH} decode failed')
 
-    @classmethod
-    def __save_config(cls, instance: object, yaml_key: str | None = None, yaml_value: object | None = None) -> None:
-        # 检查属性
-          # 注：如果在写入文件时抛出异常，会使文件内容清空
-        if yaml_key is not None and yaml_value is not None:
-            getattr(instance, 'check_' + yaml_key)(yaml_value)
+        # 空文件或读取失败
+        if data is None:
+            return
 
+        # 设置配置
+        for attr_key, _ in list(instance.__dict__.items()):  # list 创建副本后修改 self 属性
+            # 不是私有成员属性
+            if attr_key.startswith('_'):
+                continue
+            # 修改属性。setattr 能触发 pydantic 验证
+            try:
+                setattr(instance, attr_key, data.get(attr_key))
+            except ValueError as value_error:
+                logging.warning(f'Validate \'{attr_key}\' fail on reading {CONFIG_MAIN_PATH[2:]}\n{value_error}')
+
+    @classmethod
+    def __save_config(cls, instance: object) -> None:
+        data: dict = { key: value for key, value in instance.__dict__.items() if not key.startswith('_') }
         with open(CONFIG_MAIN_PATH, 'w', encoding=CONFIG_MAIN_ENCODE) as file:
-            data: dict = {
-                key: value for key, value in instance.__dict__.items() if not key.startswith('_')
-            }
-            # 先写入文件，再修改属性
-            if yaml_key is not None and yaml_value is not None and data.get(yaml_key, None) is not None:
-                data[yaml_key] = yaml_value                                 # 修改 data 属性，新值更新旧值
-                yaml.dump(data, file, allow_unicode=True, sort_keys=False)  # 写入文件
-                setattr(instance, yaml_key, yaml_value)   # 修改 instance 属性；预期行为：触发二次检查
-            # 直接写入文件
-            else:
-                yaml.dump(data, file, allow_unicode=True, sort_keys=False)
+            yaml.dump(data, file, allow_unicode=True, sort_keys=False)
 
     @property
     def language(self) -> str:
-        if self._language_runtime:
-            return self._language_runtime
-        return self._validate_config.language
+        return self._language_runtime
     @property
     def language_storage(self) -> str:
         return self._validate_config.language
     @language.setter
     def language(self, language: str) -> None:
-        self.__save_config(self._validate_config, 'language', language)
+        self._validate_config.language = language
+        self.__save_config(self._validate_config)
 
     @property
     def encoding(self) -> str:
@@ -166,29 +153,30 @@ class Config:
 
     @property
     def server_port(self) -> int:
-        if self._server_port_runtime:
-            return self._server_port_runtime
-        return self._validate_config.server_port
+        return self._server_port_runtime
     @property
     def server_port_storage(self) -> int:
         return self._validate_config.server_port
     @server_port.setter
     def server_port(self, server_port: int) -> None:
-        self.__save_config(self._validate_config, 'server_port', server_port)
+        self._validate_config.server_port = server_port
+        self.__save_config(self._validate_config)
 
     @property
     def username(self) -> str:
         return self._validate_config.username
     @username.setter
     def username(self, username: str) -> None:
-        self.__save_config(self._validate_config, 'username', username)
+        self._validate_config.username = username
+        self.__save_config(self._validate_config)
 
     @property
     def password(self) -> str:
         return self._validate_config.password
     @password.setter
     def password(self, password: str) -> None:
-        self.__save_config(self._validate_config, 'password', password)
+        self._validate_config.password = password
+        self.__save_config(self._validate_config)
 
 
 config = Config()
