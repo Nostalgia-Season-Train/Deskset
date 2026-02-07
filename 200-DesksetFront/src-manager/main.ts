@@ -3,6 +3,7 @@ import '../static/css/default-font.css'  // 默认字体
 
 import '#shadcn/style.css'            // shadcn-vue 组件样式
 import 'element-plus/dist/index.css'  // Element Plus 组件样式
+import '#element-plus/style.ts'       // Element Plus 自定义样式
 
 import './style.css'
 

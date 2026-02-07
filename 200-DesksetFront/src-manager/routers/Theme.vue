@@ -27,9 +27,11 @@ const applyTheme = async (name: string) => {
 
 
 /* === 组件 === */
-import ElScrollbar from '#element-plus/ElScrollbar.vue'
-import Button from '#shadcn/components/ui/button/Button.vue'
-import Input from '#shadcn/components/ui/input/Input.vue'
+import {
+  ElScrollbar,
+  ElButton as Button,
+  ElInput as Input
+} from 'element-plus'
 
 
 /* ==== [ ] 测试中 Pinia ==== */
@@ -44,7 +46,7 @@ const store = useThemeStore()
 
   <div class="header h-[36px]">
     <Input v-model="searchText" :placeholder="_t('搜索')"/>
-    <Button @click="saveTheme">{{ _t('保 存') }}</Button>
+    <Button @click="saveTheme">{{ _t('保存') }}</Button>
   </div>
 
   <div class="themes-wrapper">
@@ -58,8 +60,8 @@ const store = useThemeStore()
             <span class="text-deskset-primary">{{ theme.savetime }}</span>
           </div>
           <div class="right">
-            <Button @click="deleteTheme(theme?.name)">{{ _t('删 除') }}</Button>
-            <Button @click="applyTheme(theme?.name)">{{ _t('应 用') }}</Button>
+            <Button @click="deleteTheme(theme?.name)">{{ _t('删除') }}</Button>
+            <Button @click="applyTheme(theme?.name)">{{ _t('应用') }}</Button>
           </div>
         </div>
       </div>

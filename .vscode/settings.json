@@ -6,6 +6,12 @@
   "[typescript]": {
     "editor.tabSize": 2,
   },
+  "[css]": {
+    "editor.tabSize": 2,
+  },
+  "[less]": {
+    "editor.tabSize": 2,
+  },
   "[vue]": {
     "editor.tabSize": 2,
     "editor.hover.enabled": false,

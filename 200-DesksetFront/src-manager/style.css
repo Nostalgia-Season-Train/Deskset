@@ -22,7 +22,7 @@ html, body, #manager {
 
   --text: hsl(0, 0%, 30%);
   --text-size: 16px;
-  --text-sharp: hsl(0, 0, 5%);
+  --text-sharp: hsl(0, 0%, 5%);
   --text-sharp-size: 18px;
 
   --shadow-s:
