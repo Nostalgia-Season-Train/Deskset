@@ -49,7 +49,7 @@ const store = useThemeStore()
     <Button @click="saveTheme">{{ _t('保存') }}</Button>
   </div>
 
-  <div class="themes-wrapper">
+  <div class="themes-wrapper" v-if="store.themes.length != 0">
     <ElScrollbar>
       <div class="themes" v-for="theme in store.themes">
         <div class="theme">
@@ -68,7 +68,7 @@ const store = useThemeStore()
     </ElScrollbar>
   </div>
 
-  <div class="prompt" v-if="store.themes.length == 0"><!-- 可选链访问：themes 挂载后赋值 -->
+  <div class="themes-prompt" v-else><!-- 可选链访问：themes 挂载后赋值 -->
     <div>
       <div class="text text-deskset-primary">{{ _t('暂无可用主题') }}</div>
       <div class="text text-deskset-primary">{{ _t('点击右上角按钮保存主题') }}</div>
@@ -124,7 +124,7 @@ const store = useThemeStore()
   }
 }
 
-.prompt {
+.themes-prompt {
   width: 100%;
   height: calc(100% - 35px - 36px);  // 减去 menu 和 theme.header 高度，让文本以窗口高度 100vh 居中，保持视觉平衡
 
