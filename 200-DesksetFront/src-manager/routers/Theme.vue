@@ -42,9 +42,9 @@ const store = useThemeStore()
 
 
 <template>
-<div class="container-theme">
+<div class="content">
 
-  <div class="header h-[36px]">
+  <div class="themes-header">
     <Input v-model="searchText" :placeholder="_t('搜索')"/>
     <Button @click="saveTheme">{{ _t('保存') }}</Button>
   </div>
@@ -80,20 +80,23 @@ const store = useThemeStore()
 
 
 <style lang="less" scoped>
-.container-theme {
-  padding: 0 10px;
-
-  // themes-wrapper 高度自适应
-    // 注：标准盒子模型下，margin 和 padding 上的 height 应为 0
+.content {
+  padding: 0 var(--content-padding);
+  padding-bottom: var(--content-padding);
   height: 100%;
   display: flex;
   flex-direction: column;
+  gap: var(--content-padding);
+
+  // themes-wrapper 高度自适应
   .themes-wrapper {
+    height: 100%;
+    background: var(--bg);
     overflow: hidden;
   }
 }
 
-.header {
+.themes-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -105,12 +108,7 @@ const store = useThemeStore()
 }
 
 .themes {
-  margin: 5px 0;
-
   .theme {
-    // 预期行为：首个元素 margin-top 与 theme margin-top 部分重叠，不会出现 5px + 3px = 8px 的情况
-    margin-top: 3px;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
