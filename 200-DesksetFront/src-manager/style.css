@@ -16,7 +16,7 @@ html, body, #manager {
   font-family: 'MiSans';
   user-select: none;
 
-  --bg-dark: hsla(0, 0%, 90%, 0.85);
+  --bg-dark: hsla(0, 0%, 80%, 0.85);
   --bg: hsl(0, 0%, 95%);
   --bg-light: hsl(0, 0%, 100%);
 
