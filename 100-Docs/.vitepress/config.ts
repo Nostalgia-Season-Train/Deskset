@@ -37,10 +37,10 @@ export default defineConfig({
             { text: '仓库状态', link: '/manual/widget/note/vault-status' }
           ]},
           { text: '时间和日期', collapsed: true, items: [
-            { text: '时钟' },
-            { text: '日历' },
-            { text: '秒表' },
-            { text: '定时器' },
+            { text: '时钟', link: '/manual/widget/datetime/clock' },
+            { text: '日历', link: '/manual/widget/datetime/calendar' },
+            { text: '秒表', link: '/manual/widget/datetime/stopwatch' },
+            { text: '定时器', link: '/manual/widget/datetime/timer' },
             { text: '日期计数器' },
             { text: '闹钟' },
             { text: '番茄钟' },
