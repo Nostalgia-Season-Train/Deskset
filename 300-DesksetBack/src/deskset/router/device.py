@@ -20,17 +20,17 @@ router_device = APIRouter(
     default_response_class=DesksetRepJSON
 )
 
-# 实时监控
-@router_device.get('/realtime')
+# 硬件监控
+@router_device.get('/monitor')
 def get_realtime():
-    return device.realtime
+    return device.monitor
 
-# （硬盘）分区信息
-@router_device.get('/partitions')
+# 硬盘存储值
+@router_device.get('/disk')
 def get_partitions():
-    return device.partitions()
+    return device.disk()
 
-# 电池信息
+# 电池电量
 @router_device.get('/battery')
 def get_battery():
     return device.battery()

@@ -25,15 +25,12 @@ dll_disk_active_time.end.restype = ctypes.c_ulong
 # ==== Win32 设备系统 ====
 from threading import Lock, Thread
 from time import time, sleep
+from dataclasses import dataclass
 
 
 class Win32Device:
-    # --- 实时访问：自动轮询 ---
-      # 每隔 self._interval 秒，读取并刷新 self._realtime 一次
-    from dataclasses import dataclass
-
     @dataclass
-    class Realtime:
+    class Hardware:
         def __init__(self) -> None:
             self.cpu: dict[str, int | float] = {
                 'percent': 0.0,  # CPU 利用率：类型 float，单位 %
@@ -54,9 +51,9 @@ class Win32Device:
                 self.cpu['count'] = cpu_count
 
     def __init__(self, interval: float = 1.0) -> None:
-        self._realtime = Win32Device.Realtime()
+        self._hardware = Win32Device.Hardware()
 
-        self._interval = interval  # 轮询间隔 单位 s
+        self._interval = interval  # 轮询间隔。每隔 self._interval 执行 self.__loop_refresh 刷新 self._hardware 一次
         self._lock = Lock()
         self._loop = Thread(target=self.__loop_refresh)
         self._loop.daemon = True  # 守护线程，主进程结束时自动退出
@@ -83,17 +80,17 @@ class Win32Device:
             disk_active_time = dll_disk_active_time.get()
 
             # *** 芯片 ***
-            self._realtime.cpu['percent'] = psutil.cpu_percent(interval=0)
+            self._hardware.cpu['percent'] = psutil.cpu_percent(interval=0)
             if disk_active_time.errorCpuFreq != ERROR_SUCCESS:
                 logging.error(f'CpuFreq get fail, error code: 0x{disk_active_time.errorCpuFreq:04X}')
             else:
-                self._realtime.cpu['freq'] = round(disk_active_time.resultCpuFreq * psutil.cpu_freq().max, 2)
+                self._hardware.cpu['freq'] = round(disk_active_time.resultCpuFreq * psutil.cpu_freq().max, 2)
 
             # *** 内存 ***
             virtual_memory = psutil.virtual_memory()
-            self._realtime.ram['percent'] = virtual_memory.percent
-            self._realtime.ram['used'] = round((virtual_memory.used >> 28) / 4 * 10) / 10  # 保留一位小数
-            self._realtime.ram['total'] = round((virtual_memory.total >> 28) / 4)  # 计算取整，消去保留内存影响，得到实际物理内存
+            self._hardware.ram['percent'] = virtual_memory.percent
+            self._hardware.ram['used'] = round((virtual_memory.used >> 28) / 4 * 10) / 10  # 保留一位小数
+            self._hardware.ram['total'] = round((virtual_memory.total >> 28) / 4)  # 计算取整，消去保留内存影响，得到实际物理内存
 
             # *** 硬盘 ***
               # 使用率 percent: float %
@@ -102,7 +99,7 @@ class Win32Device:
             if disk_active_time.errorDiskTime != ERROR_SUCCESS:
                 logging.error(f'DiskTime get fail, error code: 0x{disk_active_time.errorDiskTime:04X}')
             else:
-                self._realtime.disk['percent'] = round(disk_active_time.resultDiskTime, 1)
+                self._hardware.disk['percent'] = round(disk_active_time.resultDiskTime, 1)
 
             # *** 网络 ***
               # 发送 sent: int Byte/s、接收 recv: int Byte/s
@@ -111,27 +108,24 @@ class Win32Device:
             net = psutil.net_io_counters()
             netnow = time()
             netlong = round(netnow - self.__last_nettime, 1)
-            self._realtime.network['sent'] = int((net.bytes_sent - self.__last_net.bytes_sent) / netlong)
-            self._realtime.network['recv'] = int((net.bytes_recv - self.__last_net.bytes_recv) / netlong)
+            self._hardware.network['sent'] = int((net.bytes_sent - self.__last_net.bytes_sent) / netlong)
+            self._hardware.network['recv'] = int((net.bytes_recv - self.__last_net.bytes_recv) / netlong)
             self.__last_net = net
             self.__last_nettime = netnow
 
         dll_disk_active_time.end()  # - [ ] 暂时无法清理，预期应在 fastAPI 应用结束时执行
 
-    @property
-    def realtime(self) -> dict:
+    # --- 硬件监控 ---
+    def monitor(self) -> dict:
         return {
-            'cpu': self._realtime.cpu,
-            'ram': self._realtime.ram,
-            'disk': self._realtime.disk,
-            'network': self._realtime.network
+            'cpu': self._hardware.cpu,
+            'ram': self._hardware.ram,
+            'disk': self._hardware.disk,
+            'network': self._hardware.network
         }
 
-
-    # --- 间隔访问：调用一次，读取一次 ---
-
-    # （硬盘）分区信息
-    def partitions(self, is_gb=True) -> list[dict]:
+    # --- 硬盘存储值 ---
+    def disk(self, is_gb=True) -> list[dict]:
         partitions = []
 
         for partition in psutil.disk_partitions():
@@ -164,7 +158,7 @@ class Win32Device:
 
         return partitions
 
-    # 电池信息
+    # --- 电池电量 ---
     def battery(self) -> dict:
         battery = psutil.sensors_battery()
 
@@ -178,7 +172,7 @@ class Win32Device:
             'percent': battery.percent
         }
 
-    # 系统信息
+    # --- 系统信息 ---
     def system(self) -> dict:
         import platform  # 只有这个函数要用 platform，单独导入
 
