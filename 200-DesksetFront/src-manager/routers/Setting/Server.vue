@@ -2,7 +2,7 @@
 import { _t } from '#manager/main/i18n'
 
 /* === 子组件 === */
-import InputLazy from '#shadcn/components/ui/input/InputLazy.vue'
+import InputLazy from '#element-plus/ElInputLazy.vue'
 
 
 /* ==== [ ] 测试中 Pinia ==== */
