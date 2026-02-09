@@ -1,9 +1,6 @@
 # ==== Device ====
 from deskset.core.standard import DesksetError
-
-from deskset.feature.device import DeviceFactory
-
-device = DeviceFactory.create_device()
+from deskset.feature.device import device
 
 def check_init() -> None:
     if device is None:
@@ -22,20 +19,20 @@ router_device = APIRouter(
 
 # 硬件监控
 @router_device.get('/monitor')
-def get_realtime():
-    return device.monitor
+def monitor():
+    return device.monitor()
 
 # 硬盘存储值
 @router_device.get('/disk')
-def get_partitions():
+def disk():
     return device.disk()
 
 # 电池电量
 @router_device.get('/battery')
-def get_battery():
+def battery():
     return device.battery()
 
 # 系统信息
 @router_device.get('/system')
-def get_system():
+def system():
     return device.system()
