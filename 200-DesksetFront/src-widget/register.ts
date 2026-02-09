@@ -17,6 +17,10 @@ export const inlineRawWidgetMap = new Map([
     main: () => import('/src-widget/note/diary.vue'),
     metainfo: await import('/src-widget/note/diary.json')
   }],
+  [`${prefixMark}Heatmap`, {
+    main: () => import('/src-widget/note/heatmap.vue'),
+    metainfo: await import('/src-widget/note/heatmap.json')
+  }],
 
   /* --- 时间与日期 --- */
   [`${prefixMark}DigitalClock`, {
