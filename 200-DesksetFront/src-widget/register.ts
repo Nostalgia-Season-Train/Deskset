@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 export const prefixMark = '/@Deskset/'
 
 export const inlineRawWidgetMap = new Map([
-  /* --- Note --- */
+  /* --- 笔记 --- */
   [`${prefixMark}Base`, {
     main: () => import('/src-widget/note/base.vue'),
     metainfo: await import('/src-widget/note/base.json')
@@ -26,29 +26,17 @@ export const inlineRawWidgetMap = new Map([
     metainfo: await import('/src-widget/note/vault-status.json')
   }],
 
-  /* --- 时间与日期 --- */
-  [`${prefixMark}DigitalClock`, {
-    // @ts-ignore
-    main: () => import('/src-widget/时间与日期/数字时钟.vue'),
-    metainfo: {
-      author: '旧日丨四季列车',
-      version: 'v0.0.1',
-      descript: '以 HHmm 格式，显示现在时间',
-      model: {
-        time_color: '#FFFFFFF0',
-        date_color: '#FFFFFFA0'
-      },
-      options: [{
-        name: '时间文字颜色',
-        type: 'ColorPicker',
-        key: 'time_color'
-      }, {
-        name: '日期文字颜色',
-        type: 'ColorPicker',
-        key: 'date_color'
-      }]
-    }
+  /* --- 时间和日期 --- */
+  [`${prefixMark}Clock`, {
+    main: () => import('/src-widget/datetime/clock.vue'),
+    metainfo: await import('/src-widget/datetime/clock.json')
   }],
+  [`${prefixMark}Stopwatch`, {
+    main: () => import('/src-widget/datetime/stopwatch.vue'),
+    metainfo: await import('/src-widget/datetime/stopwatch.json')
+  }],
+
+  /* --- 时间与日期 --- */
   [`${prefixMark}FlipClock`, {
     // @ts-ignore
     main: () => import('/src-widget/时间与日期/翻页时钟.vue'),
@@ -68,28 +56,6 @@ export const inlineRawWidgetMap = new Map([
         name: '下半部分颜色',
         type: 'ColorPicker',
         key: 'bottom_bgcolor'
-      }]
-    }
-  }],
-  [`${prefixMark}Stopwatch`, {
-    // @ts-ignore
-    main: () => import('/src-widget/时间与日期/秒表.vue'),
-    metainfo: {
-      author: '旧日丨四季列车',
-      version: 'v0.0.1',
-      descript: '测量时间经过',
-      model: {
-        highcolor: '#000000C0',
-        lowcolor: '#000000'
-      },
-      options: [{
-        name: '高位颜色',
-        type: 'ColorPicker',
-        key: 'highcolor'
-      }, {
-        name: '低位颜色',
-        type: 'ColorPicker',
-        key: 'lowcolor'
       }]
     }
   }],
