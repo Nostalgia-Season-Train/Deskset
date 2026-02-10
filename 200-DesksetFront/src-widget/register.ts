@@ -21,6 +21,10 @@ export const inlineRawWidgetMap = new Map([
     main: () => import('/src-widget/note/heatmap.vue'),
     metainfo: await import('/src-widget/note/heatmap.json')
   }],
+  [`${prefixMark}VaultStatus`, {
+    main: () => import('/src-widget/note/vault-status.vue'),
+    metainfo: await import('/src-widget/note/vault-status.json')
+  }],
 
   /* --- 时间与日期 --- */
   [`${prefixMark}DigitalClock`, {
@@ -149,26 +153,6 @@ export const inlineRawWidgetMap = new Map([
       author: '旧日丨四季列车',
       version: 'v0.0.1',
       descript: '显示电脑电池剩余电量，是否正在充电'
-    }
-  }],
-
-  /* --- 笔记 --- */
-  [`${prefixMark}VaultStats`, {
-    // @ts-ignore
-    main: () => import('/src-widget/笔记/仓库统计.vue'),
-    metainfo: {
-      author: '旧日丨四季列车',
-      version: 'v0.0.1',
-      descript: '统计仓库的笔记数量、附件数量和累计使用天数'
-    }
-  }],
-  [`${prefixMark}待办日历`, {
-    // @ts-ignore
-    main: () => import('/src-widget/笔记/待办日历.vue'),
-    metainfo: {
-      author: '旧日丨四季列车',
-      version: 'v0.0.1',
-      descript: '在事件日历里统计日记中的待办事项'
     }
   }],
 ])
