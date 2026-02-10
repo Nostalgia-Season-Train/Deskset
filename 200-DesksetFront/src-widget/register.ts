@@ -31,6 +31,10 @@ export const inlineRawWidgetMap = new Map([
     main: () => import('/src-widget/datetime/clock.vue'),
     metainfo: await import('/src-widget/datetime/clock.json')
   }],
+  [`${prefixMark}Calendar`, {
+    main: () => import('/src-widget/datetime/calendar.vue'),
+    metainfo: await import('/src-widget/datetime/calendar.json')
+  }],
   [`${prefixMark}Stopwatch`, {
     main: () => import('/src-widget/datetime/stopwatch.vue'),
     metainfo: await import('/src-widget/datetime/stopwatch.json')
