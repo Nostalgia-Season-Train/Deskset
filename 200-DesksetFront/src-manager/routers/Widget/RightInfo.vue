@@ -48,9 +48,12 @@ const ensureScale = async () => {
 }
 
 
-/* === 子组件 === */
-import Button from '#shadcn/components/ui/button/Button.vue'
-import Switch from '#shadcn/components/ui/switch/Switch.vue'
+/* ==== 子组件 ==== */
+import {
+  ElButton as Button,
+  ElSwitch as Switch,
+  ElInput as Input
+} from 'element-plus'
 </script>
 
 
@@ -78,33 +81,31 @@ import Switch from '#shadcn/components/ui/switch/Switch.vue'
 
   <div class="bottom">
     <div class="left">
-      <div>
-        <div class="text-center">位置 & 大小</div><!-- - [ ] 需要翻译 -->
-        <div class="flex">
-          <span class="w-1/3 text-center">{{ _t('坐标') }}</span>
-          <input class="w-1/3 text-center" v-model="widget.x" @change="ensureAxisX"/>
-          <input class="w-1/3 text-center" v-model="widget.y" @change="ensureAxisY"/>
-        </div>
-        <div class="flex">
-          <span class="w-1/3 text-center">{{ _t('缩放') }}</span>
-          <input class="w-2/3 text-center" v-model="widget.scale" @change="ensureScale"/>
-        </div>
+      <div class="left-title">位置 & 大小</div><!-- - [ ] 需要翻译 -->
+      <div class="left-item">
+        <span>{{ _t('坐标') }}</span>
+        <Input v-model="widget.x" @change="ensureAxisX"/>
+        <Input v-model="widget.y" @change="ensureAxisY"/>
+      </div>
+      <div class="left-item">
+        <span>{{ _t('缩放') }}</span>
+        <Input v-model="widget.scale" @change="ensureScale"/>
       </div>
     </div>
 
     <div class="right">
-      <div class="text-center">属性</div><!-- - [ ] 需要翻译 -->
-      <div class="option">
+      <div class="right-title">属性</div><!-- - [ ] 需要翻译 -->
+      <div class="right-item">
         <span>{{ _t('锁定拖动') }}</span>
-        <Switch v-model="widget.isDragLock" @click="emit('switchProp', widget.id, 'drag-lock', !widget.isDragLock)"/>
+        <Switch v-model="widget.isDragLock" @click="emit('switchProp', widget.id, 'drag-lock', widget.isDragLock)"/>
       </div>
-      <div class="option">
+      <div class="right-item">
         <span>{{ _t('禁用交互') }}</span>
-        <Switch v-model="widget.isDisableInteract" @click="emit('switchProp', widget.id, 'disable-interact', !widget.isDisableInteract)"/>
+        <Switch v-model="widget.isDisableInteract" @click="emit('switchProp', widget.id, 'disable-interact', widget.isDisableInteract)"/>
       </div>
-      <div class="option">
+      <div class="right-item">
         <span>{{ _t('自动隐藏') }}</span>
-        <Switch v-model="widget.isAutoHide" @click="emit('switchProp', widget.id, 'auto-hide', !widget.isAutoHide)" :size="20.5"/><!-- 错觉？21px 比其他滑块大一点 -->
+        <Switch v-model="widget.isAutoHide" @click="emit('switchProp', widget.id, 'auto-hide', widget.isAutoHide)"/>
       </div>
     </div>
   </div>
@@ -160,16 +161,35 @@ import Switch from '#shadcn/components/ui/switch/Switch.vue'
     gap: 5px;
 
     .left {
+      padding: 2px 4px;
       flex: 1;
-    }
-    .right {
-      flex: 1;
-
       display: flex;
       flex-direction: column;
-      gap: 5px;
-
-      .option {
+      gap: 2px;
+      background: var(--bg);
+      .left-title {
+        text-align: center;
+      }
+      .left-item {
+        display: flex;
+        gap: 2px;
+        &>* { width: 33.3%; }
+      }
+      .left-item:nth-child(3) {
+        &>:last-child { width: 66.6%; }
+      }
+    }
+    .right {
+      padding: 2px 4px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      background: var(--bg);
+      .right-title {
+        text-align: center;
+      }
+      .right-item {
         display: flex;
         justify-content: space-between;
         align-items: center;
