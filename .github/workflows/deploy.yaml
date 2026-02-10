@@ -27,6 +27,9 @@ jobs:
   # 构建工作
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./100-Docs
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -45,14 +48,12 @@ jobs:
         uses: actions/configure-pages@v4
       - name: Install dependencies
         run: npm ci # 或 pnpm install / yarn install / bun install
-        working-directory: 100-Docs
       - name: Build with VitePress
         run: npm run docs:build # 或 pnpm docs:build / yarn docs:build / bun run docs:build
-        working-directory: 100-Docs
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 100-Docs/.vitepress/dist
+          path: .vitepress/dist
 
   # 部署工作
   deploy:
