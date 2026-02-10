@@ -49,9 +49,9 @@ export default defineConfig({
             { text: '世界时钟' }
           ]},
           { text: '设备信息', collapsed: true, items: [
-            { text: '硬件监控' },
-            { text: '硬盘存储值' },
-            { text: '电池电量' }
+            { text: '硬件监控', link: '/manual/widget/device/hardware-monitor' },
+            { text: '硬盘存储值', link: '/manual/widget/device/disk-storage' },
+            { text: '电池电量', link: '/manual/widget/device/battery' }
           ]}
         ]}
       ]
