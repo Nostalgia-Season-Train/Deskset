@@ -2,6 +2,21 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Docs",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/100-Docs",
+      "console": "integratedTerminal",
+      "runtimeArgs": [
+        "run",
+        "docs:dev",
+      ],
+      "runtimeExecutable": "npm",
+      "skipFiles": [
+        "<node_internals>/**",
+      ],
+    },
+    {
       "name": "DesksetFront",
       "type": "node",
       "request": "launch",
@@ -38,6 +53,7 @@
     {
       "name": "Deskset",
       "configurations": [
+        "Docs",
         "DesksetFront",
         "DesksetBack",
       ],
