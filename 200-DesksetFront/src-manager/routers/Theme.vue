@@ -16,7 +16,7 @@ const saveTheme = async () => {
 }
 
 const deleteTheme = async (name: string) => {
-  if (!await message(_t('删除主题'), _t(`是否删除 `) + name + _t(` 主题？`), _t('取消'), _t('确认'))) 
+  if (!await message(_t('删除主题'), _t(`是否删除 `) + name + _t(` 主题？`), _t('取消'), _t('确认')))
     return
   await store.deleteTheme(name)
 }
@@ -28,9 +28,10 @@ const applyTheme = async (name: string) => {
 
 /* === 组件 === */
 import {
-  ElScrollbar,
-  ElButton as Button,
-  ElInput as Input
+  ElButton,
+  ElInput,
+  ElTable,
+  ElTableColumn
 } from 'element-plus'
 
 
@@ -45,27 +46,21 @@ const store = useThemeStore()
 <div class="content">
 
   <div class="themes-header">
-    <Input v-model="searchText" :placeholder="_t('搜索')"/>
-    <Button @click="saveTheme">{{ _t('保存') }}</Button>
+    <ElInput v-model="searchText" :placeholder="_t('搜索')"/>
+    <ElButton @click="saveTheme">{{ _t('保存') }}</ElButton>
   </div>
 
   <div class="themes-wrapper" v-if="store.themes.length != 0">
-    <ElScrollbar>
-      <div class="themes" v-for="theme in store.themes">
-        <div class="theme">
-          <div class="left">
-            <span class="text-deskset-primary">{{ theme.name }}</span>
-          </div>
-          <div class="middle">
-            <span class="text-deskset-primary">{{ theme.savetime }}</span>
-          </div>
-          <div class="right">
-            <Button @click="deleteTheme(theme?.name)">{{ _t('删除') }}</Button>
-            <Button @click="applyTheme(theme?.name)">{{ _t('应用') }}</Button>
-          </div>
-        </div>
-      </div>
-    </ElScrollbar>
+    <ElTable :data="store.themes" style="width: 100%; height: 100%;">
+      <ElTableColumn label="名称" prop="name" width="150" fixed="left"/>
+      <ElTableColumn label="保存时间" prop="savetime"/>
+      <ElTableColumn label="操作" width="150" fixed="right">
+        <template #default="{ row }">
+          <ElButton @click="deleteTheme(row.name)">{{ _t('删除') }}</ElButton>
+          <ElButton @click="applyTheme(row.name)">{{ _t('应用') }}</ElButton>
+        </template>
+      </ElTableColumn>
+    </ElTable>
   </div>
 
   <div class="themes-prompt" v-else><!-- 可选链访问：themes 挂载后赋值 -->
