@@ -3,7 +3,7 @@
 
   # 数字桌搭 Deskset
 
-  ![CI状态](https://img.shields.io/github/actions/workflow/status/Nostalgia-Season-Train/Deskset/auto-build.yaml)
+  ![CI状态](https://img.shields.io/github/actions/workflow/status/Nostalgia-Season-Train/Deskset/build.yaml)
   ![开源许可](https://img.shields.io/github/license/Nostalgia-Season-Train/Deskset)
   ![Star数量](https://img.shields.io/github/stars/Nostalgia-Season-Train/Deskset)
 
