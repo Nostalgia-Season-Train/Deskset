@@ -17,7 +17,12 @@
   }
 
   .el-input__inner {
+    height: 100%;
     color: var(--text-sharp);
     font-size: var(--text-size);
+    &::selection {
+      color: var(--el-color-primary);
+      background: var(--el-color-primary-light-9);
+    }
   }
 }
