@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  base: '/Deskset/',
+  // base: '/Deskset/',  // 通过 username.github.io/projectname 访问时需要
   head: [['link', { rel: 'icon', href: '/Deskset LOGO v2.1.png' }]],
   title: '数字桌搭 Deskset',
 
