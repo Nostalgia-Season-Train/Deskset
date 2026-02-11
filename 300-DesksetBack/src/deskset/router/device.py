@@ -1,10 +1,5 @@
 # ==== Device ====
-from deskset.core.standard import DesksetError
 from deskset.feature.device import device
-
-def check_init() -> None:
-    if device is None:
-        raise DesksetError(code=2000, message='未知系统，无法读取设备信息')
 
 
 # ==== 路由 ====
@@ -13,7 +8,7 @@ from deskset.router.unify import check_token, DesksetRepJSON
 
 router_device = APIRouter(
     prefix='/v0/device', tags=['设备信息'],
-    dependencies=[Depends(check_token), Depends(check_init)],
+    dependencies=[Depends(check_token)],
     default_response_class=DesksetRepJSON
 )
 

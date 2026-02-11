@@ -1,6 +1,7 @@
 # ==== 依赖 ====
 import psutil
 from deskset.core.log import logging
+from ._abstract import AbstractDevice
 
 # psutil 拿不到的信息
 import ctypes
@@ -28,7 +29,7 @@ from time import time, sleep
 from dataclasses import dataclass
 
 
-class Win32Device:
+class Win32Device(AbstractDevice):
     @dataclass
     class Hardware:
         def __init__(self) -> None:
@@ -125,7 +126,7 @@ class Win32Device:
         }
 
     # --- 硬盘存储值 ---
-    def disk(self, is_gb=True) -> list[dict]:
+    def disk(self, is_gb: bool = True) -> list[dict]:
         partitions = []
 
         for partition in psutil.disk_partitions():
