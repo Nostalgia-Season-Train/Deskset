@@ -19,7 +19,8 @@
 
   "====$PageName====": "====$页面名称====",
 
-  "welcome":   "主页",
+  "welcome":   "欢迎",
+  "homepage":  "主页",
   "widget":    "部件",
   "wallpaper": "壁纸",
   "theme":     "主题",

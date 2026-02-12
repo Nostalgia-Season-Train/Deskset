@@ -4,10 +4,11 @@ import { _t } from '#manager/main/i18n'
 import { Router } from 'vue-router'
 const props = defineProps<{ router: Router }>()
 
-import { Home, LayoutDashboard, Image, Palette } from 'lucide-vue-next'
+import { Info, Home, LayoutDashboard, Image, Palette } from 'lucide-vue-next'
 import CogLoop from '#desksetui/icons/MaterialLineIcons/CogLoop.vue'
 const items = [
-  { icon: Home,            page: 'welcome' },
+  { icon: Info,            page: 'welcome' },
+  { icon: Home,            page: 'homepage' },
   { icon: LayoutDashboard, page: 'widget' },
   { icon: Image,           page: 'wallpaper' },
   { icon: Palette,         page: 'theme' },
@@ -69,12 +70,13 @@ const items = [
   }
 
   .item {
-    margin: 6px 8px;
+    position: relative;
+    margin: 3px 8px;
     padding: 3px 6px;
     display: flex;
     align-items: center;
 
-    color: var(--text-title);
+    color: var(--text-sharp);
 
     transition: .3s;
 
@@ -102,6 +104,23 @@ const items = [
   }
   .item:last-child {
     margin-top: auto;
+    margin-bottom: 6px;
+  }
+  /* --- 主页和部件间的分割线 --- */
+  .item:nth-child(3) {
+    margin-bottom: 6px;
+  }
+  .item:nth-child(4) {
+    margin-top: 6px;
+  }
+  .item:nth-child(3)::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 1px;
+    background: var(--text-sharp);
   }
 }
 </style>

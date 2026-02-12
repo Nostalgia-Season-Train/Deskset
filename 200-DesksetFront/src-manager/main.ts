@@ -12,10 +12,12 @@ import './style.css'
 import { createMemoryHistory, createRouter } from 'vue-router'
 
 const routes = [
-  { path: '/welcome', name: 'welcome', component: () => import('./routers/Welcome.vue') },
-  { path: '/widget',  name: 'widget',  component: () => import('./routers/Widget.vue') },
-  { path: '/theme',   name: 'theme',   component: () => import('./routers/Theme.vue') },
-  { path: '/setting', name: 'setting', component: () => import('./routers/Setting.vue') }
+  { path: '/welcome',   name: 'welcome',   component: () => import('./routers/Welcome.vue') },
+  { path: '/homepage',  name: 'homepage',  component: () => import('./routers/Homepage.vue') },
+  { path: '/widget',    name: 'widget',    component: () => import('./routers/Widget.vue') },
+  { path: '/wallpaper', name: 'wallpaper', component: () => import('./routers/Wallpaper.vue') },
+  { path: '/theme',     name: 'theme',     component: () => import('./routers/Theme.vue') },
+  { path: '/setting',   name: 'setting',   component: () => import('./routers/Setting.vue') }
 ]
 
 const router = createRouter({
