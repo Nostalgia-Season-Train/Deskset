@@ -65,8 +65,8 @@ const store = useThemeStore()
 
   <div class="themes-prompt" v-else><!-- 可选链访问：themes 挂载后赋值 -->
     <div>
-      <div class="text text-deskset-primary">{{ _t('暂无可用主题') }}</div>
-      <div class="text text-deskset-primary">{{ _t('点击右上角按钮保存主题') }}</div>
+      <div class="text">{{ _t('暂无可用主题') }}</div>
+      <div class="text">{{ _t('点击右上角按钮保存主题') }}</div>
     </div>
   </div>
 
@@ -130,6 +130,8 @@ const store = useThemeStore()
   color: #FFF;
 
   .text {
+    color: var(--text-sharp);
+    font-size: var(--text-sharp-size);
     text-align: center;
   }
 }
