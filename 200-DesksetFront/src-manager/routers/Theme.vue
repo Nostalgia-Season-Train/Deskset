@@ -52,12 +52,12 @@ const store = useThemeStore()
 
   <div class="themes-wrapper" v-if="store.themes.length != 0">
     <ElTable :data="store.themes" style="width: 100%; height: 100%;">
-      <ElTableColumn label="名称" prop="name" width="150" fixed="left"/>
+      <ElTableColumn label="名称" prop="name" width="200" fixed="left"/>
       <ElTableColumn label="保存时间" prop="savetime"/>
       <ElTableColumn label="操作" width="150" fixed="right">
         <template #default="{ row }">
           <ElButton @click="deleteTheme(row.name)">{{ _t('删除') }}</ElButton>
-          <ElButton @click="applyTheme(row.name)">{{ _t('应用') }}</ElButton>
+          <ElButton @click="applyTheme(row.name)" style="margin-left: 5px;">{{ _t('应用') }}</ElButton>
         </template>
       </ElTableColumn>
     </ElTable>
