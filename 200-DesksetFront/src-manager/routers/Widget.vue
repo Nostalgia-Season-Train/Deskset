@@ -326,7 +326,8 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
 .container-widget {
   width: 100%;
   height: 100%;
-  padding: 0 10px 5px 10px;
+  padding: var(--content-padding);
+  padding-top: 0;
 
   display: flex;
   justify-content: space-between;

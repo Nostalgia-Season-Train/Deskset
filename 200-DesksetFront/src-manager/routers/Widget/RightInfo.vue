@@ -122,10 +122,14 @@ import {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 5px;
 
   color: var(--color-deskset-primary);
 
   .top {
+    flex: 1;
+    background: var(--bg);
+
     .first-line {
       height: 28px;
 
