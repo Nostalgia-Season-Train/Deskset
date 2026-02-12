@@ -39,6 +39,10 @@ export const inlineRawWidgetMap = new Map([
     main: () => import('/src-widget/datetime/stopwatch.vue'),
     metainfo: await import('/src-widget/datetime/stopwatch.json')
   }],
+  [`${prefixMark}Timer`, {
+    main: () => import('/src-widget/datetime/timer.vue'),
+    metainfo: await import('/src-widget/datetime/timer.json')
+  }],
 
   /* --- 时间与日期 --- */
   [`${prefixMark}FlipClock`, {
