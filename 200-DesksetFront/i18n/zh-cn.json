@@ -5,9 +5,12 @@
   "Heatmap": "热力图",
   "VaultStatus": "仓库状态",
 
-  "DigitalClock": "数字时钟",
-  "FlipClock": "翻页时钟",
+  "Clock": "时钟",
+  "Calendar": "日历",
   "Stopwatch": "秒表",
+  "Timer": "定时器",
+
+  "FlipClock": "翻页时钟",
   "Countdown": "倒计时",
 
   "Greeting": "问候语",
