@@ -28,7 +28,9 @@ const removeWidget = async (id: string) => {
   // 问题 1：option.value 并不随 widget.model 变化，仅在初始化时赋值
   // 问题 2：缺乏输入验证
   // 问题 3：缺乏修改失败后的错误处理
-import { ref } from 'vue'
+import { ref, h } from 'vue'
+import { ElMessageBox } from 'element-plus'
+import Edit from './Widget/EditMenu.vue'
 
 const isOpenDialog = ref(false)
 const dialogTitle = ref<string>('')
@@ -51,16 +53,12 @@ const editWidget = async (id: string) => {
   const widget = activeWidgetMap.get(id)
   if (widget!.options == null)
     return
-  dialogTitle.value = `编辑 ${widget!.title} 配置`
-  dialogOptions.value = widget!.options.map(item => {
-    const newItem = {
-      ...item,
-      value: item.type != 'tab' ? widget!.model[item.key] : widget!.model,
-      change: () => item.type != 'tab' ? desktop.editWidget(id, { [item.key]: newItem.value }) : desktop.editWidget(id, { ...newItem.value })
-    }
-    return newItem
+  ElMessageBox({
+    title: `编辑 ${widget!.title} 配置`,
+    showConfirmButton: false,
+    message: () => h(Edit, { modelValue: widget }),
+    callback: () => {}
   })
-  isOpenDialog.value = true
 }
 
 const locateWidget = async (id: string) => {

@@ -1,5 +1,6 @@
 import { reactive, ref } from 'vue'
 
+// - [ ] 待处理：拆分成 StorageWidget 和 RuntimeWidget
 export interface Widget {
   id: string
 

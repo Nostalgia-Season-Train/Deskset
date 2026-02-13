@@ -93,13 +93,15 @@ export const appendWidget = async ({
 
   // 2.1、若值为函数，执行此函数，动态生成默认配置项
   let defaultModel: Record<string, any> = {}
+  let defaultOptions: Record<string, any> = {}  // 简化部件注册结构后，模型 Model 跟模型选项 Option 写在一起了...
 
   for (const key in widgetInfo.model) {
-    if (typeof (widgetInfo.model as any)[key] == 'function')
-      defaultModel[key] = await (widgetInfo.model as any)[key]()
-    else
-      defaultModel[key] = (widgetInfo.model as any)[key]
+    const registerModel = (widgetInfo.model as any)[key]
+    defaultModel[key] = registerModel.default  // - [ ] 待处理：动态生成默认值
+    defaultOptions[key] = { type: registerModel.type, name: registerModel.name, descript: registerModel.descript }
   }
+
+  widgetInfo.options = defaultOptions
 
   // 3、桌面添加部件 > 返回部件数据
   let widgetData = null
