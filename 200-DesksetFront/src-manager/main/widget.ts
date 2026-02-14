@@ -18,7 +18,21 @@ export const getWidgetNameList = async (): Promise<string[]> => {
 
 
 /* === 从 widget 库：返回部件信息（元数据） === */
+import { inlineRawWidgetMap, prefixMark } from '#widget/register'
+
 export const getWidgetInfo = async (name: string) => {
+  // 内联部件
+  if (name.startsWith(prefixMark)) {
+    return {
+      author: _t(inlineRawWidgetMap.get(name)!.metainfo.author),
+      version: inlineRawWidgetMap.get(name)!.metainfo.version,
+      descript: _t(inlineRawWidgetMap.get(name)!.metainfo.descript),
+      model: inlineRawWidgetMap.get(name)!.metainfo?.model ?? {},
+      option: inlineRawWidgetMap.get(name)!.metainfo?.option ?? null
+    }
+  }
+
+  // 外部部件
   try {
     const text = await readTextFile(`./widgets/${name}/metainfo.json`, { baseDir: BaseDirectory.Resource })
 
@@ -46,7 +60,6 @@ export const getWidgetInfo = async (name: string) => {
 /* === 添加部件 === */
 import desktop from '#manager/global/page/desktop'
 import { activeWidgetMap } from '#manager/global'
-import { inlineRawWidgetMap, prefixMark } from '#widget/register'
 
 export const appendWidget = async ({
   // 部件名称
@@ -84,13 +97,7 @@ export const appendWidget = async ({
   }
 
   // 2、获取部件信息（元数据）
-  const widgetInfo = name.startsWith(prefixMark) ? {
-    author: _t(inlineRawWidgetMap.get(name)!.metainfo.author),
-    version: inlineRawWidgetMap.get(name)!.metainfo.version,
-    descript: _t(inlineRawWidgetMap.get(name)!.metainfo.descript),
-    model: inlineRawWidgetMap.get(name)!.metainfo?.model ?? {},
-    option: inlineRawWidgetMap.get(name)!.metainfo?.option ?? null
-  } : await getWidgetInfo(name)
+  const widgetInfo = await getWidgetInfo(name)
   const registerModel = widgetInfo.model
   const registerOption = widgetInfo.option
 
