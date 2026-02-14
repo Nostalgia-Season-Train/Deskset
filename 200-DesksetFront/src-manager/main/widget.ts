@@ -97,7 +97,7 @@ export const appendWidget = async ({
   // 2.1、从（部件）注册模型生成默认模型
   let defaultModel: Record<string, any> = {}
   for (const key of Object.keys(registerModel)) {
-    defaultModel[key] = registerModel.default  // - [ ] 待处理：动态生成默认值
+    defaultModel[key] = registerModel[key].default  // - [ ] 待处理：动态生成默认值
   }
 
   // 2.2、从（部件）注册选项和注册模型生成默认选项
