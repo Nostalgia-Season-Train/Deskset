@@ -185,7 +185,7 @@ if DEVELOP_ENV:
 
 
 # ==== FastAPI Router：路由注册 ====
-from deskset.router.config import router_config
+from deskset.router._config import router_config
 app.include_router(router_config)
 
 from deskset.router.device import router_device
@@ -199,7 +199,7 @@ app.include_router(router_quick)
 
 
 # ==== FastAPI Router：插件注册：/plugin 作为所有插件路由的根路径 ====
-from deskset.router.plugin import router_plugin_root
+from deskset.router._plugin import router_plugin_root
 app.include_router(router_plugin_root)
 
 
