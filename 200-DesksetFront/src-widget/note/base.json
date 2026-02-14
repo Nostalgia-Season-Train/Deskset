@@ -5,17 +5,14 @@
   "model": {
     "width": {
       "type": "int",
-      "name": "数据库宽度",
       "default": 540
     },
     "height": {
       "type": "int",
-      "name": "数据库高度",
       "default": 250
     },
     "noteFilter": {
       "type": "noteFilter",
-      "name": "笔记过滤",
       "default": {
         "match": "all",
         "filters": []
@@ -23,7 +20,6 @@
     },
     "noteProp": {
       "type": "noteProp",
-      "name": "笔记属性",
       "default": {
         "props": [{
           "dataKey": "file.name",
@@ -42,11 +38,19 @@
     "tabs": [{
       "id": "filter",
       "text": "筛选",
-      "items": ["noteFilter"]
+      "items": [{
+        "key": "noteFilter",
+        "input": "noteFilter",
+        "name": "笔记过滤"
+      }]
     }, {
       "id": "prop",
       "text": "属性",
-      "items": ["noteProp"]
+      "items": [{
+        "key": "noteProp",
+        "input": "noteProp",
+        "name": "笔记属性"
+      }]
     }]
   }
 }

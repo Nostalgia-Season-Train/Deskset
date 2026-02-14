@@ -1,5 +1,32 @@
 import { reactive, ref } from 'vue'
 
+export interface RegisterModelOptionItem {
+  key: string  // 选项要修改的 model.key
+  input: string  // 用哪个组件修改
+  name: string | undefined  // 选项名称
+  descript: string | undefined  // 选项描述
+}
+
+export interface RegisterModel {
+  author: string
+  version: string
+  descript: string
+
+  model: Record<string, {
+    type: string,
+    default: string
+  }> | undefined
+
+  option: {
+    items: RegisterModelOptionItem[]
+    tabs: {
+      id: string
+      text: string
+      items: RegisterModelOptionItem[]
+    }[]
+  } | undefined
+}
+
 export interface StorageWidget {
   id: string
 
@@ -30,7 +57,7 @@ export interface RuntimeWidget extends StorageWidget {
   y: number
 
   // （部件模型）选项，定义 routers.Widget.EditMenu 如何编辑 widget.model
-  option: { items: any[], tabs: any[] } | undefined
+  option: RegisterModel['option'] | undefined
 }
 
 export const activeWidgetMap = reactive(new Map<string, RuntimeWidget>())

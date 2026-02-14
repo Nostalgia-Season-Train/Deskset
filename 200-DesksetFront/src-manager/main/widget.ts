@@ -18,17 +18,19 @@ export const getWidgetNameList = async (): Promise<string[]> => {
 
 
 /* === 从 widget 库：返回部件信息（元数据） === */
+import { RegisterModel } from '#manager/global'
 import { inlineRawWidgetMap, prefixMark } from '#widget/register'
 
 export const getWidgetInfo = async (name: string) => {
   // 内联部件
   if (name.startsWith(prefixMark)) {
+    const registerModel = inlineRawWidgetMap.get(name)!.metainfo as RegisterModel
     return {
-      author: _t(inlineRawWidgetMap.get(name)!.metainfo.author),
-      version: inlineRawWidgetMap.get(name)!.metainfo.version,
-      descript: _t(inlineRawWidgetMap.get(name)!.metainfo.descript),
-      model: inlineRawWidgetMap.get(name)!.metainfo?.model ?? {},
-      option: inlineRawWidgetMap.get(name)!.metainfo?.option
+      author: _t(registerModel.author),
+      version: registerModel.version,
+      descript: _t(registerModel.descript),
+      model: registerModel.model ?? Object.create(null),  // Object.create(null) 相当于 Record<string, any>
+      option: registerModel.option
     }
   }
 
@@ -41,7 +43,7 @@ export const getWidgetInfo = async (name: string) => {
       author: typeof info?.author == 'string' ? info.author as string : _t('未知'),
       version: typeof info?.version == 'string' ? info.version as string : _t('未知'),
       descript: typeof info?.descript == 'string' ? info.descript as string : _t('未知'),
-      model: {},
+      model: Object.create(null),
       option: undefined
     }
   } catch (err) {
@@ -50,7 +52,7 @@ export const getWidgetInfo = async (name: string) => {
       author: _t('未知'),
       version: _t('未知'),
       descript: _t('未知'),
-      model: {},
+      model: Object.create(null),
       option: undefined
     }
   }
@@ -99,33 +101,11 @@ export const appendWidget = async ({
   // 2、获取部件信息（元数据）
   const widgetInfo = await getWidgetInfo(name)
   const registerModel = widgetInfo.model
-  const registerOption = widgetInfo.option
 
   // 2.1、从（部件）注册模型生成默认模型
   let defaultModel: Record<string, any> = {}
   for (const key of Object.keys(registerModel)) {
     defaultModel[key] = registerModel[key].default  // - [ ] 待处理：动态生成默认值
-  }
-
-  // 2.2、从（部件）注册选项和注册模型生成默认选项
-    // - [ ] 待处理：优化命名和逻辑
-      // 区分 model.key、model.name 和 tab.id(tab.key)、tab.text(tab.name)
-      // 一律采用 undefined 判断空值，方便 object.key 语法
-  if (registerOption != undefined) {
-    let defaultOption: RuntimeWidget['option'] = { items: [], tabs: [] }
-    for (const item of registerOption.items) {
-      defaultOption.items.push({ key: item, ...registerModel[item] })
-    }
-    if (Array.isArray(registerOption?.tabs)) {
-      for (const tab of registerOption.tabs) {
-        let defaultTab = structuredClone({ ...tab, items: [] })  // 不要 tab.items，重新生成
-        for (const item of tab.items) {
-          defaultTab.items.push({ key: item, ...registerModel[item] })
-        }
-        defaultOption.tabs.push(defaultTab)
-      }
-    }
-    widgetInfo.option = defaultOption
   }
 
   // 3、桌面添加部件 > 返回部件数据

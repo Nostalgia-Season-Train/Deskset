@@ -26,7 +26,7 @@ import {
   <!-- 拆分 v-model，通过父组件自然改变 widget.model -->
   <div class="items" v-for="item in widget.option.items">
     <!-- *** 颜色选择器 *** -->
-    <div class="item" v-if="item.type == 'rgba'">
+    <div class="item" v-if="item.input == 'rgba'">
       <div>{{ item.name }}</div>
       <ElColorPicker show-alpha :model-value="widget.model[item.key]" @update:model-value="Edit(item.key, $event)"/>
     </div>

@@ -5,19 +5,23 @@
   "model": {
     "highcolor": {
       "type": "rgba",
-      "name": "高位颜色",
       "default": "#000000C0"
     },
     "lowcolor": {
       "type": "rgba",
-      "name": "低位颜色",
-      "default": "#00000000"
+      "default": "#000000FF"
     }
   },
   "option": {
-    "items": [
-      "highcolor",
-      "lowcolor"
-    ]
+    "items": [{
+      "key": "highcolor",
+      "input": "rgba",
+      "name": "高位颜色"
+    }, {
+      "key": "lowcolor",
+      "input": "rgba",
+      "name": "低位颜色"
+    }],
+    "tabs": []
   }
 }

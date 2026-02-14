@@ -5,19 +5,23 @@
   "model": {
     "time_color": {
       "type": "rgba",
-      "name": "时间文字颜色",
       "default": "#FFFFFFF0"
     },
     "date_color": {
       "type": "rgba",
-      "name": "日期文字颜色",
       "default": "#FFFFFFA0"
     }
   },
   "option": {
-    "items": [
-      "time_color",
-      "date_color"
-    ]
+    "items": [{
+      "key": "time_color",
+      "input": "rgba",
+      "name": "时间文字颜色"
+    }, {
+      "key": "date_color",
+      "input": "rgba",
+      "name": "日期文字颜色"
+    }],
+    "tabs": []
   }
 }
