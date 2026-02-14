@@ -119,7 +119,7 @@ export const appendWidget = async ({
     if (Array.isArray(registerOption?.tabs)) {
       defaultOption.tabs = []
       for (const tab of registerOption.tabs) {
-        let defaultTab = structuredClone(tab)
+        let defaultTab = structuredClone({ ...tab, items: [] })  // 不要 tab.items，重新生成
         for (const item of tab.items) {
           defaultTab.items.push({ key: item, ...registerModel[item] })
         }
