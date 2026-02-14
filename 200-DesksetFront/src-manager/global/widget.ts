@@ -30,7 +30,7 @@ export interface RuntimeWidget extends StorageWidget {
   y: number
 
   // （部件模型）选项，定义 routers.Widget.EditMenu 如何编辑 widget.model
-  option: { items: any[], tabs: any[] | undefined } | undefined
+  option: { items: any[], tabs: any[] } | undefined
 }
 
 export const activeWidgetMap = reactive(new Map<string, RuntimeWidget>())

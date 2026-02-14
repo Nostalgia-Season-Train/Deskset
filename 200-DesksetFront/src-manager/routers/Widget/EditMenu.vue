@@ -1,5 +1,8 @@
 <script lang="ts" setup>
-const widget = defineModel<any>({ required: true })
+import { RuntimeWidget } from '#manager/global/widget'
+const widget = defineModel<
+  RuntimeWidget & { option: NonNullable<RuntimeWidget['option']> }  // 传入前父组件已确保 option != undefined
+>({ required: true })
 
 import desktop from '#manager/global/page/desktop'
 const Edit = async (key: string, newValue: any) => {
@@ -29,7 +32,7 @@ import {
     </div>
   </div>
 
-  <ElTabs v-if="widget.option.tabs != undefined" :default-value="widget.option.tabs[0].id">
+  <ElTabs v-if="widget.option.tabs.length != 0" :default-value="widget.option.tabs[0].id">
     <ElTabPane v-for="tab in widget.option.tabs" :name="tab.id" :label="tab.text">
       <div class="items" v-for="item in tab.items">
         <div class="item">{{ item }}</div><!-- [ ] 逻辑优化后，再完成该功能 -->

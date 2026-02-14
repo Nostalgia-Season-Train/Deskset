@@ -51,12 +51,13 @@ const dialogOptions = ref<{
 
 const editWidget = async (id: string) => {
   const widget = activeWidgetMap.get(id)
-  if (widget!.option == null)
-    return
+  // 交给编辑按钮判断即可，这样不用改两处
+  // if (widget!.option == undefined)
+  //   return
   ElMessageBox({
     title: `编辑 ${widget!.title} 配置`,
     showConfirmButton: false,
-    message: () => h(Edit, { modelValue: widget }),
+    message: () => h(Edit, { modelValue: widget as any }),  // 编辑按钮已判断 option != undefined
     callback: () => {}
   })
 }

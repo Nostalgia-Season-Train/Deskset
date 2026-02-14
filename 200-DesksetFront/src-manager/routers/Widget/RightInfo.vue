@@ -69,7 +69,7 @@ import {
       ></input>
       <div class="btns">
         <div class="btn"><Button @click="emit('remove', widget.id)">{{ _t('删除') }}</Button></div>
-        <div class="btn" v-if="widget.option != null"><Button @click="emit('edit', widget.id)">{{ _t('编辑') }}</Button></div>
+        <div class="btn" v-if="widget.option != undefined"><Button @click="emit('edit', widget.id)">{{ _t('编辑') }}</Button></div>
         <div class="btn"><Button @click="emit('locate', widget.id)">{{ _t('定位') }}</Button></div>
       </div>
     </div>

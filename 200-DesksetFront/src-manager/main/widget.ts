@@ -28,7 +28,7 @@ export const getWidgetInfo = async (name: string) => {
       version: inlineRawWidgetMap.get(name)!.metainfo.version,
       descript: _t(inlineRawWidgetMap.get(name)!.metainfo.descript),
       model: inlineRawWidgetMap.get(name)!.metainfo?.model ?? {},
-      option: inlineRawWidgetMap.get(name)!.metainfo?.option ?? null
+      option: inlineRawWidgetMap.get(name)!.metainfo?.option
     }
   }
 
@@ -42,7 +42,7 @@ export const getWidgetInfo = async (name: string) => {
       version: typeof info?.version == 'string' ? info.version as string : _t('未知'),
       descript: typeof info?.descript == 'string' ? info.descript as string : _t('未知'),
       model: {},
-      option: null
+      option: undefined
     }
   } catch (err) {
     logError('Get widget metainfo fail: ' + (err as Error).message)
@@ -51,7 +51,7 @@ export const getWidgetInfo = async (name: string) => {
       version: _t('未知'),
       descript: _t('未知'),
       model: {},
-      option: null
+      option: undefined
     }
   }
 }
@@ -111,13 +111,12 @@ export const appendWidget = async ({
     // - [ ] 待处理：优化命名和逻辑
       // 区分 model.key、model.name 和 tab.id(tab.key)、tab.text(tab.name)
       // 一律采用 undefined 判断空值，方便 object.key 语法
-  if (registerOption != null) {
-    let defaultOption: { items: any[], tabs: any[] | undefined } = { items: [], tabs: undefined }
+  if (registerOption != undefined) {
+    let defaultOption: RuntimeWidget['option'] = { items: [], tabs: [] }
     for (const item of registerOption.items) {
       defaultOption.items.push({ key: item, ...registerModel[item] })
     }
     if (Array.isArray(registerOption?.tabs)) {
-      defaultOption.tabs = []
       for (const tab of registerOption.tabs) {
         let defaultTab = structuredClone({ ...tab, items: [] })  // 不要 tab.items，重新生成
         for (const item of tab.items) {
