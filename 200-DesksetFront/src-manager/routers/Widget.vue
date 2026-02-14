@@ -86,7 +86,6 @@ const selectActiveWidget = async (id: string) => {
 import Menu from './Widget/Left1stMenu.vue'
 import List from './Widget/Left2ndList.vue'
 import Info from './Widget/RightInfo.vue'
-import OptionFilter from './Widget/OptionFilter.vue'
 import {
   Dialog,
   DialogContent,
@@ -101,13 +100,11 @@ import {
   TabsContent
 } from '#shadcn/components/ui/tabs'
 import {
-  ElButton,
   ElInput,
   ElDatePicker,
   ElColorPicker,
   ElScrollbar
 } from 'element-plus'
-import { X } from 'lucide-vue-next'
 
 // Element Plus 翻译
 import { config } from '#manager/global/config'
@@ -184,12 +181,6 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
                 <ElColorPicker show-alpha v-model="option.value" @change="option.change()"/>
               </div>
             </div>
-            <!-- *** 笔记过滤 *** -->
-            <div>
-              <div v-if="option.type == 'ArrayFilter'">
-                <OptionFilter v-model="option.value" @change="option.change()"/>
-              </div>
-            </div>
           </div>
         </ElScrollbar>
 
@@ -226,65 +217,6 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
                   <div class="flex justify-between items-center">
                     <div>{{ option.name }}</div>
                     <ElColorPicker show-alpha v-model="tab.value[option.key]" @change="tab.change()"/>
-                  </div>
-                </div>
-                <!-- *** 笔记过滤 *** -->
-                <div>
-                  <div v-if="option.type == 'ArrayFilter'">
-                    <OptionFilter v-model="tab.value[option.key]" @change="tab.change()"/>
-                  </div>
-                </div>
-                <!-- *** 笔记属性 *** -->
-                <div>
-                  <div v-if="option.type == 'Property'">
-                    <ElButton
-                      style="padding: 0 6px;"
-                      @click="tab.value[option.key].props.push({
-                        dataKey: 'file.name',
-                        title: '名称',
-                        width: 300
-                      }); tab.change()"
-                    >添加属性</ElButton>
-                    <div class="flex">
-                      <div style="width: 120px;">属性名</div>
-                      <div class="flex-1">标题</div>
-                      <div style="width: 80px;">宽度</div>
-                      <div>删除</div>
-                    </div>
-                    <div v-for="(prop, index) in tab.value[option.key].props" class="flex">
-                      <ElInput
-                        style="width: 120px;"
-                        v-model="prop.dataKey"
-                        placeholder="Property"
-                        @change="tab.change()"
-                      />
-                      <ElInput
-                        class="flex-1"
-                        style="width: 0;"
-                        v-model="prop.title"
-                        placeholder="Title"
-                        @change="tab.change()"
-                      />
-                      <ElInput
-                        style="width: 80px;"
-                        v-model="prop.width"
-                        placeholder="Width"
-                        @change="
-                          prop.width = Number(prop.width);
-                          tab.change()
-                        "
-                      />
-                      <ElButton
-                        style="width: 30px;"
-                        @click="
-                          tab.value[option.key].props.splice(index, 1);
-                          tab.change()
-                        "
-                      >
-                        <X style="width: 16px; height: 16px;"/>
-                      </ElButton>
-                    </div>
-                    
                   </div>
                 </div>
               </div>

@@ -137,7 +137,7 @@ import { X } from 'lucide-vue-next'
       </ElButton>
     </div>
     <div v-else class="ml-1 border border-gray-300">
-      <OptionFilter
+      <NoteFilter
         v-model="filterGroup.filters[index] as FilterGroup"
         @change="() => {
           if ((filterGroup.filters[index] as FilterGroup).filters.length == 0)

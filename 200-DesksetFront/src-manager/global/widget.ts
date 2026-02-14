@@ -14,7 +14,7 @@ export interface RegisterModel {
 
   model: Record<string, {
     type: string,
-    default: string
+    default: any
   }> | undefined
 
   option: {

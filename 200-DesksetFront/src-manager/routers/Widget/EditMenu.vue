@@ -9,6 +9,8 @@ const Edit = async (key: string, newValue: any) => {
   await desktop.editWidget(widget.value.id, { [key]: newValue })  // 注意动态键用 [key] 而不用 key
 }
 
+import NoteFilter from './EditMenu/NoteFilter.vue'
+import NoteProp from './EditMenu/NoteProp.vue'
 import {
   ElScrollbar,
   ElTabs,
@@ -35,7 +37,14 @@ import {
   <ElTabs v-if="widget.option.tabs.length != 0" :default-value="widget.option.tabs[0].id">
     <ElTabPane v-for="tab in widget.option.tabs" :name="tab.id" :label="tab.text">
       <div class="items" v-for="item in tab.items">
-        <div class="item">{{ item }}</div><!-- [ ] 逻辑优化后，再完成该功能 -->
+        <!-- *** 笔记过滤 *** -->
+        <div class="item" v-if="item.input == 'noteFilter'">
+          <NoteFilter v-model="widget.model[item.key]" @change="Edit(item.key, widget.model[item.key])"/>
+        </div>
+        <!-- *** 笔记属性 *** -->
+        <div class="item" v-if="item.input == 'noteProp'">
+          <NoteProp v-model="widget.model[item.key]" @change="Edit(item.key, widget.model[item.key])"/>
+        </div>
       </div>
     </ElTabPane>
   </ElTabs>

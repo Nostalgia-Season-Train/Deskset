@@ -14,8 +14,8 @@ import { ElTableV2, ElAutoResizer } from 'element-plus'
 const model = defineModel<{
   width: number,
   height: number,
-  filterGroup: any,
-  noteProperty: any
+  noteFilter: any,
+  noteProp: any
 }>({ required: true })
 
 // 列宽：ElTableV2.columns[n].width
@@ -24,7 +24,7 @@ const columns = ref([])
 const data = ref<any[]>([])
 
 const refresh = async () => {
-  columns.value = structuredClone(toRaw(model.value.noteProperty.props)).map((item: any) => {
+  columns.value = structuredClone(toRaw(model.value.noteProp.props)).map((item: any) => {
     // 格式化时间
     if (item.dataKey == 'file.ctime' || item.dataKey == 'file.mtime') {
       item.cellRenderer = ({ cellData: date }: { cellData: number }) => {
@@ -52,7 +52,7 @@ const refresh = async () => {
     return item
   })
 
-  const filterGroup = toRaw(model.value.filterGroup)
+  const filterGroup = toRaw(model.value.noteFilter)
   const rep = await axios.post('/v0/note/obsidian/stats/filter-frontmatter', filterGroup)
   data.value = rep.data.result
 }
@@ -91,7 +91,7 @@ const down = (event: MouseEvent, element: HTMLElement, dataKey: string) => {
     document.body.style.cursor = 'default'
     // 设置拖动后列宽
     const item: any = columns.value.find((item: any) => item.dataKey == dataKey) || null
-    const modelItem: any = model.value.noteProperty.props.find((item: any) => item.dataKey == dataKey) || null
+    const modelItem: any = model.value.noteProp.props.find((item: any) => item.dataKey == dataKey) || null
     if (item != null && modelItem != null) {
       item.width = item.width + moveX            // ElTableV2 列宽
       modelItem.width = modelItem.width + moveX  // 数据库配置 列宽
