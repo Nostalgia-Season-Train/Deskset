@@ -1,6 +1,7 @@
 import { _t } from './i18n'
 import { readDir, readTextFile, BaseDirectory } from '@tauri-apps/plugin-fs'
 import { error as logError } from '@tauri-apps/plugin-log'
+import { RuntimeWidget, StorageWidget, exampleStorageWidget } from '#manager/global'
 
 
 /* === 从 widget 库：返回部件名称列表 === */
@@ -155,9 +156,18 @@ export const appendWidget = async ({
 
 
 /* === 主题格式：恢复用户保存的主题 === */
-  // 1、从 activeWidgetMap 转换成主题格式
-  // 2、从 theme/data.json 验证并转换成主题格式
-export const convertWidgetInTheme = async (data: any) => {
+
+// 将 运行时部件 转换成 持久化部件
+export const RuntimeToStorageWidget = async (widget: RuntimeWidget): Promise<StorageWidget> => {
+  let result: Record<string, any> = {}
+  for (const key of Object.keys(exampleStorageWidget) as (keyof StorageWidget)[]) {
+    result[key] = widget[key]
+  }
+  return result as StorageWidget
+}
+
+// 验证文件中部件，一般来说 文件中部件 = 持久化部件
+export const FileToStorageWidget = async (data: any): Promise<StorageWidget | undefined> => {
   const name = data?.name
   if (typeof name != 'string')
     return undefined

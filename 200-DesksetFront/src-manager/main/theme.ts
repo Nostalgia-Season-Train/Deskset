@@ -10,7 +10,6 @@ import { error as logError } from '@tauri-apps/plugin-log'
 import desktop from '#manager/global/page/desktop.ts'
 import { Theme, activeThemeMap, THEME_LIB } from '#manager/global/theme.ts'  // #manager/global 找不到类型声明？原因？
 import { activeWidgetMap, activeWidgetOnSelect } from '#manager/global/widget.ts'
-import { convertWidgetInTheme } from './widget'
 
 
 /* === 遍历主题 === */
@@ -40,14 +39,13 @@ export const _getThemes = async (root: string = THEME_LIB) => {
 
 /* === 保存主题 === */
 import dayjs from 'dayjs'
+import { RuntimeToStorageWidget } from './widget'
 
 export const _saveTheme = async (name: string, root: string = THEME_LIB) => {
   // 数据转换 + 信息生成
   const data = {
     window: await desktop.getWindowData(),
-    widgets: (
-      await Promise.all([...activeWidgetMap.values()].map(convertWidgetInTheme))
-    ).filter(widget => widget != undefined)  // 转换失败的元素返回 undefined
+    widgets: (await Promise.all([...activeWidgetMap.values()].map(RuntimeToStorageWidget)))
   }
   const info = {
     savetime: String(dayjs().format('YYYY-MM-DD HH:mm:ss')),
@@ -79,6 +77,7 @@ export const _deleteTheme = async (name: string, root: string = THEME_LIB) => {
 
 /* === 应用主题 === */
 import { appendWidget } from './widget'
+import { FileToStorageWidget } from './widget'
 
 export const _applyTheme = async (name: string, root: string = THEME_LIB) => {
   // 读取主题数据
@@ -93,12 +92,12 @@ export const _applyTheme = async (name: string, root: string = THEME_LIB) => {
   activeWidgetOnSelect.value = null
 
   // 重新挨个添加部件
-  for (const widgetInThemeFile of data.widgets) {
-    const widgetInTheme = await convertWidgetInTheme(widgetInThemeFile)
-    if (widgetInTheme == undefined)
+  for (const fileWidget of data.widgets) {
+    const storageWidget = await FileToStorageWidget(fileWidget)
+    if (storageWidget == undefined)
       continue
 
-    await appendWidget(widgetInTheme)
+    await appendWidget(storageWidget)
   }
 }
 

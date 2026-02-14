@@ -36,3 +36,17 @@ export interface RuntimeWidget extends StorageWidget {
 export const activeWidgetMap = reactive(new Map<string, RuntimeWidget>())
 
 export const activeWidgetOnSelect = ref<RuntimeWidget | null>(null)  // 选中的部件，在 RightInfo.vue 中操作
+
+// 相当于运行期类型声明，方便函数自动将 RuntimeWidget 转换成 StorageWidget
+export const exampleStorageWidget: StorageWidget = {
+  id: '',
+  title: '',
+  name: '',
+  isDragLock: false,
+  isDisableInteract: false,
+  isAutoHide: false,
+  left: 0,
+  top: 0,
+  scale: 0,
+  model: {}
+}
