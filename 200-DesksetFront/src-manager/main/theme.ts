@@ -9,11 +9,8 @@ import {
 import { error as logError } from '@tauri-apps/plugin-log'
 import desktop from '#manager/global/page/desktop.ts'
 import { Theme, activeThemeMap, THEME_LIB } from '#manager/global/theme.ts'  // #manager/global 找不到类型声明？原因？
-import {
-  activeWidgetMap,
-  activeWidgetOnSelect,
-  convertWidgetInTheme
-} from '#manager/global/widget.ts'
+import { activeWidgetMap, activeWidgetOnSelect } from '#manager/global/widget.ts'
+import { convertWidgetInTheme } from './widget'
 
 
 /* === 遍历主题 === */

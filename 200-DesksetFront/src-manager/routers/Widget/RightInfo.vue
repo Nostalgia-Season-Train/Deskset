@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { _t } from '#manager/main/i18n'
-import { Widget } from '#manager/global'
+import { RuntimeWidget } from '#manager/global'
 import { prefixMark } from '#widget/register'
 
-const widget = defineModel<Widget>({ required: true })
+const widget = defineModel<RuntimeWidget>({ required: true })
 
 
 /* === 事件 === */
