@@ -51,7 +51,7 @@ const dialogOptions = ref<{
 
 const editWidget = async (id: string) => {
   const widget = activeWidgetMap.get(id)
-  if (widget!.options == null)
+  if (widget!.option == null)
     return
   ElMessageBox({
     title: `编辑 ${widget!.title} 配置`,

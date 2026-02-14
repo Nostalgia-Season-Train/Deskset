@@ -29,7 +29,7 @@ export interface Widget {
   // 配置数据
   model: Record<string, any>
   // 配置选项
-  options: any[] | null
+  option: { items: any[], tabs: any[] | undefined } | undefined
 }
 
 export const activeWidgetMap = reactive(new Map<string, Widget>())

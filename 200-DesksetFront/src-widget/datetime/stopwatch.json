@@ -3,19 +3,21 @@
   "version": "v0.0.1",
   "descript": "测量时间经过",
   "model": {
-    "highcolor": "#000000C0",
-    "lowcolor": "#000000"
-  },
-  "options": [
-    {
+    "highcolor": {
+      "type": "rgba",
       "name": "高位颜色",
-      "type": "ColorPicker",
-      "key": "highcolor"
+      "default": "#000000C0"
     },
-    {
+    "lowcolor": {
+      "type": "rgba",
       "name": "低位颜色",
-      "type": "ColorPicker",
-      "key": "lowcolor"
+      "default": "#00000000"
     }
-  ]
+  },
+  "option": {
+    "items": [
+      "highcolor",
+      "lowcolor"
+    ]
+  }
 }

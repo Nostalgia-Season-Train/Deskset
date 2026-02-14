@@ -4,16 +4,20 @@
   "descript": "以 HHmm 格式，显示现在时间",
   "model": {
     "time_color": {
-      "default": "#FFFFFFF0",
       "type": "rgba",
       "name": "时间文字颜色",
-      "descript": ""
+      "default": "#FFFFFFF0"
     },
     "date_color": {
-      "default": "#FFFFFFA0",
       "type": "rgba",
       "name": "日期文字颜色",
-      "descript": ""
+      "default": "#FFFFFFA0"
     }
+  },
+  "option": {
+    "items": [
+      "time_color",
+      "date_color"
+    ]
   }
 }

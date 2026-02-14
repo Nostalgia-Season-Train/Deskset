@@ -27,7 +27,7 @@ export const getWidgetInfo = async (name: string) => {
       version: typeof info?.version == 'string' ? info.version as string : _t('未知'),
       descript: typeof info?.descript == 'string' ? info.descript as string : _t('未知'),
       model: {},
-      options: null
+      option: null
     }
   } catch (err) {
     logError('Get widget metainfo fail: ' + (err as Error).message)
@@ -36,7 +36,7 @@ export const getWidgetInfo = async (name: string) => {
       version: _t('未知'),
       descript: _t('未知'),
       model: {},
-      options: null
+      option: null
     }
   }
 }
@@ -88,20 +88,38 @@ export const appendWidget = async ({
     version: inlineRawWidgetMap.get(name)!.metainfo.version,
     descript: _t(inlineRawWidgetMap.get(name)!.metainfo.descript),
     model: inlineRawWidgetMap.get(name)!.metainfo?.model ?? {},
-    options: inlineRawWidgetMap.get(name)!.metainfo?.options ?? null
+    option: inlineRawWidgetMap.get(name)!.metainfo?.option ?? null
   } : await getWidgetInfo(name)
+  const registerModel = widgetInfo.model
+  const registerOption = widgetInfo.option
 
-  // 2.1、若值为函数，执行此函数，动态生成默认配置项
+  // 2.1、从（部件）注册模型生成默认模型
   let defaultModel: Record<string, any> = {}
-  let defaultOptions: Record<string, any> = {}  // 简化部件注册结构后，模型 Model 跟模型选项 Option 写在一起了...
-
-  for (const key in widgetInfo.model) {
-    const registerModel = (widgetInfo.model as any)[key]
+  for (const key of Object.keys(registerModel)) {
     defaultModel[key] = registerModel.default  // - [ ] 待处理：动态生成默认值
-    defaultOptions[key] = { type: registerModel.type, name: registerModel.name, descript: registerModel.descript }
   }
 
-  widgetInfo.options = defaultOptions
+  // 2.2、从（部件）注册选项和注册模型生成默认选项
+    // - [ ] 待处理：优化命名和逻辑
+      // 区分 model.key、model.name 和 tab.id(tab.key)、tab.text(tab.name)
+      // 一律采用 undefined 判断空值，方便 object.key 语法
+  if (registerOption != null) {
+    let defaultOption: { items: any[], tabs: any[] | undefined } = { items: [], tabs: undefined }
+    for (const item of registerOption.items) {
+      defaultOption.items.push({ key: item, ...registerModel[item] })
+    }
+    if (Array.isArray(registerOption?.tabs)) {
+      defaultOption.tabs = []
+      for (const tab of registerOption.tabs) {
+        let defaultTab = structuredClone(tab)
+        for (const item of tab.items) {
+          defaultTab.items.push({ key: item, ...registerModel[item] })
+        }
+        defaultOption.tabs.push(defaultTab)
+      }
+    }
+    widgetInfo.option = defaultOption
+  }
 
   // 3、桌面添加部件 > 返回部件数据
   let widgetData = null

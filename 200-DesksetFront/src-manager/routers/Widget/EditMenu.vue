@@ -6,29 +6,50 @@ const Edit = async (key: string, newValue: any) => {
   await desktop.editWidget(widget.value.id, { [key]: newValue })  // 注意动态键用 [key] 而不用 key
 }
 
-import { ElColorPicker } from 'element-plus'
+import {
+  ElScrollbar,
+  ElTabs,
+  ElTabPane,
+  ElColorPicker
+} from 'element-plus'
 </script>
 
 
 <template>
 <div class="edit-menu">
+<ElScrollbar max-height="80vh">
+
   <!-- component 不方便调整样式 -->
   <!-- 拆分 v-model，通过父组件自然改变 widget.model -->
-  <div class="options" v-for="[key, option] of (Object.entries(widget.options) as any)">
+  <div class="items" v-for="item in widget.option.items">
     <!-- *** 颜色选择器 *** -->
-    <div class="option" v-if="option.type == 'rgba'">
-      <div>{{ option.name }}</div>
-      <ElColorPicker show-alpha :model-value="widget.model[key]" @update:model-value="Edit(key, $event)"/>
+    <div class="item" v-if="item.type == 'rgba'">
+      <div>{{ item.name }}</div>
+      <ElColorPicker show-alpha :model-value="widget.model[item.key]" @update:model-value="Edit(item.key, $event)"/>
     </div>
   </div>
+
+  <ElTabs v-if="widget.option.tabs != undefined" :default-value="widget.option.tabs[0].id">
+    <ElTabPane v-for="tab in widget.option.tabs" :name="tab.id" :label="tab.text">
+      <div class="items" v-for="item in tab.items">
+        <div class="item">{{ item }}</div><!-- [ ] 逻辑优化后，再完成该功能 -->
+      </div>
+    </ElTabPane>
+  </ElTabs>
+
+</ElScrollbar>
 </div>
 </template>
 
 
 <style lang="less" scoped>
-.option {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.edit-menu {
+  width: 100%;
+
+  .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 </style>
