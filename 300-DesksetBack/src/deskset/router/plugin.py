@@ -52,7 +52,7 @@ def import_from_path(module_name: str, file_path: str) -> ModuleType:
 
 # 注册插件
 from fastapi import APIRouter, Depends
-from deskset.router.unify import check_token
+from deskset.router._unify import check_token
 
 router_plugin_root = APIRouter(prefix='/plugin', dependencies=[Depends(check_token)])  # 所有插件路由的根路径
 

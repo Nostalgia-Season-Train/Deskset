@@ -1,6 +1,6 @@
 # ==== Router ====
 from fastapi import APIRouter, Depends
-from deskset.router.unify import check_token, DesksetRepJSON
+from deskset.router._unify import check_token, DesksetRepJSON
 
 router_config = APIRouter(
     prefix='/v0/config', tags=['配置'],

@@ -60,7 +60,7 @@ from starlette.datastructures import Headers
 from starlette.responses import PlainTextResponse
 from starlette.types import ASGIApp, Receive, Scope, Send
 
-from deskset.router.unify.access import access
+from deskset.router._unify.access import access
 
 # 仅允许本机访问
   # 对 http 和 websocket 都生效
@@ -135,7 +135,7 @@ if not DEVELOP_ENV:  # Tauri 构建后用 http://tauri.localhost 通信...
 from fastapi.requests import Request
 from deskset.core.standard import DesksetError
 from fastapi.responses import JSONResponse
-from deskset.router.unify import DesksetErrorRep
+from deskset.router._unify import DesksetErrorRep
 from http import HTTPStatus
 
 @app.exception_handler(DesksetError)
@@ -205,7 +205,7 @@ app.include_router(router_plugin_root)
 
 # ==== FastAPI Router：认证接口 ====
   # 移到末尾注册，方便其他模块在 router_access 上挂载 REST 端点
-from deskset.router.unify import router_access
+from deskset.router._unify import router_access
 app.include_router(router_access)
 
 

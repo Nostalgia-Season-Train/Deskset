@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from deskset.router.unify import DesksetRepJSON
+from deskset.router._unify import DesksetRepJSON
 
 router_obsidian = APIRouter(
     prefix='/obsidian', tags=['Obsidian'],

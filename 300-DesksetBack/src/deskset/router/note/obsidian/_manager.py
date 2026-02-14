@@ -5,8 +5,8 @@ from pathlib import Path
 
 from fastapi import APIRouter, Form
 from fastapi.responses import StreamingResponse
-from deskset.router.unify import DesksetRepJSON
-from deskset.router.unify import DesksetReqFolder
+from deskset.router._unify import DesksetRepJSON
+from deskset.router._unify import DesksetReqFolder
 
 router_obsidian_manager = APIRouter(
     prefix='/obsidian-manager', tags=['Obsidian'],
@@ -15,10 +15,10 @@ router_obsidian_manager = APIRouter(
 
 from httpx import AsyncClient
 from deskset.core.config import config
-from deskset.router.unify.access import access
+from deskset.router._unify.access import access
 
 from fastapi import WebSocket, WebSocketDisconnect, HTTPException
-from deskset.router.unify.access import access
+from deskset.router._unify.access import access
 from ._noteapi import noteapi
 
 # - [ ] 临时：RPC 测试
@@ -27,7 +27,7 @@ from asyncer import asyncify
 
 from deskset.core.log import logging
 from deskset.core.standard import DesksetError
-from deskset.router.unify.access import access, router_access
+from deskset.router._unify.access import access, router_access
 
 from ._rpc import RpcClient
 
@@ -225,7 +225,7 @@ async def rpc(websocket: WebSocket):
     # 2、websocket 访问 rpc：检查 wstoken 后取回初始信息，创建 RpcClient(ws, init)
 from fastapi import Request, Depends
 from fastapi.security import OAuth2PasswordRequestForm
-from deskset.router.unify.access import router_access
+from deskset.router._unify.access import router_access
 
 @router_access.post('/note/obsidian/login')
 def login(

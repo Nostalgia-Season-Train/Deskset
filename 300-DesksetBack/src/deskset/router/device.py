@@ -4,7 +4,7 @@ from deskset.feature.device import device
 
 # ==== 路由 ====
 from fastapi import APIRouter, Depends
-from deskset.router.unify import check_token, DesksetRepJSON
+from deskset.router._unify import check_token, DesksetRepJSON
 
 router_device = APIRouter(
     prefix='/v0/device', tags=['设备信息'],

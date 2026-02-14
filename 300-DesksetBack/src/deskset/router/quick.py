@@ -3,9 +3,9 @@ from fastapi import Response
 
 import deskset.feature.quick as quick
 
-from deskset.router.unify import check_token
-from deskset.router.unify import DesksetReqPath, DesksetReqFile, DesksetReqFolder, DesksetReqURL
-from deskset.router.unify import DesksetRepJSON
+from deskset.router._unify import check_token
+from deskset.router._unify import DesksetReqPath, DesksetReqFile, DesksetReqFolder, DesksetReqURL
+from deskset.router._unify import DesksetRepJSON
 
 router_quick = APIRouter(
     prefix='/v0/quick', tags=['快速启动'],
