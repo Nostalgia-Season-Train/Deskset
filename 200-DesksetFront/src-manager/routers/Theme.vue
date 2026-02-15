@@ -6,19 +6,37 @@ const searchText = ref('')
 
 
 /* === 主题创建/删除/应用 === */
-import { message, messageInput } from '#desksetui/Message'
+import { ElMessageBox } from 'element-plus'
 
 const saveTheme = async () => {
-  const name = await messageInput(_t('保存主题'), '', _t('在此输入主题名称'), _t('取消'), _t('确认'))
-  if (name == null || name == '')
-    return
-  await store.saveTheme(name)
+  ElMessageBox.prompt(
+    _t('请输入主题名称：'),
+    _t('保存主题'), {
+    cancelButtonText: _t('取消'),
+    confirmButtonText: _t('确认'),
+    callback: async (event: any) => {
+      if (event.action == 'confirm') {
+        const name = event.value
+        if (name == undefined || name == null || name == '')
+          return
+        await store.saveTheme(name)
+      }
+    }
+  })
 }
 
 const deleteTheme = async (name: string) => {
-  if (!await message(_t('删除主题'), _t(`是否删除 `) + name + _t(` 主题？`), _t('取消'), _t('确认')))
-    return
-  await store.deleteTheme(name)
+  ElMessageBox.confirm(
+    _t(`是否删除 `) + name + _t(` 主题？`),
+    _t('删除主题'), {
+    cancelButtonText: _t('取消'),
+    confirmButtonText: _t('确认'),
+    callback: async (event: any) => {
+      if (event.action == 'confirm') {
+        await store.deleteTheme(name)
+      }
+    }
+  })
 }
 
 const applyTheme = async (name: string) => {
