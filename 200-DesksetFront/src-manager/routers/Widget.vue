@@ -24,30 +24,9 @@ const removeWidget = async (id: string) => {
 }
 
 /* --- 编辑部件配置 --- */
-  // - [ ] 重构：这就是彻头彻尾的屎山...
-  // 问题 1：option.value 并不随 widget.model 变化，仅在初始化时赋值
-  // 问题 2：缺乏输入验证
-  // 问题 3：缺乏修改失败后的错误处理
-import { ref, h } from 'vue'
+import { h } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import Edit from './Widget/EditMenu.vue'
-
-const isOpenDialog = ref(false)
-const dialogTitle = ref<string>('')
-const dialogOptions = ref<{
-  name: string,
-  type: string,
-  // type != 'tab'
-  key: string,
-  // type == 'tab'：分层面板
-  content?: {
-    name: string,
-    type: string,
-    key: string
-  }[],
-  value: any,
-  change: Function
-}[]>([])
 
 const editWidget = async (id: string) => {
   const widget = activeWidgetMap.get(id)
@@ -86,32 +65,6 @@ const selectActiveWidget = async (id: string) => {
 import Menu from './Widget/Left1stMenu.vue'
 import List from './Widget/Left2ndList.vue'
 import Info from './Widget/RightInfo.vue'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle
-} from '#shadcn/components/ui/dialog'
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent
-} from '#shadcn/components/ui/tabs'
-import {
-  ElInput,
-  ElDatePicker,
-  ElColorPicker,
-  ElScrollbar
-} from 'element-plus'
-
-// Element Plus 翻译
-import { config } from '#manager/global/config'
-import { ElConfigProvider } from 'element-plus'
-import zh_cn from 'element-plus/es/locale/lang/zh-cn'
-
-const locale = config.language == 'zh-cn' ? zh_cn : undefined
 </script>
 
 
@@ -134,99 +87,6 @@ const locale = config.language == 'zh-cn' ? zh_cn : undefined
       @switchProp="switchWidgetProp"
     />
   </div>
-
-  <!-- 配置编辑时覆盖背景，避免误操作（如删除部件） -->
-  <Transition>
-    <div
-      class="
-        fixed top-0 left-0
-        w-screen h-screen bg-black/80
-      "
-      v-show="isOpenDialog"
-      @click="isOpenDialog = false"
-    ></div>
-  </Transition>
-
-  <!-- @openAutoFocus.prevent：禁用自动聚焦 -->
-  <!-- :modal=false：让 Element Plus 选择器能被点击 -->
-  <!-- @interact-outside.prevent：让 Element Plus 选择器确认后，DialogContent 不会直接关闭 -->
-  <Dialog v-model:open="isOpenDialog" :modal="false">
-    <DialogContent @openAutoFocus.prevent @interact-outside.prevent>
-      <DialogHeader>
-        <DialogTitle>{{ dialogTitle }}</DialogTitle>
-        <DialogDescription></DialogDescription>
-      </DialogHeader>
-      <ElConfigProvider :locale="locale">
-
-        <ElScrollbar v-if="dialogOptions[0].type != 'tab'" max-height="70vh"><!-- 暂不进行动态计算 -->
-          <div v-for="option in dialogOptions">
-            <!-- *** 输入框 *** -->
-            <div v-if="option.type == 'Input'">
-              <div class="flex justify-between items-center">
-                <div>{{ option.name }}</div>
-                <ElInput v-model="option.value" @change="option.change()"/>
-              </div>
-            </div>
-            <!-- *** 日期时间选择器 *** -->
-            <div v-if="option.type == 'DateTimePicker'">
-              <div class="flex justify-between items-center">
-                <div>{{ option.name }}</div>
-                <ElDatePicker type="datetime" v-model="option.value" @change="option.change()"/>
-              </div>
-            </div>
-            <!-- *** 颜色选择器 *** -->
-            <div v-if="option.type == 'ColorPicker'">
-              <div class="flex justify-between items-center">
-                <div>{{ option.name }}</div>
-                <ElColorPicker show-alpha v-model="option.value" @change="option.change()"/>
-              </div>
-            </div>
-          </div>
-        </ElScrollbar>
-
-        <!-- 分层面板：将选项 option 按面板 tab 分层 -->
-        <Tabs v-else :default-value="0">
-          <TabsList>
-            <!-- style 覆盖本文件 * { padding: 0; } 样式 -->
-            <TabsTrigger v-for="(tab, index) in dialogOptions" :value="index" style="padding: 0 10px;">
-              {{ tab.name }}
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent v-for="(tab, index) in dialogOptions" :value="index">
-            <ElScrollbar height="60vh">
-              <div v-for="option in tab!.content">
-                <!-- *** 输入框 *** -->
-                <div v-if="option.type == 'Input'">
-                  <div class="flex justify-between items-center">
-                    <div>{{ option.name }}</div>
-                    <ElInput v-model="tab.value[option.key]" @change="tab.change()"/>
-                  </div>
-                </div>
-                <!-- *** 数字输入框 *** -->
-                <div v-if="option.type == 'InputNumber'">
-                  <div class="flex justify-between items-center">
-                    <div>{{ option.name }}</div>
-                    <ElInput v-model="tab.value[option.key]" @change="
-                      tab.value[option.key] = Number(tab.value[option.key]);
-                      tab.change()
-                    "/>
-                  </div>
-                </div>
-                <!-- *** 颜色选择器 *** -->
-                <div v-if="option.type == 'ColorPicker'">
-                  <div class="flex justify-between items-center">
-                    <div>{{ option.name }}</div>
-                    <ElColorPicker show-alpha v-model="tab.value[option.key]" @change="tab.change()"/>
-                  </div>
-                </div>
-              </div>
-            </ElScrollbar>
-          </TabsContent>
-        </Tabs>
-
-      </ElConfigProvider>
-    </DialogContent>
-  </Dialog>
 
 </div>
 </template>
