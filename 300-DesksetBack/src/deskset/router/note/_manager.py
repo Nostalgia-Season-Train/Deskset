@@ -74,21 +74,6 @@ class API:
         return await self._event_active_leaf_change.wait()
 
     # --- RPC ---
-    async def get_note_number(self) -> int:
-        if self._rpc is None:
-            raise DesksetError(message='Obsidian not online')
-        return await self._rpc.call_remote_procedure('get_note_number', [])
-
-    async def get_attachment_number(self) -> int:
-        if self._rpc is None:
-            raise DesksetError(message='Obsidian not online')
-        return await self._rpc.call_remote_procedure('get_attachment_number', [])
-
-    async def get_useday_number(self) -> int:
-        if self._rpc is None:
-            raise DesksetError(message='Obsidian not online')
-        return await self._rpc.call_remote_procedure('get_useday_number', [])
-
     class VaultStatus(TypedDict):
         note_num: int    # 笔记总数
         attach_num: int  # 附件总数

@@ -7,9 +7,10 @@ const attachmentNum = ref(0)
 const usedayNum = ref(0)
 
 const refresh = async () => {
-  noteNum.value = (await axios.get('/v0/note/obsidian/stats/note-number')).data.result
-  attachmentNum.value = (await axios.get('/v0/note/obsidian/stats/attachment-number')).data.result
-  usedayNum.value = (await axios.get('/v0/note/obsidian/stats/useday-number')).data.result
+  const vaultStatus = (await axios.get('/v0/note/obsidian/stats/vault_status')).data.result
+  noteNum.value = vaultStatus.note_num
+  attachmentNum.value = vaultStatus.attach_num
+  usedayNum.value = vaultStatus.useday_num
 }
 refresh()
 
