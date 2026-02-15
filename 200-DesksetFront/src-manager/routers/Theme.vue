@@ -32,7 +32,7 @@ const deleteTheme = async (name: string) => {
     cancelButtonText: _t('取消'),
     confirmButtonText: _t('确认'),
     callback: async (event: any) => {
-      if (event.action == 'confirm') {
+      if (event == 'confirm') {
         await store.deleteTheme(name)
       }
     }
