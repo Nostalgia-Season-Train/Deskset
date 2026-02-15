@@ -41,13 +41,15 @@ onUnmounted(() => {
 
 
 /* === 子页面 === */
+import DesktopInfo from './HomePage/DesktopInfo.vue'
 import Sidebar from './HomePage/Sidebar.vue'
 </script>
 
 
 <template>
 <div>
-  <Sidebar />
+  <DesktopInfo/>
+  <Sidebar/>
 </div>
 </template>
 
