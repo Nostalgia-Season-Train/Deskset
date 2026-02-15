@@ -1,7 +1,15 @@
 .el-message-box {
-  .el-message-box__title {
-    color: var(--text-sharp);
-    font-size: var(--text-sharp-size);
+  width: auto;
+  min-width: var(--el-messagebox-width);
+  max-width: 100vw;
+  background: var(--bg);
+
+  .el-message-box__header {
+    padding: 0;
+    .el-message-box__title {
+      color: var(--text-sharp);
+      font-size: var(--text-sharp-size);
+    }
   }
   .el-message-box__message {
     width: 100%;

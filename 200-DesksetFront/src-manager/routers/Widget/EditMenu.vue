@@ -34,16 +34,16 @@ import {
     </div>
   </div>
 
-  <ElTabs v-if="widget.option.tabs.length != 0" :default-value="widget.option.tabs[0].id">
+  <ElTabs class="tab" v-if="widget.option.tabs.length != 0" :default-value="widget.option.tabs[0].id">
     <ElTabPane v-for="tab in widget.option.tabs" :name="tab.id" :label="tab.text">
       <div class="items" v-for="item in tab.items">
         <!-- *** 笔记过滤 *** -->
         <div class="item" v-if="item.input == 'noteFilter'">
-          <NoteFilter v-model="widget.model[item.key]" @change="Edit(item.key, widget.model[item.key])"/>
+          <NoteFilter class="note-filter" v-model="widget.model[item.key]" @change="Edit(item.key, widget.model[item.key])"/>
         </div>
         <!-- *** 笔记属性 *** -->
         <div class="item" v-if="item.input == 'noteProp'">
-          <NoteProp v-model="widget.model[item.key]" @change="Edit(item.key, widget.model[item.key])"/>
+          <NoteProp class="note-prop" v-model="widget.model[item.key]" @change="Edit(item.key, widget.model[item.key])"/>
         </div>
       </div>
     </ElTabPane>
@@ -62,6 +62,16 @@ import {
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+  .tab:has(.note-filter) {
+    width: 70vw;
+    min-height: 80vh;
+  }
+  .note-filter {
+    width: 100%;
+  }
+  .note-prop {
+    width: 100%;
   }
 }
 </style>
