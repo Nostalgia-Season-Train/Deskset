@@ -40,7 +40,17 @@ const deleteTheme = async (name: string) => {
 }
 
 const applyTheme = async (name: string) => {
-  await store.applyTheme(name)
+  ElMessageBox.confirm(
+    _t(`是否应用 `) + name + _t(` 主题？`),
+    _t('应用主题'), {
+    cancelButtonText: _t('取消'),
+    confirmButtonText: _t('确认'),
+    callback: async (event: any) => {
+      if (event == 'confirm') {
+        await store.applyTheme(name)
+      }
+    }
+  })
 }
 
 
