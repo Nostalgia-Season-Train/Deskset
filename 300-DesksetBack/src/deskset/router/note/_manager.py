@@ -19,7 +19,6 @@ from deskset.router._unify.access import access
 
 from fastapi import WebSocket, WebSocketDisconnect, HTTPException
 from deskset.router._unify.access import access
-from ._noteapi import noteapi
 
 # - [ ] 临时：RPC 测试
 from asyncio import Event

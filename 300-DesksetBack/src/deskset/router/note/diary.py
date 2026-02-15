@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends
 from deskset.router._unify import DesksetReqDateDay, DesksetReqDateMonth
 from ._manager import api
-from ._noteapi import noteapi
 
 router_diary = APIRouter(prefix='/diary')
 

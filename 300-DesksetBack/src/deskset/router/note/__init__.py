@@ -34,8 +34,5 @@ router_obsidian.include_router(router_stats)
 # 搜索
 from .search import router_search
 router_obsidian.include_router(router_search)
-# 问候语
-from .greet import router_greet
-router_obsidian.include_router(router_greet)
 
 router_note.include_router(router_obsidian)
