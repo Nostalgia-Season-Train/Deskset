@@ -1,35 +1,30 @@
 from __future__ import annotations
 from typing import TypedDict
 
-from pathlib import Path
 
-from fastapi import APIRouter, Form
-from fastapi.responses import StreamingResponse
+
+# ==== ==== Router ==== ====
+from fastapi import APIRouter
 from deskset.router._unify import DesksetRepJSON
-from deskset.router._unify import DesksetReqFolder
 
 router_obsidian_manager = APIRouter(
     prefix='/obsidian-manager', tags=['Obsidian'],
     default_response_class=DesksetRepJSON
 )
 
-from httpx import AsyncClient
-from deskset.core.config import config
-from deskset.router._unify.access import access
 
-from fastapi import WebSocket, WebSocketDisconnect, HTTPException
-from deskset.router._unify.access import access
 
-# - [ ] 临时：RPC 测试
-from asyncio import Event
-from asyncer import asyncify
+# ==== ==== NoteAPI ==== ====
 from asyncio import Future, get_event_loop
 
-from deskset.core.log import logging
+from deskset.core.config import config
 from deskset.core.standard import DesksetError
 from deskset.router._unify.access import access, router_access
 
+from fastapi import WebSocket, WebSocketDisconnect, HTTPException
+
 from ._rpc import RpcClient
+
 
 class API:
     _rpc: RpcClient | None
