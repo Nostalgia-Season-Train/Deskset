@@ -4,10 +4,6 @@ from ._manager import api
 
 router_diary = APIRouter(prefix='/diary')
 
-@router_diary.get('/today')
-async def today():
-    return await api.read_today_diary()
-
 @router_diary.get('/today-tasks')
 async def today_tasks():
     diary = (await noteapi.get(f'/diary/read-today')).json()
