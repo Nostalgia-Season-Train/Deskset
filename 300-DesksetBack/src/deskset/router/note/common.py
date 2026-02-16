@@ -8,19 +8,17 @@ router_common = APIRouter(prefix='/common')
 @router_common.get('/active-file')
 async def get_active_file():
     async def stream():
-        # 检查是否上线，流式响应无法处理 DesksetError
-        if noteapi.is_offline:
+        try:
+            while True:
+                yield await noteapi.get_active_file()
+                await noteapi.event_active_leaf_change()
+        except ConnectionError:
+            pass
+        finally:
             return
-        # 初始化
-        yield await noteapi.get_active_file()
-        # 轮询等待 active-leaf-change 事件
-        while True:
-            await noteapi.event_active_leaf_change()
-            if noteapi.is_offline:
-                break  # 判断 event_active_leaf_change 是否由下线触发
-            yield await noteapi.get_active_file()
-        return
 
+    if noteapi.is_offline:
+        return
     return StreamingResponse(stream(), media_type='text/plain')
 
 @router_common.get('/open-vault')
