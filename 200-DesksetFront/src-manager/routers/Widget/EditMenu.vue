@@ -31,7 +31,7 @@ import {
     <!-- *** 颜色选择器 *** -->
     <div class="item" v-if="item.input == 'rgba'">
       <div>{{ item.name }}</div>
-      <ElColorPicker show-alpha :model-value="widget.model[item.key]" @update:model-value="Edit(item.key, $event)"/>
+      <ElColorPicker show-alpha value-on-clear="#FFFF" :model-value="widget.model[item.key]" @update:model-value="Edit(item.key, $event)"/>
     </div>
   </div>
 
@@ -51,7 +51,7 @@ import {
         <!-- *** 颜色选择器 *** -->
         <div class="item" v-if="item.input == 'rgba'">
           <div>{{ item.name }}</div>
-          <ElColorPicker show-alpha :model-value="widget.model[item.key]" @update:model-value="Edit(item.key, $event)"/>
+          <ElColorPicker show-alpha value-on-clear="#FFFF" :model-value="widget.model[item.key]" @update:model-value="Edit(item.key, $event)"/>
         </div>
         <!-- *** 笔记过滤 *** -->
         <div class="item" v-if="item.input == 'noteFilter'">
