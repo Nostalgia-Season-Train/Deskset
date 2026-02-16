@@ -38,7 +38,8 @@ class API:
     def __init__(self) -> None:
         self._rpc = None
         self._event = {
-            'active-leaf-change': []
+            'active-leaf-change': [],
+            'dataview:metadata-change': []
         }
 
 
@@ -51,11 +52,16 @@ class API:
     # ==== 事件 Event ====
     # 例：接收 active-leaf-change 触发 self._event_active_leaf_change 事件
     async def _trigger_event(self, response: dict) -> None:
-        name = response.get('event', None)
-        if name == 'active-leaf-change':
+        event = response.get('event', None)
+        value = response.get('value', None)
+        if event == 'active-leaf-change':
             for future in self._event['active-leaf-change']:  # type: ignore  # Pylance 无法识别键，原因未知
-                future.set_result('payload')
+                future.set_result(value)
             self._event['active-leaf-change'] = []  # type: ignore
+        if event == 'dataview:metadata-change':
+            for future in self._event['dataview:metadata-change']:  # type: ignore
+                future.set_result(value)
+            self._event['dataview:metadata-change'] = []  # type: ignore
 
     async def _trigger_offline(self) -> None:
         for _, futures in self._event.items():
@@ -69,6 +75,13 @@ class API:
             return  # 没有上线，不等待
         future = get_event_loop().create_future()
         self._event['active-leaf-change'].append(future)  # type: ignore
+        return await future
+
+    async def event_dataview_metadata_change(self):
+        if self._rpc is None:
+            return
+        future = get_event_loop().create_future()
+        self._event['dataview:metadata-change'].append(future)  # type: ignore
         return await future
 
 
