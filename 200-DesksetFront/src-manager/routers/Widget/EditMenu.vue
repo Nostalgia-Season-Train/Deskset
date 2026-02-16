@@ -15,6 +15,7 @@ import {
   ElScrollbar,
   ElTabs,
   ElTabPane,
+  ElInput,
   ElColorPicker
 } from 'element-plus'
 </script>
@@ -37,6 +38,21 @@ import {
   <ElTabs class="tab" v-if="widget.option.tabs.length != 0" :default-value="widget.option.tabs[0].id">
     <ElTabPane v-for="tab in widget.option.tabs" :name="tab.id" :label="tab.text">
       <div class="items" v-for="item in tab.items">
+        <!-- *** 文本输入框 *** -->
+        <div class="item" v-if="item.input == 'str'">
+          <div>{{ item.name }}</div>
+          <ElInput v-model="widget.model[item.key]" @change="Edit(item.key, widget.model[item.key])"/>
+        </div>
+        <!-- *** 数字输入框 *** -->
+        <div class="item" v-if="item.input == 'num'">
+          <div>{{ item.name }}</div>
+          <ElInput v-model="widget.model[item.key]" @change="Edit(item.key, Number(widget.model[item.key]))"/>
+        </div>
+        <!-- *** 颜色选择器 *** -->
+        <div class="item" v-if="item.input == 'rgba'">
+          <div>{{ item.name }}</div>
+          <ElColorPicker show-alpha :model-value="widget.model[item.key]" @update:model-value="Edit(item.key, $event)"/>
+        </div>
         <!-- *** 笔记过滤 *** -->
         <div class="item" v-if="item.input == 'noteFilter'">
           <NoteFilter class="note-filter" v-model="widget.model[item.key]" @change="Edit(item.key, widget.model[item.key])"/>
@@ -62,6 +78,9 @@ import {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    &>.el-input {
+      max-width: 50%;
+    }
   }
   .tab:has(.note-filter) {
     width: 70vw;
