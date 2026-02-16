@@ -32,11 +32,3 @@ class FilterGroup(BaseModel):
 @router_stats.post('/filter-frontmatter')
 async def filter_frontmatter(filter_group: FilterGroup):
     return await noteapi.filter_frontmatter(filter_group.model_dump())
-
-@router_stats.post('/filter-frontmatter-number')
-async def filter_frontmatter_number(filter_group: FilterGroup):
-    return await noteapi.filter_frontmatter_number(filter_group.model_dump())
-
-@router_stats.post('/filter-and-random-open-in-obsidian')
-async def filter_and_random_open_in_obsidian(filter_group: FilterGroup):
-    return await noteapi.filter_and_random_open_in_obsidian(filter_group.model_dump())
