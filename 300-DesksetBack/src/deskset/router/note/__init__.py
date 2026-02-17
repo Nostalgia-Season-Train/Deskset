@@ -22,6 +22,9 @@ router_obsidian.include_router(router_profile)
 # 日记
 from .diary import router_diary
 router_obsidian.include_router(router_diary)
+# 任务
+from .task import router_task
+router_obsidian.include_router(router_task)
 # 数据统计
 from .stats import router_stats
 router_obsidian.include_router(router_stats)
