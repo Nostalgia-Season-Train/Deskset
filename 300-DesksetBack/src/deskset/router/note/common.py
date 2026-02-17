@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Query
 from fastapi.responses import StreamingResponse
 
-from ._manager import api as noteapi
+from ._manager import noteapi
 
 router_common = APIRouter(prefix='/common')
 

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel, RootModel
 from deskset.router._unify import DesksetReqNumberInt
-from ._manager import api as noteapi
+from ._manager import noteapi
 
 router_stats = APIRouter(prefix='/stats')
 

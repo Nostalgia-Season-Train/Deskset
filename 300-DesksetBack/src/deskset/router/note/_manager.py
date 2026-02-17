@@ -3,17 +3,6 @@ from typing import TypedDict
 
 
 
-# ==== ==== Router ==== ====
-from fastapi import APIRouter
-from deskset.router._unify import DesksetRepJSON
-
-router_obsidian_manager = APIRouter(
-    prefix='/obsidian-manager', tags=['Obsidian'],
-    default_response_class=DesksetRepJSON
-)
-
-
-
 # ==== ==== NoteAPI ==== ====
 from asyncio import Future, get_event_loop
 
@@ -26,7 +15,7 @@ from fastapi import WebSocket, WebSocketDisconnect, HTTPException
 from ._rpc import RpcClient
 
 
-class API:
+class NoteAPI:
     _rpc: RpcClient | None
     _event = dict[str, list[Future]]
 
@@ -98,14 +87,14 @@ class API:
         useday_num: int  # 使用天数
         tag_num: int     # 标签总数
         task_num: int    # 任务总数
-    async def get_vault_status(self) -> API.VaultStatus:
+    async def get_vault_status(self) -> NoteAPI.VaultStatus:
         await self.check_online()
         return await self._rpc.call_remote_procedure('get_vault_status', [])
 
     class Heat(TypedDict):
         date: str
         number: int
-    async def get_heatmap(self, weeknum: int) -> list[API.Heat]:
+    async def get_heatmap(self, weeknum: int) -> list[NoteAPI.Heat]:
         await self.check_online()
         return await self._rpc.call_remote_procedure('get_heatmap', [weeknum])
 
@@ -118,7 +107,7 @@ class API:
         name: str  # 文件主名
         type: str  # 文件扩展名
         path: str  # 文件相对仓库的路径
-    async def suggest_by_switcher(self, query: str) -> list[API.SuggestFile]:
+    async def suggest_by_switcher(self, query: str) -> list[NoteAPI.SuggestFile]:
         await self.check_online()
         return await self._rpc.call_remote_procedure('suggest_by_switcher', [query])
 
@@ -145,9 +134,19 @@ class API:
         await self.check_online()
         return await self._rpc.call_remote_procedure('filter_frontmatter', [filter_group])
 
-api = API()
 
-# router_obsidian_manager 注入 check_token 引发以下异常
+noteapi = NoteAPI()
+
+
+
+# ==== ==== 端点 Endpoint ==== ====
+from deskset.router._unify.access import router_access
+from fastapi import Request, Depends
+from fastapi.security import OAuth2PasswordRequestForm
+
+
+# ==== 全双工通信 Websocket ====
+  # websocket 注入 check_token 会引发以下异常
   # OAuth2PasswordBearer.__call__() missing 1 required positional argument: 'request'
 @router_access.websocket('/note/obsidian/rpc')
 async def rpc(websocket: WebSocket):
@@ -166,37 +165,33 @@ async def rpc(websocket: WebSocket):
         raise HTTPException(status_code=400, detail='Invalid notetoken')
 
     # 检查重复连接
-    if not api._rpc == None:
+    if not noteapi._rpc == None:
         raise HTTPException(status_code=400, detail='Another NoteAPI is online')
 
     await websocket.accept('Authorization')  # 前后端都要有 Authorization 子协议，否则无法建立连接
 
     # 上线 > 轮询接收 > 下线
-    api._rpc = RpcClient(websocket)
+    noteapi._rpc = RpcClient(websocket)
 
     try:
         while True:
             response = await websocket.receive_json()
             if response.get('datetime'):  # 单向事件：Obsidian > Deskset
-                await api._trigger_event(response)
+                await noteapi._trigger_event(response)
             if response.get('id'):        # RPC 调用：Deskset > Obsidian > Deskset
-                await api._rpc.on_receive(response)
+                await noteapi._rpc.on_receive(response)
     except WebSocketDisconnect:
         pass
 
-    api._rpc = None
+    noteapi._rpc = None
     # 断开 Websocket 连接 + api._rpc = None 之后，触发下线事件
-    await api._trigger_offline()
+    await noteapi._trigger_offline()
 
 
-# ==== 登录 ====
+# ==== 登录 Access ====
   # - [ ] 改进：连接步骤 = http 登录 + websocket 上线/下线
     # 1、http 访问 login：身份认证和初始信息，生成本次 wstoken 及 { wstoken: 初始信息 }
     # 2、websocket 访问 rpc：检查 wstoken 后取回初始信息，创建 RpcClient(ws, init)
-from fastapi import Request, Depends
-from fastapi.security import OAuth2PasswordRequestForm
-from deskset.router._unify.access import router_access
-
 @router_access.post('/note/obsidian/login')
 def login(
     request: Request,
@@ -215,7 +210,7 @@ def login(
         raise HTTPException(status_code=400, detail='Invalid username')
     if form.password != config.password:
         raise HTTPException(status_code=400, detail='Invalid password')
-    if not api._rpc is None:
+    if not noteapi._rpc is None:
         raise HTTPException(status_code=400, detail='Another NoteAPI is online')
 
     return access.notetoken

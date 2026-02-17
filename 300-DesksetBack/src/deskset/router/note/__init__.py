@@ -7,12 +7,6 @@ router_note = APIRouter(
 )
 
 
-# ==== ObsidianManager ====
-from ._manager import router_obsidian_manager
-
-router_note.include_router(router_obsidian_manager)
-
-
 # ==== Obsidian ====
 router_obsidian = APIRouter(
     prefix='/obsidian', tags=['Obsidian'],

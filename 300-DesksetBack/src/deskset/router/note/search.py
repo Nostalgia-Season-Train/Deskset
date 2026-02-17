@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Query
-from ._manager import API, api as noteapi
+from ._manager import NoteAPI, noteapi
 
 router_search = APIRouter(prefix='/search')
 
-cache_notes: list[API.SuggestFile] = []
+cache_notes: list[NoteAPI.SuggestFile] = []
 @router_search.get('/note')
 async def find_note(query: str = Query(None)):
     global cache_notes
