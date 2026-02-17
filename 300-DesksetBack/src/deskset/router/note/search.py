@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Query
-from ._manager import NoteAPI, noteapi
+from ._api import NoteAPI, noteapi
 
 router_search = APIRouter(prefix='/search')
 
