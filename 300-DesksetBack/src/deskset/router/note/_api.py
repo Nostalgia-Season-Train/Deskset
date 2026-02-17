@@ -36,10 +36,10 @@ class NoteAPI:
         return True
 
     # 不在线抛出 Error
-    def check_online(self) -> None:
+    def check_online(self) -> bool:
         if self._rpc is None:
             raise DesksetError(message='Obsidian not online')
-        return
+        return True  # await 需要返回值：TypeError: object NoneType can't be used in 'await' expression
 
 
     # ==== 事件 Event ====
