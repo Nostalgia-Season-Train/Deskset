@@ -36,10 +36,10 @@ class NoteAPI:
         return True
 
     # 不在线抛出 Error
-    def check_online(self) -> bool:
+    def check_online(self) -> None:
         if self._rpc is None:
             raise DesksetError(message='Obsidian not online')
-        return True  # await 需要返回值：TypeError: object NoneType can't be used in 'await' expression
+        return
 
 
     # ==== 事件 Event ====
@@ -64,14 +64,14 @@ class NoteAPI:
                 future.set_exception(ConnectionError())
 
     async def event_active_leaf_change(self):
-        if not await self.is_online():
+        if not self.is_online():
             return  # 没有上线，不等待
         future = get_event_loop().create_future()
         self._event['active-leaf-change'].append(future)  # type: ignore
         return await future
 
     async def event_dataview_metadata_change(self):
-        if not await self.is_online():
+        if not self.is_online():
             return
         future = get_event_loop().create_future()
         self._event['dataview:metadata-change'].append(future)  # type: ignore
@@ -88,18 +88,18 @@ class NoteAPI:
         tag_num: int     # 标签总数
         task_num: int    # 任务总数
     async def get_vault_status(self) -> NoteAPI.VaultStatus:
-        await self.check_online()
+        self.check_online()
         return await self._rpc.call_remote_procedure('get_vault_status', [])
 
     class Heat(TypedDict):
         date: str
         number: int
     async def get_heatmap(self, weeknum: int) -> list[NoteAPI.Heat]:
-        await self.check_online()
+        self.check_online()
         return await self._rpc.call_remote_procedure('get_heatmap', [weeknum])
 
     async def get_active_file(self) -> str:
-        await self.check_online()
+        self.check_online()
         return await self._rpc.call_remote_procedure('get_active_file', [])
 
     # --- 查询建议 ---
@@ -108,30 +108,30 @@ class NoteAPI:
         type: str  # 文件扩展名
         path: str  # 文件相对仓库的路径
     async def suggest_by_switcher(self, query: str) -> list[NoteAPI.SuggestFile]:
-        await self.check_online()
+        self.check_online()
         return await self._rpc.call_remote_procedure('suggest_by_switcher', [query])
 
     # --- 日记 ---
     async def read_diary(self, dayid: str):
-        await self.check_online()
+        self.check_online()
         return await self._rpc.call_remote_procedure('read_diary', [dayid])
 
     async def list_diarys_in_a_month(self, monthid: str):
-        await self.check_online()
+        self.check_online()
         return await self._rpc.call_remote_procedure('list_diarys_in_a_month', [monthid])
 
     # --- Obsidian 窗口 ---
     async def open_vault(self):
-        await self.check_online()
+        self.check_online()
         return await self._rpc.call_remote_procedure('open_vault', [])
 
     async def open_in_obsidian(self, path: str):
-        await self.check_online()
+        self.check_online()
         return await self._rpc.call_remote_procedure('open_in_obsidian', [path])
 
     # --- 数据分析 ---
     async def filter_frontmatter(self, filter_group: object):
-        await self.check_online()
+        self.check_online()
         return await self._rpc.call_remote_procedure('filter_frontmatter', [filter_group])
 
 

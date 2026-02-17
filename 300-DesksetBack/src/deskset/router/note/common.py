@@ -17,7 +17,7 @@ async def get_active_file():
         finally:
             return
 
-    if not await noteapi.is_online():
+    if not noteapi.is_online():
         return
     return StreamingResponse(stream(), media_type='text/plain')
 
