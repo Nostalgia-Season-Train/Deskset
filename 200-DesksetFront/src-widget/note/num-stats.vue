@@ -21,8 +21,8 @@ const number = ref(0)
 
 const refresh = async () => {
   const filterGroup = toRaw(model.value.filterGroup)
-  const rep = await axios.post('/v0/note/obsidian/stats/filter-frontmatter-number', filterGroup)
-  number.value = rep.data.result
+  const rep = await axios.post('/v0/note/obsidian/stats/filter-frontmatter', filterGroup)
+  number.value = rep.data.result.length
 }
 refresh()
 
