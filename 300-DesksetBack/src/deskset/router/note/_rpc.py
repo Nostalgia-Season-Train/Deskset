@@ -6,6 +6,8 @@ from fastapi import WebSocket
 from random import choices
 from string import digits, ascii_letters
 
+from deskset.core.standard import DesksetError
+
 class RpcClient:
     websocket: WebSocket
     waiting: dict[str, Future]
@@ -36,6 +38,9 @@ class RpcClient:
         if id in self.waiting:
             future = self.waiting.pop(id)
             if response.get('error'):
-                future.set_exception(Exception(response['error']))
+                if response['error'].get('is_deskset_error', None) is True:
+                    future.set_exception(DesksetError(message=response['error']['message']))
+                else:
+                    future.set_exception(Exception(response['error']))
             else:
                 future.set_result(response['payload'])
