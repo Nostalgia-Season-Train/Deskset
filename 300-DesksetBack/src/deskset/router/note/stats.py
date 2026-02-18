@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
-from pydantic import BaseModel, RootModel
-from deskset.router._unify import DesksetReqNumberInt
+from pydantic import BaseModel
+from deskset.router._unify import DesksetReqDateDayRange
 from ._api import noteapi
 
 router_stats = APIRouter(prefix='/stats')
@@ -9,10 +9,9 @@ router_stats = APIRouter(prefix='/stats')
 async def vault_status():
     return await noteapi.get_vault_status()
 
-@router_stats.get('/heatmap/{num}')
-async def heatmap(req: DesksetReqNumberInt = Depends()):
-    weeknum = req.num  # 统计范围：前 weeknum 周 + 本周
-    return await noteapi.get_heatmap(weeknum)
+@router_stats.post('/heatmap')
+async def heatmap(req: DesksetReqDateDayRange = Depends()):
+    return await noteapi.get_heatmap(req.start_day, req.end_day)
 
 # - [ ] 临时，后面转移到新路由
 class Filter(BaseModel):

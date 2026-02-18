@@ -91,12 +91,9 @@ class NoteAPI:
         self.check_online()
         return await self._rpc.call_remote_procedure('get_vault_status', [])
 
-    class Heat(TypedDict):
-        date: str
-        number: int
-    async def get_heatmap(self, weeknum: int) -> list[NoteAPI.Heat]:
+    async def get_heatmap(self, start_day, end_day) -> dict[str, int]:
         self.check_online()
-        return await self._rpc.call_remote_procedure('get_heatmap', [weeknum])
+        return await self._rpc.call_remote_procedure('get_heatmap', [start_day, end_day])
 
     async def get_active_file(self) -> str:
         self.check_online()
