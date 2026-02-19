@@ -11,11 +11,26 @@
       font-size: var(--text-sharp-size);
     }
   }
-  .el-message-box__message {
-    width: 100%;
-    color: var(--text);
-    font-size: var(--text-size);
+
+  .el-message-box__content {
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .el-message-box__message {
+      width: 100%;
+      color: var(--text);
+      font-size: var(--text-size);
+    }
+    .el-message-box__input {
+      padding: 0;
+    }
   }
+  // 管理窗口的编辑弹出框 src-manager/routers/Widget/EditMenu.vue 不需要内边距
+  .el-message-box__content:has(.edit-menu) {
+    padding: 0;
+  }
+
   .el-message-box__btns {
     padding: 0;
     gap: 5px;
