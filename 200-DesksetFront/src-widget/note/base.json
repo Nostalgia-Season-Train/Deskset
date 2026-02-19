@@ -40,7 +40,7 @@
       "text": "筛选",
       "items": [{
         "key": "noteFilter",
-        "input": "noteFilter",
+        "input": "NoteFilter",
         "name": "笔记过滤"
       }]
     }, {
@@ -48,7 +48,7 @@
       "text": "属性",
       "items": [{
         "key": "noteProp",
-        "input": "noteProp",
+        "input": "NoteProp",
         "name": "笔记属性"
       }]
     }]

@@ -42,15 +42,15 @@
       "text": "基础",
       "items": [{
         "key": "title",
-        "input": "str",
+        "input": "Input",
         "name": "标题（可以插入 Emoji 表情）"
       }, {
         "key": "titleColor",
-        "input": "rgba",
+        "input": "ColorPicker",
         "name": "标题颜色"
       }, {
         "key": "numberColor",
-        "input": "rgba",
+        "input": "ColorPicker",
         "name": "数字颜色"
       }]
     }, {
@@ -58,7 +58,7 @@
       "text": "筛选",
       "items": [{
         "key": "filterGroup",
-        "input": "noteFilter",
+        "input": "NoteFilter",
         "name": "笔记过滤"
       }]
     }, {
@@ -66,15 +66,15 @@
       "text": "样式",
       "items": [{
         "key": "width",
-        "input": "num",
+        "input": "InputNumber",
         "name": "宽度"
       }, {
         "key": "height",
-        "input": "num",
+        "input": "InputNumber",
         "name": "高度"
       }, {
         "key": "backgroundColor",
-        "input": "rgba",
+        "input": "ColorPicker",
         "name": "背景颜色"
       }]
     }]

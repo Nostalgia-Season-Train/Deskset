@@ -12,6 +12,7 @@ const Edit = async (key: string, newValue: any) => {
 
 import {
   ElInput,
+  ElInputNumber,
   ElColorPicker,
   ElSelect
 } from 'element-plus'
@@ -24,7 +25,7 @@ import NoteProp from './EditMenu/NoteProp.vue'
 <div class="items" v-for="item in prop.items">
 
   <!-- *** 文本输入框 *** -->
-  <div class="item" v-if="item.input == 'str'">
+  <div class="item" v-if="item.input == 'Input'">
     <div>{{ item.name }}</div>
     <ElInput
       v-model="widget.model[item.key]"
@@ -32,16 +33,17 @@ import NoteProp from './EditMenu/NoteProp.vue'
     />
   </div>
   <!-- *** 数字输入框 *** -->
-  <div class="item" v-if="item.input == 'num'">
+  <div class="item" v-if="item.input == 'InputNumber'">
     <div>{{ item.name }}</div>
-    <ElInput
+    <ElInputNumber
+      :controls="false"
       v-model="widget.model[item.key]"
       @change="Edit(item.key, Number(widget.model[item.key]))"
     />
   </div>
 
   <!-- *** 颜色选择器 *** -->
-  <div class="item" v-if="item.input == 'rgba'">
+  <div class="item" v-if="item.input == 'ColorPicker'">
     <div>{{ item.name }}</div>
     <ElColorPicker
       show-alpha
@@ -53,7 +55,7 @@ import NoteProp from './EditMenu/NoteProp.vue'
   </div>
 
   <!-- *** 选择器 *** -->
-  <div class="item" v-if="item.input == 'select'">
+  <div class="item" v-if="item.input == 'Select'">
     <div>{{ item.name }}</div>
     <ElSelect
       :options="(item.parameter as any).choices"
@@ -64,7 +66,7 @@ import NoteProp from './EditMenu/NoteProp.vue'
   </div>
 
   <!-- *** 笔记过滤 *** -->
-  <div class="item" v-if="item.input == 'noteFilter'">
+  <div class="item" v-if="item.input == 'NoteFilter'">
     <NoteFilter
       class="note-filter"
       v-model="widget.model[item.key]"
@@ -72,7 +74,7 @@ import NoteProp from './EditMenu/NoteProp.vue'
     />
   </div>
   <!-- *** 笔记属性 *** -->
-  <div class="item" v-if="item.input == 'noteProp'">
+  <div class="item" v-if="item.input == 'NoteProp'">
     <NoteProp
       class="note-prop"
       v-model="widget.model[item.key]"

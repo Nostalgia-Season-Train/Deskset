@@ -19,15 +19,15 @@
   "option": {
     "items": [{
       "key": "time_color",
-      "input": "rgba",
+      "input": "ColorPicker",
       "name": "时间文字颜色"
     }, {
       "key": "date_color",
-      "input": "rgba",
+      "input": "ColorPicker",
       "name": "日期文字颜色"
     }, {
       "key": "clock_type",
-      "input": "select",
+      "input": "Select",
       "parameter": {
         "choices": [{
           "value": "digital-clock",

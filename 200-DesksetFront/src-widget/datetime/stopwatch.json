@@ -15,11 +15,11 @@
   "option": {
     "items": [{
       "key": "highcolor",
-      "input": "rgba",
+      "input": "ColorPicker",
       "name": "高位颜色"
     }, {
       "key": "lowcolor",
-      "input": "rgba",
+      "input": "ColorPicker",
       "name": "低位颜色"
     }],
     "tabs": []
