@@ -31,6 +31,16 @@
           "width": 200
         }]
       }
+    },
+    "noteSort": {
+      "type": "noteSort",
+      "default": {
+        "sorts": []
+      }
+    },
+    "noteGroup": {
+      "type": "noteGroup",
+      "default": {}
     }
   },
   "option": {
@@ -40,16 +50,28 @@
       "text": "筛选",
       "items": [{
         "key": "noteFilter",
-        "input": "NoteFilter",
-        "name": "笔记过滤"
+        "input": "NoteFilter"
       }]
     }, {
       "id": "prop",
       "text": "属性",
       "items": [{
         "key": "noteProp",
-        "input": "NoteProp",
-        "name": "笔记属性"
+        "input": "NoteProp"
+      }]
+    }, {
+      "id": "sort",
+      "text": "排序",
+      "items": [{
+        "key": "noteSort",
+        "input": "NoteSort"
+      }]
+    }, {
+      "id": "group",
+      "text": "分组",
+      "items": [{
+        "key": "noteGroup",
+        "input": "NoteGroup"
       }]
     }]
   }

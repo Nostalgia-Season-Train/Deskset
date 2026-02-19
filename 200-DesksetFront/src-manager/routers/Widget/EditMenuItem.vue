@@ -18,6 +18,8 @@ import {
 } from 'element-plus'
 import NoteFilter from './EditMenu/NoteFilter.vue'
 import NoteProp from './EditMenu/NoteProp.vue'
+import NoteSort from './EditMenu/NoteSort.vue'
+import NoteGroup from './EditMenu/NoteGroup.vue'
 </script>
 
 
@@ -77,6 +79,22 @@ import NoteProp from './EditMenu/NoteProp.vue'
   <div class="item" v-if="item.input == 'NoteProp'">
     <NoteProp
       class="note-prop"
+      v-model="widget.model[item.key]"
+      @change="Edit(item.key, widget.model[item.key])"
+    />
+  </div>
+  <!-- *** 笔记排序 *** -->
+  <div class="item" v-if="item.input == 'NoteSort'">
+    <NoteSort
+      class="note-sort"
+      v-model="widget.model[item.key]"
+      @change="Edit(item.key, widget.model[item.key])"
+    />
+  </div>
+  <!-- *** 笔记分组 *** -->
+  <div class="item" v-if="item.input == 'NoteGroup'">
+    <NoteGroup
+      class="note-group"
       v-model="widget.model[item.key]"
       @change="Edit(item.key, widget.model[item.key])"
     />
