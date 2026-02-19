@@ -16,12 +16,14 @@ const filterGroup = defineModel<FilterGroup>({ required: true })
 
 const querySearch = (queryString: string, cb: any) => {
   const results = [
-    { value: 'file.name',   label: '文件名称' },
-    { value: 'file.folder', label: '文件父文件夹' },
-    { value: 'file.path',   label: '文件路径' },
-    { value: 'file.ctime',  label: '文件创建时间' },
-    { value: 'file.mtime',  label: '文件修改时间' },
-    { value: 'file.size',   label: '文件大小' }
+    { value: 'file.fullname',  label: '文件名' },
+    { value: 'file.basename',  label: '文件主名' },
+    { value: 'file.extension', label: '文件扩展名' },
+    { value: 'file.folder',    label: '文件父文件夹' },
+    { value: 'file.path',      label: '文件路径' },
+    { value: 'file.ctime',     label: '文件创建时间' },
+    { value: 'file.mtime',     label: '文件修改时间' },
+    { value: 'file.size',      label: '文件大小' }
   ].filter(item => item.value.includes(queryString))
   cb(results)
 }

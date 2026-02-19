@@ -22,8 +22,8 @@
       "type": "noteProp",
       "default": {
         "props": [{
-          "dataKey": "file.name",
-          "title": "📒 名称",
+          "dataKey": "file.fullname",
+          "title": "📄 文件名",
           "width": 300
         }, {
           "dataKey": "file.mtime",

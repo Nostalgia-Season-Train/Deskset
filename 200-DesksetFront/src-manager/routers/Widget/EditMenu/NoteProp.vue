@@ -24,8 +24,8 @@ import { X } from 'lucide-vue-next'
   <ElButton
     style="padding: 0 6px;"
     @click="noteProp.props.push({
-      dataKey: 'file.name',
-      title: '名称',
+      dataKey: 'file.basename',
+      title: '文件主名',
       width: 300
     }); emit('change')"
   >添加属性</ElButton>
