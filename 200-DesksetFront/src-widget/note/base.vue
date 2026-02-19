@@ -77,11 +77,19 @@ const down = (event: MouseEvent, element: HTMLElement, dataKey: string) => {
   const originX = element.offsetLeft  // 元素起始位置
   const beginX = event.clientX        // 鼠标起始位置
   let moveX = 0  // 鼠标移动距离
+  // 拖动列初始宽度 width，其他两项作用见下
+  const item: any = columns.value.find((item: any) => item.dataKey == dataKey) || null
+  const modelItem: any = model.value.noteProp.props.find((item: any) => item.dataKey == dataKey) || null
+  const width = item.width
 
   // 开始监听 mousemove、mouseup 事件
   document.onmousemove = (event: MouseEvent) => {
     moveX = event.clientX - beginX
     element.style.left = moveX + originX + 'px'
+    if (item != null && modelItem != null) {
+      item.width = width + moveX       // ElTableV2 列宽
+      modelItem.width = width + moveX  // 数据库配置保存的 ElTableV2 列宽
+    }
   }
   document.onmouseup = () => {
     // 停止监听
@@ -89,13 +97,6 @@ const down = (event: MouseEvent, element: HTMLElement, dataKey: string) => {
     document.onmouseup = null
     // 还原指针样式默认
     document.body.style.cursor = 'default'
-    // 设置拖动后列宽
-    const item: any = columns.value.find((item: any) => item.dataKey == dataKey) || null
-    const modelItem: any = model.value.noteProp.props.find((item: any) => item.dataKey == dataKey) || null
-    if (item != null && modelItem != null) {
-      item.width = item.width + moveX            // ElTableV2 列宽
-      modelItem.width = modelItem.width + moveX  // 数据库配置 列宽
-    }
   }
 }
 
