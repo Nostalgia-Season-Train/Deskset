@@ -16,12 +16,12 @@ const filterGroup = defineModel<FilterGroup>({ required: true })
 
 const querySearch = (queryString: string, cb: any) => {
   const results = [
-    { value: 'file.name' },
-    { value: 'file.folder' },
-    { value: 'file.path' },
-    { value: 'file.ctime' },
-    { value: 'file.mtime' },
-    { value: 'file.size' }
+    { value: 'file.name',   label: '文件名称' },
+    { value: 'file.folder', label: '文件父文件夹' },
+    { value: 'file.path',   label: '文件路径' },
+    { value: 'file.ctime',  label: '文件创建时间' },
+    { value: 'file.mtime',  label: '文件修改时间' },
+    { value: 'file.size',   label: '文件大小' }
   ].filter(item => item.value.includes(queryString))
   cb(results)
 }
@@ -76,14 +76,21 @@ import { X } from 'lucide-vue-next'
   </div>
   <!-- 过滤器 -->
   <div v-for="(filter, index) in filterGroup.filters">
-    <div v-if="(filter as any)?.match == undefined" class="flex">
+    <div v-if="(filter as any)?.match == undefined" style="display: flex; align-items: center;">
       <ElAutocomplete
         style="width: 120px;"
         v-model="(filter as Filter).propertyKey"
         placeholder="Property"
         :fetch-suggestions="querySearch"
         @change="emit('change')"
-      />
+      >
+        <template #default="{ item }">
+          <div style="min-width: 160px; display: flex; justify-content: space-between;">
+            <span class="label">{{ item.label }}</span>
+            <span class="value">{{ item.value }}</span>
+          </div>
+        </template>
+      </ElAutocomplete>
       <ElSwitch
         style="width: 40px;"
         v-model="(filter as Filter).isInvert"
@@ -127,7 +134,10 @@ import { X } from 'lucide-vue-next'
         @change="emit('change')"
       /><!-- width: 0; 抵消默认宽度 -->
       <ElButton
-        style="width: 30px;"
+        style="
+          width: 28px; height: 28px; padding: 0;
+          display: flex; justify-content: center; align-items: center;
+        "
         @click="
           filterGroup.filters.splice(index, 1);
           emit('change')
