@@ -12,7 +12,8 @@ const Edit = async (key: string, newValue: any) => {
 
 import {
   ElInput,
-  ElColorPicker
+  ElColorPicker,
+  ElSelect
 } from 'element-plus'
 import NoteFilter from './EditMenu/NoteFilter.vue'
 import NoteProp from './EditMenu/NoteProp.vue'
@@ -51,6 +52,17 @@ import NoteProp from './EditMenu/NoteProp.vue'
     />
   </div>
 
+  <!-- *** 选择器 *** -->
+  <div class="item" v-if="item.input == 'select'">
+    <div>{{ item.name }}</div>
+    <ElSelect
+      :options="(item.parameter as any).choices"
+      :props="{ value: 'value', label: 'label' }"
+      v-model="widget.model[item.key]"
+      @change="Edit(item.key, widget.model[item.key])"
+    />
+  </div>
+
   <!-- *** 笔记过滤 *** -->
   <div class="item" v-if="item.input == 'noteFilter'">
     <NoteFilter
@@ -79,6 +91,9 @@ import NoteProp from './EditMenu/NoteProp.vue'
   align-items: center;
 
   .el-input {
+    max-width: 50%;
+  }
+  .el-select {
     max-width: 50%;
   }
   .note-filter {

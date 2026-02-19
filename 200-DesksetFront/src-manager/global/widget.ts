@@ -1,10 +1,11 @@
 import { reactive, ref } from 'vue'
 
 export interface RegisterModelOptionItem {
-  key: string  // 选项要修改的 model.key
-  input: string  // 用哪个组件修改
-  name: string | undefined  // 选项名称
-  descript: string | undefined  // 选项描述
+  key: string                      // 选项要修改的 model.key
+  input: string                    // 用哪个组件修改
+  parameter?: Record<string, any>  // 传递给选项组件的参数（选项组件的配置）
+  name?: string      // 选项名称
+  descript?: string  // 选项描述
 }
 
 export interface RegisterModel {

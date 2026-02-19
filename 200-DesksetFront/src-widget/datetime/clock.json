@@ -10,6 +10,10 @@
     "date_color": {
       "type": "rgba",
       "default": "#FFFFFFA0"
+    },
+    "clock_type": {
+      "type": "str",
+      "default": "digital-clock"
     }
   },
   "option": {
@@ -21,6 +25,22 @@
       "key": "date_color",
       "input": "rgba",
       "name": "日期文字颜色"
+    }, {
+      "key": "clock_type",
+      "input": "select",
+      "parameter": {
+        "choices": [{
+          "value": "digital-clock",
+          "label": "Digital Clock"
+        }, {
+          "value": "round-clock",
+          "label": "Round Clock"
+        }, {
+          "value": "flip-clock",
+          "label": "Flip Clock"
+        }]
+      },
+      "name": "时钟样式"
     }],
     "tabs": []
   }
