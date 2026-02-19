@@ -23,11 +23,11 @@
       "default": {
         "props": [{
           "dataKey": "file.name",
-          "title": "名称",
+          "title": "📒 名称",
           "width": 300
         }, {
           "dataKey": "file.mtime",
-          "title": "修改日期",
+          "title": "📅 修改日期",
           "width": 200
         }]
       }
