@@ -45,28 +45,6 @@ export const inlineRawWidgetMap = new Map([
   }],
 
   /* --- 时间与日期 --- */
-  [`${prefixMark}FlipClock`, {
-    // @ts-ignore
-    main: () => import('/src-widget/时间与日期/翻页时钟.vue'),
-    metainfo: {
-      author: '旧日丨四季列车',
-      version: 'v0.0.1',
-      descript: '以 HHmmss 格式，显示现在时间',
-      model: {
-        top_bgcolor: '#212121',
-        bottom_bgcolor: '#757575'
-      },
-      options: [{
-        name: '上半部分颜色',
-        type: 'ColorPicker',
-        key: 'top_bgcolor'
-      }, {
-        name: '下半部分颜色',
-        type: 'ColorPicker',
-        key: 'bottom_bgcolor'
-      }]
-    }
-  }],
   [`${prefixMark}Countdown`, {
     // @ts-ignore
     main: () => import('/src-widget/时间与日期/倒计时.vue'),

@@ -1,88 +1,35 @@
 <script lang="ts" setup>
-import { reactive } from 'vue'
-import dayjs from 'dayjs'
-
-const time = reactive({
-  hour: '00',
-  minute: '00',
-  dayofweek: 'Sunday',
-  dayofmonth: '1',
-  month: 'January'
-})
-
-const refresh = async () => {
-  const now = dayjs()
-  time.hour = now.format('HH')
-  time.minute = now.format('mm')
-  time.dayofweek = now.format('dddd')
-  time.dayofmonth = now.format('D')
-  time.month = now.format('MMMM')
-}
-
-
-/* === 轮询 === */
-import { useIntervalFn } from '@vueuse/core'
-
-// 1、await 以便 onErrorCaptured 接住错误
-// 2、不要用 onMounted，会使 useIntervalFn 自动清理失效
-useIntervalFn(refresh, 250)
-
-
-/* === 配置 === */
 const model = defineModel<{
-  time_color: string,
-  date_color: string
+  clock_type: string
 }>({ required: true })
 
 
-/* === 绑定前刷新 === */
-import { onBeforeMount } from 'vue'
+import { shallowRef } from 'vue'
+import DigitalClock from './clock/digital-clock.vue'
+import FlipClock from './clock/flip-clock.vue'
 
-onBeforeMount(() => {
-  // 好处 1：不会出现 00:00 > 12:00 之类的跳变
-  // 好处 2：保证宽高确定（变化完成）后，执行坐标计算
-  const now = dayjs()
-  time.hour = now.format('HH')
-  time.minute = now.format('mm')
-  time.dayofweek = now.format('dddd')
-  time.dayofmonth = now.format('D')
-  time.month = now.format('MMMM')
-})
+const clock = shallowRef()
+
+const refresh = async () => {
+  if (model.value.clock_type === 'digital-clock') {
+    clock.value = DigitalClock
+  } else if (model.value.clock_type === 'flip-clock') {
+    clock.value = FlipClock
+  } else {
+    clock.value = DigitalClock
+  }
+}
+refresh()
+
+
+import { watch } from 'vue'
+
+watch(model.value, refresh)
 </script>
 
 
 <template>
-  <div class="clock">
-    <div class="time">{{ time.hour }}:{{ time.minute }}</div>
-    <div class="date">{{ time.dayofweek }}, {{ time.dayofmonth }} {{ time.month }}</div>
-  </div>
+<div class="clock">
+  <component :is="clock"/>
+</div>
 </template>
-
-
-<style lang="less" scoped>
-.clock {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  * {
-    font-family: 'Aleo';
-  }
-  .time {
-    height: 95px;  // 缩减行高空白
-    font-size: 84px;
-  }
-  .date {
-    font-size: 20px;
-  }
-}
-</style>
-
-<style scoped>
-.time {
-  color: v-bind(model.time_color);
-}
-.date {
-  color: v-bind(model.date_color);
-}
-</style>

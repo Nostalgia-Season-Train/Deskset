@@ -74,13 +74,6 @@ onMounted(() => {
     flipCard.append(topFlip, bottomFlip)
   }
 })
-
-
-/* === 配置 === */
-const model = defineModel<{
-  top_bgcolor: string,
-  bottom_bgcolor: string
-}>({ required: true })
 </script>
 
 
@@ -181,7 +174,6 @@ const model = defineModel<{
 @keyframes flip-top {
   100% { transform: rotateX(90deg); }
 }
-
 .bottom-flip {
   position: absolute;
   bottom: 0;
@@ -193,14 +185,11 @@ const model = defineModel<{
 @keyframes flip-bottom {
   100% { transform: rotateX(0deg); }
 }
-</style>
 
-<!-- 这么写没问题，请无视报错 -->
-<style scoped>
 .top, .top-flip {
-  background-color: v-bind(model.top_bgcolor);
+  background-color: #212121;
 }
 .bottom, .bottom-flip {
-  background-color: v-bind(model.bottom_bgcolor);
+  background-color: #757575;
 }
 </style>

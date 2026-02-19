@@ -3,14 +3,6 @@
   "version": "v0.0.1",
   "descript": "以 HHmm 格式，显示现在时间",
   "model": {
-    "time_color": {
-      "type": "rgba",
-      "default": "#FFFFFFF0"
-    },
-    "date_color": {
-      "type": "rgba",
-      "default": "#FFFFFFA0"
-    },
     "clock_type": {
       "type": "str",
       "default": "digital-clock"
@@ -18,14 +10,6 @@
   },
   "option": {
     "items": [{
-      "key": "time_color",
-      "input": "ColorPicker",
-      "name": "时间文字颜色"
-    }, {
-      "key": "date_color",
-      "input": "ColorPicker",
-      "name": "日期文字颜色"
-    }, {
       "key": "clock_type",
       "input": "Select",
       "parameter": {
