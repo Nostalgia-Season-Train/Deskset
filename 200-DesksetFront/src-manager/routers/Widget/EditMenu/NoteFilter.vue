@@ -44,31 +44,31 @@ import { X } from 'lucide-vue-next'
 <template>
 <div>
   <!-- 添加按钮 -->
-  <ElButton
-    style="padding: 0 6px;"
-    @click="filterGroup.filters.push({
-      type: 'is',
-      isInvert: false,
-      propertyKey: '',
-      compareValue: ''
-    }); emit('change')"
-  >添加条件</ElButton>
-  <ElButton
-    style="margin: 0; padding: 0 6px;"
-    @click="filterGroup.filters.push({
-      match: 'all',
-      filters: [{
+  <div style="display: flex; align-items: center;">
+    <ElButton
+      @click="filterGroup.filters.push({
         type: 'is',
         isInvert: false,
         propertyKey: '',
         compareValue: ''
-      }]
-    }); emit('change')"
-  >添加条件组</ElButton>
-  <ElSelect v-model="filterGroup.match" @change="emit('change')" style="width: 100px">
-    <ElOption value="all" label="匹配全部"/>
-    <ElOption value="any" label="匹配任意"/>
-  </ElSelect>
+      }); emit('change')"
+    >添加条件</ElButton>
+    <ElButton
+      @click="filterGroup.filters.push({
+        match: 'all',
+        filters: [{
+          type: 'is',
+          isInvert: false,
+          propertyKey: '',
+          compareValue: ''
+        }]
+      }); emit('change')"
+    >添加条件组</ElButton>
+    <ElSelect v-model="filterGroup.match" @change="emit('change')" style="width: 100px">
+      <ElOption value="all" label="匹配全部"/>
+      <ElOption value="any" label="匹配任意"/>
+    </ElSelect>
+  </div>
   <div class="flex">
     <span style="width: 120px;">属性名</span>
     <span style="width: 40px;">取反</span>
