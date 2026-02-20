@@ -61,15 +61,23 @@ useInterval(refresh, 3 * 60 * 1000)
 
 
 /* ==== 子组件 ==== */
-import { ElScrollbar, ElDatePicker } from 'element-plus'
+import {
+  ElConfigProvider,
+  ElScrollbar,
+  ElDatePicker
+} from 'element-plus'
+import zh_cn from 'element-plus/es/locale/lang/zh-cn'
 </script>
 
 
 <template>
 <div class="diary">
+<ElConfigProvider :locale="zh_cn">
+
   <ElDatePicker
-    v-model="date"
     type="date"
+    format="YYYY年MM月DD日"
+    v-model="date"
     @panel-change="refreshPanel"
   >
     <template #default="cell">
@@ -85,6 +93,8 @@ import { ElScrollbar, ElDatePicker } from 'element-plus'
       <div ref="content"></div>
     </ElScrollbar>
   </div>
+
+</ElConfigProvider>
 </div>
 </template>
 
@@ -137,20 +147,26 @@ import { ElScrollbar, ElDatePicker } from 'element-plus'
   :deep(.el-input) {
     width: 100%;
     height: 30px;
+    min-height: 30px;
     .el-input__wrapper {
+      padding: 0;
       padding-left: 5px;
       display: flex;
       align-items: center;
+      gap: 5px;
       background: orange;
       border: none;
       border-radius: 0;
       box-shadow: none;
-      .el-icon {
-        color: #000;
-        font-size: 16px;
+      .el-input__prefix {
+        height: 100%;
+        .el-icon {
+          color: #000;
+          font-size: 16px;
+        }
       }
-      input {
-        margin: 5px;
+      .el-input__inner {
+        height: 100%;
         color: #000;
         font-size: 16px;
       }
