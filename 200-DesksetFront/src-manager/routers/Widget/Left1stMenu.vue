@@ -31,8 +31,9 @@ const openMenu = async () => {
 <div class="dropdown">
 
   <ElDropdown placement="bottom" trigger="click" style="width: 100%; height: 100%;">
-    <ElButton @click="openMenu" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+    <ElButton @click="openMenu">
       <Plus/>
+      <span>添加部件</span>
     </ElButton>
     <template #dropdown>
       <!-- 固定宽度，v-for 第一次渲染宽度为零，菜单右偏 -->
@@ -48,3 +49,21 @@ const openMenu = async () => {
 
 </div>
 </template>
+
+
+<style lang="less" scoped>
+.dropdown {
+  margin: 5px;
+
+  .el-button {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg {
+      stroke-width: 1;
+    }
+  }
+}
+</style>

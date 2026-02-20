@@ -127,11 +127,9 @@ import Info from './Widget/RightInfo.vue'
   .left {
     width: 25%;
     height: 100%;
-
     display: flex;
     flex-direction: column;
-    gap: 5px;
-
+    background: var(--bg);
     :nth-child(2) {
       flex: 1;
     }

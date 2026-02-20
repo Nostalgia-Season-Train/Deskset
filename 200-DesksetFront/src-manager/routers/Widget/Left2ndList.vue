@@ -26,7 +26,6 @@ import ElScrollbar from '#element-plus/ElScrollbar.vue'
 .left2ndlist {
   width: 100%;
   height: 100%;
-  background: var(--bg);
 
   // ElScrollbar 高度自适应
     // 注：left2ndlist 高度由父组件 flex 布局分配
