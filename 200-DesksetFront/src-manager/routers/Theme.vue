@@ -84,8 +84,10 @@ const store = useThemeStore()
       <ElTableColumn label="保存时间" prop="savetime"/>
       <ElTableColumn label="操作" width="150" fixed="right">
         <template #default="{ row }">
-          <ElButton @click="deleteTheme(row.name)">{{ _t('删除') }}</ElButton>
-          <ElButton @click="applyTheme(row.name)" style="margin-left: 5px;">{{ _t('应用') }}</ElButton>
+          <div style="display: flex; align-items: center;">
+            <ElButton @click="deleteTheme(row.name)">{{ _t('删除') }}</ElButton>
+            <ElButton @click="applyTheme(row.name)" style="margin-left: 5px;">{{ _t('应用') }}</ElButton>
+          </div>
         </template>
       </ElTableColumn>
     </ElTable>
