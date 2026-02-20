@@ -127,6 +127,7 @@ import {
   color: var(--color-deskset-primary);
 
   .top {
+    padding: 5px;
     flex: 1;
     background: var(--bg);
 

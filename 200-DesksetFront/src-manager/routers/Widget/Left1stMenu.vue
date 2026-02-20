@@ -53,8 +53,6 @@ const openMenu = async () => {
 
 <style lang="less" scoped>
 .dropdown {
-  margin: 5px;
-
   .el-button {
     width: 100%;
     height: 100%;
