@@ -24,7 +24,7 @@ const store = useConfigStore()
   <div class="option">
     <div class="left">
       <div class="name">{{ _t('语言') }}</div>
-      <div class="description">{{ _t('选择界面语言（需要重启）') }}</div>
+      <div class="description">{{ _t('选择界面语言') }}<span class="info">需要重启</span></div>
     </div>
     <div class="right">
       <ElDropdown placement="bottom-end" trigger="click">
@@ -87,6 +87,13 @@ const store = useConfigStore()
     .description {
       font-size: var(--text-size);
       color: var(--text);
+      .info {
+        position: relative;
+        left: 5px;
+        top: -1px;
+        color: var(--el-color-primary);
+        font-size: calc(var(--text-size) - 2px);
+      }
     }
   }
 }

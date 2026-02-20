@@ -18,7 +18,7 @@ const store = useConfigStore()
   <div class="option">
     <div class="left">
       <div class="name">{{ _t('端口') }}</div>
-      <div class="description">{{ _t('配置服务器端口（需要重启）') }}</div>
+      <div class="description">{{ _t('配置服务器端口') }}<span class="info">需要重启</span></div>
     </div>
     <div class="right">
       <InputLazy style="width: 150px;" v-model="store.server_port"/>
@@ -65,6 +65,13 @@ const store = useConfigStore()
     .description {
       font-size: var(--text-size);
       color: var(--text);
+      .info {
+        position: relative;
+        left: 5px;
+        top: -1px;
+        color: var(--el-color-primary);
+        font-size: calc(var(--text-size) - 2px);
+      }
     }
   }
 }
