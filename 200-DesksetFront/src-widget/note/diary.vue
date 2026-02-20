@@ -10,6 +10,7 @@ render.link = (href) => {
   return `<a href="#">${href.href}</a>`
 }
 
+const format = ref('')
 const name = ref('')
 const path = ref('')
 const content = ref()
@@ -26,6 +27,8 @@ const date = computed({
 })
 
 const refresh = async () => {
+  const rep = await axios.get(`/v0/note/obsidian/diary/setting`)
+  format.value = rep.data.result.format.split('/').at(-1)  // 去掉日记目录的日期格式
   const response = await axios.get(`/v0/note/obsidian/diary/read-day/${dayjs(dateRaw.value).format('YYYYMMDD')}`)
   const diary = response.data.result
   if (diary == null) {
@@ -67,6 +70,8 @@ import {
   ElDatePicker
 } from 'element-plus'
 import zh_cn from 'element-plus/es/locale/lang/zh-cn'
+import 'dayjs/locale/zh-cn'
+dayjs.locale('zh-cn')  // ElDatePicker 采用 dayjs 格式化，也需设置中文
 </script>
 
 
@@ -76,7 +81,7 @@ import zh_cn from 'element-plus/es/locale/lang/zh-cn'
 
   <ElDatePicker
     type="date"
-    format="YYYY年MM月DD日"
+    :format="format"
     v-model="date"
     @panel-change="refreshPanel"
   >

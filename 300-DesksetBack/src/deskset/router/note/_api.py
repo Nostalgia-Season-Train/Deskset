@@ -109,6 +109,14 @@ class NoteAPI:
         return await self._rpc.call_remote_procedure('suggest_by_switcher', [query])
 
     # --- 日记 ---
+    class DiarySetting(TypedDict):
+        format: str    # 日记目录/日记主名的日期格式（比如 YYYY年/MM月/YYYY年MM月DD日-dddd）
+        folder: str    # 日记父文件夹
+        template: str  # 日记模板
+    async def get_diary_setting(self):
+        self.check_online()
+        return await self._rpc.call_remote_procedure('get_diary_setting', [])
+
     async def read_diary(self, dayid: str):
         self.check_online()
         return await self._rpc.call_remote_procedure('read_diary', [dayid])

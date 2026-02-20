@@ -10,6 +10,11 @@ async def today_tasks():
     diary_tasks = (await noteapi.post(f'/tasks/get-all-tasks', data={'notepath': diary['notepath']})).json()
     return diary_tasks
 
+# 读取日记插件设置
+@router_diary.get('/setting')
+async def get_diary_setting():
+    return await noteapi.get_diary_setting()
+
 # 读取某天日记（日期格式：YYYYMMDD）
 @router_diary.get('/read-day/{day}')
 async def read_day(date: DesksetReqDateDay = Depends()):
