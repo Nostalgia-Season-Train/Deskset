@@ -3,7 +3,7 @@ import { activeWidgetMap } from '#manager/global'
 
 
 /* === 子组件 === */
-import ElScrollbar from '#element-plus/ElScrollbar.vue'
+import { ElScrollbar } from 'element-plus'
 </script>
 
 
