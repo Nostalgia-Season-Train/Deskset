@@ -83,11 +83,13 @@ const items = [
     .icon {
       width: 24px;
       height: 24px;
-      stroke-width: 1.5px;
+      stroke-width: 1.6px;
     }
     .text {
       margin-left: 6px;
+      font-family: 'MiSansVF';
       font-size: 20px;
+      font-weight: 350;
     }
   }
   .item:hover {
@@ -117,9 +119,9 @@ const items = [
     content: '';
     position: absolute;
     left: 0;
-    bottom: -6px;
+    bottom: -7px;
     width: 100%;
-    height: 1px;
+    height: 2px;
     background: var(--text-sharp);
   }
 }

@@ -42,7 +42,9 @@ import { Minus, Square, X } from 'lucide-vue-next'
     display: flex;
     align-items: center;
 
+    font-family: 'MiSansVF';
     font-size: 20px;
+    font-weight: 350;
   }
 
   .item {
