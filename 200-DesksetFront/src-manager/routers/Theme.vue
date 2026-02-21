@@ -73,7 +73,7 @@ const store = useThemeStore()
 <template>
 <div class="content">
 
-  <div class="themes-wrapper" v-if="store.themes.length != 0">
+  <div class="themes-wrapper">
     <ElTable :data="store.themes" style="width: 100%; height: 100%;">
       <ElTableColumn label="名称" prop="name" width="200" fixed="left"/>
       <ElTableColumn label="保存时间" prop="savetime"/>
@@ -108,13 +108,6 @@ const store = useThemeStore()
         </template>
       </ElTableColumn>
     </ElTable>
-  </div>
-
-  <div class="themes-prompt" v-else><!-- 可选链访问：themes 挂载后赋值 -->
-    <div>
-      <div class="text">{{ _t('暂无可用主题') }}</div>
-      <div class="text">{{ _t('点击右上角按钮保存主题') }}</div>
-    </div>
   </div>
 
 </div>
