@@ -6,6 +6,13 @@
 }
 
 @font-face {
+  font-family: 'MiSansVF';
+  src: url('../fonts/MiSansVF.ttf') format('truetype');  /* format('truetype') 加快解析 */
+  font-weight: 150 700;  /* 指定字重变化范围 150 ~ 700 */
+  font-style: normal;
+}
+
+@font-face {
   font-family: 'AlibabaPuHuiTi';
   src: url('../fonts/AlibabaPuHuiTi-3-55-Regular.ttf');
   font-weight: normal;
