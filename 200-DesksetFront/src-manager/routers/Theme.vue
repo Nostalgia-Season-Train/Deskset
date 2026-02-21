@@ -132,7 +132,7 @@ const store = useThemeStore()
 
   // themes-wrapper 高度自适应
   .themes-wrapper {
-    height: 100%;
+    height: calc(100% - var(--content-padding));
     background: var(--bg);
     overflow: hidden;
   }
