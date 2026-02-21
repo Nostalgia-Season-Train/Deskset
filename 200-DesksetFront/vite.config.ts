@@ -53,6 +53,11 @@ export default defineConfig(async () => ({
     vue(),
     tailwindcss(),
   ],
+  css: {
+    preprocessorOptions: {
+      less: { additionalData: `@import "${path.resolve(__dirname, 'style.less')}";` }
+    }
+  },
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //

@@ -170,8 +170,7 @@ const store = useThemeStore()
   color: #FFF;
 
   .text {
-    color: var(--text-sharp);
-    font-size: var(--text-sharp-size);
+    .deskset-text-title();
     text-align: center;
   }
 }

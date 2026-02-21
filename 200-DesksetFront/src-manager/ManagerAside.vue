@@ -76,7 +76,7 @@ const items = [
     display: flex;
     align-items: center;
 
-    color: var(--text-sharp);
+    color: var(--deskset-text-sharp-color);
 
     transition: .3s;
 
@@ -122,7 +122,7 @@ const items = [
     bottom: -7px;
     width: 100%;
     height: 2px;
-    background: var(--text-sharp);
+    background: var(--deskset-text-sharp-color);
   }
 }
 </style>

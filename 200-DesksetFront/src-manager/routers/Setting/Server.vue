@@ -59,12 +59,10 @@ const store = useConfigStore()
 
   .left {
     .name {
-      font-size: var(--text-sharp-size);
-      color: var(--text-sharp);
+      .deskset-text-title();
     }
     .description {
-      font-size: var(--text-size);
-      color: var(--text);
+      .deskset-text();
       .info {
         position: relative;
         left: 5px;
