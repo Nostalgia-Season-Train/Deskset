@@ -3,6 +3,7 @@ import {
   mkdir,
   readTextFile,
   writeTextFile,
+  writeFile,
   remove,
   BaseDirectory
 } from '@tauri-apps/plugin-fs'
@@ -58,6 +59,10 @@ export const _saveTheme = async (name: string, root: string = THEME_LIB) => {
   await mkdir(`./${root}/${name}`, { baseDir: BaseDirectory.Resource, recursive: true })
   await writeTextFile(`./${root}/${name}/data.json`, dataText, { baseDir: BaseDirectory.Resource })
   await writeTextFile(`./${root}/${name}/metainfo.json`, infoText, { baseDir: BaseDirectory.Resource })
+
+  // 保存桌面窗口预览（截图）
+  const arrayPicture = await desktop.getWindowPicture()
+  await writeFile(`./${root}/${name}/preview.png`, new Uint8Array(arrayPicture), { baseDir: BaseDirectory.Resource })
 
   // 加入列表
   activeThemeMap.set(name, {

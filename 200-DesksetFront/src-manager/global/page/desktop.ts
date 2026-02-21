@@ -119,6 +119,10 @@ class BroadcastDesktopClient {
   getWindowData = (): Promise<{ width: number, height: number, dpr: number }> => {
     return this.hook('getWindowData', [])
   }
+
+  getWindowPicture = (): Promise<number[]> => {
+    return this.hook('getWindowPicture', [])
+  }
 }
 
 

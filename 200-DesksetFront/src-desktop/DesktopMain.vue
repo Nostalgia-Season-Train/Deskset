@@ -26,6 +26,7 @@ import { DesktopSendChannel } from './global/channel'
 
 const desktopSend = DesktopSendChannel
 
+/* --- 添加部件 --- */
 const appendWidget = async (
   id: string,
   name: string,
@@ -229,12 +230,23 @@ const switchWidgetProp = async (id: string, prop: string, state: boolean) => {
   widget!.container.classList.toggle('deskset_' + prop, state)
 }
 
+/* --- 获取桌面窗口信息 --- */
 const getWindowData = async () => {
   return {
     width: window.innerWidth,
     height: window.innerHeight,
     dpr: window.devicePixelRatio
   }
+}
+
+/* --- 获取桌面窗口截图 --- */
+import { snapdom } from '@zumer/snapdom'
+
+const getWindowPicture = async () => {
+  const el = desktopMain.value as HTMLElement
+  const snap = await snapdom(el)
+  const blob = await (snap).toBlob({ type: 'png' })
+  return Array.from(await blob.bytes())
 }
 
 
@@ -255,7 +267,8 @@ const actions = {
   setWidgetScale,
   switchWidgetProp,
 
-  getWindowData
+  getWindowData,
+  getWindowPicture
 }
 const broadcast = DesktopChannel
 const onReceive = async (msg: MessageEvent) => {
