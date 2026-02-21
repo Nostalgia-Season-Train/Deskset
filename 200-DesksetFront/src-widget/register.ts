@@ -44,68 +44,18 @@ export const inlineRawWidgetMap = new Map([
     metainfo: await import('/src-widget/datetime/timer.json')
   }],
 
-  /* --- 时间与日期 --- */
-  [`${prefixMark}Countdown`, {
-    // @ts-ignore
-    main: () => import('/src-widget/时间与日期/倒计时.vue'),
-    metainfo: {
-      author: '旧日丨四季列车',
-      version: 'v0.0.1',
-      descript: '计算距离某天某时还剩多久',
-      model: {
-        title: `距离 ${dayjs().add(1, 'day').format('YYYY-MM-DD')} 还剩`,
-        deadline: async () => { return Number(new Date().setDate(new Date().getDate() + 1)) }
-      },
-      options: [{
-        name: '标题',
-        type: 'Input',
-        key: 'title'
-      }, {
-        name: '截止日期',
-        type: 'DateTimePicker',
-        key: 'deadline'
-      }]
-    }
+  /* --- 设备信息 --- */
+  [`${prefixMark}HardwareMonitor`, {
+    main: () => import('/src-widget/device/hardware-monitor.vue'),
+    metainfo: await import('/src-widget/device/hardware-monitor.json')
   }],
-
-  /* --- 个性资料、问候语 --- */
-  [`${prefixMark}Greeting`, {
-    // @ts-ignore
-    main: () => import('/src-widget/问候语/打字机问候.vue'),
-    metainfo: {
-      author: '旧日丨四季列车',
-      version: 'v0.0.1',
-      descript: '根据当前时段，显示个性化问候语'
-    }
+  [`${prefixMark}DiskStorage`, {
+    main: () => import('/src-widget/device/disk-storage.vue'),
+    metainfo: await import('/src-widget/device/disk-storage.json')
   }],
-
-  /* --- 硬件监控 --- */
-  [`${prefixMark}RealtimeMonitoring`, {
-    // @ts-ignore
-    main: () => import('/src-widget/硬件监控/实时监控.vue'),
-    metainfo: {
-      author: '旧日丨四季列车',
-      version: 'v0.0.1',
-      descript: '查看芯片和内存的占用率'
-    }
-  }],
-  [`${prefixMark}DiskCapacity`, {
-    // @ts-ignore
-    main: () => import('/src-widget/硬件监控/硬盘容量.vue'),
-    metainfo: {
-      author: '旧日丨四季列车',
-      version: 'v0.0.1',
-      descript: '展示所有硬盘分区剩余容量和总存储空间'
-    }
-  }],
-  [`${prefixMark}BatteryPower`, {
-    // @ts-ignore
-    main: () => import('/src-widget/硬件监控/电池电量.vue'),
-    metainfo: {
-      author: '旧日丨四季列车',
-      version: 'v0.0.1',
-      descript: '显示电脑电池剩余电量，是否正在充电'
-    }
+  [`${prefixMark}Battery`, {
+    main: () => import('/src-widget/device/battery.vue'),
+    metainfo: await import('/src-widget/device/battery.json')
   }],
 ])
 

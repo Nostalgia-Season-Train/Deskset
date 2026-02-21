@@ -5,7 +5,7 @@ import axios from 'axios'
 const disks = ref()
 
 const disk = async () => {
-  const result = (await axios.get('/v0/device/partitions')).data.result
+  const result = (await axios.get('/v0/device/disk')).data.result
   disks.value = result
 }
 disk()

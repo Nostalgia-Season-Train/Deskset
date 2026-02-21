@@ -10,14 +10,9 @@
   "Stopwatch": "秒表",
   "Timer": "定时器",
 
-  "FlipClock": "翻页时钟",
-  "Countdown": "倒计时",
-
-  "Greeting": "问候语",
-
-  "RealtimeMonitoring": "实时监控",
-  "DiskCapacity": "硬盘容量",
-  "BatteryPower": "电池电量",
+  "HardwareMonitor": "硬件监控",
+  "DiskStorage": "硬盘存储值",
+  "Battery": "电池电量",
 
 
   "====$PageName====": "====$页面名称====",

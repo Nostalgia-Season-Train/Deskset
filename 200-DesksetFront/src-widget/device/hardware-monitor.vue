@@ -12,7 +12,7 @@ import axios from 'axios'
 import { useIntervalFn } from '@vueuse/core'
 
 const refresh = async () => {
-  const data = (await axios.get('/v0/device/realtime')).data
+  const data = (await axios.get('/v0/device/monitor')).data
   cpu_percent.value = data.result.cpu.percent
   ram_percent.value = data.result.ram.percent
   disk_percent.value = data.result.disk.percent
