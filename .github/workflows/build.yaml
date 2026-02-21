@@ -31,47 +31,23 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    # 第二步：安装 NodeJS
+    # 第二步：安装 NodeJS、安装 uv
     - name: Install Node.js
       uses: actions/setup-node@v4
       with:
         node-version: 20
 
-    # 第三步：下载依赖
-    - name: Install Dependencies
-      run: |
-        npm install
+    - name: Install a specific version of uv
+      uses: astral-sh/setup-uv@v6
+      with:
+        version: "0.7.7"
 
-    # 第四步：构建 Tauri
-      # 复制 Deskset.exe
-    - name: Build
-      run: |
-        New-Item -ItemType Directory -Path $env:DIST
+    # 第三步：构建&打包
+    - name: Build and Package
+      run: ./400-Build/build.bat
+      shell: cmd
 
-        Copy-Item -Path "./licenses" -Destination "./$env:DIST/licenses" -Recurse
-
-        npm run build
-        Copy-Item -Path "./src-tauri/target/release/Deskset.exe" -Destination "./$env:DIST/"
-
-    # 第五步：下载数字桌搭后端和数字桌搭更新器
-      # 压缩包名称（-OutFile 设置），解压路径 = DesksetBack
-    - name: Download DesksetBack
-      run: |
-        Invoke-WebRequest -Uri $env:DESKSETBACK_URL -OutFile "DesksetBack.zip"
-        Expand-Archive -Path "./DesksetBack.zip" -DestinationPath "./$env:DIST/" -Force
-        Remove-Item -Path "./DesksetBack.zip"
-        Invoke-WebRequest -Uri $env:DESKSETUPDATER_URL -OutFile "DesksetUpdater.zip"
-        Expand-Archive -Path "./DesksetUpdater.zip" -DestinationPath "./$env:DIST/" -Force
-        Remove-Item -Path "./DesksetUpdater.zip"
-
-    # 第六步：压缩目录
-      # ./$env:DIST/ 会连文件夹一起压缩，用 ./$env:DIST/* 只包含文件夹内容
-        # Deskset.zip/Deskset/XXX 跟 Deskset.zip/XXX 的区别
-    - name: Zip
-      run: |
-        Compress-Archive -Path "./$env:DIST/*" -DestinationPath "./Deskset.zip" -CompressionLevel Optimal
-
-    # 第七步：发布
+    # 第四步：发布
     - name: Release
       uses: softprops/action-gh-release@v2
       if: startsWith(github.ref, 'refs/tags/')
