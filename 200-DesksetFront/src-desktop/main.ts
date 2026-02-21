@@ -27,9 +27,10 @@ const router = createRouter({
 
 /* ==== axios ==== */
 import axios from 'axios'
+import { AxiosChannel } from './global/channel'
 
 const initAxios = async () => {
-  const broadcast = new BroadcastChannel('axios')
+  const broadcast = AxiosChannel
 
   return new Promise((resolve, reject) => {
     broadcast.onmessage = (ev) => {

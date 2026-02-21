@@ -1,9 +1,12 @@
+import { DesktopChannel } from '../channel.ts'
+
+
 class BroadcastDesktopClient {
   broadcast: BroadcastChannel
   waiting: Map<string, Function>
 
   constructor() {
-    this.broadcast = new BroadcastChannel('Desktop')
+    this.broadcast = DesktopChannel
     this.broadcast.onmessage = this.onReceive
     this.waiting = new Map()
   }

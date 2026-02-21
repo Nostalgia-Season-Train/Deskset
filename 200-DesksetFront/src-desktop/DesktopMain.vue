@@ -22,8 +22,9 @@ import { reactive, watch, toRaw } from 'vue'
 import { compile } from './main/compile'
 import { inlineRawWidgetMap, prefixMark } from '#widget/register'
 import { stat, BaseDirectory } from '@tauri-apps/plugin-fs'
+import { DesktopSendChannel } from './global/channel'
 
-const desktopSend = new BroadcastChannel('DesktopSend')
+const desktopSend = DesktopSendChannel
 
 const appendWidget = async (
   id: string,
@@ -240,6 +241,7 @@ const getWindowData = async () => {
 /* ==== BroadcastDesktopServer ==== */
   // 将 Broadcast 由事件/消息改成请求/响应模型
 import { onMounted, onUnmounted } from 'vue'
+import { DesktopChannel } from './global/channel'
 
 const actions = {
   helloworld,
@@ -255,7 +257,7 @@ const actions = {
 
   getWindowData
 }
-const broadcast = new BroadcastChannel('Desktop')
+const broadcast = DesktopChannel
 const onReceive = async (msg: MessageEvent) => {
   const request = JSON.parse(msg.data)
 

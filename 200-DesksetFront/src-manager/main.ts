@@ -59,6 +59,7 @@ const isDevEnv = (import.meta as any).env.DEV as boolean
 
 /* ==== 启动服务器 ==== */
 import { spawnServer, axios } from './global'
+import { AxiosChannel } from './global/channel'
 
 let isSpawn = true
 
@@ -71,7 +72,7 @@ try {
   axios.defaults.headers.common['Authorization'] = `Bearer ${serverInfo.token}`
 
   // Manager 向 Desktop 发送 axios 参数
-  const broadcast = new BroadcastChannel('axios')
+  const broadcast = AxiosChannel
   broadcast.postMessage({url: serverInfo.url, token: serverInfo.token})
 } catch (err) {
   isSpawn = false
@@ -135,8 +136,9 @@ winManager.onCloseRequested(async (event) => {
 
 /* ==== 监听桌面页面 ==== */
 import { activeWidgetMap } from './global'
+import { DesktopSendChannel } from './global/channel'
 
-const broadcast = new BroadcastChannel('DesktopSend')
+const broadcast = DesktopSendChannel
 
 // - [ ] 优化？防抖节流 & 新开线程
 broadcast.onmessage = (ev) => {
