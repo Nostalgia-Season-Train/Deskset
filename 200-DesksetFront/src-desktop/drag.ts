@@ -1,3 +1,5 @@
+import { DesktopSendChannel } from './global/channel'
+
 const dpr = window.devicePixelRatio  // 设备像素比 = Windows DPI 缩放
 
 export default function dragAndDrop(el: HTMLElement) {
@@ -8,7 +10,7 @@ export default function dragAndDrop(el: HTMLElement) {
     }
 
     const id = el.id
-    const broadcast = new BroadcastChannel('DesktopSend')
+    const broadcast = DesktopSendChannel
     const width = el.offsetWidth
     const height = el.offsetHeight
 
