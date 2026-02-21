@@ -175,13 +175,13 @@ if DEVELOP_ENV:
         return get_swagger_ui_oauth2_redirect_html()
 
     # 演练场
-    from fastapi.responses import Response
+    # from fastapi.responses import Response
 
-    @app.get('/playground', include_in_schema=False)
-    async def playground_html():
-        with open('static/playground/index.html', 'r', encoding='utf-8') as file:
-            content = file.read()
-        return Response(content=content, media_type='text/html')
+    # @app.get('/playground', include_in_schema=False)
+    # async def playground_html():
+    #     with open('static/playground/index.html', 'r', encoding='utf-8') as file:
+    #         content = file.read()
+    #     return Response(content=content, media_type='text/html')
 
 
 # ==== FastAPI Router：路由注册 ====

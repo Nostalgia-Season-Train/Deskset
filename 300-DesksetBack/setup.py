@@ -48,17 +48,17 @@ copy('lib')
 copy('static')
 
 # 打包 演练场 Playground
-from urllib.request import urlretrieve
-from zipfile import ZipFile
-from os import mkdir, remove
+# from urllib.request import urlretrieve
+# from zipfile import ZipFile
+# from os import mkdir, remove
 
-urlretrieve('https://github.com/Nostalgia-Season-Train/DesksetPlayground/releases/latest/download/DesksetPlayground.zip', 'DesksetPlayground.zip')
+# urlretrieve('https://github.com/Nostalgia-Season-Train/DesksetPlayground/releases/latest/download/DesksetPlayground.zip', 'DesksetPlayground.zip')
 
-with ZipFile('./DesksetPlayground.zip', 'r') as file:
-    mkdir(f'./{DIST}/static/playground')
-    file.extractall(f'./{DIST}/static/playground')
+# with ZipFile('./DesksetPlayground.zip', 'r') as file:
+#     mkdir(f'./{DIST}/static/playground')
+#     file.extractall(f'./{DIST}/static/playground')
 
-remove('./DesksetPlayground.zip')
+# remove('./DesksetPlayground.zip')
 
 # 打包 翻译
 copy('i18n')
