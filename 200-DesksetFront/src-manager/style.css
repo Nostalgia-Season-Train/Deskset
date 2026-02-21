@@ -13,7 +13,8 @@ html, body, #manager {
 }
 
 :root {
-  font-family: 'MiSans';
+  font-family: 'MiSansVF';
+  font-weight: 320;
   user-select: none;
 
   --bg-dark: hsla(0, 0%, 80%, 0.85);

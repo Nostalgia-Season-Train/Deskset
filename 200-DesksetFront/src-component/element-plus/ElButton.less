@@ -1,10 +1,6 @@
 .el-button,
 .el-button:hover,
 .el-button:active {
-  /* --- 重置样式 --- */
-  all: revert;
-  // 去掉 <Button> 默认边框
-  border: none;
   // 去掉 ElButton 默认间隔
   &+.el-button {
     margin: 0;
@@ -17,9 +13,10 @@
   justify-content: center;
   align-items: center;
   background: var(--bg-light);
+  border: none;
   color: var(--text-sharp);
   font-size: var(--text-size);
-  font-family: 'MiSans';
+  font-weight: 350;
   transition: .3s;
 }
 
