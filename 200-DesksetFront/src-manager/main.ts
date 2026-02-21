@@ -12,7 +12,9 @@ import './style.css'
 import { createMemoryHistory, createRouter } from 'vue-router'
 
 const routes = [
-  { path: '/welcome',   name: 'welcome',   component: () => import('./routers/Welcome.vue') },
+  // 必须包含 '/' 作为 Tauri 入口，否则打包后白屏且后续代码无法运行
+  { path: '/',   name: 'welcome',   component: () => import('./routers/Welcome.vue') },
+  // { path: '/welcome',   name: 'welcome',   component: () => import('./routers/Welcome.vue') },
   { path: '/homepage',  name: 'homepage',  component: () => import('./routers/Homepage.vue') },
   { path: '/widget',    name: 'widget',    component: () => import('./routers/Widget.vue') },
   { path: '/wallpaper', name: 'wallpaper', component: () => import('./routers/Wallpaper.vue') },
@@ -25,7 +27,7 @@ const router = createRouter({
   routes: routes
 })
 
-await router.push({ name: 'welcome' })  // 确保 router.currentRoute.value.name 拿到有效值
+// await router.push({ name: 'welcome' })  // 确保 router.currentRoute.value.name 拿到有效值
 
 
 /* ==== 创建配置目录、部件库、主题库 ==== */
