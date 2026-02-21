@@ -73,20 +73,37 @@ const store = useThemeStore()
 <template>
 <div class="content">
 
-  <div class="themes-header">
-    <ElInput v-model="searchText" :placeholder="_t('搜索')"/>
-    <ElButton @click="saveTheme">{{ _t('保存') }}</ElButton>
-  </div>
-
   <div class="themes-wrapper" v-if="store.themes.length != 0">
     <ElTable :data="store.themes" style="width: 100%; height: 100%;">
       <ElTableColumn label="名称" prop="name" width="200" fixed="left"/>
       <ElTableColumn label="保存时间" prop="savetime"/>
-      <ElTableColumn label="操作" width="150" fixed="right">
+      <ElTableColumn label="操作" width="350" fixed="right">
+        <template #header>
+          <div
+            style="width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 5px;
+          ">
+            <ElInput
+              v-model="searchText"
+              :placeholder="_t('搜索')"
+              style="width: 150px;"
+            />
+            <ElButton @click="saveTheme">{{ _t('保存') }}</ElButton>
+          </div>
+        </template>
         <template #default="{ row }">
-          <div style="display: flex; align-items: center;">
+          <div
+            style="width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 5px;
+          ">
             <ElButton @click="deleteTheme(row.name)">{{ _t('删除') }}</ElButton>
-            <ElButton @click="applyTheme(row.name)" style="margin-left: 5px;">{{ _t('应用') }}</ElButton>
+            <ElButton @click="applyTheme(row.name)">{{ _t('应用') }}</ElButton>
           </div>
         </template>
       </ElTableColumn>
