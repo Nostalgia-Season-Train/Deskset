@@ -7,9 +7,6 @@
     "#element-plus/*": [
       "./src-component/element-plus/*"
     ],
-    "#shadcn/*": [
-      "./src-component/shadcn/*"
-    ],
     "#desksetui/*": [
       "./src-component/desksetui/*"
     ],
