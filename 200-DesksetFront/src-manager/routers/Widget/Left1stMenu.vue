@@ -2,7 +2,7 @@
 import { _t } from '#manager/main/i18n'
 
 /* === 子组件 === */
-import { Plus } from 'lucide-vue-next'
+import { Grid2X2Plus } from 'lucide-vue-next'
 import {
   ElButton,
   ElDropdown,
@@ -32,7 +32,7 @@ const openMenu = async () => {
 
   <ElDropdown placement="bottom" trigger="click" style="width: 100%; height: 100%;">
     <ElButton @click="openMenu">
-      <Plus/>
+      <Grid2X2Plus/>
       <span>添加部件</span>
     </ElButton>
     <template #dropdown>
