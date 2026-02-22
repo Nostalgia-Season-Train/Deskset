@@ -12,9 +12,13 @@ html, body, #manager {
   background: transparent;
 }
 
-:root {
+/* :root 设置的以下属性被用户代理样式表覆盖，原因未知 */
+* {
   font-family: 'MiSansVF';
-  font-weight: 320;
+  font-weight: 300;
+}
+
+:root {
   user-select: none;
 
   --bg-dark: hsla(0, 0%, 80%, 0.85);
