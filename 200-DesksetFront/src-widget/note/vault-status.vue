@@ -19,6 +19,10 @@ refresh()
 import { useInterval } from 'vue-hooks-plus'
 
 useInterval(refresh, 5 * 60 * 1000)
+
+
+/* ==== 子组件 ==== */
+import { Book } from 'lucide-vue-next'
 </script>
 
 
@@ -32,7 +36,17 @@ useInterval(refresh, 5 * 60 * 1000)
   </div>
 
   <div class="second">
-    <div>当前标签页</div><!-- 仓库当前标签页 -->
+    <div class="title">当前标签页</div>
+    <div class="content">
+      <div class="name"><!-- 仓库当前标签页 -->
+        <div class="base">ComfyUI笔记</div>
+        <div class="ext">.md</div>
+      </div>
+      <div class="type">
+        <Book/><!-- 文件类型：.md 笔记 | 其他后缀 附件 -->
+      </div>
+    </div>
+    <div class="latest-page">上次打开：主页.md</div><!-- 上一个打开的页面，主名即可 -->
   </div>
 
   <div class="third">
@@ -116,6 +130,48 @@ useInterval(refresh, 5 * 60 * 1000)
       font-weight: 500;
       background: #FFF;
       border-radius: 5px;
+    }
+  }
+
+  /* --- 当前标签页 --- */
+  .second {
+    .title {
+      color: hsla(200, 20%, 12%, 40%);
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .name {
+        display: flex;
+        align-items: flex-end;
+        .base {
+          color: #111;
+          font-size: 24px;
+          font-weight: 500;
+        }
+        .ext {
+          color: #1119;
+          font-size: 16px;
+          font-weight: 500;
+        }
+      }
+      .type {
+        padding: 3px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #FF9800;
+        background: #FFECB3;
+        border-radius: 5px;
+      }
+    }
+    .latest-page {
+      color: hsla(200, 20%, 12%, 60%);
+      font-size: 14px;
+      font-weight: 500;
     }
   }
 }
