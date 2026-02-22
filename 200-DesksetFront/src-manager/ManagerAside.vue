@@ -22,9 +22,11 @@ const items = [
 <div class="aside">
 
   <div class="logo">
-    <img src="/static/icons/Deskset LOGO v2.1.png" draggable="false"/>
-    <span class="text">Deskset</span>
-    <PanelLeft/><!-- 控制侧边栏折叠，目前仅起装饰作用 -->
+    <div class="logo__content">
+      <img src="/static/icons/Deskset LOGO v2.1.png" draggable="false"/>
+      <span class="text">Deskset</span>
+      <PanelLeft/><!-- 控制侧边栏折叠，目前仅起装饰作用 -->
+    </div>
   </div>
 
   <div
@@ -52,34 +54,32 @@ const items = [
   flex-direction: column;
 
   .logo {
-    margin: 6px 8px;
-    padding: 0px 4px;  // LOGO与图标左右中心对齐 (4)+28/2=(6)+24/2
-    display: flex;
-    align-items: center;
-
+    position: relative;
+    padding: 6px 8px;
     -webkit-app-region: drag;
-
-    img {
-      width: 28px;
-      height: 28px;
-      border: solid 0 transparent;
-      border-radius: 3px;
-      box-shadow: var(--shadow-s)
-    }
-    .text {
-      margin-left: 4px;  // 文字左边对齐 4+28+(4)=6+24+(6)
-      font-family: 'Rany';
-      font-size: 20px;
-    }
-    &>:last-child {
-      margin-left: auto;
+    .logo__content {
+      display: flex;
+      align-items: center;
+      img {
+        width: 28px;
+        height: 28px;
+        border: solid 0 transparent;
+        border-radius: 3px;
+        box-shadow: var(--shadow-s)
+      }
+      .text {
+        font-family: 'Rany';
+        font-size: 20px;
+      }
+      &>:last-child {
+        margin-left: auto;
+      }
     }
   }
 
   .item {
     position: relative;
     padding: 3px 8px;
-
     .item__content {
       padding: 3px 6px;
       display: flex;
