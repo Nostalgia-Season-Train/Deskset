@@ -33,7 +33,7 @@ import {
 <div class="vault-stats">
 
   <div class="first">
-    <div class="icon"></div><!-- 连接显示绿球，未连接显示红球 -->
+    <div class="icon"></div><!-- 连接显示蓝球，未连接显示红球 -->
     <div class="str">PARA By Link</div><!-- 仓库名称（仓库父文件夹） -->
     <div class="str">ONLINE</div><!-- 装饰 -->
   </div>
@@ -55,7 +55,7 @@ import {
   <div class="third">
     <div class="note-num">
       <div><Book/>笔记总数</div>
-      <div>{{ noteNum }}(+5)</div><!-- +5 代表今天创建了 5 篇笔记 -->
+      <div>{{ noteNum }}<span class="today">+5</span></div><!-- +5 代表今天创建了 5 篇笔记 -->
     </div>
     <div class="attach-num">
       <div><FileDigit/>附件总数</div>
@@ -64,14 +64,7 @@ import {
   </div>
 
   <div class="fourth">
-    <div class="tag-num">
-      <div>标签总数</div>
-      <div>Num:标签总数</div>
-    </div>
-    <div class="task-num">
-      <div>任务总数</div>
-      <div>Num:任务总数</div>
-    </div>
+    你已使用 Obsidian <span class="useday-num">{{ usedayNum }}</span> 天
   </div>
 
   <div class="fifth">
@@ -112,7 +105,7 @@ import {
       top: 1px;
       width: 10px;
       height: 10px;
-      background: #4CAF50;
+      background: #29B6F6;
       border-radius: 50%;
     }
     .str:nth-child(2) {
@@ -204,7 +197,21 @@ import {
         margin: 4px 2px;
         color: hsla(200, 20%, 12%);
         font-size: 18px;
+        .today {
+          color: #AED581;
+          font-feature-settings: 'sups';
+        }
       }
+    }
+  }
+
+  /* --- 使用天数 --- */
+  .fourth {
+    color: hsla(200, 20%, 12%, 40%);
+    font-size: 16px;
+    .useday-num {
+      color: #111;
+      font-feature-settings: 'tnum';  // 小米字体官网 thum 参数是错的
     }
   }
 }
