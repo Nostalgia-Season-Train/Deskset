@@ -4,6 +4,7 @@ import { _t } from '#manager/main/i18n'
 import { Router } from 'vue-router'
 const props = defineProps<{ router: Router }>()
 
+import { PanelLeft } from 'lucide-vue-next'
 import { Info, Home, LayoutDashboard, Image, Palette } from 'lucide-vue-next'
 import CogLoop from '#desksetui/icons/MaterialLineIcons/CogLoop.vue'
 const items = [
@@ -23,6 +24,7 @@ const items = [
   <div class="logo">
     <img src="/static/icons/Deskset LOGO v2.1.png" draggable="false"/>
     <span class="text">Deskset</span>
+    <PanelLeft/><!-- 控制侧边栏折叠，目前仅起装饰作用 -->
   </div>
 
   <div
@@ -66,6 +68,9 @@ const items = [
       margin-left: 4px;  // 文字左边对齐 4+28+(4)=6+24+(6)
       font-family: 'Rany';
       font-size: 20px;
+    }
+    &>:last-child {
+      margin-left: auto;
     }
   }
 
