@@ -79,9 +79,9 @@ const items = [
 
   .item {
     position: relative;
-    padding: 3px 8px;
+    padding: 4px 6px;
     .item__content {
-      padding: 3px 6px;
+      padding: 2px 4px;
       display: flex;
       align-items: center;
       color: var(--deskset-text-sharp-color);
@@ -113,22 +113,16 @@ const items = [
   }
   .item:last-child {
     margin-top: auto;
-    margin-bottom: 6px;
   }
-  /* --- 主页和部件间的分割线 --- */
-  .item:nth-child(3) {
-    margin-bottom: 6px;
-  }
-  .item:nth-child(4) {
-    margin-top: 6px;
-  }
+  /* --- 分割线 --- */
   .item:nth-child(3)::after {
     content: '';
     position: absolute;
     left: 0;
-    bottom: -7px;
+    bottom: 0;
     width: 100%;
-    height: 2px;
+    height: 1px;
+    opacity: .5;
     background: var(--deskset-text-sharp-color);
   }
 }
