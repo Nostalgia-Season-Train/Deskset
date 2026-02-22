@@ -26,8 +26,9 @@ useInterval(refresh, 5 * 60 * 1000)
 <div class="vault-stats">
 
   <div class="first">
-    <div></div><!-- 连接显示绿球，未连接显示红球 -->
-    <div>仓库名</div><!-- 仓库名称（仓库父文件夹） -->
+    <div class="icon"></div><!-- 连接显示绿球，未连接显示红球 -->
+    <div class="str">PARA By Link</div><!-- 仓库名称（仓库父文件夹） -->
+    <div class="str">ONLINE</div><!-- 装饰 -->
   </div>
 
   <div class="second">
@@ -71,6 +72,10 @@ useInterval(refresh, 5 * 60 * 1000)
 
 
 <style lang="less" scoped>
+* {
+  font-family: 'MiSansVF';
+}
+
 .vault-stats {
   box-sizing: border-box;
   width: 280px;
@@ -79,5 +84,39 @@ useInterval(refresh, 5 * 60 * 1000)
   background: hsl(200, 10%, 90%);
   border: solid 1px #FFF;
   border-radius: 5px;
+
+  &>:nth-child(n) {
+    margin: 12px;
+  }
+
+  /* --- 仓库名 --- */
+  .first {
+    height: 24px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    .icon {
+      position: relative;
+      top: 1px;
+      width: 10px;
+      height: 10px;
+      background: #4CAF50;
+      border-radius: 50%;
+    }
+    .str:nth-child(2) {
+      color: hsla(200, 20%, 12%, 80%);
+      font-size: 18px;
+      font-weight: 500;
+    }
+    .str:nth-child(3) {
+      margin-left: auto;
+      padding: 3px 6px;
+      color: #333A;
+      font-size: 10px;
+      font-weight: 500;
+      background: #FFF;
+      border-radius: 5px;
+    }
+  }
 }
 </style>
