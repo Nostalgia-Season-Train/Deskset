@@ -22,7 +22,10 @@ useInterval(refresh, 5 * 60 * 1000)
 
 
 /* ==== 子组件 ==== */
-import { Book } from 'lucide-vue-next'
+import {
+  Book,
+  FileDigit
+} from 'lucide-vue-next'
 </script>
 
 
@@ -51,18 +54,12 @@ import { Book } from 'lucide-vue-next'
 
   <div class="third">
     <div class="note-num">
-      <div>笔记总数</div>
-      <div>Num:笔记总数</div>
-      <div>Num:今日创建的笔记数</div>
+      <div><Book/>笔记总数</div>
+      <div>{{ noteNum }}(+5)</div><!-- +5 代表今天创建了 5 篇笔记 -->
     </div>
     <div class="attach-num">
-      <div>附件总数</div>
-      <div>Num:附件总数</div>
-      <div>Num:今日创建的附件数</div>
-    </div>
-    <div class="useday0num">
-      <div>使用天数</div>
-      <div>Num:仓库使用天数</div>
+      <div><FileDigit/>附件总数</div>
+      <div>{{ attachmentNum }}</div>
     </div>
   </div>
 
@@ -88,6 +85,7 @@ import { Book } from 'lucide-vue-next'
 <style lang="less" scoped>
 * {
   font-family: 'MiSansVF';
+  font-weight: 500;
 }
 
 .vault-stats {
@@ -159,19 +157,54 @@ import { Book } from 'lucide-vue-next'
         }
       }
       .type {
-        padding: 3px;
+        padding: 5px;
         display: flex;
         justify-content: center;
         align-items: center;
         color: #FF9800;
         background: #FFECB3;
         border-radius: 5px;
+        svg {
+          width: 20px;
+          height: 20px;
+          stroke-width: 2.5;
+        }
       }
     }
     .latest-page {
       color: hsla(200, 20%, 12%, 60%);
       font-size: 14px;
       font-weight: 500;
+    }
+  }
+
+  /* --- 笔记总数、附件总数 --- */
+  .third {
+    display: flex;
+    justify-content: space-between;
+    gap: 7px;
+    &>:nth-child(n) {
+      padding: 5px;
+      flex: 1;
+      background: hsl(200, 10%, 96%);
+      border-radius: 5px;
+      &>:first-child {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        color: hsla(200, 20%, 12%, 40%);
+        font-size: 16px;
+        svg {
+          width: 18px;
+          height: 18px;
+          stroke-width: 2;
+        }
+      }
+      &>:last-child {
+        margin: 4px 2px;
+        color: hsla(200, 20%, 12%);
+        font-size: 18px;
+      }
     }
   }
 }
