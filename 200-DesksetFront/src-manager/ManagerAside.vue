@@ -28,12 +28,14 @@ const items = [
   </div>
 
   <div
-    :class="`item ${ item.page == router.currentRoute.value.name ? 'currentPage' : '' }`"
+    class="item"
     v-for="item in items"
     @click="$emit('jump', item.page)"
   >
-    <component class="icon" :is="item.icon"/>
-    <span class="text">{{ _t(item.page) }}</span>
+    <div :class="`item__content ${ item.page == router.currentRoute.value.name ? 'currentPage' : '' }`">
+      <component class="icon" :is="item.icon"/>
+      <span class="text">{{ _t(item.page) }}</span>
+    </div>
   </div>
 
 </div>
@@ -76,35 +78,35 @@ const items = [
 
   .item {
     position: relative;
-    margin: 3px 8px;
-    padding: 3px 6px;
-    display: flex;
-    align-items: center;
+    padding: 3px 8px;
 
-    color: var(--deskset-text-sharp-color);
-
-    transition: .3s;
-
-    .icon {
-      width: 24px;
-      height: 24px;
-      stroke-width: 1.6px;
-    }
-    .text {
-      margin-left: 6px;
-      font-family: 'MiSansVF';
-      font-size: 20px;
-      font-weight: 350;
+    .item__content {
+      padding: 3px 6px;
+      display: flex;
+      align-items: center;
+      color: var(--deskset-text-sharp-color);
+      transition: .3s;
+      .icon {
+        width: 24px;
+        height: 24px;
+        stroke-width: 1.6px;
+      }
+      .text {
+        margin-left: 6px;
+        font-family: 'MiSansVF';
+        font-size: 20px;
+        font-weight: 350;
+      }
     }
   }
-  .item:hover {
+  .item__content:hover {
     box-shadow: var(--shadow-s);
   }
-  .item:active {
+  .item__content:active {
     background: var(--bg-light);
     box-shadow: var(--shadow-m);
   }
-  .item.currentPage {
+  .item__content.currentPage {
     // 色卡来源：https://www.bilibili.com/video/BV1JPJhzSEED?t=22.0
     color: #315BB8;
     background: #D0ECF4;
