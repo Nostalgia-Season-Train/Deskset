@@ -8,7 +8,7 @@ import Header from './ManagerHeader.vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 const jump = async (page: string) => {
-  await router.push({ path: `/${page}` })
+  await router.push({ name: page })
 }
 
 
