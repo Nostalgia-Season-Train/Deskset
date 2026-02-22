@@ -24,18 +24,48 @@ useInterval(refresh, 5 * 60 * 1000)
 
 <template>
 <div class="vault-stats">
-  <div>
-    <div>笔记数</div>
-    <div>{{ noteNum }}</div>
+
+  <div class="first">
+    <div></div><!-- 连接显示绿球，未连接显示红球 -->
+    <div>仓库名</div><!-- 仓库名称（仓库父文件夹） -->
   </div>
-  <div>
-    <div>附件数</div>
-    <div>{{ attachmentNum }}</div>
+
+  <div class="second">
+    <div>当前标签页</div><!-- 仓库当前标签页 -->
   </div>
-  <div>
-    <div>累计天</div>
-    <div>{{ usedayNum }}</div>
+
+  <div class="third">
+    <div class="note-num">
+      <div>笔记总数</div>
+      <div>Num:笔记总数</div>
+      <div>Num:今日创建的笔记数</div>
+    </div>
+    <div class="attach-num">
+      <div>附件总数</div>
+      <div>Num:附件总数</div>
+      <div>Num:今日创建的附件数</div>
+    </div>
+    <div class="useday0num">
+      <div>使用天数</div>
+      <div>Num:仓库使用天数</div>
+    </div>
   </div>
+
+  <div class="fourth">
+    <div class="tag-num">
+      <div>标签总数</div>
+      <div>Num:标签总数</div>
+    </div>
+    <div class="task-num">
+      <div>任务总数</div>
+      <div>Num:任务总数</div>
+    </div>
+  </div>
+
+  <div class="fifth">
+    <div>打开 Obsidian 窗口</div>
+  </div>
+
 </div>
 </template>
 
@@ -43,28 +73,11 @@ useInterval(refresh, 5 * 60 * 1000)
 <style lang="less" scoped>
 .vault-stats {
   box-sizing: border-box;
-  width: 270px;
-  height: 100px;
+  width: 280px;
+  height: 320px;
 
-  color: #000;
-  background: #FFF7;
+  background: hsl(200, 10%, 90%);
   border: solid 1px #FFF;
-
-  display: flex;
-  justify-content: space-evenly;
-
-  :nth-child(n) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    :nth-child(1) {
-      font-size: 22px;
-    }
-    :nth-child(2) {
-      font-size: 20px;
-      font-weight: 1000;
-    }
-  }
+  border-radius: 5px;
 }
 </style>
