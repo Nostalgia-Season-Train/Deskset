@@ -1,4 +1,11 @@
 <script setup>
+/* ==== 注意事项 ==== */
+// Components 插件不会计入自身
+  // 也就是 .components 文件的创建编辑情况
+  // 所以热力图可能不一样
+
+
+/* ==== Echart 声明 ==== */
 import { ref } from 'vue'
 import VChart from 'vue-echarts'
 import * as echarts from 'echarts'
