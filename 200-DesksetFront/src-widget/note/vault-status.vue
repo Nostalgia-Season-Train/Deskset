@@ -67,8 +67,9 @@ import {
     你已使用 Obsidian <span class="useday-num">{{ usedayNum }}</span> 天
   </div>
 
+  <!-- 打开 Obsidian 仓库：跳转 Obsidian 窗口的口语化表述 -->
   <div class="fifth">
-    <div>打开 Obsidian 窗口</div>
+    打开 Obsidian 仓库
   </div>
 
 </div>
@@ -84,7 +85,7 @@ import {
 .vault-stats {
   box-sizing: border-box;
   width: 280px;
-  height: 320px;
+  height: fit-content;
 
   background: hsl(200, 10%, 90%);
   border: solid 1px #FFF;
@@ -212,6 +213,26 @@ import {
     .useday-num {
       color: #111;
       font-feature-settings: 'tnum';  // 小米字体官网 thum 参数是错的
+    }
+  }
+
+  /* --- 打开 Obsidian 仓库 --- */
+  .fifth {
+    padding: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #EEE;
+    font-size: 16px;
+    font-weight: 400;
+    background: #7E57C2;
+    border-radius: 5px;
+    transition: .3s;
+    &:hover {
+      background: #673AB7;
+    }
+    &:active {
+      background: #9575CD;
     }
   }
 }
