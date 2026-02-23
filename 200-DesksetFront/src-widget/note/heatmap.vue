@@ -50,8 +50,11 @@ const heatChart = ref({
 import axios from 'axios'
 
 const refresh = async () => {
-  const heatsRaw = (await axios.get(`/v0/note/obsidian/stats/heatmap/${weeknum}`)).data.result
-  const heats = heatsRaw.map(heat => [dayjs(heat.date, 'YYYYMMDD').format('YYYY-MM-DD'), heat.number])
+  const rawHeats = (await axios.post(`/v0/note/obsidian/stats/heatmap`, {
+    start_day: dayjs().subtract(weeknum, 'week').startOf('week').format('YYYYMMDD'),
+    end_day: dayjs().format('YYYYMMDD')
+  })).data.result
+  const heats = rawHeats.map(heat => [dayjs(heat.date, 'YYYYMMDD').format('YYYY-MM-DD'), heat.number])
   heatChart.value.calendar.range = [heats[0][0], heats[heats.length - 1][0]]
   heatChart.value.series.data = heats
 }

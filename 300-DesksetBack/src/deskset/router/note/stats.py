@@ -10,7 +10,7 @@ async def vault_status():
     return await noteapi.get_vault_status()
 
 @router_stats.post('/heatmap')
-async def heatmap(req: DesksetReqDateDayRange = Depends()):
+async def heatmap(req: DesksetReqDateDayRange):
     return await noteapi.get_heatmap(req.start_day, req.end_day)
 
 # - [ ] 临时，后面转移到新路由
