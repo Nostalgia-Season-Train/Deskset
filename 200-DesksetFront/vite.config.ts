@@ -4,7 +4,6 @@ import path from 'path'
 
 // 插件
 import vue from '@vitejs/plugin-vue'
-import tailwindcss from '@tailwindcss/vite'
 
 
 /* === 全局变量 === */
@@ -51,7 +50,6 @@ export default defineConfig(async () => ({
 
   plugins: [
     vue(),
-    tailwindcss(),
   ],
   css: {
     preprocessorOptions: {
