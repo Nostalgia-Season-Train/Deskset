@@ -167,8 +167,6 @@ noteapi = NoteAPI()
 
 # ==== ==== 端点 Endpoint ==== ====
 from deskset.router._unify.access import router_access
-from fastapi import Request, Depends
-from fastapi.security import OAuth2PasswordRequestForm
 
 
 # ==== 全双工通信 Websocket ====
@@ -218,10 +216,15 @@ async def rpc(websocket: WebSocket):
   # - [ ] 改进：连接步骤 = http 登录 + websocket 上线/下线
     # 1、http 访问 login：身份认证和初始信息，生成本次 wstoken 及 { wstoken: 初始信息 }
     # 2、websocket 访问 rpc：检查 wstoken 后取回初始信息，创建 RpcClient(ws, init)
+from deskset.core.config import DESKSET_NOTEAPI_VERSION
+from fastapi import Request, Form
+
 @router_access.post('/note/obsidian/login')
 def login(
     request: Request,
-    form: OAuth2PasswordRequestForm = Depends()
+    username: str = Form(),
+    password: str = Form(),
+    version: str = Form()
 ):
     # Sec- 开头的请求标头，无法从浏览器发出
       # 目标：确保请求来源 NodeJS，而不是浏览器
@@ -232,10 +235,12 @@ def login(
         raise HTTPException(status_code=400, detail='Invalid client')
 
     # 输入和输出：username、password，access_token、token_type 都不需要自己指定键名
-    if form.username != config.username:
+    if username != config.username:
         raise HTTPException(status_code=400, detail='Invalid username')
-    if form.password != config.password:
+    if password != config.password:
         raise HTTPException(status_code=400, detail='Invalid password')
+    if version != DESKSET_NOTEAPI_VERSION:
+        raise HTTPException(status_code=400, detail=f'Require NoteAPI {DESKSET_NOTEAPI_VERSION} version')
     if not noteapi._rpc is None:
         raise HTTPException(status_code=400, detail='Another NoteAPI is online')
 

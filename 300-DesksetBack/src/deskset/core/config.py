@@ -180,3 +180,7 @@ class Config:
 
 
 config = Config()
+
+
+# ==== 全局静态配置 ====
+DESKSET_NOTEAPI_VERSION = '0.0.1'
