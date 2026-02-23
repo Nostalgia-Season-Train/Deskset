@@ -3,6 +3,10 @@
   "version": "v0.0.1",
   "descript": "通过条件过滤笔记后统计数量，双击随机打开其中一篇笔记",
   "model": {
+    "icon": {
+      "type": "str",
+      "default": "page-facing-up"
+    },
     "title": {
       "type": "str",
       "default": "文件数"
@@ -41,6 +45,10 @@
       "id": "base",
       "text": "基础",
       "items": [{
+        "key": "icon",
+        "input": "Input",
+        "name": "图标"
+      }, {
         "key": "title",
         "input": "Input",
         "name": "标题（可以插入 Emoji 表情）"

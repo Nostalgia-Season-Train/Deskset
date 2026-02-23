@@ -4,10 +4,11 @@ import axios from 'axios'
 import { getIconData } from '@iconify/utils'
 import { icons } from '@iconify-json/fluent-emoji-flat'
 
-const iconifyData = ref(getIconData(icons, 'page-facing-up'))
+const iconifyData = ref()
 
 const model = defineModel<{
   /* --- 基础 --- */
+  icon: string,
   title: string,
 
   /* --- 筛选 --- */
@@ -27,6 +28,7 @@ const refresh = async () => {
   const filterGroup = toRaw(model.value.filterGroup)
   const rep = await axios.post('/v0/note/obsidian/stats/filter-frontmatter', filterGroup)
   number.value = rep.data.result.length
+  iconifyData.value = getIconData(icons, model.value.icon)
 }
 refresh()
 
