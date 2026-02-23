@@ -32,6 +32,7 @@
     "@fullcalendar/interaction": "^6.1.15",
     "@fullcalendar/vue3": "^6.1.15",
     "@iconify-json/fluent-emoji-flat": "^1.2.5",
+    "@iconify-json/noto": "^1.2.7",
     "@iconify/utils": "^3.1.0",
     "@iconify/vue": "^4.3.0",
     "@tailwindcss/vite": "^4.1.11",
