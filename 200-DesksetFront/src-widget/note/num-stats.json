@@ -5,7 +5,7 @@
   "model": {
     "title": {
       "type": "str",
-      "default": "📝笔记总数"
+      "default": "文件数"
     },
     "titleColor": {
       "type": "rgba",
