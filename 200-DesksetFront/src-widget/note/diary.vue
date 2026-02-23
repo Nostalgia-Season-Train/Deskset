@@ -110,7 +110,7 @@ dayjs.locale('zh-cn')  // ElDatePicker 采用 dayjs 格式化，也需设置中�
 }
 
 .diary {
-  width: 270px;
+  width: 280px;
   height: 250px;
 
   color: #000;
