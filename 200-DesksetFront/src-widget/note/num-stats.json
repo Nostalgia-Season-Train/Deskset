@@ -5,7 +5,7 @@
   "model": {
     "icon": {
       "type": "str",
-      "default": "page-facing-up"
+      "default": "fluent-emoji-flat:page-facing-up"
     },
     "title": {
       "type": "str",
