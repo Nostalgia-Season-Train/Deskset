@@ -74,7 +74,7 @@ if (!import.meta.env.DEV as boolean) {
 
 <style lang="less" scoped>
 body {
-  background: var(--bg-dark);
+  background: hsla(from var(--bg-dark) h s l / .65);
   display: flex;
 
   // calc 计算 aside、main 宽度，header、article 高度

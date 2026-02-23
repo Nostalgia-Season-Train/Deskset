@@ -21,7 +21,7 @@ html, body, #manager {
 :root {
   user-select: none;
 
-  --bg-dark: hsla(0, 0%, 80%, 0.85);
+  --bg-dark: hsl(0, 0%, 85%);
   --bg: hsl(0, 0%, 95%);
   --bg-light: hsl(0, 0%, 100%);
 
