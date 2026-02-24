@@ -169,9 +169,15 @@ onBeforeUnmount(() => stopwatch.finish())  // 重要！step 不会自动停止
     display: flex;
     justify-content: space-between;
     gap: 27px;
-    span {
-      padding: 5px 10px;
-      border-radius: 5px;
+    .button {
+      transition: all .1s ease-out;
+      &:active {
+        transform: translateY(5px);
+      }
+      span {
+        padding: 5px 10px;
+        border-radius: 5px;
+      }
     }
   }
 }
