@@ -39,7 +39,7 @@ class StopWatch {
     const tensms = Math.floor((ms % 1000) / 10)  // 10 ms
 
     const digitNumber = String(min * 10000 + sec * 100 + tensms).length  // 位数 = 数字个数
-    const fulltime = [min, sec, tensms].map(n => String(n).padStart(2, '0')).join(':')
+    const fulltime = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}.${tensms.toString().padStart(2, '0')}`
 
     if (digitNumber <= 2) {
       return {
@@ -77,7 +77,7 @@ class StopWatch {
 import { ref, reactive, onBeforeUnmount } from 'vue'
 
 const isTiming = ref(false)
-const time = reactive({ high: '00:00:00', low: '' })
+const time = reactive({ high: '00:00.00', low: '' })
 const stopwatch = new StopWatch(time, isTiming)
 
 onBeforeUnmount(() => stopwatch.finish())  // 重要！step 不会自动停止
@@ -97,15 +97,12 @@ const model = defineModel<{
 
 <template>
 <div class="container">
+
   <div class="time">
-    <span :style="`
-      color: ${model.highcolor};
-    `">{{ time.high }}</span>
-    <span :style="`
-      color: ${model.lowcolor};
-      font-weight: 1000;
-    `">{{ time.low }}</span>
+    <span>{{ time.high }}</span>
+    <span>{{ time.low }}</span>
   </div>
+
   <div class="button">
     <div v-if="!isTiming" @click="stopwatch.begin">
       <Play :style="`color: ${model.highcolor};`" :stroke-width="2.25"/>
@@ -114,11 +111,16 @@ const model = defineModel<{
       <Square :style="`color: ${model.lowcolor};`" :stroke-width="2.25"/>
     </div>
   </div>
+
 </div>
 </template>
 
 
 <style lang="less" scoped>
+* {
+  font-family: 'MisansVF';
+}
+
 .container {
   width: 148px;
   height: 78px;
@@ -132,10 +134,15 @@ const model = defineModel<{
   border: solid 1px #FFF;
 
   .time {
+    position: relative;
+    top: -1px;
     font-size: 1.8em;
-    width: 121px;  // 固定宽度，避免数字变化（每个数字宽度不一样）带动位置变化
+    font-weight: 350;
+    font-feature-settings: 'ss01', 'tnum';
   }
   .button {
+    position: relative;
+    top: 1px;
     font-size: 1.2em;
     transition: all .1s ease-out;
     &:active {
