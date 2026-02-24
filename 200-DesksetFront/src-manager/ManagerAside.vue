@@ -9,9 +9,9 @@ import { Info, Home, Dashboard, Image, Palette } from '#desksetui/icons/Google M
 import CogLoop from '#desksetui/icons/Material Line Icons/CogLoop.vue'
 const items = [
   { icon: Info,      page: 'welcome' },
-  { icon: Home,      page: 'homepage' },
+  // { icon: Home,      page: 'homepage' },
   { icon: Dashboard, page: 'widget' },
-  { icon: Image,     page: 'wallpaper' },
+  // { icon: Image,     page: 'wallpaper' },
   { icon: Palette,   page: 'theme' },
   { icon: CogLoop,   page: 'setting' }
 ]
@@ -115,15 +115,15 @@ const items = [
     margin-top: auto;
   }
   /* --- 分割线 --- */
-  .item:nth-child(3)::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 1px;
-    opacity: .5;
-    background: var(--deskset-text-sharp-color);
-  }
+  // .item:nth-child(3)::after {
+  //   content: '';
+  //   position: absolute;
+  //   left: 0;
+  //   bottom: 0;
+  //   width: 100%;
+  //   height: 1px;
+  //   opacity: .5;
+  //   background: var(--deskset-text-sharp-color);
+  // }
 }
 </style>
