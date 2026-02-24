@@ -33,6 +33,7 @@ const openMenu = async () => {
   <ElDropdown placement="bottom" trigger="click" style="width: 100%; height: 100%;">
     <ElButton @click="openMenu">
       <Grid2X2Plus/>
+      <span style="width: 3px;"></span>
       <span>添加部件</span>
     </ElButton>
     <template #dropdown>
@@ -56,9 +57,6 @@ const openMenu = async () => {
   .el-button {
     width: 100%;
     height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     svg {
       stroke-width: 1;
     }
