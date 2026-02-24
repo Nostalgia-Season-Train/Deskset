@@ -94,7 +94,7 @@ import {
     </div>
 
     <div class="right">
-      <div class="right-title">属性</div><!-- - [ ] 需要翻译 -->
+      <div class="right-title">状态</div><!-- 别跟状态模式搞混了！这是 CSS 类名（也别跟面向对象类搞混...）控制的部件行为 -->
       <div class="right-item">
         <span>{{ _t('锁定拖动') }}</span>
         <Switch v-model="widget.isDragLock" @click="emit('switchProp', widget.id, 'drag-lock', widget.isDragLock)"/>
