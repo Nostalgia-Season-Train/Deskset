@@ -106,7 +106,7 @@ const model = defineModel<{
   <div class="second">
     <div class="button">
       <span
-        style="color: #111; font-weight: 350; background: #EEE;"
+        style="color: #FFF; font-weight: 300; background: #2196F3;"
       >重置</span>
     </div>
     <div class="button">
@@ -133,20 +133,23 @@ const model = defineModel<{
 }
 
 .container {
-  padding: 2px 12px;
-  padding-bottom: 8px;
+  padding: 5px 15px;
+  padding-bottom: 15px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 7px;
 
-  color: #000;
-  background: #FFF7;
+  color: #000C;
+  background: #FFFD;
   border: solid 1px #FFF;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px #0003;
 
   .time {
     font-size: 32px;
-    font-weight: 350;
+    font-weight: 400;
     font-feature-settings: 'ss01', 'tnum';
   }
   // .button {
@@ -162,14 +165,10 @@ const model = defineModel<{
   .second {
     display: flex;
     justify-content: space-between;
-    gap: 30px;
+    gap: 27px;
     span {
-      width: 38px;
-      height: 38px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 50%;
+      padding: 5px 10px;
+      border-radius: 5px;
     }
   }
 }
