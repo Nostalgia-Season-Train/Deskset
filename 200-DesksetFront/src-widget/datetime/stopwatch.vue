@@ -103,12 +103,23 @@ const model = defineModel<{
     <span>{{ time.low }}</span>
   </div>
 
-  <div class="button">
-    <div v-if="!isTiming" @click="stopwatch.begin">
-      <Play :style="`color: ${model.highcolor};`" :stroke-width="2.25"/>
+  <div class="second">
+    <div class="button">
+      <span
+        style="color: #111; font-weight: 350; background: #EEE;"
+      >重置</span>
     </div>
-    <div v-else @click="stopwatch.finish">
-      <Square :style="`color: ${model.lowcolor};`" :stroke-width="2.25"/>
+    <div class="button">
+      <span
+        style="color: #FFF; font-weight: 300; background: #66BB6A;"
+        v-if="!isTiming"
+        @click="stopwatch.begin"
+      >开始</span>
+      <span
+        style="color: #FFF; font-weight: 300; background: #E53935;"
+        v-else
+        @click="stopwatch.finish"
+      >结束</span>
     </div>
   </div>
 
@@ -122,31 +133,43 @@ const model = defineModel<{
 }
 
 .container {
-  width: 148px;
-  height: 78px;
+  padding: 2px 12px;
+  padding-bottom: 8px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 
   color: #000;
   background: #FFF7;
   border: solid 1px #FFF;
 
   .time {
-    position: relative;
-    top: -1px;
-    font-size: 1.8em;
+    font-size: 32px;
     font-weight: 350;
     font-feature-settings: 'ss01', 'tnum';
   }
-  .button {
-    position: relative;
-    top: 1px;
-    font-size: 1.2em;
-    transition: all .1s ease-out;
-    &:active {
-      transform: translateY(5px);
+  // .button {
+  //   position: relative;
+  //   top: 1px;
+  //   font-size: 1.2em;
+  //   transition: all .1s ease-out;
+  //   &:active {
+  //     transform: translateY(5px);
+  //   }
+  // }
+
+  .second {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    span {
+      width: 38px;
+      height: 38px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
     }
   }
 }
