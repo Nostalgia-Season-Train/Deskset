@@ -62,11 +62,11 @@ import {
 
   <div class="top">
     <div class="first-line">
-      <input
-        class="title selection:bg-primary selection:text-primary-foreground"
+      <Input
+        class="title"
         v-model="widget.title"
         @change="ensureTitle"
-      ></input>
+      ></Input>
       <div class="btns">
         <div class="btn"><Button @click="emit('remove', widget.id)">{{ _t('删除') }}</Button></div>
         <div class="btn" v-if="widget.option != undefined"><Button @click="emit('edit', widget.id)">{{ _t('编辑') }}</Button></div>
@@ -138,9 +138,18 @@ import {
       justify-content: space-between;
       align-items: center;
 
-      .title {
-        font-size: 20px;
-        font-weight: 1000;
+      :deep(.title) {
+        .el-input__wrapper {
+          padding: 0;
+          background: transparent;
+          .el-input__inner {
+            font-size: 20px;
+            font-weight: 560;
+          }
+          &:hover, &.is-focus {
+            box-shadow: none;
+          }
+        }
       }
       .btns {
         // 视觉平衡：对齐文字高度，而非行高
