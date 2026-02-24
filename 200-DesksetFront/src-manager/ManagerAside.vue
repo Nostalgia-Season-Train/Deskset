@@ -68,6 +68,7 @@ const items = [
         box-shadow: var(--shadow-s)
       }
       .text {
+        margin-left: 4px;
         font-family: 'Rany';
         font-size: 20px;
       }
