@@ -122,7 +122,7 @@ import Info from './Widget/RightInfo.vue'
 
   display: flex;
   justify-content: space-between;
-  gap: 5px;
+  gap: var(--content-padding);
 
   .left {
     padding: 5px;

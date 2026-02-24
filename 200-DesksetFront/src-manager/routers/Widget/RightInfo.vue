@@ -122,14 +122,13 @@ import {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 5px;
 
   color: var(--color-deskset-primary);
+  background: var(--bg);
 
   .top {
     padding: 5px;
     flex: 1;
-    background: var(--bg);
 
     .first-line {
       height: 28px;
@@ -172,15 +171,17 @@ import {
     display: flex;
     justify-content: space-between;
     align-items: stretch;  // 让子元素填满高度
-    gap: 5px;
 
+    &>:nth-child(n) {
+      margin: 5px;
+      padding: 4px 6px;
+      border: solid 1px var(--deskset-text-sharp-color);
+    }
     .left {
-      padding: 2px 4px;
       flex: 1;
       display: flex;
       flex-direction: column;
       gap: 2px;
-      background: var(--bg);
       .left-title {
         text-align: center;
       }
@@ -194,12 +195,10 @@ import {
       }
     }
     .right {
-      padding: 2px 4px;
       flex: 1;
       display: flex;
       flex-direction: column;
       gap: 2px;
-      background: var(--bg);
       .right-title {
         text-align: center;
       }
