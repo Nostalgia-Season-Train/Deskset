@@ -29,13 +29,13 @@ import { X } from 'lucide-vue-next'
       width: 300
     }); emit('change')"
   >添加属性</ElButton>
-  <div class="flex">
+  <div style="display: flex;">
     <div style="width: 120px;">属性名</div>
-    <div class="flex-1">标题</div>
+    <div style="flex: 1;">标题</div>
     <div style="width: 80px;">宽度</div>
     <div>删除</div>
   </div>
-  <div v-for="(prop, index) in noteProp.props" class="flex">
+  <div v-for="(prop, index) in noteProp.props" style="display: flex;">
     <ElInput
       style="width: 120px;"
       v-model="prop.dataKey"
@@ -43,8 +43,7 @@ import { X } from 'lucide-vue-next'
       @change="emit('change')"
     />
     <ElInput
-      class="flex-1"
-      style="width: 0;"
+      style="width: 0; flex: 1;"
       v-model="prop.title"
       placeholder="Title"
       @change="emit('change')"
