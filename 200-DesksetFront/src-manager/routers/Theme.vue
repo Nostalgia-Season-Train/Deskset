@@ -74,7 +74,11 @@ const store = useThemeStore()
 <div class="content">
 
   <div class="themes-wrapper">
-    <ElTable :data="store.themes" style="width: 100%; height: 100%;">
+    <ElTable
+      empty-text="暂无可用主题，点击右上角按钮保存主题"
+      :data="store.themes"
+      style="width: 100%; height: 100%;"
+    >
       <ElTableColumn label="名称" prop="name" width="200" fixed="left"/>
       <ElTableColumn label="保存时间" prop="savetime"/>
       <ElTableColumn label="操作" width="350" fixed="right">

@@ -7,13 +7,15 @@
   --el-table-tr-bg-color: var(--bg);
 
   .cell {
-    color: var(--text);
-    font-size: var(--text-size);
+    .deskset-text();
     overflow: visible;
   }
   .el-table__header {
     .cell {
       .deskset-com-text-title();
     }
+  }
+  .el-table__empty-text {
+    .deskset-text();
   }
 }
