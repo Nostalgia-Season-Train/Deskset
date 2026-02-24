@@ -69,11 +69,11 @@ import { X } from 'lucide-vue-next'
       <ElOption value="any" label="匹配任意"/>
     </ElSelect>
   </div>
-  <div class="flex">
+  <div style="display: flex;">
     <span style="width: 120px;">属性名</span>
     <span style="width: 40px;">取反</span>
     <span style="width: 120px">条件</span>
-    <span class="flex-1">比较值</span>
+    <span style="flex: 1;">比较值</span>
     <span>删除</span>
   </div>
   <!-- 过滤器 -->
@@ -120,7 +120,7 @@ import { X } from 'lucide-vue-next'
       </ElSelect>
       <ElDatePicker
         v-if="(filter as Filter).propertyKey == 'file.ctime' || (filter as Filter).propertyKey == 'file.mtime'"
-        class="flex-1"
+        style="height: 28px; flex: 1;"
         type="datetime"
         value-format="x"
         v-model="(filter as Filter).compareValue"
@@ -128,8 +128,7 @@ import { X } from 'lucide-vue-next'
       /><!-- value-format="x" compareValue 数字时间戳 -->
       <ElInput
         v-else
-        class="flex-1"
-        style="width: 0;"
+        style="width: 0; flex: 1;"
         v-model="(filter as Filter).compareValue"
         placeholder="Value"
         :disabled="(filter as Filter).type == 'isEmpty'"
