@@ -1,13 +1,15 @@
 <script lang="ts" setup>
-import { Reactive } from 'vue'
+import { Reactive, Ref } from 'vue'
 
 class StopWatch {
   _start: number | null = null
   _isEnd: boolean = false  // step 判断结束的标志
   _time: Reactive<{ high: string, low: string }>
+  _isTiming: Ref<boolean>
 
-  constructor(time: Reactive<{ high: string, low: string }>) {
+  constructor(time: Reactive<{ high: string, low: string }>, isTiming: Ref<boolean>) {
     this._time = time
+    this._isTiming = isTiming
   }
 
   // step 传入 requestAnimationFrame 轮询回调自身
@@ -62,10 +64,12 @@ class StopWatch {
       return  // start != null 正在计时
     }
     requestAnimationFrame(this._step)
+    this._isTiming.value = true
   }
 
   finish = () => {
     this._isEnd = true
+    this._isTiming.value = false
   }
 }
 
@@ -74,7 +78,7 @@ import { ref, reactive, onBeforeUnmount } from 'vue'
 
 const isTiming = ref(false)
 const time = reactive({ high: '00:00:00', low: '' })
-const stopwatch = new StopWatch(time)
+const stopwatch = new StopWatch(time, isTiming)
 
 onBeforeUnmount(() => stopwatch.finish())  // 重要！step 不会自动停止
 
@@ -103,10 +107,10 @@ const model = defineModel<{
     `">{{ time.low }}</span>
   </div>
   <div class="button">
-    <div v-if="isTiming == false" @click="stopwatch.begin(); isTiming = true">
+    <div v-if="!isTiming" @click="stopwatch.begin">
       <Play :style="`color: ${model.highcolor};`" :stroke-width="2.25"/>
     </div>
-    <div v-if="isTiming == true" @click="stopwatch.finish(); isTiming = false">
+    <div v-else @click="stopwatch.finish">
       <Square :style="`color: ${model.lowcolor};`" :stroke-width="2.25"/>
     </div>
   </div>
