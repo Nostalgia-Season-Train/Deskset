@@ -109,8 +109,8 @@ const items = [
   }
   .item__content.currentPage {
     // 色卡来源：https://www.bilibili.com/video/BV1JPJhzSEED?t=22.0
-    color: #315BB8;
-    background: #D0ECF4;
+    color: var(--deskset-color-primary);
+    background: var(--deskset-color-primary-light-9);
   }
   .item:last-child {
     margin-top: auto;
