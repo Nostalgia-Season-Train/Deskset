@@ -86,11 +86,7 @@ const store = useConfigStore()
     .description {
       .deskset-text();
       .info {
-        position: relative;
-        left: 5px;
-        top: -1px;
-        color: var(--el-color-primary);
-        font-size: calc(var(--text-size) - 2px);
+        .deskset-text-caption();
       }
     }
   }
