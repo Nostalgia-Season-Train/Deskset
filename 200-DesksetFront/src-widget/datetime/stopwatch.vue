@@ -3,26 +3,23 @@ import { Reactive, Ref } from 'vue'
 
 class StopWatch {
   _start: number | null = null
-  _isEnd: boolean = false  // step 判断结束的标志
   _time: Reactive<{ high: string, low: string }>
-  _isTiming: Ref<boolean>
+  _status: Ref<'idle' | 'running' | 'paused'>  // 空闲 > 运行 > 暂停
 
-  constructor(time: Reactive<{ high: string, low: string }>, isTiming: Ref<boolean>) {
+  constructor(time: Reactive<{ high: string, low: string }>, status: Ref<'idle' | 'running' | 'paused'>) {
     this._time = time
-    this._isTiming = isTiming
+    this._status = status
   }
 
   // step 传入 requestAnimationFrame 轮询回调自身
   _step = (timestamp: number) => {
-    if (this._isEnd == true) {
-      this._start = null
-      this._isEnd = false
-      return
+    if (this._status.value !== 'running') {
+      return  // 非运行状态，直接退出
+    }
+    if (this._start === null) {
+      this._start = timestamp  // 空闲到运行状态，this._start 赋值
     }
 
-    if (this._start == null) {
-      this._start = timestamp
-    }
     const elapsed = timestamp - this._start
     const { high, low } = this._msFormat(elapsed)
     this._time.high = high
@@ -60,38 +57,38 @@ class StopWatch {
   }
 
   begin = () => {
-    if (this._start != null) {
-      return  // start != null 正在计时
+    if (this._start !== null) {
+      return  // start !== null 正在计时
     }
+    this._status.value = 'running'
     requestAnimationFrame(this._step)
-    this._isTiming.value = true
+  }
+
+  togglePause = () => {
+    if (this._status.value === 'paused') {
+      this._status.value = 'running'
+      requestAnimationFrame(this._step)
+    } else {
+      this._status.value = 'paused'
+    }
   }
 
   finish = () => {
-    this._isEnd = true
-    this._isTiming.value = false
+    this._status.value = 'idle'
+    this._start = null
+    this._time.high = '00:00.00'
+    this._time.low = ''
   }
 }
 
 
 import { ref, reactive, onBeforeUnmount } from 'vue'
 
-const isTiming = ref(false)
+const status = ref<'idle' | 'running' | 'paused'>('idle')
 const time = reactive({ high: '00:00.00', low: '' })
-const stopwatch = new StopWatch(time, isTiming)
+const stopwatch = new StopWatch(time, status)
 
 onBeforeUnmount(() => stopwatch.finish())  // 重要！step 不会自动停止
-
-
-/* === 图标 === */
-import { Play, Square } from 'lucide-vue-next'
-
-
-/* === 配置 === */
-const model = defineModel<{
-  highcolor: string,
-  lowcolor: string
-}>({ required: true })
 </script>
 
 
@@ -107,19 +104,25 @@ const model = defineModel<{
     <div class="button">
       <span
         style="color: #FFF; font-weight: 300; background: #2196F3;"
+        @click="stopwatch.finish"
       >重置</span>
     </div>
     <div class="button">
       <span
         style="color: #FFF; font-weight: 300; background: #66BB6A;"
-        v-if="!isTiming"
+        v-if="status === 'idle'"
         @click="stopwatch.begin"
       >开始</span>
       <span
         style="color: #FFF; font-weight: 300; background: #E53935;"
-        v-else
-        @click="stopwatch.finish"
-      >结束</span>
+        v-if="status === 'running'"
+        @click="stopwatch.togglePause"
+      >暂停</span>
+      <span
+        style="color: #FFF; font-weight: 300; background: #FFB300;"
+        v-if="status === 'paused'"
+        @click="stopwatch.togglePause"
+      >继续</span>
     </div>
   </div>
 
