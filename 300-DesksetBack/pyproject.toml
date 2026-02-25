@@ -19,7 +19,7 @@ dependencies = [
     "asyncer>=0.0.8",
     "dynaconf==3.2.6",
     "fastapi>=0.133.0",
-    "httpx==0.27.2",
+    "httpx>=0.28.1",
     "icoextract==0.1.6",
     "orjson==3.10.7",
     "psutil==6.0.0",
