@@ -224,6 +224,23 @@ combined_app = FastAPI(
 )
 
 
+# ==== MCP 客户端 ====
+@mcp.tool
+def greet_name(name: str) -> str:
+    '''Greet a user by name.'''
+    return f'Hello, {name}!'
+
+from fastmcp import Client
+from asyncio import create_task
+
+async def test_client():
+    async with Client(mcp) as client:
+        tools = await client.list_tools()
+        print(f'Tools: {tools}')
+
+# create_task(test_client())
+
+
 # ==== 启动服务器 ====
 import uvicorn
 import sys
