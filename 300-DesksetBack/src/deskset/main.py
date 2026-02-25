@@ -55,7 +55,65 @@ from fastapi import FastAPI
 app = FastAPI(lifespan=lifespan, docs_url=None, redoc_url=None)
 
 
-# ==== FastAPI：中间件 ====
+# ==== FastAPI Router：路由注册 ====
+from deskset.router._config import router_config
+app.include_router(router_config)
+
+from deskset.router.device import router_device
+app.include_router(router_device)
+
+from deskset.router.note import router_note
+app.include_router(router_note)
+
+from deskset.router.quick import router_quick
+app.include_router(router_quick)
+
+
+# ==== FastAPI Router：插件注册：/plugin 作为所有插件路由的根路径 ====
+from deskset.router._plugin import router_plugin_root
+app.include_router(router_plugin_root)
+
+
+# ==== FastAPI Router：认证接口 ====
+  # 移到末尾注册，方便其他模块在 router_access 上挂载 REST 端点
+from deskset.router._unify import router_access
+app.include_router(router_access)
+
+
+# ==== FastMCP 服务器 ====
+  # 文档：https://gofastmcp.com/integrations/fastapi#offering-an-llm-friendly-api
+from fastmcp import FastMCP
+from fastmcp.utilities.lifespan import combine_lifespans
+
+mcp = FastMCP.from_fastapi(app=app)
+mcp_app = mcp.http_app(path='/mcp')
+
+combined_app = FastAPI(
+    routes=[*app.routes, *mcp_app.routes],
+    lifespan=combine_lifespans(lifespan, mcp_app.lifespan),
+    docs_url=None,
+    redoc_url=None
+)
+
+
+# ==== FastMCP 客户端 ====
+@mcp.tool
+def greet_name(name: str) -> str:
+    '''Greet a user by name.'''
+    return f'Hello, {name}!'
+
+from fastmcp import Client
+from asyncio import create_task
+
+async def test_client():
+    async with Client(mcp) as client:
+        tools = await client.list_tools()
+        print(f'Tools: {tools}')
+
+# create_task(test_client())
+
+
+# ==== CombinedApp：中间件 ====
 from starlette.datastructures import Headers
 from starlette.responses import PlainTextResponse
 from starlette.types import ASGIApp, Receive, Scope, Send
@@ -91,17 +149,17 @@ class AllowOnly127001tMiddleware:
 
         return await self.app(scope, receive, send)
 
-app.add_middleware(AllowOnly127001tMiddleware)
+combined_app.add_middleware(AllowOnly127001tMiddleware)
 
 
-# ==== FastAPI：CORS 跨域请求 ====
+# ==== CombinedApp：CORS 跨域请求 ====
   # Vite：http://localhost:1420
   # Tauri：http://tauri.localhost
   # Obsidian：app://obsidian.md
 if DEVELOP_ENV:  # 开发时有 Vite Server 需要添加 CORS
     from fastapi.middleware.cors import CORSMiddleware
 
-    app.add_middleware(
+    combined_app.add_middleware(
         CORSMiddleware,
         allow_origins=[
             'http://localhost:1420',   # 开发环境：Vite 服务器
@@ -120,7 +178,7 @@ if not DEVELOP_ENV:  # Tauri 构建后用 http://tauri.localhost 通信...
     from fastapi.middleware.cors import CORSMiddleware
 
     # 会覆盖上面的 CORS，不要一起用
-    app.add_middleware(
+    combined_app.add_middleware(
         CORSMiddleware,
         allow_origins=['http://tauri.localhost', 'app://obsidian.md'],
         allow_credentials=True,
@@ -131,18 +189,18 @@ if not DEVELOP_ENV:  # Tauri 构建后用 http://tauri.localhost 通信...
     logging.info(f'Add http://tauri.localhost, app://obsidian.md to CORS')
 
 
-# ==== FastAPI：统一错误（异常）处理 ====
+# ==== CombinedApp：统一问题（错误、异常）处理 ====
 from fastapi.requests import Request
 from deskset.core.standard import DesksetError
 from fastapi.responses import JSONResponse
 from deskset.router._unify import DesksetErrorRep
 from http import HTTPStatus
 
-@app.exception_handler(DesksetError)
+@combined_app.exception_handler(DesksetError)
 def deskset_error(request: Request, err: DesksetError):
     return DesksetErrorRep(content=err)
 
-@app.exception_handler(Exception)
+@combined_app.exception_handler(Exception)
 def deskset_exception(request: Request, exc: Exception):
     logging.exception(exc, exc_info=exc)
     return JSONResponse(
@@ -151,15 +209,15 @@ def deskset_exception(request: Request, exc: Exception):
     )
 
 
-# ==== FastAPI：离线 OpenAPI 文档和演练场 ====
+# ==== CombinedApp：离线 OpenAPI 文档和演练场 ====
 from fastapi.staticfiles import StaticFiles
 
-app.mount('/static', StaticFiles(directory='static'), name='static')
+combined_app.mount('/static', StaticFiles(directory='static'), name='static')
 
 # OpenAPI 文档
 from fastapi.openapi.docs import get_swagger_ui_html, get_swagger_ui_oauth2_redirect_html
 
-@app.get('/docs', include_in_schema=False)
+@combined_app.get('/docs', include_in_schema=False)
 async def custom_swagger_ui_html():
     return get_swagger_ui_html(
         openapi_url=app.openapi_url,  # type: ignore
@@ -169,7 +227,7 @@ async def custom_swagger_ui_html():
         swagger_css_url='/static/docs/swagger-ui.css'
     )
 
-@app.get(app.swagger_ui_oauth2_redirect_url, include_in_schema=False)  # type: ignore
+@combined_app.get(app.swagger_ui_oauth2_redirect_url, include_in_schema=False)  # type: ignore
 async def swagger_ui_redirect():
     return get_swagger_ui_oauth2_redirect_html()
 
@@ -181,98 +239,6 @@ async def swagger_ui_redirect():
     #     with open('static/playground/index.html', 'r', encoding='utf-8') as file:
     #         content = file.read()
     #     return Response(content=content, media_type='text/html')
-
-
-# ==== FastAPI Router：路由注册 ====
-from deskset.router._config import router_config
-app.include_router(router_config)
-
-from deskset.router.device import router_device
-app.include_router(router_device)
-
-from deskset.router.note import router_note
-app.include_router(router_note)
-
-from deskset.router.quick import router_quick
-app.include_router(router_quick)
-
-
-# ==== FastAPI Router：插件注册：/plugin 作为所有插件路由的根路径 ====
-from deskset.router._plugin import router_plugin_root
-app.include_router(router_plugin_root)
-
-
-# ==== FastAPI Router：认证接口 ====
-  # 移到末尾注册，方便其他模块在 router_access 上挂载 REST 端点
-from deskset.router._unify import router_access
-app.include_router(router_access)
-
-
-# ==== MCP 服务器 ====
-  # 文档：https://gofastmcp.com/integrations/fastapi#offering-an-llm-friendly-api
-from fastmcp import FastMCP
-from fastmcp.utilities.lifespan import combine_lifespans
-
-mcp = FastMCP.from_fastapi(app=app)
-mcp_app = mcp.http_app(path='/mcp')
-
-combined_app = FastAPI(
-    routes=[*app.routes, *mcp_app.routes],
-    lifespan=combine_lifespans(lifespan, mcp_app.lifespan),
-    docs_url=None,
-    redoc_url=None
-)
-
-
-# ==== MCP 客户端 ====
-@mcp.tool
-def greet_name(name: str) -> str:
-    '''Greet a user by name.'''
-    return f'Hello, {name}!'
-
-from fastmcp import Client
-from asyncio import create_task
-
-async def test_client():
-    async with Client(mcp) as client:
-        tools = await client.list_tools()
-        print(f'Tools: {tools}')
-
-# create_task(test_client())
-
-
-# ==== 设置 CombinedApp 的 CORS ====
-if DEVELOP_ENV:  # 开发时有 Vite Server 需要添加 CORS
-    from fastapi.middleware.cors import CORSMiddleware
-
-    combined_app.add_middleware(
-        CORSMiddleware,
-        allow_origins=[
-            'http://localhost:1420',   # 开发环境：Vite 服务器
-            'http://tauri.localhost',  # 生产环境：Tauri 自定义协议
-            'app://obsidian.md',       # Obsidian
-            'http://localhost:5173'    # 数字桌搭演练场 DesksetPlayground
-        ],
-        allow_credentials=True,
-        allow_methods=['*'],
-        allow_headers=['*'],
-    )
-
-    logging.info(f'Add http://localhost:1420, http://tauri.localhost, app://obsidian.md, http://localhost:5173 to CORS')
-
-if not DEVELOP_ENV:  # Tauri 构建后用 http://tauri.localhost 通信...
-    from fastapi.middleware.cors import CORSMiddleware
-
-    # 会覆盖上面的 CORS，不要一起用
-    combined_app.add_middleware(
-        CORSMiddleware,
-        allow_origins=['http://tauri.localhost', 'app://obsidian.md'],
-        allow_credentials=True,
-        allow_methods=['*'],
-        allow_headers=['*'],
-    )
-
-    logging.info(f'Add http://tauri.localhost, app://obsidian.md to CORS')
 
 
 # ==== 启动服务器 ====
