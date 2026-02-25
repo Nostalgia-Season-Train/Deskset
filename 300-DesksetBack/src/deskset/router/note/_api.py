@@ -172,6 +172,8 @@ from deskset.router._unify.access import router_access
 # ==== 全双工通信 Websocket ====
   # websocket 注入 check_token 会引发以下异常
   # OAuth2PasswordBearer.__call__() missing 1 required positional argument: 'request'
+  # 2026/02/25：不用管 ws_handler 弃用警告 DeprecationWarning
+    # 相关讨论：https://github.com/Kludex/uvicorn/discussions/2476
 @router_access.websocket('/note/obsidian/rpc')
 async def rpc(websocket: WebSocket):
     async def is_authorized(subprotocols: list[str]):
