@@ -19,7 +19,7 @@ if __name__ == '__main__':
         import uvicorn
         from deskset.core.config import config
         uvicorn.run(
-            'deskset.main:app',
+            'deskset.main:combined_app',
             host=config.server_host,
             port=config.server_port,
             reload=True,

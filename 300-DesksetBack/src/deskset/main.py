@@ -152,27 +152,26 @@ def deskset_exception(request: Request, exc: Exception):
 
 
 # ==== FastAPI：离线 OpenAPI 文档和演练场 ====
-if DEVELOP_ENV:
-    from fastapi.staticfiles import StaticFiles
+from fastapi.staticfiles import StaticFiles
 
-    app.mount('/static', StaticFiles(directory='static'), name='static')
+app.mount('/static', StaticFiles(directory='static'), name='static')
 
-    # OpenAPI 文档
-    from fastapi.openapi.docs import get_swagger_ui_html, get_swagger_ui_oauth2_redirect_html
+# OpenAPI 文档
+from fastapi.openapi.docs import get_swagger_ui_html, get_swagger_ui_oauth2_redirect_html
 
-    @app.get('/docs', include_in_schema=False)
-    async def custom_swagger_ui_html():
-        return get_swagger_ui_html(
-            openapi_url=app.openapi_url,  # type: ignore
-            title=app.title + ' - Swagger UI',
-            oauth2_redirect_url=app.swagger_ui_oauth2_redirect_url,
-            swagger_js_url='/static/docs/swagger-ui-bundle.js',
-            swagger_css_url='/static/docs/swagger-ui.css'
-        )
+@app.get('/docs', include_in_schema=False)
+async def custom_swagger_ui_html():
+    return get_swagger_ui_html(
+        openapi_url=app.openapi_url,  # type: ignore
+        title=app.title + ' - Swagger UI',
+        oauth2_redirect_url=app.swagger_ui_oauth2_redirect_url,
+        swagger_js_url='/static/docs/swagger-ui-bundle.js',
+        swagger_css_url='/static/docs/swagger-ui.css'
+    )
 
-    @app.get(app.swagger_ui_oauth2_redirect_url, include_in_schema=False)  # type: ignore
-    async def swagger_ui_redirect():
-        return get_swagger_ui_oauth2_redirect_html()
+@app.get(app.swagger_ui_oauth2_redirect_url, include_in_schema=False)  # type: ignore
+async def swagger_ui_redirect():
+    return get_swagger_ui_oauth2_redirect_html()
 
     # 演练场
     # from fastapi.responses import Response
@@ -209,7 +208,23 @@ from deskset.router._unify import router_access
 app.include_router(router_access)
 
 
-# 启动服务器
+# ==== MCP 服务器 ====
+  # 文档：https://gofastmcp.com/integrations/fastapi#offering-an-llm-friendly-api
+from fastmcp import FastMCP
+from fastmcp.utilities.lifespan import combine_lifespans
+
+mcp = FastMCP.from_fastapi(app=app)
+mcp_app = mcp.http_app(path='/mcp')
+
+combined_app = FastAPI(
+    routes=[*app.routes, *mcp_app.routes],
+    lifespan=combine_lifespans(lifespan, mcp_app.lifespan),
+    docs_url=None,
+    redoc_url=None
+)
+
+
+# ==== 启动服务器 ====
 import uvicorn
 import sys
 
@@ -219,7 +234,7 @@ def main():
     logging.info('run uvicorn server')
     try:
         # log_config=None & log_level='error' 作用：日志从控制台改为输出到文件 + 日志级别 error
-        uvicorn.run(app, host=server_host, port=server_port, log_config=None, log_level='error')
+        uvicorn.run(combined_app, host=server_host, port=server_port, log_config=None, log_level='error')
     except SystemExit:  # 捕获 uvicorn 异常退出，以便日志记录 OSError 信息
         logging.exception('uvicorn crash!')
         logging.error('end uvicorn server with exception')  # logging.exception 重复打印 SystemExit 堆栈...

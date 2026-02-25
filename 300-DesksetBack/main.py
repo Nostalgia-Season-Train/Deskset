@@ -16,7 +16,7 @@ if __name__ == '__main__':  # 保护程序入口点，避免热重载时，子�
         # 2、用 deskset.main:app 而不是 src.deskset.main:app（触发循环引用）
         import uvicorn
         from deskset.core.config import config
-        uvicorn.run('deskset.main:app', host=config.server_host, port=config.server_port, reload=True)
+        uvicorn.run('deskset.main:combined_app', host=config.server_host, port=config.server_port, reload=True)
     else:
         from deskset import main
         main()
