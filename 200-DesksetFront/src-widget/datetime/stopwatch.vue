@@ -2,7 +2,8 @@
 import { Reactive, Ref } from 'vue'
 
 class StopWatch {
-  _start: number | null = null
+  _elapsed: number = 0
+  _lastTimestamp: number | null = null
   _time: Reactive<{ high: string, low: string }>
   _status: Ref<'idle' | 'running' | 'paused'>  // 空闲 > 运行 > 暂停
 
@@ -16,12 +17,11 @@ class StopWatch {
     if (this._status.value !== 'running') {
       return  // 非运行状态，直接退出
     }
-    if (this._start === null) {
-      this._start = timestamp  // 空闲到运行状态，this._start 赋值
-    }
 
-    const elapsed = timestamp - this._start
-    const { high, low } = this._msFormat(elapsed)
+    this._lastTimestamp = this._lastTimestamp ?? timestamp
+    this._elapsed += timestamp - this._lastTimestamp
+    this._lastTimestamp = timestamp
+    const { high, low } = this._msFormat(this._elapsed)
     this._time.high = high
     this._time.low = low
 
@@ -57,16 +57,18 @@ class StopWatch {
   }
 
   begin = () => {
-    if (this._start !== null) {
-      return  // start !== null 正在计时
+    if (this._status.value !== 'idle') {
+      return
     }
     this._status.value = 'running'
+    this._lastTimestamp = null
     requestAnimationFrame(this._step)
   }
 
   togglePause = () => {
     if (this._status.value === 'paused') {
       this._status.value = 'running'
+      this._lastTimestamp = null
       requestAnimationFrame(this._step)
     } else {
       this._status.value = 'paused'
@@ -75,7 +77,8 @@ class StopWatch {
 
   finish = () => {
     this._status.value = 'idle'
-    this._start = null
+    this._elapsed = 0
+    this._lastTimestamp = null
     this._time.high = '00:00.00'
     this._time.low = ''
   }
