@@ -80,6 +80,16 @@ from deskset.router._unify import router_access
 app.include_router(router_access)
 
 
+# ==== FastAPI Router：查看 MCP 工具 ====
+from fastmcp import Client
+
+@app.get('/mcp/tools')
+async def get_tools():
+    async with Client(mcp) as client:
+        tools = await client.list_tools()
+        return tools
+
+
 # ==== FastMCP 服务器 ====
   # 文档：https://gofastmcp.com/integrations/fastapi#offering-an-llm-friendly-api
 from fastmcp import FastMCP
