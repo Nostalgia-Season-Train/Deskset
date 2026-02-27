@@ -93,9 +93,18 @@ async def get_tools():
 # ==== FastMCP 服务器 ====
   # 文档：https://gofastmcp.com/integrations/fastapi#offering-an-llm-friendly-api
 from fastmcp import FastMCP
+from fastmcp.server.providers.openapi import RouteMap, MCPType
 from fastmcp.utilities.lifespan import combine_lifespans
 
-mcp = FastMCP.from_fastapi(app=app)
+mcp = FastMCP.from_fastapi(
+    app=app,
+    route_maps=[
+        RouteMap(tags={'access'}, mcp_type=MCPType.EXCLUDE),
+        RouteMap(tags={'config'}, mcp_type=MCPType.EXCLUDE),
+        RouteMap(tags={'device'}, mcp_type=MCPType.EXCLUDE),
+        RouteMap(tags={'quick'},  mcp_type=MCPType.EXCLUDE)
+    ]
+)
 mcp_app = mcp.http_app(path='/mcp')
 
 combined_app = FastAPI(

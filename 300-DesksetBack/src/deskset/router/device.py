@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends
 from deskset.router._unify import check_token, DesksetRepJSON
 
 router_device = APIRouter(
-    prefix='/v0/device', tags=['设备信息'],
+    prefix='/v0/device', tags=['device'],
     dependencies=[Depends(check_token)],
     default_response_class=DesksetRepJSON
 )

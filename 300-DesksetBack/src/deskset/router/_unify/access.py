@@ -93,7 +93,7 @@ if DISABLE_ACCESS:
 # router 路由
 from fastapi import APIRouter, Request
 
-router_access = APIRouter(prefix='/v0/access', tags=['认证'])
+router_access = APIRouter(prefix='/v0/access', tags=['access'])
 
 @router_access.post('/note/login')
 def login(

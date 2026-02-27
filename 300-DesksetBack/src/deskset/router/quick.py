@@ -8,7 +8,7 @@ from deskset.router._unify import DesksetReqPath, DesksetReqFile, DesksetReqFold
 from deskset.router._unify import DesksetRepJSON
 
 router_quick = APIRouter(
-    prefix='/v0/quick', tags=['快速启动'],
+    prefix='/v0/quick', tags=['quick'],
     dependencies=[Depends(check_token)],
     default_response_class=DesksetRepJSON
 )

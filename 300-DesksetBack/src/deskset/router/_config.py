@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends
 from deskset.router._unify import check_token, DesksetRepJSON
 
 router_config = APIRouter(
-    prefix='/v0/config', tags=['配置'],
+    prefix='/v0/config', tags=['config'],
     dependencies=[Depends(check_token)],
     default_response_class=DesksetRepJSON
 )
