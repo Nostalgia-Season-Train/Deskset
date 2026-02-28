@@ -72,6 +72,8 @@ const store = useConfigStore()
 
 
 <style lang="less" scoped>
+@import '#manager/style.less';
+
 .option {
   margin: 0 10px 0 10px;
 

@@ -119,6 +119,8 @@ const store = useThemeStore()
 
 
 <style lang="less" scoped>
+@import '#manager/style.less';
+
 .content {
   padding: 0 var(--content-padding);
   padding-bottom: var(--content-padding);
