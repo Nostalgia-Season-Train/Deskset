@@ -1,4 +1,5 @@
 {
+  "editor.editContext": false,  // 关掉，影响输入法选字框
   "editor.detectIndentation": false,
   "[javascript]": {
     "editor.tabSize": 2,
