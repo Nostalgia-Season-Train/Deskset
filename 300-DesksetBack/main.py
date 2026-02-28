@@ -17,12 +17,19 @@ if __name__ == '__main__':  # 保护程序入口点，避免热重载时，子�
     #     import uvicorn
     #     from deskset.core.config import config
     #     uvicorn.run('deskset.main:combined_app', host=config.server_host, port=config.server_port, reload=True)
+    # if DEVELOP_ENV:
+    #     # 2026/03/01：之前避免 uvicorn 阻塞 vscode git 自动刷新的方法失效了
+    #       # 代码很扯淡但非常有效...后面再找 launch.json 使用 uv 命令的方式
+    #     from os import system
+    #     from deskset.core.config import config
+    #     system(f'uv run uvicorn deskset.main:combined_app --host={config.server_host} --port={config.server_port} --reload')
     if DEVELOP_ENV:
-        # 2026/03/01：之前避免 uvicorn 阻塞 vscode git 自动刷新的方法失效了
-          # 代码很扯淡但非常有效...后面再找 launch.json 使用 uv 命令的方式
-        from os import system
+        # 2026/03/01 二次更新：构造 uvicorn.Server 实例不会阻塞
+        import uvicorn
         from deskset.core.config import config
-        system(f'uv run uvicorn deskset.main:combined_app --host={config.server_host} --port={config.server_port} --reload')
+        uvicorn_config = uvicorn.Config('deskset.main:combined_app', host=config.server_host, port=config.server_port, reload=True)
+        uvicorn_server = uvicorn.Server(uvicorn_config)
+        uvicorn_server.run()
     else:
         from deskset import main
         main()
