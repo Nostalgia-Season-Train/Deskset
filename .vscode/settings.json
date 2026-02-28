@@ -14,7 +14,7 @@
   },
   "[vue]": {
     "editor.tabSize": 2,
-    "editor.hover.enabled": false,
+    "editor.hover.enabled": "off",
   },
   "[python]": {
     "editor.tabSize": 4,
