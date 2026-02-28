@@ -51,11 +51,11 @@ export default defineConfig(async () => ({
   plugins: [
     vue(),
   ],
-  css: {
-    preprocessorOptions: {
-      less: { additionalData: `@import "${path.resolve(__dirname, 'style.less')}";` }
-    }
-  },
+  // css: {
+  //   preprocessorOptions: {
+  //     less: { additionalData: `@import "${path.resolve(__dirname, 'style.less')}";` }
+  //   }
+  // },
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //
