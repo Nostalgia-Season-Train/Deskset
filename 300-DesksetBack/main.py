@@ -11,12 +11,18 @@ DEVELOP_ENV = True if '-dev' in args else False
 
 # === 运行程序 ===
 if __name__ == '__main__':  # 保护程序入口点，避免热重载时，子进程重复执行
+    # if DEVELOP_ENV:
+    #     # 1、如果在 src/deskset/main.py 使用，必须手动刷新 vscode git 才会显示仓库变化
+    #     # 2、用 deskset.main:app 而不是 src.deskset.main:app（触发循环引用）
+    #     import uvicorn
+    #     from deskset.core.config import config
+    #     uvicorn.run('deskset.main:combined_app', host=config.server_host, port=config.server_port, reload=True)
     if DEVELOP_ENV:
-        # 1、如果在 src/deskset/main.py 使用，必须手动刷新 vscode git 才会显示仓库变化
-        # 2、用 deskset.main:app 而不是 src.deskset.main:app（触发循环引用）
-        import uvicorn
+        # 2026/03/01：之前避免 uvicorn 阻塞 vscode git 自动刷新的方法失效了
+          # 代码很扯淡但非常有效...后面再找 launch.json 使用 uv 命令的方式
+        from os import system
         from deskset.core.config import config
-        uvicorn.run('deskset.main:combined_app', host=config.server_host, port=config.server_port, reload=True)
+        system(f'uv run uvicorn deskset.main:combined_app --host={config.server_host} --port={config.server_port} --reload')
     else:
         from deskset import main
         main()
