@@ -4,17 +4,15 @@ import { _t } from '#manager/main/i18n'
 import { Router } from 'vue-router'
 const props = defineProps<{ router: Router }>()
 
-import { PanelLeft, Sparkles } from 'lucide-vue-next'
-import { Info, Home, Dashboard, Image, Palette } from '#desksetui/icons/Google Material Icons'
+import { PanelLeft } from 'lucide-vue-next'
+import { Inbox, LayoutDashboard, Palette, Sparkles } from 'lucide-vue-next'
 import CogLoop from '#desksetui/icons/Material Line Icons/CogLoop.vue'
 const items = [
-  { icon: Info,      page: 'welcome' },
-  // { icon: Home,      page: 'homepage' },
-  { icon: Dashboard, page: 'widget' },
-  // { icon: Image,     page: 'wallpaper' },
-  { icon: Palette,   page: 'theme' },
-  { icon: Sparkles,  page: 'ai' },
-  { icon: CogLoop,   page: 'setting' }
+  { icon: Inbox,           page: 'welcome' },
+  { icon: LayoutDashboard, page: 'widget' },
+  { icon: Palette,         page: 'theme' },
+  { icon: Sparkles,        page: 'ai' },
+  { icon: CogLoop,         page: 'setting' }
 ]
 </script>
 
