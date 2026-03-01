@@ -27,9 +27,16 @@ if __name__ == '__main__':  # 保护程序入口点，避免热重载时，子�
         # 2026/03/01 二次更新：构造 uvicorn.Server 实例不会阻塞
         import uvicorn
         from deskset.core.config import config
-        uvicorn_config = uvicorn.Config('deskset.main:combined_app', host=config.server_host, port=config.server_port, reload=True)
+        uvicorn_config = uvicorn.Config(
+            'deskset.main:combined_app',
+            host=config.server_host,
+            port=config.server_port,
+            reload=True,
+            reload_dirs=['./src/deskset/']
+        )
         uvicorn_server = uvicorn.Server(uvicorn_config)
-        uvicorn_server.run()
+        from uvicorn.supervisors import ChangeReload
+        ChangeReload(uvicorn_config, target=uvicorn_server.run, sockets=[uvicorn_config.bind_socket()]).run()
     else:
         from deskset import main
         main()
