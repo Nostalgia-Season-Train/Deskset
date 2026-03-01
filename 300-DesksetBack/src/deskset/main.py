@@ -82,12 +82,24 @@ app.include_router(router_access)
 
 # ==== FastAPI Router：查看 MCP 工具 ====
 from fastmcp import Client
-
-@app.get('/mcp/tools')
-async def get_tools():
+@app.get('/ai/mcp-tools')
+async def mcp_tools():
     async with Client(mcp) as client:
         tools = await client.list_tools()
         return tools
+
+from openai import OpenAI
+@app.get('/ai/hello')
+async def hello():
+    client = OpenAI(
+        base_url=config.ai_base_url,
+        api_key=config.ai_api_key
+    )
+    response = client.responses.create(
+        model=config.ai_model,
+        input='hello'
+    )
+    return response
 
 
 # ==== FastMCP 服务器 ====

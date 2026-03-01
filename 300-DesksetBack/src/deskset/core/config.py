@@ -35,6 +35,11 @@ class ValidateConfig(
     username: str = 'deskset-user' + ''.join(choices(CHARS_STR, k=randint(5, 10)))   # 用户名
     password: str = 'deskset-pswd' + ''.join(choices(CHARS_STR, k=randint(10, 20)))  # 密码
 
+    # AI 配置项：从上到下依次为 访问端点、访问密钥、访问模型
+    ai_base_url: str = ''
+    ai_api_key: str = ''
+    ai_model: str = ''
+
     @field_validator('language')
     @classmethod
     def check_language(cls, v: str) -> str:
@@ -177,6 +182,18 @@ class Config:
     def password(self, password: str) -> None:
         self._validate_config.password = password
         self.__save_config(self._validate_config)
+
+    @property
+    def ai_base_url(self) -> str:
+        return self._validate_config.ai_base_url
+
+    @property
+    def ai_api_key(self) -> str:
+        return self._validate_config.ai_api_key
+
+    @property
+    def ai_model(self) -> str:
+        return self._validate_config.ai_model
 
 
 config = Config()
