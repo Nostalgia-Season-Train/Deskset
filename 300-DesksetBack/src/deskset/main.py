@@ -114,7 +114,8 @@ mcp = FastMCP.from_fastapi(
         RouteMap(tags={'access'}, mcp_type=MCPType.EXCLUDE),
         RouteMap(tags={'config'}, mcp_type=MCPType.EXCLUDE),
         RouteMap(tags={'device'}, mcp_type=MCPType.EXCLUDE),
-        RouteMap(tags={'quick'},  mcp_type=MCPType.EXCLUDE)
+        RouteMap(tags={'quick'},  mcp_type=MCPType.EXCLUDE),
+        RouteMap(pattern=r'^/ai/.*', mcp_type=MCPType.EXCLUDE)
     ]
 )
 mcp_app = mcp.http_app(path='/mcp')
