@@ -108,6 +108,8 @@ async def hello():
     )
     return response
 
+app.include_router(router_ai)
+
 
 # ==== FastMCP 服务器 ====
   # 文档：https://gofastmcp.com/integrations/fastapi#offering-an-llm-friendly-api
