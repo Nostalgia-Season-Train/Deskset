@@ -7,3 +7,7 @@ args, _ = parser.parse_known_args()  # _ 忽略 uvicorn 热重载传入的参数
 
 DEVELOP_ENV    = args.dev        # True 开发环境；False 生产环境
 DISABLE_ACCESS = args.no_access  # True 禁用认证；False 启用认证
+
+# 打印所有命令行参数
+# from sys import argv
+# print(argv)
