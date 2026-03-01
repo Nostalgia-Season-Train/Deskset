@@ -81,15 +81,22 @@ app.include_router(router_access)
 
 
 # ==== FastAPI Router：查看 MCP 工具 ====
+from fastapi import APIRouter, Depends
+from deskset.router._unify import check_token
+router_ai = APIRouter(
+    prefix='/ai', tags=['ai'],
+    dependencies=[Depends(check_token)]
+)
+
 from fastmcp import Client
-@app.get('/ai/mcp-tools')
+@router_ai.get('/ai/mcp-tools')
 async def mcp_tools():
     async with Client(mcp) as client:
         tools = await client.list_tools()
         return tools
 
 from openai import OpenAI
-@app.get('/ai/hello')
+@router_ai.get('/ai/hello')
 async def hello():
     client = OpenAI(
         base_url=config.ai_base_url,
