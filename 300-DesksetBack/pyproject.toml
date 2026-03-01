@@ -22,6 +22,7 @@ dependencies = [
     "fastmcp>=3.0.2",
     "httpx>=0.28.1",
     "icoextract==0.1.6",
+    "openai>=2.24.0",
     "orjson==3.10.7",
     "psutil==6.0.0",
     "python-multipart==0.0.20",
