@@ -12,11 +12,12 @@ import { createMemoryHistory, createRouter } from 'vue-router'
 
 const routes = [
   // 必须包含 '/' 作为 Tauri 入口，否则打包后白屏且后续代码无法运行
-  { path: '/',   name: 'welcome',   component: () => import('./routers/Welcome.vue') },
+  { path: '/',          name: 'welcome',   component: () => import('./routers/Welcome.vue') },
   // { path: '/welcome',   name: 'welcome',   component: () => import('./routers/Welcome.vue') },
   { path: '/homepage',  name: 'homepage',  component: () => import('./routers/Homepage.vue') },
   { path: '/widget',    name: 'widget',    component: () => import('./routers/Widget.vue') },
   { path: '/wallpaper', name: 'wallpaper', component: () => import('./routers/Wallpaper.vue') },
+  { path: '/ai',        name: 'ai',        component: () => import('./routers/AI.vue') },
   { path: '/theme',     name: 'theme',     component: () => import('./routers/Theme.vue') },
   { path: '/setting',   name: 'setting',   component: () => import('./routers/Setting.vue') }
 ]
