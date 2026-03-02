@@ -15,6 +15,8 @@ export function excludeCSSPlugin(): Plugin {
     async resolveId(id: string) {
       const elxPrefix = '/vue-element-plus-x';
       if (id.includes(elxPrefix) && id.includes('node_modules')) {
+        // 完全排除 element-plus-x 原有样式，重新编写
+        return { id: '\0exclude-css:' + id, external: true };
         //兼容 pnpm
         const arr = id.split('node_modules');
         const lastPath = arr[arr.length - 1];
