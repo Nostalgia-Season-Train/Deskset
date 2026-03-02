@@ -96,6 +96,7 @@ async def mcp_tools():
         return tools
 
 from openai import OpenAI
+from fastapi.responses import StreamingResponse
 @router_ai.get('/ai/hello')
 async def hello():
     client = OpenAI(
@@ -104,9 +105,14 @@ async def hello():
     )
     response = client.responses.create(
         model=config.ai_model,
-        input='hello'
+        input='hello',
+        stream=True
     )
-    return response
+    async def stream():
+        for chunk in response:
+            yield chunk.to_json()
+        return
+    return StreamingResponse(stream(), media_type='text/plain')
 
 app.include_router(router_ai)
 
