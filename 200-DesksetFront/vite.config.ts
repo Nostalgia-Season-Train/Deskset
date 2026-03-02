@@ -4,6 +4,7 @@ import path from 'path'
 
 // 插件
 import vue from '@vitejs/plugin-vue'
+import { excludeCSSPlugin } from './excludeCSSPlugin.ts'
 
 
 /* === 全局变量 === */
@@ -50,6 +51,7 @@ export default defineConfig(async () => ({
 
   plugins: [
     vue(),
+    excludeCSSPlugin()
   ],
   // css: {
   //   preprocessorOptions: {
