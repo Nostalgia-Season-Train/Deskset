@@ -34,7 +34,7 @@ const refresh = async () => {
     console.error('Stream processing error:', error)
   }
 }
-refresh()
+// refresh()
 
 import { onUnmounted } from 'vue'
 onUnmounted(() => {
@@ -50,10 +50,16 @@ import {
 } from 'vue-element-plus-x'
 
 const markdownText = ref('')
+const senderText = ref('')
 
 
 /* ==== Element Plus ==== */
-import { ElScrollbar } from 'element-plus'
+import {
+  ElScrollbar,
+  ElButton,
+  ElIcon
+} from 'element-plus'
+import { Promotion } from '@element-plus/icons-vue'
 </script>
 
 
@@ -61,7 +67,14 @@ import { ElScrollbar } from 'element-plus'
 <ElScrollbar>
 
   <Bubble :content="markdownText" placement="start"/>
-  <Sender/>
+
+  <Sender v-model="senderText" :auto-size="{ minRows: 3, maxRows: 5 }">
+    <template #action-list>
+      <ElButton>
+        <ElIcon><Promotion/></ElIcon>
+      </ElButton>
+    </template>
+  </Sender>
 
 </ElScrollbar>
 </template>
