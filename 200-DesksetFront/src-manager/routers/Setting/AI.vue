@@ -17,8 +17,8 @@ const store = useConfigStore()
 
   <div class="option">
     <div class="left">
-      <div class="name">{{ _t('端口') }}</div>
-      <div class="description">{{ _t('配置服务器端口') }}</div>
+      <div class="name">{{ _t('AI 基础 URL') }}</div>
+      <div class="description">{{ _t('指定 API 服务地址 base_url') }}</div>
     </div>
     <div class="right">
       <InputLazy style="width: 150px;" v-model="store.ai_base_url"/>
@@ -27,8 +27,8 @@ const store = useConfigStore()
 
   <div class="option">
     <div class="left">
-      <div class="name">{{ _t('用户名') }}</div>
-      <div class="description">{{ _t('配置服务器用户名') }}</div>
+      <div class="name">{{ _t('AI 密钥') }}</div>
+      <div class="description">{{ _t('配置 API 密钥 api_key') }}</div>
     </div>
     <div class="right">
       <InputLazy style="width: 150px;" v-model="store.ai_api_key"/>
@@ -37,8 +37,8 @@ const store = useConfigStore()
 
   <div class="option">
     <div class="left">
-      <div class="name">{{ _t('密码') }}</div>
-      <div class="description">{{ _t('配置服务器密码') }}</div>
+      <div class="name">{{ _t('AI 模型') }}</div>
+      <div class="description">{{ _t('选择一个 AI 模型 model') }}</div>
     </div>
     <div class="right">
       <InputLazy style="width: 150px;" v-model="store.ai_model"/>
