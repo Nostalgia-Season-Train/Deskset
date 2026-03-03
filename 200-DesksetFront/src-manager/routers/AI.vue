@@ -2,9 +2,11 @@
 /* ==== DesksetBack ==== */
 import axios from 'axios'
 const controller = new AbortController()
-const refresh = async () => {
+const send = async () => {
+  const body = senderText.value
+  senderText.value = ''
   try {
-    const response = await axios.get('/ai/hello', {
+    const response = await axios.post('/ai/hello', body, {
       adapter: 'fetch',
       responseType: 'stream',
       signal: controller.signal
@@ -34,7 +36,6 @@ const refresh = async () => {
     console.error('Stream processing error:', error)
   }
 }
-// refresh()
 
 import { onUnmounted } from 'vue'
 onUnmounted(() => {
@@ -70,7 +71,7 @@ import { Promotion } from '@element-plus/icons-vue'
 
   <Sender v-model="senderText" :auto-size="{ minRows: 3, maxRows: 5 }">
     <template #action-list>
-      <ElButton>
+      <ElButton @click="send">
         <ElIcon><Promotion/></ElIcon>
       </ElButton>
     </template>

@@ -103,9 +103,13 @@ async def get_mcp_tools():
     return tools
 
 from openai import OpenAI
+from fastapi import Body
 from fastapi.responses import StreamingResponse
-@router_ai.get('/hello')
-async def hello():
+@router_ai.post('/hello')
+async def hello(body: str = Body(...)):
+    # 模型输入必须非空
+    if body == '':
+        return
     # Tools
     tools = await get_mcp_tools()
     # AI
@@ -115,7 +119,7 @@ async def hello():
     )
     response = client.responses.create(
         model=config.ai_model,
-        input='调用你拿到的工具，随机选择姓名',
+        input=body,
         tools=tools,
         stream=True,
         extra_body={ 'thinking': { 'type': 'disabled' } }  # 暂时禁用思考模式
