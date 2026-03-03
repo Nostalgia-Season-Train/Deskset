@@ -186,14 +186,26 @@ class Config:
     @property
     def ai_base_url(self) -> str:
         return self._validate_config.ai_base_url
+    @ai_base_url.setter
+    def ai_base_url(self, ai_base_url: str) -> None:
+        self._validate_config.ai_base_url = ai_base_url
+        self.__save_config(self._validate_config)
 
     @property
     def ai_api_key(self) -> str:
         return self._validate_config.ai_api_key
+    @ai_api_key.setter
+    def ai_api_key(self, ai_api_key: str) -> None:
+        self._validate_config.ai_api_key = ai_api_key
+        self.__save_config(self._validate_config)
 
     @property
     def ai_model(self) -> str:
         return self._validate_config.ai_model
+    @ai_model.setter
+    def ai_model(self, ai_model: str) -> None:
+        self._validate_config.ai_model = ai_model
+        self.__save_config(self._validate_config)
 
 
 config = Config()

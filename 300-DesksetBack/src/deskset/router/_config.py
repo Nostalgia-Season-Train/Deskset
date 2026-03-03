@@ -61,3 +61,36 @@ def post_password(password: str = Form()):
         return config.password
     except ValueError as value_error:
         raise DesksetError(message=str(value_error), data=config.password)
+
+@router_config.get('/ai_base_url')
+def get_ai_base_url():
+    return config.ai_base_url
+@router_config.post('/ai_base_url')
+def post_ai_base_url(ai_base_url: str = Form()):
+    try:
+        config.ai_base_url = ai_base_url
+        return config.ai_base_url
+    except ValueError as value_error:
+        raise DesksetError(message=str(value_error), data=config.ai_base_url)
+
+@router_config.get('/ai_api_key')
+def get_ai_api_key():
+    return config.ai_api_key
+@router_config.post('/ai_api_key')
+def post_ai_api_key(ai_api_key: str = Form()):
+    try:
+        config.ai_api_key = ai_api_key
+        return config.ai_api_key
+    except ValueError as value_error:
+        raise DesksetError(message=str(value_error), data=config.ai_api_key)
+
+@router_config.get('/ai_model')
+def get_ai_model():
+    return config.ai_model
+@router_config.post('/ai_model')
+def post_ai_model(ai_model: str = Form()):
+    try:
+        config.ai_model = ai_model
+        return config.ai_model
+    except ValueError as value_error:
+        raise DesksetError(message=str(value_error), data=config.ai_model)
