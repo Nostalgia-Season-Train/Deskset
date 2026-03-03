@@ -115,14 +115,23 @@ async def hello():
     )
     response = client.responses.create(
         model=config.ai_model,
-        input='解释你拿到的工具',
+        input='调用你拿到的工具，随机选择姓名',
         tools=tools,
         stream=True,
         extra_body={ 'thinking': { 'type': 'disabled' } }  # 暂时禁用思考模式
     )
+    # Client
+    client = Client(mcp)
     # Stream
     async def stream():
         for chunk in response:
+            if chunk.type == 'response.output_item.done':
+                if chunk.item.type == 'function_call':
+                    from json import loads
+                    name = chunk.item.name
+                    arguments = loads(chunk.item.arguments)
+                    async with client:
+                        await client.call_tool(name, arguments)
             yield chunk.to_json(indent=None) + '\n'  # indent=None 紧凑格式；结尾加 \n 分割 json
         return
     return StreamingResponse(stream(), media_type='text/plain')
@@ -161,6 +170,7 @@ combined_app = FastAPI(
 @mcp.tool
 def greet_name(name: str) -> str:
     '''Greet a user by name.'''
+    print(f'Hello, {name}!')
     return f'Hello, {name}!'
 
 from fastmcp import Client
