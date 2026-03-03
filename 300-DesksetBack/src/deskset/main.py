@@ -90,15 +90,24 @@ router_ai = APIRouter(
 
 from fastmcp import Client
 @router_ai.get('/mcp-tools')
-async def mcp_tools():
+async def get_mcp_tools():
+    tools = []
     async with Client(mcp) as client:
-        tools = await client.list_tools()
-        return tools
+        raw_tools = await client.list_tools()
+        tools = [{
+            'name': raw_tool.name,
+            'description': raw_tool.description,
+            'input_schema': raw_tool.inputSchema
+        } for raw_tool in raw_tools ]
+    return tools
 
 from openai import OpenAI
 from fastapi.responses import StreamingResponse
 @router_ai.get('/hello')
 async def hello():
+    # Tools
+    tools = await get_mcp_tools()
+    # AI
     client = OpenAI(
         base_url=config.ai_base_url,
         api_key=config.ai_api_key
@@ -109,6 +118,7 @@ async def hello():
         stream=True,
         extra_body={ 'thinking': { 'type': 'disabled' } }  # 暂时禁用思考模式
     )
+    # Stream
     async def stream():
         for chunk in response:
             yield chunk.to_json(indent=None) + '\n'  # indent=None 紧凑格式；结尾加 \n 分割 json
