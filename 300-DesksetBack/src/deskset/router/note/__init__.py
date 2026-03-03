@@ -13,6 +13,25 @@ router_obsidian = APIRouter(
     default_response_class=DesksetRepJSON
 )
 
+# 上下线事件
+@router_obsidian.get('/is_online')
+async def is_online():
+    from fastapi.responses import StreamingResponse
+    from ._api import noteapi
+    async def stream():
+        try:
+            while True:
+                if noteapi.is_online():
+                    yield 'online'
+                else:
+                    yield 'offline'
+                await noteapi.event_onoffline.wait()
+        except Exception:
+            pass
+        finally:
+            return
+    return StreamingResponse(stream(), media_type='text/plain')
+
 # 通用
 from .common import router_common
 router_obsidian.include_router(router_common)

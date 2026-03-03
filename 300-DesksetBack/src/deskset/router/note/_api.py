@@ -5,6 +5,7 @@ from typing import TypedDict
 
 # ==== ==== NoteAPI ==== ====
 from asyncio import Future, get_event_loop
+from asyncio import Event
 
 from deskset.core.config import config
 from deskset.core.standard import DesksetError
@@ -25,6 +26,7 @@ class NoteAPI:
             'active-leaf-change': [],
             'dataview:metadata-change': []
         }
+        self.event_onoffline = Event()
 
 
     # ==== 状态 Status ====
@@ -41,6 +43,10 @@ class NoteAPI:
             raise DesksetError(message='Obsidian not online')
         return
 
+    # 触发上下线事件
+    async def trigger_onoffline_event(self) -> None:
+        self.event_onoffline.set()
+        self.event_onoffline.clear()
 
     # ==== 事件 Event ====
     # 例：接收 active-leaf-change 触发 self._event_active_leaf_change 事件
@@ -198,6 +204,7 @@ async def rpc(websocket: WebSocket):
 
     # 上线 > 轮询接收 > 下线
     noteapi._rpc = RpcClient(websocket)
+    await noteapi.trigger_onoffline_event()
 
     try:
         while True:
@@ -209,6 +216,7 @@ async def rpc(websocket: WebSocket):
     except WebSocketDisconnect:
         pass
 
+    await noteapi.trigger_onoffline_event()
     noteapi._rpc = None
     # 断开 Websocket 连接 + api._rpc = None 之后，触发下线事件
     await noteapi._trigger_offline()
