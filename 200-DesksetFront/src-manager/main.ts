@@ -19,6 +19,7 @@ const routes = [
   { path: '/widget',    name: 'widget',    component: () => import('./routers/Widget.vue') },
   { path: '/wallpaper', name: 'wallpaper', component: () => import('./routers/Wallpaper.vue') },
   { path: '/ai',        name: 'ai',        component: () => import('./routers/AI.vue') },
+  { path: '/moment',    name: 'moment',    component: () => import('./routers/Moment.vue') },
   { path: '/theme',     name: 'theme',     component: () => import('./routers/Theme.vue') },
   { path: '/setting',   name: 'setting',   component: () => import('./routers/Setting.vue') }
 ]
