@@ -107,6 +107,20 @@ from fastapi.responses import StreamingResponse
 async def hello():
     # Tools
     tools = await get_mcp_tools()
+    prompt = ''\
+        '你是一个 AI 助手，当用户直接要求或是表达让你调用工具的意愿时，'\
+        '你必须按 { name: 工具名称, input: 工具输入格式 } 这样的格式返回一个紧凑 JSON 对象，'\
+        'name 是你调用工具的名称，'\
+        'input 是你调用工具的输入格式，通过 JSON Schema 定义（注意！调用不是简单复制 JSON Schema 文本！）\n'\
+        '下面是工具列表：\n'\
+        '---\n'
+    for tool in tools:
+        prompt += ''\
+        f'工具名称：{tool['name']}\n'\
+        f'工具描述：{tool['description']}\n'\
+        f'工具输入格式：{tool['input_schema']}\n'\
+        f'---\n'
+    prompt += '现在，随机想出一个名称，向我问好'
     # AI
     client = OpenAI(
         base_url=config.ai_base_url,
@@ -114,10 +128,20 @@ async def hello():
     )
     response = client.responses.create(
         model=config.ai_model,
-        input='hello',
-        stream=True,
+        input=prompt,
+        # stream=True,
         extra_body={ 'thinking': { 'type': 'disabled' } }  # 暂时禁用思考模式
     )
+    try:
+        import json
+        call = json.loads(response.output_text)
+        if call['name'] is None or call['input'] is None:
+            raise Exception('Error Call Format')
+        async with Client(mcp) as client:
+            result = await client.call_tool(call['name'], call['input'])
+        return result.data
+    except Exception:
+        return
     # Stream
     async def stream():
         for chunk in response:
