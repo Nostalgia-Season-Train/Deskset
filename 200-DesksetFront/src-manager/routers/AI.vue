@@ -21,9 +21,10 @@ const refresh = async () => {
           const obj = JSON.parse(objtext)
           if (obj.type === 'response.output_text.delta')
             markdownText.value += obj.delta
-          if (obj.type === 'response.output_item.done') {
+          if (obj.type === 'response.output_item.done' && obj.item.type === 'message') {
             markdownText.value = ''
             for (const content of obj.item.content)
+              // 注 1：```xml 结尾是因为 AI 后面调用了 MCP 工具，不是 BUG
               markdownText.value += content.text + '\n'
           }
         } catch { }
@@ -43,7 +44,10 @@ onUnmounted(() => {
 
 /* ==== Element Plus X ==== */
 import { ref } from 'vue'
-import { Bubble } from 'vue-element-plus-x'
+import {
+  Bubble,
+  Sender
+} from 'vue-element-plus-x'
 
 const markdownText = ref('')
 
@@ -57,6 +61,7 @@ import { ElScrollbar } from 'element-plus'
 <ElScrollbar>
 
   <Bubble :content="markdownText" placement="start"/>
+  <Sender/>
 
 </ElScrollbar>
 </template>
