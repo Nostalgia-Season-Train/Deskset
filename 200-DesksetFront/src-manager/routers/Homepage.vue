@@ -1,40 +1,28 @@
 <script lang="ts" setup>
-import { inject, onUnmounted } from 'vue'
-import { AxiosStatic } from 'axios'
+import { onUnmounted } from 'vue'
+import axios from 'axios'
 
-const axios = inject('$axios') as AxiosStatic
 const controller = new AbortController()
 
 const refresh = async () => {
-  axios.get('/v0/note/obsidian-manager/noteapi/event', {
-    adapter: 'fetch',
-    responseType: 'stream',
-    signal: controller.signal
-  })
-  .then(response => {
+  try {
+    const response = await axios.get('/v0/note/obsidian/is_online', {
+      adapter: 'fetch',
+      responseType: 'stream',
+      signal: controller.signal
+    })
     const reader = response.data.getReader()
     const decoder = new TextDecoder()
-
-    reader.read().then(function process({ done, value }) {
-      // 1、是否传输结束
-      if (done) {
-        return reader.read().then(refresh)
-      }
-
-      // 2、解析数据
-      const chunk = decoder.decode(value, { stream: true })
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      const chunk = decoder.decode(value)
       console.log(chunk)
-
-      // 3、回调自身
-      return reader.read().then(process)
-    })
-    .catch(error => console.log('fetch catch', error))
-  })
-  .catch(error => console.log('axios catch', error))
+    }
+  } catch { }
 }
 refresh()
 
-// controller.abort('caught by axios')
 onUnmounted(() => {
   controller.abort('caught by fetch')
 })
