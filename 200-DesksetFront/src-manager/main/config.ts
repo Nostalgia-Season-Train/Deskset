@@ -146,6 +146,54 @@ export const useConfigStore = defineStore('config', () => {
     }
   })
 
+  const ai_base_url = computed({
+    get() {
+      return config.ai_base_url as string
+    },
+    async set(value) {
+      try {
+        config.ai_base_url = (await axios.post(
+          '/v0/config/ai_base_url',
+          new URLSearchParams({ ai_base_url: value }), {
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+          }
+        )).data.result
+      } catch {}
+    }
+  })
+
+  const ai_api_key = computed({
+    get() {
+      return config.ai_api_key as string
+    },
+    async set(value) {
+      try {
+        config.ai_api_key = (await axios.post(
+          '/v0/config/ai_api_key',
+          new URLSearchParams({ ai_api_key: value }), {
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+          }
+        )).data.result
+      } catch {}
+    }
+  })
+
+  const ai_model = computed({
+    get() {
+      return config.ai_model as string
+    },
+    async set(value) {
+      try {
+        config.ai_model = (await axios.post(
+          '/v0/config/ai_model',
+          new URLSearchParams({ ai_model: value }), {
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+          }
+        )).data.result
+      } catch {}
+    }
+  })
+
   return {
     language,
     isAutostart,
@@ -153,6 +201,9 @@ export const useConfigStore = defineStore('config', () => {
 
     server_port,
     username,
-    password
+    password,
+    ai_base_url,
+    ai_api_key,
+    ai_model
   }
 })

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import Common from './Setting/Common.vue'
 import Server from './Setting/Server.vue'
+import AI from './Setting/AI.vue'
 import { ElScrollbar } from 'element-plus'
 </script>
 
@@ -15,6 +16,10 @@ import { ElScrollbar } from 'element-plus'
 
   <div class="item">
     <Server/>
+  </div>
+
+  <div class="item">
+    <AI/>
   </div>
 
 </div>

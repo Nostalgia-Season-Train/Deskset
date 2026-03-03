@@ -102,6 +102,9 @@ try {
   config.server_port = (await axios.get('/v0/config/server_port', { timeout: timeout })).data.result
   config.username = (await axios.get('/v0/config/username', { timeout: timeout })).data.result
   config.password = (await axios.get('/v0/config/password', { timeout: timeout })).data.result
+  config.ai_base_url = (await axios.get('/v0/config/ai_base_url', { timeout: timeout })).data.result
+  config.ai_api_key = (await axios.get('/v0/config/ai_api_key', { timeout: timeout })).data.result
+  config.ai_model = (await axios.get('/v0/config/ai_model', { timeout: timeout })).data.result
 } catch {}
 
 // 读取文件中的配置/持久化配置

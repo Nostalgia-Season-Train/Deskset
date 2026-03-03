@@ -19,6 +19,9 @@ export interface RuntimeConf {
   server_port: number
   username: string
   password: string
+  ai_base_url: string
+  ai_api_key: string
+  ai_model: string
 }
 
 export const config = reactive<RuntimeConf>({
@@ -28,5 +31,8 @@ export const config = reactive<RuntimeConf>({
 
   server_port: DEFAULT_SERVER_PORT,
   username: DEFAULT_USERNAME,
-  password: DEFAULT_PASSWORD
+  password: DEFAULT_PASSWORD,
+  ai_base_url: '',
+  ai_api_key: '',
+  ai_model: ''
 })
