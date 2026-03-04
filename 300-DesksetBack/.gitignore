@@ -2,6 +2,7 @@
 /tmp
 /config
 /scripts
+/logs
 
 # 忽略二进制文件
 *.dll
