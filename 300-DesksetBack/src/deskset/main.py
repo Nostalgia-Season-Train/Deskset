@@ -326,7 +326,14 @@ def main():
     logging.info('run uvicorn server')
     try:
         # log_config=None & log_level='error' 作用：日志从控制台改为输出到文件 + 日志级别 error
-        uvicorn.run(combined_app, host=server_host, port=server_port, log_config=None, log_level='error')
+        uvicorn.run(
+            combined_app,
+            host=server_host,
+            port=server_port,
+            timeout_graceful_shutdown=config.shutdown_graceful_timeout,
+            log_config=None,
+            log_level='error'
+        )
     except SystemExit:  # 捕获 uvicorn 异常退出，以便日志记录 OSError 信息
         logging.exception('uvicorn crash!')
         logging.error('end uvicorn server with exception')  # logging.exception 重复打印 SystemExit 堆栈...

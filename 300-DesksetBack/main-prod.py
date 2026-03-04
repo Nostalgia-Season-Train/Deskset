@@ -22,6 +22,7 @@ if __name__ == '__main__':
             'deskset.main:combined_app',
             host=config.server_host,
             port=config.server_port,
+            timeout_graceful_shutdown=config.shutdown_graceful_timeout,
             reload=True,
             use_colors=False  # use_colors=False：cmd.exe 不支持打印颜色，显示乱码
         )

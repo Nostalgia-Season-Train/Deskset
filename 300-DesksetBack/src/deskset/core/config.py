@@ -30,6 +30,7 @@ class ValidateConfig(
 
     server_host: str = '127.0.0.1'  # 监听 IP
     server_port: int = 6527         # 监听端口
+    shutdown_graceful_timeout: int = 5  # 优雅关闭等待秒数，若超过此时间则强制关闭，适用于结束 StreamingResponse 流式响应
 
     # username 和 password 每次都随机生成，读取配置文件成功再被覆盖
     username: str = 'deskset-user' + ''.join(choices(CHARS_STR, k=randint(5, 10)))   # 用户名
@@ -166,6 +167,10 @@ class Config:
     def server_port(self, server_port: int) -> None:
         self._validate_config.server_port = server_port
         self.__save_config(self._validate_config)
+
+    @property
+    def shutdown_graceful_timeout(self) -> int:
+        return self._validate_config.shutdown_graceful_timeout
 
     @property
     def username(self) -> str:
