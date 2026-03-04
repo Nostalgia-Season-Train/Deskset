@@ -71,7 +71,7 @@ import { Promotion } from '@element-plus/icons-vue'
 
   <Sender v-model="senderText" :auto-size="{ minRows: 3, maxRows: 5 }">
     <template #action-list>
-      <ElButton @click="send">
+      <ElButton @click="send" :disabled="senderText === ''">
         <ElIcon><Promotion/></ElIcon>
       </ElButton>
     </template>
