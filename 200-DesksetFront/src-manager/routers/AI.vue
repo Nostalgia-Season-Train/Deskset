@@ -1,10 +1,23 @@
 <script lang="ts" setup>
 /* ==== DesksetBack ==== */
 import axios from 'axios'
+
 const controller = new AbortController()
+let key = 0
+
 const send = async () => {
   const body = senderText.value
   senderText.value = ''
+
+  // 用户消息
+  key += 1
+  list.value.push({
+    key: key,
+    role: 'user',
+    placement: 'end',
+    content: body
+  })
+
   try {
     const response = await axios.post('/ai/hello', body, {
       adapter: 'fetch',
@@ -44,14 +57,26 @@ onUnmounted(() => {
 
 
 /* ==== Element Plus X ==== */
+import type {
+  BubbleListItemProps,
+  BubbleListProps
+} from 'vue-element-plus-x/types/BubbleList'
+
+type listType = BubbleListItemProps & {
+  key: number
+  role: 'user' | 'ai'
+}
+
+
 import { ref } from 'vue'
 import {
-  Bubble,
+  BubbleList,
   Sender
 } from 'vue-element-plus-x'
 
 const markdownText = ref('')
 const senderText = ref('')
+const list = ref<BubbleListProps<listType>['list']>([])
 
 
 /* ==== Element Plus ==== */
@@ -67,7 +92,7 @@ import { Promotion } from '@element-plus/icons-vue'
 <template>
 <ElScrollbar>
 
-  <Bubble :content="markdownText" placement="start"/>
+  <BubbleList :list="list"/>
 
   <Sender v-model="senderText" :auto-size="{ minRows: 3, maxRows: 5 }">
     <template #action-list>
