@@ -9,11 +9,11 @@ import { Inbox, Home, LayoutDashboard, Palette, Sparkles, SquareChartGantt } fro
 import CogLoop from '#desksetui/icons/Material Line Icons/CogLoop.vue'
 const items = [
   { icon: Inbox,           page: 'welcome' },
-  { icon: Home,            page: 'homepage' },
+  // { icon: Home,            page: 'homepage' },
   { icon: LayoutDashboard, page: 'widget' },
   { icon: Palette,         page: 'theme' },
   { icon: Sparkles,        page: 'ai' },
-  { icon: SquareChartGantt,page: 'moment' },
+  // { icon: SquareChartGantt,page: 'moment' },
   { icon: CogLoop,         page: 'setting' }
 ]
 </script>
