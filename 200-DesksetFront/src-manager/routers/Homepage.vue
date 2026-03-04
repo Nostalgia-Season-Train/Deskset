@@ -35,7 +35,7 @@ import Sidebar from './HomePage/Sidebar.vue'
 
 
 <template>
-<div>
+<div class="content">
   <DesktopInfo/>
   <Sidebar/>
 </div>
@@ -43,4 +43,8 @@ import Sidebar from './HomePage/Sidebar.vue'
 
 
 <style lang="less" scoped>
+.content {
+  padding: 0 var(--content-padding);
+  padding-bottom: var(--content-padding);
+}
 </style>
