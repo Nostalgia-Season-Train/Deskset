@@ -54,6 +54,12 @@ export default defineConfig({
             { text: '硬盘存储值', link: '/manual/widget/device/disk-storage' },
             { text: '电池电量', link: '/manual/widget/device/battery' }
           ]}
+        ]},
+        { text: '主题', collapsed: false, items: [
+          { text: '主题简介', link: '/manual/theme/theme-overview' }
+        ]},
+        { text: 'AI', collapsed: false, items: [
+          { text: 'AI 简介', link: '/manual/ai/ai-overview' }
         ]}
       ]
     }
