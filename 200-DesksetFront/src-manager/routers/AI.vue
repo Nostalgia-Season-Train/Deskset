@@ -3,7 +3,7 @@
 import axios from 'axios'
 
 const controller = new AbortController()
-let key = 0
+let key = -1
 
 const send = async () => {
   const body = senderText.value
@@ -18,6 +18,14 @@ const send = async () => {
     content: body
   })
 
+  // AI 消息
+  key += 1
+  list.value.push({
+    key: key,
+    role: 'ai',
+    placement: 'start',
+    content: ''
+  })
   try {
     const response = await axios.post('/ai/hello', body, {
       adapter: 'fetch',
@@ -35,12 +43,12 @@ const send = async () => {
         try {
           const obj = JSON.parse(objtext)
           if (obj.type === 'response.output_text.delta')
-            markdownText.value += obj.delta
+            list.value[key].content += obj.delta
           if (obj.type === 'response.output_item.done' && obj.item.type === 'message') {
-            markdownText.value = ''
+            list.value[key].content = ''
             for (const content of obj.item.content)
               // 注 1：```xml 结尾是因为 AI 后面调用了 MCP 工具，不是 BUG
-              markdownText.value += content.text + '\n'
+              list.value[key].content += content.text + '\n'
           }
         } catch { }
       }
@@ -74,7 +82,6 @@ import {
   Sender
 } from 'vue-element-plus-x'
 
-const markdownText = ref('')
 const senderText = ref('')
 const list = ref<BubbleListProps<listType>['list']>([])
 
