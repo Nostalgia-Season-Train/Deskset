@@ -15,7 +15,8 @@ const sendMessage = async () => {
     key: key,
     role: 'user',
     placement: 'end',
-    content: body
+    content: body,
+    isMarkdown: true
   })
 
   // AI 消息
@@ -24,7 +25,8 @@ const sendMessage = async () => {
     key: key,
     role: 'ai',
     placement: 'start',
-    content: ''
+    content: '',
+    isMarkdown: true
   })
   try {
     const response = await axios.post('/ai/hello', body, {
