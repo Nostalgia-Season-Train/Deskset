@@ -148,18 +148,31 @@ class AIManager:
                 self._messages.append({ 'role': 'assistant', 'content': text })
             # MCP 调用
             if chunk.item.type == 'function_call':
-                from json import loads
+                from json import loads, dumps
                 name = chunk.item.name
                 arguments = loads(chunk.item.arguments)
+                result = None
                 async with self._mcp_client:  # type: ignore
-                    await self._mcp_client.call_tool(name, arguments)  # type: ignore
+                    result = await self._mcp_client.call_tool(name, arguments)  # type: ignore
+                # 上下文：添加 MCP 结果
+                call_id = chunk.item.call_id
+                output = dumps(result.structured_content) if result.structured_content is not None else '{}'
+                self._messages.append({ 'type': 'function_call_output', 'call_id': call_id, 'output': output })
 
     async def stream(self, user_message):
+        # 上下文：添加用户消息
         self._messages.append({ 'role': 'user', 'content': user_message })
         response = await self._create_response()
         for chunk in response:
             await self._deal_with_chunk(chunk)
             yield chunk.to_json(indent=None) + '\n'  # indent=None 紧凑格式；结尾加 \n 分割 json
+        if self._messages[len(self._messages) - 1].get('type', None) != 'function_call_output':
+            return
+        # _deal_with_chunk 回填结果，创建最终回复
+        response = await self._create_response()
+        for chunk in response:
+            await self._deal_with_chunk(chunk)
+            yield chunk.to_json(indent=None) + '\n'
         return
 
 ai_manager = AIManager()
