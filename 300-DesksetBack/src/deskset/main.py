@@ -86,6 +86,7 @@ from deskset.router._unify import check_token
 router_ai = APIRouter(
     prefix='/ai', tags=['ai'],
     dependencies=[Depends(check_token)]
+    # 不加 DesksetRepJSON 区分普通 RestAPI 端点
 )
 
 from fastmcp import Client
@@ -185,6 +186,10 @@ async def hello(body: str = Body(...)):
     if body.isspace():
         return
     return StreamingResponse(ai_manager.stream(body), media_type='text/plain')
+
+@router_ai.get('/latest-messages')
+async def get_latest_messages():
+    return ai_manager._messages
 
 app.include_router(router_ai)
 

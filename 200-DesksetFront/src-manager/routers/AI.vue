@@ -88,6 +88,34 @@ const senderText = ref('')
 const list = ref<BubbleListProps<listType>['list']>([])
 
 
+const getLatestMessages = async () => {
+  const response = await axios.get('/ai/latest-messages')
+  for (const message of response.data) {
+    if (message?.role === 'user') {
+      key += 1
+      list.value.push({
+        key: key,
+        role: 'user',
+        placement: 'end',
+        content: message.content,
+        isMarkdown: true
+      })
+    }
+    if (message?.role === 'assistant') {
+      key += 1
+      list.value.push({
+        key: key,
+        role: 'ai',
+        placement: 'start',
+        content: message.content,
+        isMarkdown: true
+      })
+    }
+  }
+}
+getLatestMessages()
+
+
 /* ==== Element Plus ==== */
 import {
   ElScrollbar,
