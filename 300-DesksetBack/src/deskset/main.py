@@ -108,12 +108,14 @@ from fastmcp import Client
 class AIManager:
     _ai_client: OpenAI | None
     _mcp_client: Client | None
+    _messages: list[dict[str, str]]  # { role, content }[]
 
     def __init__(self):
         self._ai_client = None
         self._mcp_client = None  # mcp 在后面实例化
+        self._messages = []
 
-    async def _create_response(self, user_message):
+    async def _create_response(self):
         # AI Client
         if self._ai_client is None:
             self._ai_client = OpenAI(
@@ -128,8 +130,8 @@ class AIManager:
         # Response
         response = self._ai_client.responses.create(
             model=config.ai_model,
-            input=user_message,
-            tools=mcp_tools,
+            input=self._messages,  # type: ignore
+            tools=mcp_tools,  # type: ignore
             stream=True,
             extra_body={ 'thinking': { 'type': 'disabled' } }  # 暂时禁用思考模式
         )
@@ -137,15 +139,24 @@ class AIManager:
 
     async def _deal_with_chunk(self, chunk):
         if chunk.type == 'response.output_item.done':
+            # 正常对话
+            if chunk.item.type == 'message':
+                text = ''
+                for content in chunk.item.content:
+                    text += content.text + '\n'
+                # 上下文：添加 AI 消息
+                self._messages.append({ 'role': 'assistant', 'content': text })
+            # MCP 调用
             if chunk.item.type == 'function_call':
                 from json import loads
                 name = chunk.item.name
                 arguments = loads(chunk.item.arguments)
-                async with self._mcp_client:
-                    await self._mcp_client.call_tool(name, arguments)
+                async with self._mcp_client:  # type: ignore
+                    await self._mcp_client.call_tool(name, arguments)  # type: ignore
 
     async def stream(self, user_message):
-        response = await self._create_response(user_message)
+        self._messages.append({ 'role': 'user', 'content': user_message })
+        response = await self._create_response()
         for chunk in response:
             await self._deal_with_chunk(chunk)
             yield chunk.to_json(indent=None) + '\n'  # indent=None 紧凑格式；结尾加 \n 分割 json
