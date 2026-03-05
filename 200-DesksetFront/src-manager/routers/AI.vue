@@ -99,7 +99,7 @@ import { Promotion } from '@element-plus/icons-vue'
 <template>
 <ElScrollbar>
 
-  <BubbleList :list="list"/>
+  <BubbleList :list="list" style="user-select: text;"/>
 
   <Sender v-model="senderText" :auto-size="{ minRows: 3, maxRows: 5 }">
     <template #action-list>
