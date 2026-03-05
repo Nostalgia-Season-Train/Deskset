@@ -80,7 +80,7 @@ from deskset.router._unify import router_access
 app.include_router(router_access)
 
 
-# ==== FastAPI Router：查看 MCP 工具 ====
+# ==== FastAPI Router：AI 人工智能 ====
 from fastapi import APIRouter, Depends
 from deskset.router._unify import check_token
 router_ai = APIRouter(
@@ -103,6 +103,56 @@ async def get_mcp_tools():
     return tools
 
 from openai import OpenAI
+from fastmcp import Client
+
+class AIManager:
+    _ai_client: OpenAI | None
+    _mcp_client: Client | None
+
+    def __init__(self):
+        self._ai_client = None
+        self._mcp_client = None  # mcp 在后面实例化
+
+    async def _create_response(self, user_message):
+        # AI Client
+        if self._ai_client is None:
+            self._ai_client = OpenAI(
+                base_url=config.ai_base_url,
+                api_key=config.ai_api_key
+            )
+        # MCP Client
+        if self._mcp_client is None:
+            self._mcp_client = Client(mcp)
+        # MCP Tools
+        mcp_tools = await get_mcp_tools()
+        # Response
+        response = self._ai_client.responses.create(
+            model=config.ai_model,
+            input=user_message,
+            tools=mcp_tools,
+            stream=True,
+            extra_body={ 'thinking': { 'type': 'disabled' } }  # 暂时禁用思考模式
+        )
+        return response
+
+    async def _deal_with_chunk(self, chunk):
+        if chunk.type == 'response.output_item.done':
+            if chunk.item.type == 'function_call':
+                from json import loads
+                name = chunk.item.name
+                arguments = loads(chunk.item.arguments)
+                async with self._mcp_client:
+                    await self._mcp_client.call_tool(name, arguments)
+
+    async def stream(self, user_message):
+        response = await self._create_response(user_message)
+        for chunk in response:
+            await self._deal_with_chunk(chunk)
+            yield chunk.to_json(indent=None) + '\n'  # indent=None 紧凑格式；结尾加 \n 分割 json
+        return
+
+ai_manager = AIManager()
+
 from fastapi import Body
 from fastapi.responses import StreamingResponse
 @router_ai.post('/hello')
@@ -110,35 +160,7 @@ async def hello(body: str = Body(...)):
     # 模型输入必须非空
     if body == '':
         return
-    # Tools
-    tools = await get_mcp_tools()
-    # AI
-    client = OpenAI(
-        base_url=config.ai_base_url,
-        api_key=config.ai_api_key
-    )
-    response = client.responses.create(
-        model=config.ai_model,
-        input=body,
-        tools=tools,
-        stream=True,
-        extra_body={ 'thinking': { 'type': 'disabled' } }  # 暂时禁用思考模式
-    )
-    # Client
-    client = Client(mcp)
-    # Stream
-    async def stream():
-        for chunk in response:
-            if chunk.type == 'response.output_item.done':
-                if chunk.item.type == 'function_call':
-                    from json import loads
-                    name = chunk.item.name
-                    arguments = loads(chunk.item.arguments)
-                    async with client:
-                        await client.call_tool(name, arguments)
-            yield chunk.to_json(indent=None) + '\n'  # indent=None 紧凑格式；结尾加 \n 分割 json
-        return
-    return StreamingResponse(stream(), media_type='text/plain')
+    return StreamingResponse(ai_manager.stream(body), media_type='text/plain')
 
 app.include_router(router_ai)
 
