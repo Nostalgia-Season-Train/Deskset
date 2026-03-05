@@ -181,8 +181,8 @@ from fastapi import Body
 from fastapi.responses import StreamingResponse
 @router_ai.post('/hello')
 async def hello(body: str = Body(...)):
-    # 模型输入必须非空
-    if body == '':
+    # 模型输入必须非空（包括仅含空格、换行符等字符的情况）
+    if body.isspace():
         return
     return StreamingResponse(ai_manager.stream(body), media_type='text/plain')
 
