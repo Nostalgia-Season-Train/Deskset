@@ -5,7 +5,7 @@ import axios from 'axios'
 const controller = new AbortController()
 let key = -1
 
-const send = async () => {
+const sendMessage = async () => {
   const body = senderText.value
   senderText.value = ''
 
@@ -101,9 +101,9 @@ import { Promotion } from '@element-plus/icons-vue'
 
   <BubbleList :list="list" style="user-select: text;"/>
 
-  <Sender v-model="senderText" :auto-size="{ minRows: 3, maxRows: 5 }">
+  <Sender v-model="senderText" :auto-size="{ minRows: 3, maxRows: 5 }" @keydown.enter="sendMessage">
     <template #action-list>
-      <ElButton @click="send" :disabled="senderText === ''">
+      <ElButton :disabled="senderText === ''" @click="sendMessage">
         <ElIcon><Promotion/></ElIcon>
       </ElButton>
     </template>
