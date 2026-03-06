@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TypedDict
+from typing import Any, TypedDict
 
 
 
@@ -165,6 +165,17 @@ class NoteAPI:
     async def filter_frontmatter(self, filter_group: object):
         self.check_online()
         return await self._rpc.call_remote_procedure('filter_frontmatter', [filter_group])
+
+    # --- 命令 Command ---
+    class Command(TypedDict):
+        id: str    # 命令 ID
+        name: str  # 命令名称
+    async def list_commands(self) -> NoteAPI.Command:
+        self.check_online()
+        return await self._rpc.call_remote_procedure('list_commands', [])  # type: ignore
+    async def execute_command(self, id: str) -> Any:
+        self.check_online()
+        return await self._rpc.call_remote_procedure('execute_command', [id])  # type: ignore
 
     # --- 窗口页面 Winpage ---
     async def open_vault_on_obsidian(self) -> bool:
