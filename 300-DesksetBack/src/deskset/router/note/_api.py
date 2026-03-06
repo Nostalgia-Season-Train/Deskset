@@ -131,40 +131,27 @@ class NoteAPI:
         self.check_online()
         return await self._rpc.call_remote_procedure('list_diarys_in_a_month', [monthid])
 
-    # --- 任务 ---
-    async def get_all_tasks(self, path: str):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('get_all_tasks', [path])
-
-    async def toggle_task(self, path: str, line: int):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('toggle_task', [path, line])
-
-    async def create_task(self, path: str, content: str):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('create_task', [path, content])
-
-    async def edit_task(self, path: str, line: int, newContent: str):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('edit_task', [path, line, newContent])
-
-    async def delete_task(self, path: str, line: int):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('delete_task', [path, line])
-
-    # --- Obsidian 窗口 ---
-    async def open_vault(self):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('open_vault', [])
-
-    async def open_in_obsidian(self, path: str):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('open_in_obsidian', [path])
-
     # --- 数据分析 ---
     async def filter_frontmatter(self, filter_group: object):
         self.check_online()
         return await self._rpc.call_remote_procedure('filter_frontmatter', [filter_group])
+
+    # --- 任务 Task ---
+    async def list_tasks(self, path: str):
+        self.check_online()
+        return await self._rpc.call_remote_procedure('list_tasks', [path])  # type: ignore
+    async def create_task(self, path: str, content: str, line: int | None = None):
+        self.check_online()
+        return await self._rpc.call_remote_procedure('create_task', [path, content, line])  # type: ignore
+    async def edit_task(self, path: str, line: int, newContent: str):
+        self.check_online()
+        return await self._rpc.call_remote_procedure('edit_task', [path, line, newContent])  # type: ignore
+    async def toggle_task(self, path: str, line: int):
+        self.check_online()
+        return await self._rpc.call_remote_procedure('toggle_task', [path, line])  # type: ignore
+    async def delete_task(self, path: str, line: int):
+        self.check_online()
+        return await self._rpc.call_remote_procedure('delete_task', [path, line])  # type: ignore
 
     # --- 命令 Command ---
     class Command(TypedDict):
