@@ -81,7 +81,7 @@ const store = useThemeStore()
     >
       <ElTableColumn label="名称" prop="name" width="200" fixed="left"/>
       <ElTableColumn label="保存时间" prop="savetime"/>
-      <ElTableColumn label="操作" width="350" fixed="right">
+      <ElTableColumn label="操作" width="250" fixed="right">
         <template #header>
           <div
             style="width: 100%;
