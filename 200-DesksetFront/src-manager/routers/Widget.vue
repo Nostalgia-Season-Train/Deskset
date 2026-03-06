@@ -93,6 +93,8 @@ import Info from './Widget/RightInfo.vue'
 
 
 <style lang="less" scoped>
+@import '#manager/style.less';
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -131,7 +133,7 @@ import Info from './Widget/RightInfo.vue'
     display: flex;
     flex-direction: column;
     gap: 5px;
-    background: var(--bg);
+    .deskset-layer-first();
     :nth-child(2) {
       flex: 1;
     }
@@ -139,6 +141,7 @@ import Info from './Widget/RightInfo.vue'
   .right {
     width: 75%;
     height: 100%;
+    .deskset-layer-first();
   }
 }
 </style>

@@ -28,6 +28,8 @@ import { ElScrollbar } from 'element-plus'
 
 
 <style lang="less" scoped>
+@import '#manager/style.less';
+
 .content {
   padding: 0 var(--content-padding);
   display: flex;
@@ -36,7 +38,7 @@ import { ElScrollbar } from 'element-plus'
   .item>*:last-child {
     margin-bottom: 12px;
     padding: 5px;
-    background: var(--bg);
+    .deskset-layer-first();
   }
 }
 </style>

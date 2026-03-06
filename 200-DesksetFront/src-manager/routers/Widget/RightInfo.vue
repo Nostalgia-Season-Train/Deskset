@@ -123,9 +123,6 @@ import {
   flex-direction: column;
   justify-content: space-between;
 
-  color: var(--color-deskset-primary);
-  background: var(--bg);
-
   .top {
     padding: 5px;
     flex: 1;

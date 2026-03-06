@@ -1,11 +1,17 @@
 :root {
   --deskset-color-primary: #2196F3;
   --deskset-color-primary-light-9: #E3F2FD;
+  --deskset-color-background: hsl(0, 0%, 95%);
 
   --deskset-text-color: hsl(0, 0%, 30%);
   --deskset-text-size: 16px;
   --deskset-text-sharp-color: hsl(0, 0%, 5%);
   --deskset-text-sharp-size: 18px;
+
+  --deskset-box-shadow-medium:
+    inset 0 1px 2px #FFFFFF50,
+    0 2px 4px #00000030,
+    0 4px 8px #00000015;
 }
 
 .deskset-text {
@@ -32,4 +38,11 @@
 .deskset-com-text-title {
   color: var(--deskset-text-sharp-color);
   font-size: var(--deskset-text-sharp-size);
+}
+
+/* --- 层级：背景层、容器层 --- */
+// 第一层：容器层，仅在背景层之上
+.deskset-layer-first {
+  background: var(--deskset-color-background);
+  box-shadow: var(--deskset-box-shadow-medium);
 }
