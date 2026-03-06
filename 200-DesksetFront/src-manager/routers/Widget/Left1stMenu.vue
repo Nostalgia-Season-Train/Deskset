@@ -58,6 +58,8 @@ const openMenu = async () => {
     width: 100%;
     height: 100%;
     svg {
+      width: 20px;
+      height: 20px;
       stroke-width: 1;
     }
   }
