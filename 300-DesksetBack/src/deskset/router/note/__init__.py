@@ -50,5 +50,8 @@ router_obsidian.include_router(router_stats)
 # 搜索
 from .search import router_search
 router_obsidian.include_router(router_search)
+# 窗口页面 Winpage
+from .winpage import router_winpage
+router_obsidian.include_router(router_winpage)
 
 router_note.include_router(router_obsidian)

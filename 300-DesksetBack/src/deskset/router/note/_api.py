@@ -166,6 +166,14 @@ class NoteAPI:
         self.check_online()
         return await self._rpc.call_remote_procedure('filter_frontmatter', [filter_group])
 
+    # --- 窗口页面 Winpage ---
+    async def open_vault_on_obsidian(self) -> bool:
+        self.check_online()
+        return await self._rpc.call_remote_procedure('open_vault_on_obsidian', [])  # type: ignore
+    async def open_file_on_obsidian(self, path: str) -> bool:
+        self.check_online()
+        return await self._rpc.call_remote_procedure('open_file_on_obsidian', [path])  # type: ignore
+
 
 noteapi = NoteAPI()
 
