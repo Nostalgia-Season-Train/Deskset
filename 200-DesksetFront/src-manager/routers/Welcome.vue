@@ -73,7 +73,7 @@ const openReleasePage = () => {
     height: 100%;
     padding: 5px;
     .deskset-text-title();
-    background: var(--deskset-color-background);
+    .deskset-layer-first();
   }
 
   .center {
