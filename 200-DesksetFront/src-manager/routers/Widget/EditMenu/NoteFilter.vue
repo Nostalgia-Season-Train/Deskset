@@ -64,7 +64,7 @@ import { X } from 'lucide-vue-next'
         }]
       }); emit('change')"
     >添加条件组</ElButton>
-    <ElSelect v-model="filterGroup.match" @change="emit('change')" style="width: 100px">
+    <ElSelect v-model="filterGroup.match" @change="emit('change')" style="width: 120px">
       <ElOption value="all" label="匹配全部"/>
       <ElOption value="any" label="匹配任意"/>
     </ElSelect>

@@ -3,6 +3,7 @@ import './ElSwitch.less'
 import './ElInput.less'
 
 import './ElTabs.less'
+import './ElSelect.less'
 import './ElDropdown.less'
 import './ElDropdownMenu.less'
 import './ElDropdownItem.less'

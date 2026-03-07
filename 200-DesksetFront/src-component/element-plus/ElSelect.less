@@ -1,0 +1,33 @@
+@import '#manager/style.less';
+
+.el-select {
+  height: 28px;
+  .el-select__wrapper {
+    padding: 0px 12px;
+    height: 28px;
+    min-height: 0;
+    background: var(--deskset-color-background-light);
+    border: none;
+    box-shadow: none;
+    transition: .3s;
+    &.is-hovering {
+      border: none;
+      box-shadow: none;
+      box-shadow: var(--deskset-box-shadow-small);
+    }
+  }
+  .el-select__placeholder {
+    .deskset-com-text();
+  }
+}
+
+.el-select-dropdown {
+  .el-select-dropdown__list {
+    padding: 0;
+    .el-select-dropdown__item {
+      &.is-selected {
+        color: var(--deskset-color-primary);
+      }
+    }
+  }
+}
