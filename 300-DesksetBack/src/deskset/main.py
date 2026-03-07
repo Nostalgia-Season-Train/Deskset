@@ -200,6 +200,10 @@ from fastmcp import FastMCP
 from fastmcp.server.providers.openapi import RouteMap, MCPType
 from fastmcp.utilities.lifespan import combine_lifespans
 
+# 以下代码等同于 validate_output=False，热修复 from_openapi 有但 from_fastapi 没有的参数
+# from fastmcp.server.providers.openapi import OpenAPIProvider
+# OpenAPIProvider.__init__.__kwdefaults__['validate_output'] = False  # type: ignore
+
 mcp = FastMCP.from_fastapi(
     app=app,
     route_maps=[
@@ -208,7 +212,8 @@ mcp = FastMCP.from_fastapi(
         RouteMap(tags={'device'}, mcp_type=MCPType.EXCLUDE),
         RouteMap(tags={'quick'},  mcp_type=MCPType.EXCLUDE),
         RouteMap(pattern=r'^/ai/.*', mcp_type=MCPType.EXCLUDE),
-        RouteMap(pattern=r'^/v0/.*', mcp_type=MCPType.EXCLUDE),
+        RouteMap(pattern=r'^/v0/note/obsidian/winpage/.*', mcp_type=MCPType.TOOL),
+        RouteMap(mcp_type=MCPType.EXCLUDE)  # 排除未明确指定的路由
     ]
 )
 mcp_app = mcp.http_app(path='/mcp')
