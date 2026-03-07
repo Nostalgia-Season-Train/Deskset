@@ -8,12 +8,11 @@ router_note = APIRouter(
 
 
 # ==== Obsidian ====
-from typing import Any
 router_obsidian = APIRouter(
     prefix='/obsidian', tags=['Obsidian'],
     default_response_class=DesksetRepJSON,
     # 让 MCP 知道 200 返回对象而非字符串，不作字符串验证
-    responses={ 200: { 'model': dict[str, Any] } }
+    responses={ 200: { 'content': { DesksetRepJSON.media_type: DesksetRepJSON.schema } } }
 )
 
 # 上下线事件
