@@ -3,10 +3,10 @@ from ._api import noteapi
 
 router_winpage = APIRouter(prefix='/winpage')
 
-@router_winpage.get('/open_vault')
-async def open_vault():
+@router_winpage.get('/open')
+async def open():
     '''打开 Obsidian'''
-    return await noteapi.open_vault_on_obsidian()
+    return await noteapi.open_on_obsidian()
 @router_winpage.post('/open_file')
 async def open_file(path: str = Body(...)):
     '''

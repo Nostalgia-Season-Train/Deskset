@@ -165,9 +165,9 @@ class NoteAPI:
         return await self._rpc.call_remote_procedure('execute_command', [id])  # type: ignore
 
     # --- 窗口页面 Winpage ---
-    async def open_vault_on_obsidian(self) -> bool:
+    async def open_on_obsidian(self) -> bool:
         self.check_online()
-        return await self._rpc.call_remote_procedure('open_vault_on_obsidian', [])  # type: ignore
+        return await self._rpc.call_remote_procedure('open_on_obsidian', [])  # type: ignore
     async def open_file_on_obsidian(self, path: str) -> bool:
         self.check_online()
         return await self._rpc.call_remote_procedure('open_file_on_obsidian', [path])  # type: ignore
