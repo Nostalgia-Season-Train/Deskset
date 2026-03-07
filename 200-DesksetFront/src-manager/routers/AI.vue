@@ -129,7 +129,8 @@ import { Promotion } from '@element-plus/icons-vue'
 <template>
 <ElScrollbar>
 
-  <BubbleList :list="list" style="user-select: text;"/>
+  <!-- @click.prevent：禁用链接跳转 -->
+  <BubbleList :list="list" style="user-select: text;" @click.prevent/>
 
   <Sender v-model="senderText" :auto-size="{ minRows: 3, maxRows: 5 }" @keydown.enter="sendMessage">
     <template #action-list>
