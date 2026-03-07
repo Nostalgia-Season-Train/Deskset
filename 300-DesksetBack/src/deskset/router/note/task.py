@@ -7,8 +7,13 @@ router_task = APIRouter(prefix='/task', tags=['Note Task'])
 async def get_all_tasks(path: str = Form()):
     return await noteapi.list_tasks(path)
 @router_task.post('/create')
-async def create_task(path: str = Form(), text: str = Form(), line: int | None = Form(None)):
-    return await noteapi.create_task(path, text, line)
+async def create_task(
+    path: str = Form(),
+    line: int | None = Form(None),
+    status: str | None = Form(None),
+    text: str | None = Form(None),
+):
+    return await noteapi.create_task(path, line, status, text)
 @router_task.post('/edit')
 async def edit_task(path: str = Form(), line: int = Form(), newText: str = Form()):
     return await noteapi.edit_task(path, line, newText)

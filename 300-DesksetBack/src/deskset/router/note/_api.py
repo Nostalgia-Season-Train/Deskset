@@ -137,15 +137,26 @@ class NoteAPI:
         return await self._rpc.call_remote_procedure('filter_frontmatter', [filter_group])
 
     # --- 任务 Task ---
-    async def list_tasks(self, path: str):
+    class Task(TypedDict):
+        # - [x] 这是一个任务
+        line: int    # 任务在第 line 行
+        status: str  # 任务状态 'x'
+        text: str    # 任务文本 '这是一个任务'
+    async def list_tasks(self, path: str) -> NoteAPI.Task:
         self.check_online()
         return await self._rpc.call_remote_procedure('list_tasks', [path])  # type: ignore
-    async def create_task(self, path: str, content: str, line: int | None = None):
+    async def create_task(
+        self,
+        path: str,
+        line: int | None = None,
+        status: str | None = None,
+        text: str | None = None
+    ):
         self.check_online()
-        return await self._rpc.call_remote_procedure('create_task', [path, content, line])  # type: ignore
-    async def edit_task(self, path: str, line: int, newContent: str):
+        return await self._rpc.call_remote_procedure('create_task', [path, line, status, text])  # type: ignore
+    async def edit_task(self, path: str, line: int, newText: str):
         self.check_online()
-        return await self._rpc.call_remote_procedure('edit_task', [path, line, newContent])  # type: ignore
+        return await self._rpc.call_remote_procedure('edit_task', [path, line, newText])  # type: ignore
     async def toggle_task(self, path: str, line: int):
         self.check_online()
         return await self._rpc.call_remote_procedure('toggle_task', [path, line])  # type: ignore
