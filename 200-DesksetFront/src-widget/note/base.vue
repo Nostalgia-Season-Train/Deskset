@@ -66,6 +66,10 @@ watch(
   async (noteFilter) => await refresh()
 )
 watch(
+  () => model.value.noteProp,
+  async (noteProp) => { if (!isColDragging) await refresh() }
+)
+watch(
   () => model.value.noteSort,
   async (noteSort) => data.value = await sortList(data.value, noteSort.sorts)
 )
@@ -78,6 +82,7 @@ const openInObsidian = async (event: any) => {
 
 
 /* ==== 拖动 ElTableV2列分割线 改变 ElTableV2列宽 ==== */
+let isColDragging = false  // 列正在拖动的标志
 const down = (event: MouseEvent, element: HTMLElement, dataKey: string) => {
   // 阻止事件冒泡，避免触发整个组件的拖动行为（drag 函数）
   event.stopPropagation()
@@ -94,6 +99,7 @@ const down = (event: MouseEvent, element: HTMLElement, dataKey: string) => {
 
   // 开始监听 mousemove、mouseup 事件
   document.onmousemove = (event: MouseEvent) => {
+    isColDragging = true
     moveX = event.clientX - beginX
     element.style.left = moveX + originX + 'px'
     if (item != null && modelItem != null) {
@@ -102,6 +108,7 @@ const down = (event: MouseEvent, element: HTMLElement, dataKey: string) => {
     }
   }
   document.onmouseup = () => {
+    isColDragging = false
     // 停止监听
     document.onmousemove = null
     document.onmouseup = null
