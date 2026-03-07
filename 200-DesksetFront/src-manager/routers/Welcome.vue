@@ -11,7 +11,8 @@ const openReleasePage = () => {
 
 <template>
 <Scrollbar>
-<div class="container-welcome">
+<div class="content">
+<div class="content-wrapper">
 
   <div class="center">
     <div>
@@ -52,15 +53,28 @@ const openReleasePage = () => {
   <!-- <div>QQ 群：770889923</div> -->
 
 </div>
+</div>
 </Scrollbar>
 </template>
 
 
 <style lang="less" scoped>
+@import '#manager/style.less';
+
 // 若类名等于 container，则无法填满 content，原因未知
-.container-welcome {
-  padding: 0 10px;
-  color: var(--color-deskset-primary);
+.content {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: var(--content-padding);
+  padding-top: 0;
+  .content-wrapper {
+    box-sizing: border-box;
+    height: 100%;
+    padding: 5px;
+    .deskset-text-title();
+    background: var(--deskset-color-background);
+  }
 
   .center {
     display: flex;
