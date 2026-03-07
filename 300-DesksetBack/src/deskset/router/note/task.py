@@ -11,12 +11,17 @@ async def create_task(
     path: str = Form(),
     line: int | None = Form(None),
     status: str | None = Form(None),
-    text: str | None = Form(None),
+    text: str | None = Form(None)
 ):
     return await noteapi.create_task(path, line, status, text)
 @router_task.post('/edit')
-async def edit_task(path: str = Form(), line: int = Form(), newText: str = Form()):
-    return await noteapi.edit_task(path, line, newText)
+async def edit_task(
+    path: str = Form(),
+    line: int = Form(),
+    newStatus: str | None = Form(None),
+    newText: str | None = Form(None)
+):
+    return await noteapi.edit_task(path, line, newStatus, newText)
 @router_task.post('/toggle')
 async def toggle_task(path: str = Form(), line: int = Form()):
     return await noteapi.toggle_task(path, line)
