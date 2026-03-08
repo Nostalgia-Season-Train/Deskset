@@ -10,5 +10,6 @@ html, body, #float {
 }
 
 * {
-  font-family: 'DefaultFont';
+  font-family: 'MiSansVF';
+  font-weight: 300;
 }
