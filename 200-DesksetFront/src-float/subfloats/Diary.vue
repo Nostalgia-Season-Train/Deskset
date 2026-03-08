@@ -8,11 +8,9 @@ const tasks = ref()    // 打卡（任务）
 const content = ref()  // 内容（日记文件，除了属性之外的文本）
 
 
-import { getDesksetReq } from './request'
-
-const desksetReq = await getDesksetReq()
+import axios from 'axios'
 const refresh = async () => {
-  const rep = await desksetReq.get('/v0/note/obsidian/diary/today')
+  const rep = await axios.get('/v0/note/obsidian/diary/today')
   thinos.value = rep.data.result.thinos
   tasks.value = rep.data.result.tasks
   content.value = rep.data.result.content

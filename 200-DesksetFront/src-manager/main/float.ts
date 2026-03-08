@@ -1,5 +1,6 @@
 import { WebviewWindow } from '@tauri-apps/api/webviewWindow'
 import { Effect } from '@tauri-apps/api/window'
+import axios from 'axios'
 
 class FloatManager {
   private floatList: Map<string, WebviewWindow>
@@ -9,8 +10,10 @@ class FloatManager {
   }
 
   create = async (page: string, width: number, height: number, alwaysOnTop: boolean = true) => {
+    const url = axios.defaults.baseURL ?? ''
+    const token = axios.defaults.headers.common['Authorization']?.toString().slice(7) ?? ''
     const floatWin = new WebviewWindow(`float:${page}`, {
-      url: `float.html#/${page}`,
+      url: `float.html#/${page}?url=${url}&token=${token}`,
       title: `Deskset Float ${page}`,
       transparent: true, decorations: false, shadow: false, skipTaskbar: true,
       windowEffects: { effects: [Effect.Blur] },

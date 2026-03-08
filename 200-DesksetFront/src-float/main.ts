@@ -27,6 +27,18 @@ const router = createRouter({
 })
 
 
+/* ==== HREF 参数 ==== */
+  // url 这里特指服务器地址，所以不叫 url 参数
+const href = window.location.href
+const param = new URLSearchParams(href.split('?')[1])
+const url = param.get('url')
+const token = param.get('token')
+
+import axios from 'axios'
+axios.defaults.baseURL = url
+axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+
 /* === 创建 Vue 应用 === */
 import { createApp } from 'vue'
 import './style.css'
