@@ -18,6 +18,7 @@ const routes = [
   { path: '/homepage',  name: 'homepage',  component: () => import('./routers/Homepage.vue') },
   { path: '/widget',    name: 'widget',    component: () => import('./routers/Widget.vue') },
   { path: '/wallpaper', name: 'wallpaper', component: () => import('./routers/Wallpaper.vue') },
+  { path: '/float',     name: 'float',     component: () => import('./routers/Float.vue') },
   { path: '/ai',        name: 'ai',        component: () => import('./routers/AI.vue') },
   { path: '/moment',    name: 'moment',    component: () => import('./routers/Moment.vue') },
   { path: '/theme',     name: 'theme',     component: () => import('./routers/Theme.vue') },
@@ -183,6 +184,10 @@ try {
 } catch (err) {
   logError(`Fail to apply ${LATEST_THEME_ROOT}/${LATEST_THEME_NAME} theme(latest widget list), error: ${err}`)
 }
+
+
+/* ==== 加载浮动窗口管理器 ==== */
+import { floatManager } from './main/float'
 
 
 /* ==== 应用 ==== */

@@ -5,13 +5,14 @@ import { Router } from 'vue-router'
 const props = defineProps<{ router: Router }>()
 
 import { PanelLeft } from 'lucide-vue-next'
-import { Inbox, Home, LayoutDashboard, Palette, Sparkles, SquareChartGantt } from 'lucide-vue-next'
+import { Inbox, Home, LayoutDashboard, Palette, Bubbles, Sparkles, SquareChartGantt } from 'lucide-vue-next'
 import CogLoop from '#desksetui/icons/Material Line Icons/CogLoop.vue'
 const items = [
   { icon: Inbox,           page: 'welcome' },
   // { icon: Home,            page: 'homepage' },
   { icon: LayoutDashboard, page: 'widget' },
   { icon: Palette,         page: 'theme' },
+  { icon: Bubbles,         page: 'float' },
   { icon: Sparkles,        page: 'ai' },
   // { icon: SquareChartGantt,page: 'moment' },
   { icon: CogLoop,         page: 'setting' }

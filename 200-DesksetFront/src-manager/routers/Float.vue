@@ -1,22 +1,13 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
 import { ElSwitch } from 'element-plus'
-import { floatManager } from '../child'
+import { useFloatStore } from '#manager/main/float'
 
-const isopen = ref(false)
-
-const switchFloat = async () => {
-  if (isopen.value) {
-    floatManager.create('Diary', 240, 160)
-  } else {
-    floatManager.close('Diary')
-  }
-}
+const store = useFloatStore()
 </script>
 
 
 <template>
 <div>
-  <el-switch v-model="isopen" @click="switchFloat"></el-switch>
+  <ElSwitch v-model="store.diary"/>
 </div>
 </template>
