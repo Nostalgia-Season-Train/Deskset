@@ -81,6 +81,24 @@ app.include_router(router_access)
 
 
 # ==== FastAPI Router：AI 人工智能 ====
+
+# --- 重建 DesksetError 消息 ---
+  # 流程：
+    # FastMCP.call_tool：DesksetError 被 ToolError 包装 ToolError from DesksetError
+    # ErrorHandlingMiddleware：DesksetError 从 ToolError 中提取 DesksetError from ToolError.__cause__
+from fastmcp.server.middleware.error_handling import ErrorHandlingMiddleware
+from fastmcp.server.middleware import MiddlewareContext
+from deskset.core.standard import DesksetError
+from mcp import McpError
+from mcp.types import ErrorData
+
+origin_transform_error = ErrorHandlingMiddleware._transform_error
+def custom_transform_error(self, error: Exception, context: MiddlewareContext) -> Exception:
+    if isinstance(error.__cause__, DesksetError):
+        return McpError(ErrorData(code=200, message=error.__cause__.message))
+    return origin_transform_error(self, error, context)
+ErrorHandlingMiddleware._transform_error = custom_transform_error
+
 from fastapi import APIRouter, Depends
 from deskset.router._unify import check_token
 router_ai = APIRouter(
@@ -153,11 +171,15 @@ class AIManager:
                 name = chunk.item.name
                 arguments = loads(chunk.item.arguments)
                 result = None
+                output = None
                 async with self._mcp_client:  # type: ignore
-                    result = await self._mcp_client.call_tool(name, arguments)  # type: ignore
+                    try:
+                        result = await self._mcp_client.call_tool(name, arguments)  # type: ignore
+                        output = dumps(result.structured_content) if result.structured_content is not None else '{}'
+                    except Exception as exc:
+                        output = f'Call Tool Failed, Reason: {exc}'
                 # 上下文：添加 MCP 结果
                 call_id = chunk.item.call_id
-                output = dumps(result.structured_content) if result.structured_content is not None else '{}'
                 self._messages.append({ 'type': 'function_call_output', 'call_id': call_id, 'output': output })
 
     async def stream(self, user_message):
@@ -217,6 +239,7 @@ mcp = FastMCP.from_fastapi(
         RouteMap(mcp_type=MCPType.EXCLUDE)  # 排除未明确指定的路由
     ]
 )
+mcp.add_middleware(ErrorHandlingMiddleware())
 mcp_app = mcp.http_app(path='/mcp')
 
 combined_app = FastAPI(
