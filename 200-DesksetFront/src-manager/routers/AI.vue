@@ -127,18 +127,48 @@ import { Promotion } from '@element-plus/icons-vue'
 
 
 <template>
-<ElScrollbar>
+<div class="ai">
 
   <!-- @click.prevent：禁用链接跳转 -->
-  <BubbleList :list="list" style="user-select: text;" @click.prevent/>
+  <div class="top">
+    <ElScrollbar>
+      <BubbleList
+        :list="list"
+        style="user-select: text;"
+        @click.prevent
+        max-height="100%"
+      />
+    </ElScrollbar>
+  </div>
 
-  <Sender v-model="senderText" :auto-size="{ minRows: 3, maxRows: 5 }" @keydown.enter="sendMessage">
-    <template #action-list>
-      <ElButton :disabled="senderText === ''" @click="sendMessage">
-        <ElIcon><Promotion/></ElIcon>
-      </ElButton>
-    </template>
-  </Sender>
+  <div class="bottom">
+    <Sender v-model="senderText" :auto-size="{ minRows: 3, maxRows: 5 }" @keydown.enter="sendMessage">
+      <template #action-list>
+        <ElButton :disabled="senderText === ''" @click="sendMessage">
+          <ElIcon><Promotion/></ElIcon>
+        </ElButton>
+      </template>
+    </Sender>
+  </div>
 
-</ElScrollbar>
+</div>
 </template>
+
+
+<style lang="less" scoped>
+.ai {
+  box-sizing: border-box;
+  height: 100%;
+  padding: var(--content-padding);
+  padding-top: var(--content-padding);
+  display: flex;
+  flex-direction: column;
+  .top {
+    flex: 1;
+    overflow: hidden;
+  }
+  .bottom {
+    height: fit-content;
+  }
+}
+</style>
