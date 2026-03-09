@@ -99,6 +99,10 @@ def custom_transform_error(self, error: Exception, context: MiddlewareContext) -
     return origin_transform_error(self, error, context)
 ErrorHandlingMiddleware._transform_error = custom_transform_error
 
+# --- 禁止 FastMCP 打印一般错误 ---
+import logging
+logging.getLogger('fastmcp').setLevel(logging.CRITICAL)
+
 from fastapi import APIRouter, Depends
 from deskset.router._unify import check_token
 router_ai = APIRouter(
