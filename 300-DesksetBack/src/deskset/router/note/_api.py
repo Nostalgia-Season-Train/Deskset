@@ -114,27 +114,34 @@ class NoteAPI:
         self.check_online()
         return await self._rpc.call_remote_procedure('suggest_by_switcher', [query])
 
-    # --- 日记 ---
-    class DiarySetting(TypedDict):
-        format: str    # 日记目录/日记主名的日期格式（比如 YYYY年/MM月/YYYY年MM月DD日-dddd）
-        folder: str    # 日记父文件夹
-        template: str  # 日记模板
-    async def get_diary_setting(self):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('get_diary_setting', [])
-
-    async def read_diary(self, dayid: str):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('read_diary', [dayid])
-
-    async def list_diarys_in_a_month(self, monthid: str):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('list_diarys_in_a_month', [monthid])
-
     # --- 数据分析 ---
     async def filter_frontmatter(self, filter_group: object):
         self.check_online()
         return await self._rpc.call_remote_procedure('filter_frontmatter', [filter_group])
+
+    # --- 日记 Diary ---
+    class DiarySetting(TypedDict):
+        format: str    # 日记目录/日记主名的日期格式（比如 YYYY年/MM月/YYYY年MM月DD日-dddd）
+        folder: str    # 日记父文件夹
+        template: str  # 日记模板
+    async def get_diary_setting(self) -> NoteAPI.DiarySetting:
+        self.check_online()
+        return await self._rpc.call_remote_procedure('get_diary_setting', [])  # type: ignore
+    async def list_diaryprops_in_a_month(self, month: str):
+        self.check_online()
+        return await self._rpc.call_remote_procedure('list_diaryprops_in_a_month', [month])  # type: ignore
+    async def read_diary(self, day: str):
+        self.check_online()
+        return await self._rpc.call_remote_procedure('read_diary', [day])  # type: ignore
+    async def create_diary(self, day: str):
+        self.check_online()
+        return await self._rpc.call_remote_procedure('create_diary', [day])  # type: ignore
+    async def write_diary(self, day: str, newData: str):
+        self.check_online()
+        return await self._rpc.call_remote_procedure('write_diary', [day, newData])  # type: ignore
+    async def delete_diary(self, day: str):
+        self.check_online()
+        return await self._rpc.call_remote_procedure('delete_diary', [day])  # type: ignore
 
     # --- 任务 Task ---
     class Task(TypedDict):
