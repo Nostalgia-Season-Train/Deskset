@@ -31,3 +31,24 @@ async def delete_diary(param: DesksetReqDateDay):
 @router_diary.post('/prop/list-in-month')
 async def read_month(date: DesksetReqDateMonth):
     return await noteapi.list_diaryprops_in_a_month(date.month)
+
+# AI 的 MCP 工具：读取、创建、写入今日日记
+from datetime import datetime
+from pydantic import BaseModel
+class WriteTodayDiaryParam(BaseModel):
+    data: str
+@router_diary.post('/read-today')
+async def read_today_diary():
+    '''读取今日日记'''
+    day = datetime.now().strftime('%Y%m%d')
+    return await noteapi.read_diary(day)
+@router_diary.post('/create-today')
+async def create_today_diary():
+    '''创建今日日记'''
+    day = datetime.now().strftime('%Y%m%d')
+    return await noteapi.create_diary(day)
+@router_diary.post('/write-today')
+async def write_today_diary(param: WriteTodayDiaryParam):
+    '''写入今日日记'''
+    day = datetime.now().strftime('%Y%m%d')
+    return await noteapi.write_diary(day, param.data)
