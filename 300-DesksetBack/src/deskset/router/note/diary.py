@@ -61,8 +61,8 @@ async def create_today_diary():
     '''创建今日日记'''
     day = datetime.now().strftime('%Y%m%d')
     return await noteapi.create_diary(day)
-@router_diary.post('/write-today')
-async def write_today_diary(param: WriteTodayDiaryParam):
-    '''写入今日日记'''
+@router_diary.post('/insert-today')
+async def insert_today_diary(param: InsertDiaryParam):
+    '''插入今日日记'''
     day = datetime.now().strftime('%Y%m%d')
-    return await noteapi.write_diary(day, param.data)
+    return await noteapi.insert_diary(param.day, param.line, param.data)
