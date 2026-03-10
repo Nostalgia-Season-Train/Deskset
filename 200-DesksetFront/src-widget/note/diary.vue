@@ -29,15 +29,16 @@ const date = computed({
 const refresh = async () => {
   const rep = await axios.get(`/v0/note/obsidian/diary/setting`)
   format.value = rep.data.result.format.split('/').at(-1)  // 去掉日记目录的日期格式
-  const response = await axios.get(`/v0/note/obsidian/diary/read-day/${dayjs(dateRaw.value).format('YYYYMMDD')}`)
+  const response = await axios.post(`/v0/note/obsidian/diary/read`, { day: dayjs(dateRaw.value).format('YYYYMMDD') })
   const diary = response.data.result
   if (diary == null) {
     content.value.innerHTML = marked('')
+    path.value = ''
     return
   }
   name.value = diary.name
   path.value = diary.path
-  content.value.innerHTML = marked(diary.content, {
+  content.value.innerHTML = marked(diary.text, {
     renderer: render,
     breaks: true  // 允许单换行符换行
   })
@@ -46,14 +47,14 @@ refresh()
 
 const diaryIDList = ref<any>([])
 const refreshPanel = async (date: Date) => {
-  const response = await axios.get(`/v0/note/obsidian/diary/read-month/${dayjs(date).format('YYYYMM')}`)
+  const response = await axios.post(`/v0/note/obsidian/diary/prop/list-in-month`, { month: dayjs(date).format('YYYYMM') })
   diaryIDList.value = response.data.result.map((item: any) => item.id)
 }
 refreshPanel(new Date())
 
 const openInObsidian = async () => {
   if (path.value != '')
-    await axios.get(`/v0/note/obsidian/common/open-in-obsidian?path=${path.value}`)
+    await axios.post(`/v0/note/obsidian/winpage/open-file`, path.value)
 }
 
 
