@@ -9,7 +9,10 @@
 import { ref } from 'vue'
 import VChart from 'vue-echarts'
 import * as echarts from 'echarts'
+import { SVGRenderer } from 'echarts/renderers'
 import dayjs from 'dayjs'
+
+echarts.use([SVGRenderer])
 
 const weeknum = 28  // 统计周数
 
@@ -26,6 +29,8 @@ const heatChart = ref({
     show: false
   },
   calendar: {
+    // 设置纵向热力图
+    orient: 'vertical',
     // 热点大小 15
     cellSize: 15,
     // 居中图表
@@ -40,7 +45,11 @@ const heatChart = ref({
     range: [
       dayjs().subtract(weeknum, 'week').startOf('isoWeek').format('YYYY-MM-DD'),
       dayjs().format('YYYY-MM-DD')
-    ]
+    ],
+    // 去掉容器边框
+    splitLine: { show: false },
+    // 去掉元素边框 1（底部分割线）
+    itemStyle: { borderWidth: 0 }
   },
   series: {
     // 选择热力图
@@ -48,7 +57,9 @@ const heatChart = ref({
     // 绑定热力图到日历
     coordinateSystem: 'calendar',
     // 热力图热点数据，会被 refresh 刷新
-    data: []
+    data: [],
+    // 去掉元素边框 2（热点边框）
+    itemStyle: { borderWidth: 0 }
   }
 })
 
@@ -71,9 +82,11 @@ refresh()
 
 <template>
 <div class="heatmap">
+  <!-- svg 渲染不随缩放模糊 -->
   <VChart
     class="heatmap"
     :option="heatChart"
+    :initOptions='{ renderer: "svg" }'
     style="width: 100%; height: 100%;"
   />
 </div>
@@ -85,5 +98,6 @@ refresh()
   width: 450px;
   height: 120px;
   background: #FFF;
+  opacity: .9;  // echart 没法设置透明背景色
 }
 </style>
