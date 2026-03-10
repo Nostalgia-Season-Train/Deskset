@@ -87,6 +87,9 @@ class NoteAPI:
     # ==== 远程调用 RPC ====
 
     # --- 仓库 ---
+    async def get_vault_metainfo(self):
+        self.check_online()
+        return await self._rpc.call_remote_procedure('get_vault_metainfo', [])  # type: ignore
     class VaultStatus(TypedDict):
         note_num: int    # 笔记总数
         attach_num: int  # 附件总数
