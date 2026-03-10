@@ -51,6 +51,9 @@ from datetime import datetime
 from pydantic import BaseModel
 class WriteTodayDiaryParam(BaseModel):
     data: str
+class InsertTodayDiaryParam(BaseModel):
+    line: int | None = None
+    data: str
 @router_diary.post('/read-today')
 async def read_today_diary():
     '''读取今日日记'''
@@ -62,7 +65,7 @@ async def create_today_diary():
     day = datetime.now().strftime('%Y%m%d')
     return await noteapi.create_diary(day)
 @router_diary.post('/insert-today')
-async def insert_today_diary(param: InsertDiaryParam):
+async def insert_today_diary(param: InsertTodayDiaryParam):
     '''插入今日日记'''
     day = datetime.now().strftime('%Y%m%d')
-    return await noteapi.insert_diary(param.day, param.line, param.data)
+    return await noteapi.insert_diary(day, param.line, param.data)
