@@ -2,22 +2,47 @@
 import { ref } from 'vue'
 import axios from 'axios'
 
+const activeFile = ref('')
+const lastActiveFile = ref('')
+
 const noteNum = ref(0)
-const attachmentNum = ref(0)
+const assertNum = ref(0)
 const usedayNum = ref(0)
+const noteTodayNum = ref(0)
+const assetTodayNum = ref(0)
+const vaultName = ref('')
+
+const refreshActiveFile = async () => {
+  const activeFilepath = (await axios.get('/v0/note/obsidian/common/active-file')).data.result as string ?? ''
+  const activeFileTmp = activeFilepath.split('/').pop() ?? ''
+  if (activeFile.value === activeFileTmp)
+    return
+  lastActiveFile.value = activeFile.value
+  activeFile.value = activeFileTmp
+}
+refreshActiveFile()
 
 const refresh = async () => {
   const vaultStatus = (await axios.get('/v0/note/obsidian/stats/vault_status')).data.result
   noteNum.value = vaultStatus.note_num
-  attachmentNum.value = vaultStatus.attach_num
+  assertNum.value = vaultStatus.asset_num
   usedayNum.value = vaultStatus.useday_num
+  noteTodayNum.value = vaultStatus.note_today_num
+  assetTodayNum.value = vaultStatus.asset_today_num
+  const vaultMetainfo = (await axios.get('/v0/note/obsidian/common/metainfo')).data.result
+  vaultName.value = vaultMetainfo?.rootpath.split('/').pop()
 }
 refresh()
+
+const openObsidian = async () => {
+  await axios.get('/v0/note/obsidian/winpage/open')
+}
 
 
 /* ==== 轮询 ==== */
 import { useInterval } from 'vue-hooks-plus'
 
+useInterval(refreshActiveFile, 5 * 1000)
 useInterval(refresh, 5 * 60 * 1000)
 
 
@@ -34,7 +59,7 @@ import {
 
   <div class="first">
     <div class="icon"></div><!-- 连接显示蓝球，未连接显示红球 -->
-    <div class="str">PARA By Link</div><!-- 仓库名称（仓库父文件夹） -->
+    <div class="str">{{ vaultName }}</div><!-- 仓库名称（仓库父文件夹） -->
     <div class="str">ONLINE</div><!-- 装饰 -->
   </div>
 
@@ -42,24 +67,25 @@ import {
     <div class="title">当前标签页</div>
     <div class="content">
       <div class="name"><!-- 仓库当前标签页 -->
-        <div class="base">ComfyUI笔记</div>
-        <div class="ext">.md</div>
+        <div class="base">{{ activeFile }}</div>
       </div>
       <div class="type">
-        <Book/><!-- 文件类型：.md 笔记 | 其他后缀 附件 -->
+        <!-- 文件类型：.md 笔记 | 其他后缀 附件 -->
+        <Book v-if="activeFile.endsWith('.md')"/>
+        <FileDigit v-else/>
       </div>
     </div>
-    <div class="latest-page">上次打开：主页.md</div><!-- 上一个打开的页面，主名即可 -->
+    <div class="latest-page">{{ lastActiveFile }}</div><!-- 上一个打开的页面，主名即可 -->
   </div>
 
   <div class="third">
     <div class="note-num">
       <div><Book/>笔记总数</div>
-      <div>{{ noteNum }}<span class="today">+5</span></div><!-- +5 代表今天创建了 5 篇笔记 -->
+      <div>{{ noteNum }}<span class="today" v-show="noteTodayNum">+{{ noteTodayNum }}</span></div><!-- +5 代表今天创建了 5 篇笔记 -->
     </div>
     <div class="attach-num">
       <div><FileDigit/>附件总数</div>
-      <div>{{ attachmentNum }}</div>
+      <div>{{ assertNum }}<span class="today" v-show="assetTodayNum">+{{ assetTodayNum }}</span></div>
     </div>
   </div>
 
@@ -68,7 +94,7 @@ import {
   </div>
 
   <!-- 打开 Obsidian 仓库：跳转 Obsidian 窗口的口语化表述 -->
-  <div class="fifth">
+  <div class="fifth" @click="openObsidian">
     打开 Obsidian 仓库
   </div>
 
@@ -89,7 +115,6 @@ import {
 
   background: hsl(200, 10%, 90%);
   border: solid 1px #FFF;
-  border-radius: 5px;
 
   &>:nth-child(n) {
     margin: 12px;
@@ -121,7 +146,6 @@ import {
       font-size: 10px;
       font-weight: 500;
       background: #FFF;
-      border-radius: 5px;
     }
   }
 
@@ -141,7 +165,7 @@ import {
         align-items: flex-end;
         .base {
           color: #111;
-          font-size: 24px;
+          font-size: 18px;
           font-weight: 500;
         }
         .ext {
@@ -157,7 +181,6 @@ import {
         align-items: center;
         color: #FF9800;
         background: #FFECB3;
-        border-radius: 5px;
         svg {
           width: 20px;
           height: 20px;
@@ -181,7 +204,6 @@ import {
       padding: 5px;
       flex: 1;
       background: hsl(200, 10%, 96%);
-      border-radius: 5px;
       &>:first-child {
         display: flex;
         align-items: center;
@@ -226,7 +248,6 @@ import {
     font-size: 16px;
     font-weight: 400;
     background: #7E57C2;
-    border-radius: 5px;
     transition: .3s;
     &:hover {
       background: #673AB7;

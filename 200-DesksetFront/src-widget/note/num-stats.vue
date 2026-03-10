@@ -77,7 +77,6 @@ watch(model.value, async () => await refresh())
 
   background: #FFFD;
   border: solid 1px #FFF;  // 让子元素 margin 撑开 fit-content 高度而非溢出
-  border-radius: 5px;
   box-shadow: 0 2px 4px #000A;
 
   .first {
@@ -89,7 +88,6 @@ watch(model.value, async () => await refresh())
       width: 20px;
       height: 20px;
       background: #FFF;
-      border-radius: 5px;
     }
     span {
       position: relative;
