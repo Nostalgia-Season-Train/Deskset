@@ -27,6 +27,20 @@ async def write_diary(param: WriteDiaryParam):
 async def delete_diary(param: DesksetReqDateDay):
     return await noteapi.delete_diary(param.day)
 
+# 编辑、插入日记
+  # 区别于写入覆盖整个日记数据 diary.data，编辑仅处理日记文本 diary.text
+class EditDiaryParam(DesksetReqDateDay):
+    text: str
+@router_diary.post('/edit')
+async def edit_diary(param: EditDiaryParam):
+    return await noteapi.edit_diary(param.day, param.text)
+class InsertDiaryParam(DesksetReqDateDay):
+    line: int | None = None
+    data: str
+@router_diary.post('/insert')
+async def insert_diary(param: InsertDiaryParam):
+    return await noteapi.insert_diary(param.day, param.line, param.data)
+
 # 列出某月中的日记属性（日期格式：YYYYMM）
 @router_diary.post('/prop/list-in-month')
 async def read_month(date: DesksetReqDateMonth):

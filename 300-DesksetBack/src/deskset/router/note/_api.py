@@ -136,6 +136,12 @@ class NoteAPI:
     async def create_diary(self, day: str):
         self.check_online()
         return await self._rpc.call_remote_procedure('create_diary', [day])  # type: ignore
+    async def edit_diary(self, day: str, newText: str):
+        self.check_online()
+        return await self._rpc.call_remote_procedure('edit_diary', [day, newText])  # type: ignore
+    async def insert_diary(self, day: str, line: int | None, insertData: str):
+        self.check_online()
+        return await self._rpc.call_remote_procedure('insert_diary', [day, line, insertData])  # type: ignore
     async def write_diary(self, day: str, newData: str):
         self.check_online()
         return await self._rpc.call_remote_procedure('write_diary', [day, newData])  # type: ignore
