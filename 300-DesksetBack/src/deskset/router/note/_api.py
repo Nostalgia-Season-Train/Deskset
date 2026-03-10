@@ -127,9 +127,9 @@ class NoteAPI:
     async def get_diary_setting(self) -> NoteAPI.DiarySetting:
         self.check_online()
         return await self._rpc.call_remote_procedure('get_diary_setting', [])  # type: ignore
-    async def list_diaryprops_in_a_month(self, month: str):
+    async def list_diaryprops_in_month(self, month: str):
         self.check_online()
-        return await self._rpc.call_remote_procedure('list_diaryprops_in_a_month', [month])  # type: ignore
+        return await self._rpc.call_remote_procedure('list_diaryprops_in_month', [month])  # type: ignore
     async def read_diary(self, day: str):
         self.check_online()
         return await self._rpc.call_remote_procedure('read_diary', [day])  # type: ignore

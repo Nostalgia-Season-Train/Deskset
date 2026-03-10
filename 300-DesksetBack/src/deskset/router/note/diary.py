@@ -44,7 +44,7 @@ async def insert_diary(param: InsertDiaryParam):
 # 列出某月中的日记属性（日期格式：YYYYMM）
 @router_diary.post('/prop/list-in-month')
 async def read_month(date: DesksetReqDateMonth):
-    return await noteapi.list_diaryprops_in_a_month(date.month)
+    return await noteapi.list_diaryprops_in_month(date.month)
 
 # AI 的 MCP 工具：读取、创建、写入今日日记
 from datetime import datetime
