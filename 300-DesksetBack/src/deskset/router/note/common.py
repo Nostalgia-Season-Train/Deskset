@@ -7,6 +7,7 @@ router_common = APIRouter(prefix='/common')
 
 @router_common.get('/active-file')
 async def get_active_file():
+    return await noteapi.get_active_file()
     async def stream():
         try:
             while True:
