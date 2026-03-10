@@ -7,7 +7,7 @@ router_winpage = APIRouter(prefix='/winpage')
 async def open():
     '''打开 Obsidian'''
     return await noteapi.open_on_obsidian()
-@router_winpage.post('/open_file')
+@router_winpage.post('/open-file')
 async def open_file(path: str = Body(...)):
     '''
     在 Obsidian 中打开文件
