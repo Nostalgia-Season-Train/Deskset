@@ -103,6 +103,8 @@ import {
 
 
 <style lang="less" scoped>
+@import '../style.less';
+
 * {
   font-family: 'MiSansVF';
   font-weight: 500;
@@ -113,8 +115,7 @@ import {
   width: 280px;
   height: fit-content;
 
-  background: hsl(200, 10%, 90%);
-  border: solid 1px #FFF;
+  .dsw-box();
 
   &>:nth-child(n) {
     margin: 12px;

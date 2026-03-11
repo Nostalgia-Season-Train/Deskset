@@ -65,6 +65,8 @@ watch(model.value, async () => await refresh())
 
 
 <style lang="less" scoped>
+@import '../style.less';
+
 * {
   font-family: 'MiSansVF';
 }
@@ -75,9 +77,7 @@ watch(model.value, async () => await refresh())
   height: fit-content;
   padding: 10px;
 
-  background: #FFFD;
-  border: solid 1px #FFF;  // 让子元素 margin 撑开 fit-content 高度而非溢出
-  box-shadow: 0 2px 4px #000A;
+  .dsw-box();
 
   .first {
     display: flex;

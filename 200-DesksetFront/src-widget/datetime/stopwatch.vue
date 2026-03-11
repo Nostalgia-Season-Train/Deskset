@@ -134,12 +134,14 @@ onBeforeUnmount(() => stopwatch.finish())  // 重要！step 不会自动停止
 
 
 <style lang="less" scoped>
+@import '../style.less';
+
 * {
   font-family: 'MisansVF';
 }
 
 .container {
-  padding: 5px 15px;
+  padding: 4px 12px;
   padding-bottom: 15px;
 
   display: flex;
@@ -148,10 +150,7 @@ onBeforeUnmount(() => stopwatch.finish())  // 重要！step 不会自动停止
   gap: 7px;
 
   color: #000C;
-  background: #FFFD;
-  border: solid 1px #FFF;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px #0003;
+  .dsw-box();
 
   .time {
     font-size: 32px;
@@ -178,8 +177,7 @@ onBeforeUnmount(() => stopwatch.finish())  // 重要！step 不会自动停止
         transform: translateY(5px);
       }
       span {
-        padding: 5px 10px;
-        border-radius: 5px;
+        padding: 4px 8px;
       }
     }
   }
