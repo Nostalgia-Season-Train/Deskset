@@ -1,0 +1,15 @@
+{
+  "author": "旧日丨四季列车",
+  "version": "v0.0.1",
+  "descript": "日期计数器",
+  "model": {
+    "title": {
+      "type": "str",
+      "default": "距离 24 小时后还剩"
+    },
+    "deadline": {
+      "type": "timestamp",
+      "default": "24hLater"
+    }
+  }
+}

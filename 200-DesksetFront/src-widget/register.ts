@@ -43,6 +43,10 @@ export const inlineRawWidgetMap = new Map([
     main: () => import('/src-widget/datetime/timer.vue'),
     metainfo: await import('/src-widget/datetime/timer.json')
   }],
+  [`${prefixMark}DateCounter`, {
+    main: () => import('/src-widget/datetime/date-counter.vue'),
+    metainfo: await import('/src-widget/datetime/date-counter.json')
+  }],
 
   /* --- 设备信息 --- */
   [`${prefixMark}HardwareMonitor`, {

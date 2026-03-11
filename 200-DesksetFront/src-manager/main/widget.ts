@@ -106,6 +106,11 @@ export const appendWidget = async (rawParam: {
   // 2.1、从（部件）注册模型生成默认模型
   let defaultModel: Record<string, any> = {}
   for (const key of Object.keys(registerModel)) {
+    // - [ ] 临时：生成 24 小时后的时间戳
+    if (registerModel[key].type === 'timestamp' && registerModel[key].default === '24hLater') {
+      defaultModel[key] = Number(new Date().setDate(new Date().getDate() + 1))
+      break
+    }
     defaultModel[key] = registerModel[key].default  // - [ ] 待处理：动态生成默认值
   }
 
