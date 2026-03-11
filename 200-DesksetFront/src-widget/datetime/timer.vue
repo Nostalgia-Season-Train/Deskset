@@ -102,17 +102,16 @@ onBeforeUnmount(() => {
 <template>
   <div class="countdown-container">
     <div class="header">
-      <h2>倒计时</h2>
       <div class="time-selector">
         <div class="preset-buttons">
-          <button 
+          <div
             v-for="minute in [1, 3, 5]" 
             :key="minute"
-            :class="['preset-btn', { active: duration === minute * 60 }]"
+            class="preset-btn"
             @click="selectDuration(minute)"
           >
             {{ minute }}分钟
-          </button>
+          </div>
         </div>
 
         <div class="custom-input">
@@ -156,28 +155,15 @@ onBeforeUnmount(() => {
   </div>
 </template>
 
-<style scoped>
+<style lang="less" scoped>
+@import '../style.less';
+
 .countdown-container {
-  background: linear-gradient(135deg, #4b6cf1, #3f8efc);
-  border-radius: 20px;
-  box-shadow: 0 15px 35px rgba(75, 108, 241, 0.4);
-  padding: 2rem;
-  max-width: 400px;
-  width: 100%;
-  margin: 0 auto;
-  color: white;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 10px;
+  width: fit-content;
+  .dsw-box();
+  color: #FFF;
   text-align: center;
-}
-
-.header {
-  margin-bottom: 1.5rem;
-}
-
-h2 {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-  font-weight: 600;
 }
 
 .time-selector {
@@ -193,21 +179,8 @@ h2 {
 }
 
 .preset-btn {
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  border-radius: 12px;
-  padding: 0.7rem 1.2rem;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 500;
-  color: white;
-  backdrop-filter: blur(10px);
-}
-
-.preset-btn.active {
-  background: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  .dsw-text();
+  background: #FFF;
 }
 
 .custom-input {
