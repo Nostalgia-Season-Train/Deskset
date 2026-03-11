@@ -5,6 +5,26 @@
     .el-sender-content {
       position: relative;
       width: 100%;
+
+      // 输入框
+      .el-sender-input>textarea {
+        padding: 5px 10px;
+        .deskset-com-text();
+        background: var(--deskset-color-background-light);
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        &:hover {
+          border: none;
+          box-shadow: var(--shadow-s);
+        }
+        &:focus {
+          border: none;
+          box-shadow: var(--shadow-m);
+        }
+      }
+
+      // 输入按钮
       .el-sender-action-list {
         position: absolute;
         right: 3px;
