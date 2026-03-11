@@ -28,7 +28,8 @@ const option = {
       opacity: 0.35,
       color: self.color
     }
-  }
+  },
+  backgroundColor: '#FFF'
 }
 
 
@@ -98,7 +99,7 @@ useIntervalFn(device, 1200)
       <v-chart :option="optionMemory" :initOptions='{ renderer: "svg" }'/>
     </div>
     <div>
-      <div class="text">Memory</div>
+      <div class="text">内存</div>
       <div class="num">{{ numMemory }}%</div>
     </div>
   </div>
@@ -107,7 +108,7 @@ useIntervalFn(device, 1200)
       <v-chart :option="optionDisk" :initOptions='{ renderer: "svg" }'/>
     </div>
     <div>
-      <div class="text">Disk</div>
+      <div class="text">硬盘</div>
       <div class="num">{{ numDisk }}%</div>
     </div>
   </div>
@@ -116,7 +117,7 @@ useIntervalFn(device, 1200)
       <v-chart :option="optionNetwork" :initOptions='{ renderer: "svg" }'/>
     </div>
     <div>
-      <div class="text">Network</div>
+      <div class="text">网络</div>
       <div class="num">S: {{ numNetwork.sent }}.0 Kbps</div>
       <div class="num">R: {{ numNetwork.recv }}.0 Kbps</div>
     </div>
@@ -125,7 +126,9 @@ useIntervalFn(device, 1200)
 </template>
 
 
-<style scoped>
+<style lang="less" scoped>
+@import '../style.less';
+
 .color-watch {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -133,8 +136,7 @@ useIntervalFn(device, 1200)
 
   padding: 5px;
 
-  background-color: #0005;
-  border: 1px solid #777;
+  .dsw-box();
 }
 
 .watch {
@@ -148,12 +150,13 @@ useIntervalFn(device, 1200)
 }
 
 .text {
-  font-size: 16px;
-  color: #FFF;
+  .dsw-text();
 }
 .num {
+  width: 70px;
+  .dsw-text-title();
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
   white-space: nowrap;  /* 避免换行撑开高度 */
+  overflow: hidden;
 }
 </style>
