@@ -161,6 +161,7 @@ const appendWidget = async (param: {
     left: container.offsetLeft,
     top: container.offsetTop,
     scale: finalScale,
+    opacity: finalOpacity,
     model: vnode.props!.modelValue
   }
 }
