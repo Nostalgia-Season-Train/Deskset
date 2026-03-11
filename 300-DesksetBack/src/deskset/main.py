@@ -158,7 +158,8 @@ class AIManager:
             pathlib.Path('./store/latest-chat.yaml').touch(exist_ok=True)
             import yaml
             with open('./store/latest-chat.yaml', 'w', encoding='utf-8') as file:
-                yaml.safe_dump({ 'messages': self._messages }, file, allow_unicode=True, sort_keys=False, default_style='+')
+                # - [ ] 后面再找单独对 content 应用 | 换行的方法
+                yaml.safe_dump({ 'messages': self._messages }, file, allow_unicode=True, sort_keys=False, default_style='|')
         except Exception:
             pass
 
