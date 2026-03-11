@@ -10,10 +10,10 @@ const content = ref()  // 内容（日记文件，除了属性之外的文本）
 
 import axios from 'axios'
 const refresh = async () => {
-  const rep = await axios.get('/v0/note/obsidian/diary/today')
+  const rep = await axios.post('/v0/note/obsidian/diary/read-today')
   thinos.value = rep.data.result.thinos
   tasks.value = rep.data.result.tasks
-  content.value = rep.data.result.content
+  content.value = rep.data.result.text
 }
 refresh()
 </script>
