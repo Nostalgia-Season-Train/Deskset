@@ -235,6 +235,14 @@ const setWidgetScale = async (id: string, scale: number) => {
   container.style.transform = `scale(${scale})`
 }
 
+/* --- 设置部件不透明度 --- */
+const setWidgetOpacity = async (id: string, opacity: number) => {
+  const widget = activeWidgetMap.get(id)
+
+  const container = widget!.container
+  container.style.opacity = `${opacity}`
+}
+
 /* --- 切换部件属性 --- */
 const switchWidgetProp = async (id: string, prop: string, state: boolean) => {
   const widget = activeWidgetMap.get(id)
@@ -277,6 +285,7 @@ const actions = {
 
   setWidgetAxis,
   setWidgetScale,
+  setWidgetOpacity,
   switchWidgetProp,
 
   getWindowData,

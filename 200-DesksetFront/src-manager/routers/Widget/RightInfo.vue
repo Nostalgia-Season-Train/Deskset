@@ -47,6 +47,11 @@ const ensureScale = async () => {
   await desktop.setWidgetScale(widget.value.id, widget.value.scale)
 }
 
+const ensureOpacity = async () => {
+  widget.value.opacity = Number(widget.value.opacity) > 0 ? Number(widget.value.opacity) : 1
+  await desktop.setWidgetOpacity(widget.value.id, widget.value.opacity)
+}
+
 
 /* ==== 子组件 ==== */
 import {
@@ -90,6 +95,10 @@ import {
       <div class="left-item">
         <span>{{ _t('缩放') }}</span>
         <Input v-model="widget.scale" @change="ensureScale"/>
+      </div>
+      <div class="left-item">
+        <span>{{ _t('透明度') }}</span>
+        <Input v-model="widget.opacity" @change="ensureOpacity"/>
       </div>
     </div>
 
@@ -188,6 +197,9 @@ import {
         &>* { width: 33.3%; }
       }
       .left-item:nth-child(3) {
+        &>:last-child { width: 66.6%; }
+      }
+      .left-item:nth-child(4) {
         &>:last-child { width: 66.6%; }
       }
     }

@@ -94,6 +94,9 @@ class BroadcastDesktopClient {
   setWidgetScale = (id: string, scale: number) => {
     return this.hook('setWidgetScale', [id, scale])
   }
+  setWidgetOpacity = (id: string, opacity: number) => {
+    return this.hook('setWidgetOpacity', [id, opacity])
+  }
   switchWidgetProp = (id: string, prop: string, state: boolean): Promise<void> => {
     return this.hook('switchWidgetProp', [id, prop, state])
   }
