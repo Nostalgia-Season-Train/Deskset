@@ -3,7 +3,7 @@ import { _t } from '#manager/main/i18n'
 import { RuntimeWidget } from '#manager/global'
 import { prefixMark } from '#widget/register'
 
-const widget = defineModel<RuntimeWidget>({ required: true })
+const widget = defineModel<RuntimeWidget | null>({ required: true })
 
 
 /* === 事件 === */
@@ -15,6 +15,7 @@ const emit = defineEmits([
 ])
 
 const ensureTitle = async () => {
+  if (!widget.value) return
   if (widget.value.title == '') {
     widget.value.title = widget.value.name.startsWith(prefixMark) ? _t(widget.value.name.replace(prefixMark, '')) : widget.value.name
   }
@@ -24,6 +25,7 @@ const ensureTitle = async () => {
 import desktop from '#manager/global/page/desktop'
 
 const ensureAxisX = async () => {
+  if (!widget.value) return
   const x = Number(widget.value.x) > 0 ? Number(widget.value.x) : null
   const axis = await desktop.setWidgetAxis(widget.value.id, x, widget.value.y)
   widget.value.x = axis.x
@@ -34,6 +36,7 @@ const ensureAxisX = async () => {
 }
 
 const ensureAxisY = async () => {
+  if (!widget.value) return
   const y = Number(widget.value.y) > 0 ? Number(widget.value.y) : null
   const axis = await desktop.setWidgetAxis(widget.value.id, widget.value.x, y)
   widget.value.x = axis.x
@@ -43,11 +46,13 @@ const ensureAxisY = async () => {
 }
 
 const ensureScale = async () => {
+  if (!widget.value) return
   widget.value.scale = Number(widget.value.scale) > 0 ? Number(widget.value.scale) : 1
   await desktop.setWidgetScale(widget.value.id, widget.value.scale)
 }
 
 const ensureOpacity = async () => {
+  if (!widget.value) return
   widget.value.opacity = Number(widget.value.opacity) > 0 ? Number(widget.value.opacity) : 1
   await desktop.setWidgetOpacity(widget.value.id, widget.value.opacity)
 }
@@ -71,17 +76,22 @@ import {
         class="title"
         v-model="widget.title"
         @change="ensureTitle"
-      ></Input>
+        v-if="widget"
+      />
+      <div
+        class="title"
+        v-else
+      >...</div>
       <div class="btns">
-        <div class="btn"><Button @click="emit('remove', widget.id)">{{ _t('删除') }}</Button></div>
-        <div class="btn" v-if="widget.option != undefined"><Button @click="emit('edit', widget.id)">{{ _t('编辑') }}</Button></div>
-        <div class="btn"><Button @click="emit('locate', widget.id)">{{ _t('定位') }}</Button></div>
+        <div class="btn"><Button @click="emit('remove', widget?.id)" :disabled="widget == null">{{ _t('删除') }}</Button></div>
+        <div class="btn"><Button @click="emit('edit', widget?.id)" :disabled="widget?.option == undefined">{{ _t('编辑') }}</Button></div>
+        <div class="btn"><Button @click="emit('locate', widget?.id)" :disabled="widget == null">{{ _t('定位') }}</Button></div>
       </div>
     </div>
-    <div class="name">{{ widget.name.startsWith(prefixMark) ? _t(widget.name.replace(prefixMark, '')) : widget.name }}</div>
-    <div class="author">作者：{{ widget.author }}</div><!-- - [ ] 需要翻译 -->
-    <div class="version">版本：{{ widget.version }}</div><!-- - [ ] 需要翻译 -->
-    <div class="descript">描述：{{ widget.descript }}</div><!-- - [ ] 需要翻译 -->
+    <div class="name">名称：{{ widget?.name.startsWith(prefixMark) ? _t(widget?.name.replace(prefixMark, '')) : widget?.name }}</div>
+    <div class="author">作者：{{ widget?.author }}</div><!-- - [ ] 需要翻译 -->
+    <div class="version">版本：{{ widget?.version }}</div><!-- - [ ] 需要翻译 -->
+    <div class="descript">描述：{{ widget?.descript }}</div><!-- - [ ] 需要翻译 -->
   </div>
 
   <div class="bottom">
@@ -89,16 +99,16 @@ import {
       <div class="left-title">位置 & 大小</div><!-- - [ ] 需要翻译 -->
       <div class="left-item">
         <span>{{ _t('坐标') }}</span>
-        <Input v-model="widget.x" @change="ensureAxisX"/>
-        <Input v-model="widget.y" @change="ensureAxisY"/>
+        <Input v-model="widget.x" @change="ensureAxisX" v-if="widget"/><Input disabled v-else/>
+        <Input v-model="widget.y" @change="ensureAxisY" v-if="widget"/><Input disabled v-else/>
       </div>
       <div class="left-item">
         <span>{{ _t('缩放') }}</span>
-        <Input v-model="widget.scale" @change="ensureScale"/>
+        <Input v-model="widget.scale" @change="ensureScale" v-if="widget"/><Input disabled v-else/>
       </div>
       <div class="left-item">
         <span>{{ _t('透明度') }}</span>
-        <Input v-model="widget.opacity" @change="ensureOpacity"/>
+        <Input v-model="widget.opacity" @change="ensureOpacity" v-if="widget"/><Input disabled v-else/>
       </div>
     </div>
 
@@ -106,15 +116,18 @@ import {
       <div class="right-title">状态</div><!-- 别跟状态模式搞混了！这是 CSS 类名（也别跟面向对象类搞混...）控制的部件行为 -->
       <div class="right-item">
         <span>{{ _t('锁定拖动') }}</span>
-        <Switch v-model="widget.isDragLock" @click="emit('switchProp', widget.id, 'drag-lock', widget.isDragLock)"/>
+        <Switch v-model="widget.isDragLock" @click="emit('switchProp', widget.id, 'drag-lock', widget.isDragLock)" v-if="widget"/>
+        <Switch disabled v-else/>
       </div>
       <div class="right-item">
         <span>{{ _t('禁用交互') }}</span>
-        <Switch v-model="widget.isDisableInteract" @click="emit('switchProp', widget.id, 'disable-interact', widget.isDisableInteract)"/>
+        <Switch v-model="widget.isDisableInteract" @click="emit('switchProp', widget.id, 'disable-interact', widget.isDisableInteract)" v-if="widget"/>
+        <Switch disabled v-else/>
       </div>
       <div class="right-item">
         <span>{{ _t('自动隐藏') }}</span>
-        <Switch v-model="widget.isAutoHide" @click="emit('switchProp', widget.id, 'auto-hide', widget.isAutoHide)"/>
+        <Switch v-model="widget.isAutoHide" @click="emit('switchProp', widget.id, 'auto-hide', widget.isAutoHide)" v-if="widget"/>
+        <Switch disabled v-else/>
       </div>
     </div>
   </div>

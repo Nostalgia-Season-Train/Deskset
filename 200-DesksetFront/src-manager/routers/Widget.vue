@@ -78,7 +78,6 @@ import Info from './Widget/RightInfo.vue'
 
   <div class="right">
     <Info
-      v-if="activeWidgetOnSelect"
       v-model="activeWidgetOnSelect"
       class="info"
       @remove="removeWidget"
