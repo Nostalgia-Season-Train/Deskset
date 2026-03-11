@@ -73,6 +73,7 @@ export const appendWidget = async (rawParam: {
   left?: number | null,
   top?: number | null,
   scale?: number | null,
+  opacity?: number | null,
   model?: Record<string, any>,
   // 用于管理页：部件标题（用户自定义，默认等于部件名称）
   title?: string | null
@@ -195,6 +196,7 @@ export const FileToStorageWidget = async (data: any): Promise<StorageWidget | un
     left: typeof data?.left == 'number' ? data.left as number : 0,
     top: typeof data?.top == 'number' ? data.top as number : 0,
     scale: typeof data?.scale == 'number' ? data.scale as number : 1,
+    opacity: typeof data?.opacity == 'number' ? data.opacity as number : 1,
 
     model: model
   }

@@ -36,12 +36,13 @@ const appendWidget = async (param: {
   left?: number,
   top?: number,
   scale?: number,
+  opacity?: number,
   model: Record<string, any>
 }) => {
   const {
     id, name,
     isDragLock, isDisableInteract, isAutoHide,
-    left, top, scale,
+    left, top, scale, opacity,
     model
   } = param
   let component
@@ -127,6 +128,9 @@ const appendWidget = async (param: {
 
   const finalScale = scale ?? 1
   container.style.transform = `scale(${finalScale})`
+
+  const finalOpacity = opacity ?? 1
+  container.style.opacity = `${finalOpacity}`
 
   // 6、监听组件 v-model 变化
   const unwatch = watch(

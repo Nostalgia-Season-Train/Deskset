@@ -62,6 +62,7 @@ class BroadcastDesktopClient {
     left?: number,
     top?: number,
     scale?: number,
+    opacity?: number,
     model?: Record<string, any>
   }): Promise<{
     isDragLock: boolean,
@@ -72,6 +73,7 @@ class BroadcastDesktopClient {
     left: number,
     top: number,
     scale: number,
+    opacity: number,
     model: Record<string, any>
   }> => {
     return this.hook('appendWidget', [param])

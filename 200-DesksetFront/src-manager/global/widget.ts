@@ -42,6 +42,7 @@ export interface StorageWidget {
   left: number
   top: number
   scale: number  // 缩放
+  opacity: number  // 不透明度
 
   // （部件）模型，也就是部件的配置
   model: Record<string, any>
@@ -75,6 +76,7 @@ export const exampleStorageWidget: StorageWidget = {
   isAutoHide: false,
   left: 0,
   top: 0,
-  scale: 0,
+  scale: 1,
+  opacity: 1,
   model: {}
 }
