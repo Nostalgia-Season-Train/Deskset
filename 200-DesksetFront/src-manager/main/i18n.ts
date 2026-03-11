@@ -11,9 +11,8 @@ export const switchLanguage = async (newLanguage: string) => {
   language = newLanguage
 }
 
-export const _t = (str: string) => {
+export const _t = (str: string): string => {
   if (language == 'zh-cn')
     return zh_cn[str] ?? str
-  if (language == 'en')
-    return en[str] ?? str
+  return en[str] ?? str
 }
