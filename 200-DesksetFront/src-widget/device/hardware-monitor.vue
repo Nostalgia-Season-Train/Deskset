@@ -2,6 +2,9 @@
 /* 表格样式 */
 import VChart from 'vue-echarts'
 import * as echarts from 'echarts'  // 不加报错 undefined is not imported
+import { SVGRenderer } from 'echarts/renderers'
+
+echarts.use([SVGRenderer])
 
 const option = {
   animation: false,
@@ -83,7 +86,7 @@ useIntervalFn(device, 1200)
 <div class="color-watch"><!-- 不加警告 v-model -->
   <div class="watch">
     <div style="width: 100px; height: 70px; pointer-events: none; outline: 1px solid #42A5F5;">
-      <v-chart :option="optionCPU" />
+      <v-chart :option="optionCPU" :initOptions='{ renderer: "svg" }'/>
     </div>
     <div>
       <div class="text">CPU</div>
@@ -92,7 +95,7 @@ useIntervalFn(device, 1200)
   </div>
   <div class="watch">
     <div style="width: 100px; height: 70px; pointer-events: none; outline: 1px solid #AB47BC;">
-      <v-chart :option="optionMemory" />
+      <v-chart :option="optionMemory" :initOptions='{ renderer: "svg" }'/>
     </div>
     <div>
       <div class="text">Memory</div>
@@ -101,7 +104,7 @@ useIntervalFn(device, 1200)
   </div>
   <div class="watch">
     <div style="width: 100px; height: 70px; pointer-events: none; outline: 1px solid #66BB6A;">
-      <v-chart :option="optionDisk" />
+      <v-chart :option="optionDisk" :initOptions='{ renderer: "svg" }'/>
     </div>
     <div>
       <div class="text">Disk</div>
@@ -110,7 +113,7 @@ useIntervalFn(device, 1200)
   </div>
   <div class="watch">
     <div style="width: 100px; height: 70px; pointer-events: none; outline: 1px solid #FFCA28;">
-      <v-chart :option="optionNetwork" />
+      <v-chart :option="optionNetwork" :initOptions='{ renderer: "svg" }'/>
     </div>
     <div>
       <div class="text">Network</div>
