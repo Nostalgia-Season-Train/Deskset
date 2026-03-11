@@ -63,7 +63,7 @@ export const getWidgetInfo = async (name: string) => {
 import desktop from '#manager/global/page/desktop'
 import { activeWidgetMap } from '#manager/global'
 
-export const appendWidget = async (param: {
+export const appendWidget = async (rawParam: {
   // 部件名称
   name: string,
   // 用于桌面页：部件属性、位置、配置
@@ -78,6 +78,15 @@ export const appendWidget = async (param: {
   title?: string | null
 }) => {
   // 0、解构参数
+  // 去掉值为 null 或 undefined 的键
+  type RemoveNull<T> = {
+    [K in keyof T]: Exclude<T[K], null>
+  }
+  const param = Object.keys(rawParam)
+    // @ts-ignore
+    .filter(key => rawParam[key] !== null && rawParam[key] !== undefined)
+    // @ts-ignore
+    .reduce((obj, key) => { obj[key] = rawParam[key]; return obj }, {} as RemoveNull<typeof rawParam>)
   const { name, title, model } = param
 
   // 1、生成 ID
@@ -102,11 +111,11 @@ export const appendWidget = async (param: {
   // 3、桌面添加部件 > 返回部件数据
   let widgetData = null
   try {
-    widgetData = await desktop.appendWidget(
-      id,
-      name, {
+    widgetData = await desktop.appendWidget({
       ...param,
-      model: model !== undefined && model !== null && Object.keys(model).length != 0 ? model : defaultModel
+      id: id,
+      name: name,
+      model: model !== undefined && Object.keys(model).length != 0 ? model : defaultModel
     })
   } catch (err) {
     logError('Append widget fail: ' + (err as Error).message)

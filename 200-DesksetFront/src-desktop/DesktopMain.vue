@@ -27,17 +27,23 @@ import { DesktopSendChannel } from './global/channel'
 const desktopSend = DesktopSendChannel
 
 /* --- 添加部件 --- */
-const appendWidget = async (
+const appendWidget = async (param: {
   id: string,
   name: string,
-  isDragLock: boolean | null,
-  isDisableInteract: boolean | null,
-  isAutoHide: boolean | null,
-  left: number | null,
-  top: number | null,
-  scale: number | null,
+  isDragLock?: boolean,
+  isDisableInteract?: boolean,
+  isAutoHide?: boolean,
+  left?: number,
+  top?: number,
+  scale?: number,
   model: Record<string, any>
-) => {
+}) => {
+  const {
+    id, name,
+    isDragLock, isDisableInteract, isAutoHide,
+    left, top, scale,
+    model
+  } = param
   let component
   let style
 
@@ -107,18 +113,19 @@ const appendWidget = async (
   container.style.top = desktopMain.value!.offsetHeight / 2 - container.offsetHeight / 2 + 'px'
 
   // 5、初始化时，直接设置组件属性、位置
-  const finalIsDragLock = isDragLock != null ? isDragLock : false
-  const finalIsDisableInteract = isDisableInteract != null ? isDisableInteract : false
-  const finalIsAutoHide = isAutoHide != null ? isAutoHide : false
-
+  const finalIsDragLock = isDragLock ?? false
+  const finalIsDisableInteract = isDisableInteract ?? false
+  const finalIsAutoHide = isAutoHide ?? false
   container.classList.toggle('deskset_drag-lock', finalIsDragLock)
   container.classList.toggle('deskset_disable-interact', finalIsDisableInteract)
   container.classList.toggle('deskset_auto-hide', finalIsAutoHide)
 
-  if (left != null) container.style.left = left + 'px'
-  if (top != null) container.style.top = top + 'px'
+  if (left !== null && left !== undefined)
+    container.style.left = left + 'px'
+  if (top !== null && top !== undefined)
+    container.style.top = top + 'px'
 
-  const finalScale = scale != null ? scale : 1
+  const finalScale = scale ?? 1
   container.style.transform = `scale(${finalScale})`
 
   // 6、监听组件 v-model 变化
