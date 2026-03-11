@@ -42,7 +42,9 @@ async def lifespan(app: FastAPI):
 
     logging.info('start lifespan')
     # note_apscheduler.start()  # 不用 paused=True 暂停，uvicorn.run 自然启停
+    await ai_manager._load_messages()
     yield
+    await ai_manager._save_messages()
     logging.info('finish lifespan')
     # note_apscheduler.shutdown()
 
@@ -137,6 +139,28 @@ class AIManager:
         self._ai_client = None
         self._mcp_client = None  # mcp 在后面实例化
         self._messages = []
+
+    async def _load_messages(self):
+        try:
+            import pathlib
+            if not pathlib.Path('./store/latest-chat.yaml').is_file():
+                return
+            import yaml
+            with open('./store/latest-chat.yaml', 'r', encoding='utf-8') as file:
+                self._messages = yaml.safe_load(file)['messages']
+        except Exception:
+            pass
+
+    async def _save_messages(self):
+        try:
+            import pathlib
+            pathlib.Path('./store').mkdir(exist_ok=True)
+            pathlib.Path('./store/latest-chat.yaml').touch(exist_ok=True)
+            import yaml
+            with open('./store/latest-chat.yaml', 'w', encoding='utf-8') as file:
+                yaml.safe_dump({ 'messages': self._messages }, file, allow_unicode=True, sort_keys=False, default_style='+')
+        except Exception:
+            pass
 
     async def _create_response(self):
         # AI Client

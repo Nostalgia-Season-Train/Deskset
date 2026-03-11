@@ -3,6 +3,7 @@
 /config
 /scripts
 /logs
+/store
 
 # 忽略二进制文件
 *.dll
