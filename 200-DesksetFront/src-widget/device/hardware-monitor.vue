@@ -1,103 +1,156 @@
-<script lang="ts" setup>
-import { ref } from 'vue'
-import { Cpu, MemoryStick, HardDrive } from 'lucide-vue-next'
+<script setup>
+/* 表格样式 */
+import VChart from 'vue-echarts'
+import * as echarts from 'echarts'  // 不加报错 undefined is not imported
 
-const cpu_percent = ref(50)
-const ram_percent = ref(50)
-const disk_percent = ref(50)
-
-
-/* === 轮询 === */
-import axios from 'axios'
-import { useIntervalFn } from '@vueuse/core'
-
-const refresh = async () => {
-  const data = (await axios.get('/v0/device/monitor')).data
-  cpu_percent.value = data.result.cpu.percent
-  ram_percent.value = data.result.ram.percent
-  disk_percent.value = data.result.disk.percent
+const option = {
+  animation: false,
+  color: '#FFF',
+  // left right -3 盖住图表跟轮廓间空隙
+  grid: { top: 0, bottom: 0, left: -3, right: -3 },
+  xAxis: {
+    show: false,
+    type: 'category'
+  },
+  yAxis: {
+    max: 100, min: 0,
+    show: false
+  },
+  series: {
+    data: Array(30).fill(0),
+    type: 'line',
+    showSymbol: false,
+    lineStyle: { width: 1 },
+    areaStyle: {
+      opacity: 0.35,
+      color: self.color
+    }
+  }
 }
 
-refresh()
-useIntervalFn(refresh, 1200)
+
+/* 查询函数 */
+import { ref } from 'vue'
+import axios from 'axios'
+
+const numCPU = ref(0)
+const optionCPU = ref(structuredClone(option))
+optionCPU.value.color = '#42A5F5'
+
+const numMemory = ref(0)
+const optionMemory = ref(structuredClone(option))
+optionMemory.value.color = '#AB47BC'
+
+const numDisk = ref(0)
+const optionDisk = ref(structuredClone(option))
+optionDisk.value.color = '#66BB6A'
+
+const numNetwork = ref({ sent: 0, recv: 0 })
+const optionNetwork = ref(structuredClone(option))
+optionNetwork.value.color = '#FFCA28'
+optionNetwork.value.yAxis.max = 1000
+
+const device = async () => {
+  const result = (await axios.get('/v0/device/monitor')).data.result
+
+  numCPU.value = result.cpu.percent
+  optionCPU.value.series.data.shift()
+  optionCPU.value.series.data.push(numCPU.value)
+
+  numMemory.value = result.ram.percent
+  optionMemory.value.series.data.shift()
+  optionMemory.value.series.data.push(numMemory.value)
+
+  numDisk.value = result.disk.percent
+  optionDisk.value.series.data.shift()
+  optionDisk.value.series.data.push(numDisk.value)
+
+  numNetwork.value = result.network
+  optionNetwork.value.series.data.shift()
+  optionNetwork.value.series.data.push(numNetwork.value.recv)
+}
+device()
+
+
+/* 轮询 */
+import { useIntervalFn } from '@vueuse/core'
+
+useIntervalFn(device, 1200)
 </script>
 
 
 <template>
-<div class="container">
-
-  <div class="progress">
-    <div>
-      <Cpu/>
-      <div>{{ cpu_percent.toFixed(1) }}</div>
-      <div>CPU</div>
+<div class="color-watch"><!-- 不加警告 v-model -->
+  <div class="watch">
+    <div style="width: 100px; height: 70px; pointer-events: none; outline: 1px solid #42A5F5;">
+      <v-chart :option="optionCPU" />
     </div>
-    <div class="ring cpu-ring"></div>
-  </div>
-
-  <div class="progress">
     <div>
-      <MemoryStick/>
-      <div>{{ ram_percent.toFixed(1) }}</div>
-      <div>RAM</div>
+      <div class="text">CPU</div>
+      <div class="num">{{ numCPU }}%</div>
     </div>
-    <div class="ring ram-ring"></div>
   </div>
-
-  <div class="progress">
+  <div class="watch">
+    <div style="width: 100px; height: 70px; pointer-events: none; outline: 1px solid #AB47BC;">
+      <v-chart :option="optionMemory" />
+    </div>
     <div>
-      <HardDrive/>
-      <div>{{ disk_percent.toFixed(1) }}</div>
-      <div>DISK</div>
+      <div class="text">Memory</div>
+      <div class="num">{{ numMemory }}%</div>
     </div>
-    <div class="ring disk-ring"></div>
   </div>
-
+  <div class="watch">
+    <div style="width: 100px; height: 70px; pointer-events: none; outline: 1px solid #66BB6A;">
+      <v-chart :option="optionDisk" />
+    </div>
+    <div>
+      <div class="text">Disk</div>
+      <div class="num">{{ numDisk }}%</div>
+    </div>
+  </div>
+  <div class="watch">
+    <div style="width: 100px; height: 70px; pointer-events: none; outline: 1px solid #FFCA28;">
+      <v-chart :option="optionNetwork" />
+    </div>
+    <div>
+      <div class="text">Network</div>
+      <div class="num">S: {{ numNetwork.sent }}.0 Kbps</div>
+      <div class="num">R: {{ numNetwork.recv }}.0 Kbps</div>
+    </div>
+  </div>
 </div>
 </template>
 
 
 <style scoped>
-.container {
-  padding: 3px;
+.color-watch {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+
+  padding: 5px;
+
+  background-color: #0005;
+  border: 1px solid #777;
+}
+
+.watch {
+  width: 200px;
 
   display: flex;
-  gap: 15px;
+  justify-content: left;
+  gap: 5px;
+
+  margin: 5px;
 }
 
-.progress {
-  position: relative;
-  width: 70px;
-  height: 70px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  color: white;
-  text-align: center;
+.text {
+  font-size: 16px;
+  color: #FFF;
 }
-.progress>div>div:nth-child(3) {
-  position: absolute;
-  top: 75px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.ring {
-  position: absolute;
-  width: 60px;
-  height: 60px;
-  border: 5px solid #FFF;
-  border-radius: 50%;
-}
-.ring.cpu-ring {
-  mask-image: conic-gradient(#FFF v-bind((cpu_percent / 100) * 360 + 'deg'), #FFF5 0deg);
-}
-.ring.ram-ring {
-  mask-image: conic-gradient(#FFF v-bind((ram_percent / 100) * 360 + 'deg'), #FFF5 0deg);
-}
-.ring.disk-ring {
-  mask-image: conic-gradient(#FFF v-bind((disk_percent / 100) * 360 + 'deg'), #FFF5 0deg);
+.num {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  white-space: nowrap;  /* 避免换行撑开高度 */
 }
 </style>
