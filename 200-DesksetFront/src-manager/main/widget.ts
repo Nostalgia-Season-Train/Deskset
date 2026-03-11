@@ -63,23 +63,10 @@ export const getWidgetInfo = async (name: string) => {
 import desktop from '#manager/global/page/desktop'
 import { activeWidgetMap } from '#manager/global'
 
-export const appendWidget = async ({
+export const appendWidget = async (param: {
   // 部件名称
-  name,
-
-  // 用于桌面页：部件属性、位置、配置
-  isDragLock = null,
-  isDisableInteract = null,
-  isAutoHide = null,
-  left = null,
-  top = null,
-  scale = null,
-  model = {},
-
-  // 用于管理页：部件标题（用户自定义，默认等于部件名称）
-  title = null
-}: {
   name: string,
+  // 用于桌面页：部件属性、位置、配置
   isDragLock?: boolean | null,
   isDisableInteract?: boolean | null,
   isAutoHide?: boolean | null,
@@ -87,8 +74,12 @@ export const appendWidget = async ({
   top?: number | null,
   scale?: number | null,
   model?: Record<string, any>,
+  // 用于管理页：部件标题（用户自定义，默认等于部件名称）
   title?: string | null
 }) => {
+  // 0、解构参数
+  const { name, title, model } = param
+
   // 1、生成 ID
   let id = Math.random().toString(16).slice(2)
 
@@ -114,15 +105,9 @@ export const appendWidget = async ({
     widgetData = await desktop.appendWidget(
       id,
       name, {
-        isDragLock: isDragLock,
-        isDisableInteract: isDisableInteract,
-        isAutoHide: isAutoHide,
-        left: left,
-        top: top,
-        scale: scale,
-        model: Object.keys(model).length != 0 ? model : defaultModel  // model 为空则传入默认值
-      }
-    )
+      ...param,
+      model: model !== undefined && model !== null && Object.keys(model).length != 0 ? model : defaultModel
+    })
   } catch (err) {
     logError('Append widget fail: ' + (err as Error).message)
     return
