@@ -106,23 +106,23 @@ onBeforeUnmount(() => stopwatch.finish())  // 重要！step 不会自动停止
   <div class="second">
     <div class="button">
       <span
-        style="color: #FFF; font-weight: 300; background: #2196F3;"
+        style="background: #2196F3;"
         @click="stopwatch.finish"
       >重置</span>
     </div>
     <div class="button">
       <span
-        style="color: #FFF; font-weight: 300; background: #66BB6A;"
+        style="background: #66BB6A;"
         v-if="status === 'idle'"
         @click="stopwatch.begin"
       >开始</span>
       <span
-        style="color: #FFF; font-weight: 300; background: #E53935;"
+        style="background: #E53935;"
         v-if="status === 'running'"
         @click="stopwatch.togglePause"
       >暂停</span>
       <span
-        style="color: #FFF; font-weight: 300; background: #FFB300;"
+        style="background: #FFB300;"
         v-if="status === 'paused'"
         @click="stopwatch.togglePause"
       >继续</span>
@@ -153,9 +153,16 @@ onBeforeUnmount(() => stopwatch.finish())  // 重要！step 不会自动停止
   .dsw-box();
 
   .time {
+    .dsw-text-title();
     font-size: 32px;
     font-weight: 400;
     font-feature-settings: 'ss01', 'tnum';
+  }
+  .button {
+    &>span {
+      .dsw-text();
+      color: #FFF;
+    }
   }
   // .button {
   //   position: relative;

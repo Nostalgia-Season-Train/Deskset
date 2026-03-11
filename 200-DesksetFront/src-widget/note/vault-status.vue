@@ -136,14 +136,12 @@ import {
       border-radius: 50%;
     }
     .str:nth-child(2) {
-      color: hsla(200, 20%, 12%, 80%);
-      font-size: 18px;
-      font-weight: 500;
+      .dsw-text-title();
     }
     .str:nth-child(3) {
       margin-left: auto;
       padding: 3px 6px;
-      color: #333A;
+      .dsw-text();
       font-size: 10px;
       font-weight: 500;
       background: #FFF;
@@ -153,9 +151,7 @@ import {
   /* --- 当前标签页 --- */
   .second {
     .title {
-      color: hsla(200, 20%, 12%, 40%);
-      font-size: 16px;
-      font-weight: 500;
+      .dsw-text();
     }
     .content {
       display: flex;
@@ -165,15 +161,13 @@ import {
         display: flex;
         align-items: flex-end;
         .base {
-          color: #111;
-          font-size: 18px;
-          font-weight: 500;
+          .dsw-text-title();
         }
-        .ext {
-          color: #1119;
-          font-size: 16px;
-          font-weight: 500;
-        }
+        // .ext {
+        //   color: #1119;
+        //   font-size: 16px;
+        //   font-weight: 500;
+        // }
       }
       .type {
         padding: 5px;
@@ -190,9 +184,8 @@ import {
       }
     }
     .latest-page {
-      color: hsla(200, 20%, 12%, 60%);
+      .dsw-text();
       font-size: 14px;
-      font-weight: 500;
     }
   }
 
@@ -209,8 +202,7 @@ import {
         display: flex;
         align-items: center;
         gap: 3px;
-        color: hsla(200, 20%, 12%, 40%);
-        font-size: 16px;
+        .dsw-text();
         svg {
           width: 18px;
           height: 18px;
@@ -219,8 +211,7 @@ import {
       }
       &>:last-child {
         margin: 4px 2px;
-        color: hsla(200, 20%, 12%);
-        font-size: 18px;
+        .dsw-text-title();
         .today {
           color: #AED581;
           font-feature-settings: 'sups';
@@ -231,10 +222,9 @@ import {
 
   /* --- 使用天数 --- */
   .fourth {
-    color: hsla(200, 20%, 12%, 40%);
-    font-size: 16px;
+    .dsw-text();
     .useday-num {
-      color: #111;
+      .dsw-text-title();
       font-feature-settings: 'tnum';  // 小米字体官网 thum 参数是错的
     }
   }
@@ -245,9 +235,8 @@ import {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #EEE;
-    font-size: 16px;
-    font-weight: 400;
+    .dsw-text();
+    color: #FFF;
     background: #7E57C2;
     transition: .3s;
     &:hover {

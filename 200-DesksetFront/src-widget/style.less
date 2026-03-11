@@ -1,9 +1,27 @@
 * {
   --dsw-background-color: hsl(200, 10%, 90%);
   --dsw-border-color: #FFF;
+
+  --dsw-text-color: #333C;
+  --dsw-text-size: 16px;
+  --dsw-text-weight: 350;
+  --dsw-text-title-color: #111;
+  --dsw-text-title-size: 18px;
+  --dsw-text-title-weight: 500;
 }
 
 .dsw-box {
   background: hsla(from var(--dsw-background-color) h s l / .9);
   border: solid 1px var(--dsw-border-color);
+}
+
+.dsw-text {
+  color: var(--dsw-text-color);
+  font-size: var(--dsw-text-size);
+  font-weight: var(--dsw-text-weight);
+}
+.dsw-text-title {
+  color: var(--dsw-text-title-color);
+  font-size: var(--dsw-text-title-size);
+  font-weight: var(--dsw-text-title-weight);
 }

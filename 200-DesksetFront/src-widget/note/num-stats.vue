@@ -92,16 +92,14 @@ watch(model.value, async () => await refresh())
     span {
       position: relative;
       top: -1px;  // 视觉居中
-      color: #333C;
+      .dsw-text();
       font-size: 18px;
-      font-weight: 350;
     }
   }
   .second {
     margin: 5px 0px 0px 3px;
-    color: #111;
+    .dsw-text-title();
     font-size: 20px;
-    font-weight: 500;
     font-feature-settings: 'tnum';
   }
 }
