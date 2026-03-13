@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import dayjs from 'dayjs'
 
 const model = defineModel<{
   title: string,
@@ -43,7 +44,7 @@ useIntervalFn(updateCountdown, 500)
   <div class="title">{{ model.title }}</div>
 
   <div v-if="isExpire">
-    <span class="text-expired">截止日期已到！</span>
+    <div class="text-expired">截止日期已到！</div>
   </div>
   <div v-else>
     <span class="text-datetime">
@@ -66,31 +67,47 @@ useIntervalFn(updateCountdown, 500)
     </span>
   </div>
 
+  <div class="deadline">截止日期：{{ dayjs(model.deadline).format('MM/DD HH:mm') }}</div>
+
 </div>
 </template>
 
 
 <style lang="less" scoped>
+@import '../style.less';
+
+* {
+  font-family: 'MisansVF';
+}
+
 .countdown {
   box-sizing: border-box;
-  width: 270px;
-  height: 120px;
+  width: 200px;
+  height: fit-content;
 
-  color: #000;
-  background: #FFF7;
-  border: solid 1px #FFF;
+  .dsw-box();
+  background: #FFF;
+  border: none;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
+  &>* {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 5px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .title {
-    font-size: 24px;
+    .dsw-text();
+    color: #FFF;
+    font-size: 18px;
+    font-weight: 300;
+    background: #42A5F5;
   }
   .text-expired,
   .text-datetime {
-    font-size: 20px;
+    .dsw-text();
+    font-size: 18px;
   }
   .text-datetime {
     display: flex;
@@ -99,11 +116,14 @@ useIntervalFn(updateCountdown, 500)
       width: 25px;
       text-align: center;
       :nth-child(1) {
-        color: #000D;
-        font-weight: 1000;
-        text-align: center;
+        .dsw-text-title();
       }
     }
+  }
+  .deadline {
+    .dsw-text();
+    color: #111;
+    background: #E9E9E9;
   }
 }
 </style>
