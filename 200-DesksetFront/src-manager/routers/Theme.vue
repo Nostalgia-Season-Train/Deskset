@@ -76,7 +76,7 @@ const store = useThemeStore()
   <div class="themes-wrapper">
     <ElTable
       empty-text="暂无可用主题，点击右上角按钮保存主题"
-      :data="store.themes"
+      :data="store.themes.filter(theme => theme.name.includes(searchText))"
       style="width: 100%; height: 100%;"
     >
       <ElTableColumn label="名称" prop="name" width="200" fixed="left"/>
