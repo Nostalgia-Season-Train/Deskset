@@ -85,10 +85,6 @@ useIntervalFn(updateCountdown, 500)
   width: 200px;
   height: fit-content;
 
-  .dsw-box();
-  background: #FFF;
-  border: none;
-
   &>* {
     box-sizing: border-box;
     width: 100%;
@@ -103,6 +99,10 @@ useIntervalFn(updateCountdown, 500)
     font-size: 18px;
     font-weight: 300;
     background: #42A5F5;
+  }
+  &>:nth-child(2) {
+    .dsw-box();
+    border-bottom: 0;  // border color 目前是 #FFF 跟底部同色
   }
   .text-expired,
   .text-datetime {
@@ -123,7 +123,7 @@ useIntervalFn(updateCountdown, 500)
   .deadline {
     .dsw-text();
     color: #111;
-    background: #E9E9E9;
+    background: #FFF;
   }
 }
 </style>
