@@ -141,20 +141,20 @@ onBeforeUnmount(() => stopwatch.finish())  // 重要！step 不会自动停止
 }
 
 .container {
-  padding: 4px 12px;
-  padding-bottom: 15px;
+  padding: 3px 9px;
+  padding-bottom: 12px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 7px;
+  gap: 5px;
 
   color: #000C;
   .dsw-box();
 
   .time {
     .dsw-text-title();
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 400;
     font-feature-settings: 'ss01', 'tnum';
   }
@@ -177,14 +177,14 @@ onBeforeUnmount(() => stopwatch.finish())  // 重要！step 不会自动停止
   .second {
     display: flex;
     justify-content: space-between;
-    gap: 27px;
+    gap: 20px;
     .button {
       transition: all .1s ease-out;
       &:active {
         transform: translateY(5px);
       }
       span {
-        padding: 4px 8px;
+        padding: 3px 6px;
       }
     }
   }
