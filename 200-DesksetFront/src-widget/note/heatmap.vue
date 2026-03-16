@@ -23,8 +23,8 @@ const heatChart = ref({
   visualMap: {
     // 热点范围 0 ~ 10
     min: 0, max: 10,
-    // 热点颜色 #FFF ~ #388E3C
-    inRange: { color: ['#FFF', '#388E3C'] },
+    // 热点颜色 #FFF ~ #388E3C，热点不透明度 0 ~ 1
+    inRange: { color: ['#FFF', '#388E3C'], opacity: [0, 1] },
     // 隐藏左侧图例
     show: false
   },
@@ -48,8 +48,8 @@ const heatChart = ref({
     ],
     // 去掉容器边框
     splitLine: { show: false },
-    // 去掉元素边框 1（底部分割线）
-    itemStyle: { borderWidth: 0 }
+    // 底部背景色，底部边框色，底部边框宽度
+    itemStyle: { color: '#0000', borderColor: '#0000', borderWidth: 0 }
   },
   series: {
     // 选择热力图
@@ -97,7 +97,5 @@ refresh()
 .heatmap {
   width: 450px;
   height: 120px;
-  background: #FFF;
-  opacity: .9;  // echart 没法设置透明背景色
 }
 </style>
