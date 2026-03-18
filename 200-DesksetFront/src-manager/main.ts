@@ -64,7 +64,7 @@ const isDevEnv = (import.meta as any).env.DEV as boolean
 
 /* ==== 启动服务器 ==== */
 import { spawnServer, axios } from './global'
-import { AxiosChannel } from './global/channel'
+import { AxiosChannel } from './main/channel'
 
 let isSpawn = true
 
@@ -144,7 +144,7 @@ winManager.onCloseRequested(async (event) => {
 
 /* ==== 监听桌面页面 ==== */
 import { activeWidgetMap } from './main/widget/mvar'
-import { DesktopSendChannel } from './global/channel'
+import { DesktopSendChannel } from './main/channel'
 
 const broadcast = DesktopSendChannel
 

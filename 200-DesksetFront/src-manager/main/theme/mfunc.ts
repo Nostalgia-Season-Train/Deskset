@@ -8,7 +8,7 @@ import {
   BaseDirectory
 } from '@tauri-apps/plugin-fs'
 import { error as logError } from '@tauri-apps/plugin-log'
-import desktop from '#manager/global/page/desktop.ts'
+import desktop from '#manager/main/desktop.ts'
 import { Theme, activeThemeMap, THEME_LIB, LATEST_THEME_ROOT, LATEST_THEME_NAME } from './mvar'  // #manager/global 找不到类型声明？原因？
 import { activeWidgetMap, activeWidgetOnSelect } from '#manager/main/widget/mvar'
 

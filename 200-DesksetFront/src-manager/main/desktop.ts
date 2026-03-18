@@ -1,4 +1,4 @@
-import { DesktopChannel } from '../channel.ts'
+import { DesktopChannel } from './channel.ts'
 
 
 class BroadcastDesktopClient {

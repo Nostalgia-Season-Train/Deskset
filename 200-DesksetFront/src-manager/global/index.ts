@@ -6,6 +6,5 @@ export * from './config'
 
 export * from './child/server'
 export * from './win/manager'
-export * from './page/desktop'
 
 export { default as axios } from 'axios'

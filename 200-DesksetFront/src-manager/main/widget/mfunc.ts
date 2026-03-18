@@ -60,7 +60,7 @@ export const getWidgetInfo = async (name: string) => {
 
 
 /* === 添加部件 === */
-import desktop from '#manager/global/page/desktop'
+import desktop from '#manager/main/desktop'
 import { activeWidgetMap } from './mvar'
 
 export const appendWidget = async (rawParam: {
