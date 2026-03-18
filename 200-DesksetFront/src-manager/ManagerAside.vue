@@ -5,6 +5,7 @@ import { Router } from 'vue-router'
 const props = defineProps<{ router: Router }>()
 
 import { PanelLeft } from 'lucide-vue-next'
+// @ts-ignore
 import { Inbox, Home, LayoutDashboard, Palette, Bubbles, Sparkles, SquareChartGantt } from 'lucide-vue-next'
 import CogLoop from '#desksetui/icons/Material Line Icons/CogLoop.vue'
 const items = [
