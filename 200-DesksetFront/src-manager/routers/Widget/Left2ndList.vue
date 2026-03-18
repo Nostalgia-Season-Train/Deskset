@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { activeWidgetMap } from '#manager/global'
+import { RuntimeWidget } from '#manager/main/widget'
+defineProps<{ widgets: RuntimeWidget[] }>()
 
 
-/* === 子组件 === */
+/* ==== 组件 ==== */
 import { ElScrollbar } from 'element-plus'
 </script>
 
@@ -11,7 +12,7 @@ import { ElScrollbar } from 'element-plus'
 <div class="left2ndlist">
   <ElScrollbar>
     <div
-      v-for="widget in Array.from(activeWidgetMap.values())"
+      v-for="widget of widgets"
       @click="$emit('select', widget.id)"
       class="item"
     >
