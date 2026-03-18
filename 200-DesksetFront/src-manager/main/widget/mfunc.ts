@@ -1,7 +1,7 @@
-import { _t } from './i18n'
+import { _t } from '#manager/main/i18n'
 import { readDir, readTextFile, BaseDirectory } from '@tauri-apps/plugin-fs'
 import { error as logError } from '@tauri-apps/plugin-log'
-import { RuntimeWidget, StorageWidget, exampleStorageWidget } from '#manager/global'
+import { RuntimeWidget, StorageWidget, exampleStorageWidget } from './mvar'
 
 
 /* === 从 widget 库：返回部件名称列表 === */
@@ -18,7 +18,7 @@ export const getWidgetNameList = async (): Promise<string[]> => {
 
 
 /* === 从 widget 库：返回部件信息（元数据） === */
-import { RegisterModel } from '#manager/global'
+import { RegisterModel } from './mvar'
 import { inlineRawWidgetMap, prefixMark } from '#widget/register'
 
 export const getWidgetInfo = async (name: string) => {
@@ -61,7 +61,7 @@ export const getWidgetInfo = async (name: string) => {
 
 /* === 添加部件 === */
 import desktop from '#manager/global/page/desktop'
-import { activeWidgetMap } from '#manager/global'
+import { activeWidgetMap } from './mvar'
 
 export const appendWidget = async (rawParam: {
   // 部件名称

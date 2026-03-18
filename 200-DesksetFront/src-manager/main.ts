@@ -143,7 +143,7 @@ winManager.onCloseRequested(async (event) => {
 
 
 /* ==== 监听桌面页面 ==== */
-import { activeWidgetMap } from './global'
+import { activeWidgetMap } from './main/widget/mvar'
 import { DesktopSendChannel } from './global/channel'
 
 const broadcast = DesktopSendChannel

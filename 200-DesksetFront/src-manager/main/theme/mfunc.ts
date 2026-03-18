@@ -10,7 +10,7 @@ import {
 import { error as logError } from '@tauri-apps/plugin-log'
 import desktop from '#manager/global/page/desktop.ts'
 import { Theme, activeThemeMap, THEME_LIB, LATEST_THEME_ROOT, LATEST_THEME_NAME } from './mvar'  // #manager/global 找不到类型声明？原因？
-import { activeWidgetMap, activeWidgetOnSelect } from '#manager/global/widget.ts'
+import { activeWidgetMap, activeWidgetOnSelect } from '#manager/main/widget/mvar'
 
 
 /* === 遍历主题 === */
@@ -40,7 +40,7 @@ export const _getThemes = async (root: string = THEME_LIB) => {
 
 /* === 保存主题 === */
 import dayjs from 'dayjs'
-import { RuntimeToStorageWidget } from '../widget'
+import { RuntimeToStorageWidget } from '#manager/main/widget/mfunc'
 
 export const _saveTheme = async (name: string, root: string = THEME_LIB) => {
   // 数据转换 + 信息生成
@@ -86,8 +86,8 @@ export const _deleteTheme = async (name: string, root: string = THEME_LIB) => {
 
 
 /* === 应用主题 === */
-import { appendWidget } from '../widget'
-import { FileToStorageWidget } from '../widget'
+import { appendWidget } from '#manager/main/widget/mfunc'
+import { FileToStorageWidget } from '#manager/main/widget/mfunc'
 
 export const _applyTheme = async (name: string, root: string = THEME_LIB) => {
   // 读取主题数据

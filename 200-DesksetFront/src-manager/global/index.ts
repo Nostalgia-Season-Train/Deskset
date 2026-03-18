@@ -3,7 +3,6 @@
   // 通过 main.ts 初始化
 
 export * from './config'
-export * from './widget'
 
 export * from './child/server'
 export * from './win/manager'
