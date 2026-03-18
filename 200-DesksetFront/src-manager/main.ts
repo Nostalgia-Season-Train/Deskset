@@ -169,8 +169,9 @@ broadcast.onmessage = (ev) => {
 
 
 /* ==== 加载部件、主题 ==== */
-import { activeThemeMap, LATEST_THEME_ROOT, LATEST_THEME_NAME } from './global'
-import { _getThemes, _applyTheme } from './main/theme'
+import { activeThemeMap } from './main/theme/mvar'
+import { _getThemes } from './main/theme/mfunc'
+import { _applyLatestTheme } from './main/theme'
 
 // 读取主题库
 const themes = await _getThemes()
@@ -180,9 +181,9 @@ for (const theme of themes) {
 
 // 应用上次关闭时的主题
 try {
-  await _applyTheme(LATEST_THEME_NAME, LATEST_THEME_ROOT)
+  await _applyLatestTheme()
 } catch (err) {
-  logError(`Fail to apply ${LATEST_THEME_ROOT}/${LATEST_THEME_NAME} theme(latest widget list), error: ${err}`)
+  logError(`Fail to apply latest theme(latest widget list), error: ${err}`)
 }
 
 

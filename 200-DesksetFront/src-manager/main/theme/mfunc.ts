@@ -9,7 +9,7 @@ import {
 } from '@tauri-apps/plugin-fs'
 import { error as logError } from '@tauri-apps/plugin-log'
 import desktop from '#manager/global/page/desktop.ts'
-import { Theme, activeThemeMap, THEME_LIB } from '#manager/global/theme.ts'  // #manager/global 找不到类型声明？原因？
+import { Theme, activeThemeMap, THEME_LIB, LATEST_THEME_ROOT, LATEST_THEME_NAME } from './mvar'  // #manager/global 找不到类型声明？原因？
 import { activeWidgetMap, activeWidgetOnSelect } from '#manager/global/widget.ts'
 
 
@@ -40,7 +40,7 @@ export const _getThemes = async (root: string = THEME_LIB) => {
 
 /* === 保存主题 === */
 import dayjs from 'dayjs'
-import { RuntimeToStorageWidget } from './widget'
+import { RuntimeToStorageWidget } from '../widget'
 
 export const _saveTheme = async (name: string, root: string = THEME_LIB) => {
   // 数据转换 + 信息生成
@@ -72,6 +72,11 @@ export const _saveTheme = async (name: string, root: string = THEME_LIB) => {
   })
 }
 
+// 退出时保存这次桌面主题
+export const _saveLatestTheme = async () => {
+  _saveTheme(LATEST_THEME_NAME, LATEST_THEME_ROOT)
+}
+
 
 /* === 删除主题 === */
 export const _deleteTheme = async (name: string, root: string = THEME_LIB) => {
@@ -81,8 +86,8 @@ export const _deleteTheme = async (name: string, root: string = THEME_LIB) => {
 
 
 /* === 应用主题 === */
-import { appendWidget } from './widget'
-import { FileToStorageWidget } from './widget'
+import { appendWidget } from '../widget'
+import { FileToStorageWidget } from '../widget'
 
 export const _applyTheme = async (name: string, root: string = THEME_LIB) => {
   // 读取主题数据
@@ -106,28 +111,7 @@ export const _applyTheme = async (name: string, root: string = THEME_LIB) => {
   }
 }
 
-
-/* ==== [ ] 测试中 Pinia ==== */
-import { defineStore } from 'pinia'
-import { computed } from 'vue'
-
-export const useThemeStore = defineStore('theme', () => {
-  const themes = computed({
-    get() {
-      return Array.from(activeThemeMap.values())
-    },
-    set() {}
-  })
-
-  async function saveTheme(name: string) {
-    return await _saveTheme(name)
-  }
-  async function deleteTheme(name: string) {
-    return await _deleteTheme(name)
-  }
-  async function applyTheme(name: string) {
-    return await _applyTheme(name)
-  }
-
-  return { themes, saveTheme, deleteTheme, applyTheme }
-})
+// 启动时应用上次桌面主题
+export const _applyLatestTheme = async () => {
+  _applyTheme(LATEST_THEME_NAME, LATEST_THEME_ROOT)
+}

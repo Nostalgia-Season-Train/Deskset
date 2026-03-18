@@ -4,7 +4,6 @@
 
 export * from './config'
 export * from './widget'
-export * from './theme'
 
 export * from './child/server'
 export * from './win/manager'
