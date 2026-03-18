@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { _t } from '#manager/main/i18n'
-import Scrollbar from '#desksetui/Scrollbar.vue'
+import { ElScrollbar } from 'element-plus'
 
 import { openBrowser } from '#manager/main/tauri'
 const openReleasePage = () => {
@@ -10,7 +10,7 @@ const openReleasePage = () => {
 
 
 <template>
-<Scrollbar>
+<ElScrollbar>
 <div class="content">
 <div class="content-wrapper">
 
@@ -54,7 +54,7 @@ const openReleasePage = () => {
 
 </div>
 </div>
-</Scrollbar>
+</ElScrollbar>
 </template>
 
 
