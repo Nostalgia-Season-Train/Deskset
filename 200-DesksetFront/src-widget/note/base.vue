@@ -63,11 +63,11 @@ refresh()
 
 watch(
   () => model.value.noteFilter,
-  async (noteFilter) => await refresh()
+  async (_) => await refresh()
 )
 watch(
   () => model.value.noteProp,
-  async (noteProp) => { if (!isColDragging) await refresh() }
+  async (_) => { if (!isColDragging) await refresh() }
 )
 watch(
   () => model.value.noteSort,
