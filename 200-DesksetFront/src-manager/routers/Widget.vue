@@ -64,6 +64,7 @@ const selectActiveWidget = async (id: string) => {
 /* === 子组件 === */
 import Menu from './Widget/Left1stMenu.vue'
 import List from './Widget/Left2ndList.vue'
+import Clear from './Widget/Left3rdClear.vue'
 import Info from './Widget/RightInfo.vue'
 </script>
 
@@ -74,6 +75,7 @@ import Info from './Widget/RightInfo.vue'
   <div class="left">
     <Menu @select="appendWidget" class="menu"/>
     <List @select="selectActiveWidget" class="list"/>
+    <Clear class="clear"/>
   </div>
 
   <div class="right">
@@ -133,6 +135,9 @@ import Info from './Widget/RightInfo.vue'
     flex-direction: column;
     gap: 5px;
     .deskset-layer-first();
+    .menu,.clear {
+      height: 24px;
+    }
     :nth-child(2) {
       flex: 1;
     }
