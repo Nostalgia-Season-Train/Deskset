@@ -266,7 +266,7 @@ const getWindowPicture = async () => {
   const el = desktopMain.value as HTMLElement
   const snap = await snapdom(el)
   const blob = await (snap).toBlob({ type: 'png' })
-  return Array.from(await blob.bytes())
+  return Array.from(new Uint8Array(await blob.arrayBuffer()))
 }
 
 
