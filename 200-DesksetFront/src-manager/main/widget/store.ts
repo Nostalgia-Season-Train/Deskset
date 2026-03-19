@@ -1,6 +1,11 @@
 import { defineStore } from 'pinia'
 import { computed } from 'vue'
-import { activeWidgetMap, RuntimeWidget } from './mvar'
+import desktop from '#manager/main/desktop'
+import {
+  activeWidgetMap,
+  RuntimeWidget,
+  activeWidgetOnSelect
+} from './mvar'
 import {
   getWidgetNameList as rawGetWidgetNameList,
   appendWidget as rawAppendWidget
@@ -13,7 +18,26 @@ export const useWidgetStore = defineStore('widget', () => {
   })
   const getWidgetNameList = rawGetWidgetNameList  // - [ ] 改成属性，监控文件系统更新列表
 
-  const appendWidget = rawAppendWidget
+  const widgetOnSelect = activeWidgetOnSelect
+  const selectWidget = async (id: string) => {
+    activeWidgetOnSelect.value = activeWidgetMap.get(id) ?? null
+  }
 
-  return { widgets, getWidgetNameList, appendWidget }
+  const appendWidget = rawAppendWidget
+  const removeWidget = async (id: string) => {
+    await desktop.removeWidget(id)
+    activeWidgetMap.delete(id)
+    activeWidgetOnSelect.value = null
+  }
+
+  return {
+    widgets,
+    getWidgetNameList,
+
+    widgetOnSelect,
+    selectWidget,
+
+    appendWidget,
+    removeWidget
+  }
 })
