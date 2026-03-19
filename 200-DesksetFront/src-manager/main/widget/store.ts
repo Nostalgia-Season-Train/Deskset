@@ -29,6 +29,9 @@ export const useWidgetStore = defineStore('widget', () => {
     activeWidgetMap.delete(id)
     activeWidgetOnSelect.value = null
   }
+  const locateWidget = async (id: string) => {
+    await desktop.locateWidget(id)
+  }
 
   return {
     widgets,
@@ -38,6 +41,7 @@ export const useWidgetStore = defineStore('widget', () => {
     selectWidget,
 
     appendWidget,
-    removeWidget
+    removeWidget,
+    locateWidget
   }
 })
