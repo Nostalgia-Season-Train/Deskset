@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import { _t } from '#manager/main/i18n'
+// - [ ] 临时：后面从父组件获取列表
+import { useWidgetStore } from '#manager/main/widget'
+const store = useWidgetStore()
 
 /* === 子组件 === */
 import { Grid2X2Plus } from 'lucide-vue-next'
@@ -18,11 +21,10 @@ const options = ref<string[]>()
 
 
 /* === 菜单 === */
-import { getWidgetNameList } from '#manager/main/widget'
-import { inlineWidgetList, prefixMark } from '#widget/register'
+import { prefixMark } from '#widget/register'
 
 const openMenu = async () => {
-  options.value = [...inlineWidgetList, ...await getWidgetNameList()]
+  options.value = await store.getWidgetNameList()
 }
 </script>
 

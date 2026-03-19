@@ -5,6 +5,8 @@ import { RuntimeWidget, StorageWidget, exampleStorageWidget } from './mvar'
 
 
 /* === 从 widget 库：返回部件名称列表 === */
+import { inlineWidgetList } from '#widget/register'
+
 export const getWidgetNameList = async (): Promise<string[]> => {
   const entrys = await readDir('./widgets', { baseDir: BaseDirectory.Resource })
 
@@ -13,7 +15,7 @@ export const getWidgetNameList = async (): Promise<string[]> => {
     if (entry.isDirectory)
       widgetNameList.push(entry.name)
   }
-  return widgetNameList
+  return [...inlineWidgetList, ...widgetNameList]
 }
 
 
