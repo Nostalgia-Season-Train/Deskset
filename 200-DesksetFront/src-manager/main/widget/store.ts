@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
+import { _t } from '#manager/main/i18n'
 import desktop from '#manager/main/desktop'
+import { prefixMark } from '#widget/register'
 import {
   activeWidgetMap,
   RuntimeWidget,
@@ -23,7 +25,18 @@ export const useWidgetStore = defineStore('widget', () => {
       reactive({
         id: computed(() => activeWidgetOnSelect.value!.id),
 
-        title: computed(() => activeWidgetOnSelect.value!.title),
+        title: computed({
+          get: () => activeWidgetOnSelect.value!.title,
+          set: (v: string) => {
+            if (v === '') {
+              activeWidgetOnSelect.value!.title =
+                activeWidgetOnSelect.value!.name.startsWith(prefixMark) ?
+                  _t(activeWidgetOnSelect.value!.name.replace(prefixMark, '')) : activeWidgetOnSelect.value!.name
+            } else {
+              activeWidgetOnSelect.value!.title = v
+            }
+          }
+        }),
         name: computed(() => activeWidgetOnSelect.value!.name),
         author: computed(() => activeWidgetOnSelect.value!.author),
         version: computed(() => activeWidgetOnSelect.value!.version),
