@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed } from 'vue'
+import { computed, reactive } from 'vue'
 import desktop from '#manager/main/desktop'
 import {
   activeWidgetMap,
@@ -18,9 +18,43 @@ export const useWidgetStore = defineStore('widget', () => {
   })
   const getWidgetNameList = rawGetWidgetNameList  // - [ ] 改成属性，监控文件系统更新列表
 
-  const widgetOnSelect = activeWidgetOnSelect
+  const widgetOnSelect = computed(
+    () => activeWidgetOnSelect.value !== null ?
+      reactive({
+        id: computed(() => activeWidgetOnSelect.value!.id),
+
+        title: computed(() => activeWidgetOnSelect.value!.title),
+        name: computed(() => activeWidgetOnSelect.value!.name),
+        author: computed(() => activeWidgetOnSelect.value!.author),
+        version: computed(() => activeWidgetOnSelect.value!.version),
+        descript: computed(() => activeWidgetOnSelect.value!.descript),
+
+        isDragLock: computed({
+          get: () => activeWidgetOnSelect.value!.isDragLock,
+          set: async (v: boolean) => {
+            await desktop.switchWidgetProp(activeWidgetOnSelect.value!.id, 'drag-lock', v)
+            activeWidgetOnSelect.value!.isDragLock = v
+          }
+        }),
+        isDisableInteract: computed({
+          get: () => activeWidgetOnSelect.value!.isDisableInteract,
+          set: async (v: boolean) => {
+            await desktop.switchWidgetProp(activeWidgetOnSelect.value!.id, 'disable-interact', v)
+            activeWidgetOnSelect.value!.isDisableInteract = v
+          }
+        }),
+        isAutoHide: computed({
+          get: () => activeWidgetOnSelect.value!.isAutoHide,
+          set: async (v: boolean) => {
+            await desktop.switchWidgetProp(activeWidgetOnSelect.value!.id, 'auto-hide', v)
+            activeWidgetOnSelect.value!.isAutoHide = v
+          }
+        })
+      }) :
+      null
+  )
   const selectWidget = async (id: string) => {
-    activeWidgetOnSelect.value = activeWidgetMap.get(id) ?? null
+    activeWidgetOnSelect.value = activeWidgetMap.get(id) ?? null  // activeWidgetOnSelect.value 指向 activeWidgetMap 实际对象
   }
 
   const appendWidget = rawAppendWidget
