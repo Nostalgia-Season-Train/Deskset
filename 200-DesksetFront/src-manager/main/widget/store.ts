@@ -29,6 +29,30 @@ export const useWidgetStore = defineStore('widget', () => {
         version: computed(() => activeWidgetOnSelect.value!.version),
         descript: computed(() => activeWidgetOnSelect.value!.descript),
 
+        x: computed({
+          get: () => activeWidgetOnSelect.value!.x,
+          set: async (v: string) => {
+            const x = Number(v) > 0 ? Number(v) : null
+            const axis = await desktop.setWidgetAxis(activeWidgetOnSelect.value!.id, x, activeWidgetOnSelect.value!.y)
+            activeWidgetOnSelect.value!.x = axis.x
+            activeWidgetOnSelect.value!.y = axis.y
+            // setWidgetAxis 不会触发事件链 drag.ts > DesktopSend > main.ts 更新 widget 位置（left、top）
+            activeWidgetOnSelect.value!.left = axis.left
+            activeWidgetOnSelect.value!.top = axis.top
+          }
+        }),
+        y: computed({
+          get: () => activeWidgetOnSelect.value!.y,
+          set: async (v: string) => {
+            const y = Number(v) > 0 ? Number(v) : null
+            const axis = await desktop.setWidgetAxis(activeWidgetOnSelect.value!.id, activeWidgetOnSelect.value!.x, y)
+            activeWidgetOnSelect.value!.x = axis.x
+            activeWidgetOnSelect.value!.y = axis.y
+            activeWidgetOnSelect.value!.left = axis.left
+            activeWidgetOnSelect.value!.top = axis.top
+          }
+        }),
+
         isDragLock: computed({
           get: () => activeWidgetOnSelect.value!.isDragLock,
           set: async (v: boolean) => {
