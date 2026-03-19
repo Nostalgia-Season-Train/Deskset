@@ -52,6 +52,22 @@ export const useWidgetStore = defineStore('widget', () => {
             activeWidgetOnSelect.value!.top = axis.top
           }
         }),
+        scale: computed({
+          get: () => activeWidgetOnSelect.value!.scale,
+          set: async (v: string) => {
+            const scale = Number(v) > 0 ? Number(v) : 1
+            await desktop.setWidgetScale(activeWidgetOnSelect.value!.id, scale)
+            activeWidgetOnSelect.value!.scale = scale
+          }
+        }),
+        opacity: computed({
+          get: () => activeWidgetOnSelect.value!.opacity,
+          set: async (v: string) => {
+            const opacity = Number(v) > 0 ? Number(v) : 1
+            await desktop.setWidgetOpacity(activeWidgetOnSelect.value!.id, opacity)
+            activeWidgetOnSelect.value!.opacity = opacity
+          }
+        }),
 
         isDragLock: computed({
           get: () => activeWidgetOnSelect.value!.isDragLock,
