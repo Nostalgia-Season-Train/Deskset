@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { _t } from '#manager/main/i18n'
-import { RuntimeWidget } from '#manager/global'
+import { RuntimeWidget } from '#manager/main/widget'
 import { prefixMark } from '#widget/register'
 
-const widget = defineModel<RuntimeWidget | null>({ required: true })
+const widget = defineModel<RuntimeWidget | null>({ required: true })  // - [ ] 实际上不是 RuntimeWidget 类型，单纯方便编辑器智能提示
 
 
 /* === 事件 === */
@@ -13,49 +13,6 @@ const emit = defineEmits([
   'locate',
   'switchProp'
 ])
-
-const ensureTitle = async () => {
-  if (!widget.value) return
-  if (widget.value.title == '') {
-    widget.value.title = widget.value.name.startsWith(prefixMark) ? _t(widget.value.name.replace(prefixMark, '')) : widget.value.name
-  }
-}
-
-// - [ ] 后续：回退上个值而非默认值
-import desktop from '#manager/global/page/desktop'
-
-const ensureAxisX = async () => {
-  if (!widget.value) return
-  const x = Number(widget.value.x) > 0 ? Number(widget.value.x) : null
-  const axis = await desktop.setWidgetAxis(widget.value.id, x, widget.value.y)
-  widget.value.x = axis.x
-  widget.value.y = axis.y
-  // setWidgetAxis 不会触发事件链 drag.ts > DesktopSend > main.ts 更新 widget 位置（left、top）
-  widget.value.left = axis.left
-  widget.value.top = axis.top
-}
-
-const ensureAxisY = async () => {
-  if (!widget.value) return
-  const y = Number(widget.value.y) > 0 ? Number(widget.value.y) : null
-  const axis = await desktop.setWidgetAxis(widget.value.id, widget.value.x, y)
-  widget.value.x = axis.x
-  widget.value.y = axis.y
-  widget.value.left = axis.left
-  widget.value.top = axis.top
-}
-
-const ensureScale = async () => {
-  if (!widget.value) return
-  widget.value.scale = Number(widget.value.scale) > 0 ? Number(widget.value.scale) : 1
-  await desktop.setWidgetScale(widget.value.id, widget.value.scale)
-}
-
-const ensureOpacity = async () => {
-  if (!widget.value) return
-  widget.value.opacity = Number(widget.value.opacity) > 0 ? Number(widget.value.opacity) : 1
-  await desktop.setWidgetOpacity(widget.value.id, widget.value.opacity)
-}
 
 
 /* ==== 子组件 ==== */
@@ -75,7 +32,6 @@ import {
       <Input
         class="title"
         v-model="widget.title"
-        @change="ensureTitle"
         v-if="widget"
       />
       <div
@@ -99,16 +55,20 @@ import {
       <div class="left-title">位置 & 大小</div><!-- - [ ] 需要翻译 -->
       <div class="left-item">
         <span>{{ _t('坐标') }}</span>
-        <Input v-model="widget.x" @change="ensureAxisX" v-if="widget"/><Input disabled v-else/>
-        <Input v-model="widget.y" @change="ensureAxisY" v-if="widget"/><Input disabled v-else/>
+        <Input v-model="widget.x" v-if="widget"/>
+        <Input disabled v-else/>
+        <Input v-model="widget.y" v-if="widget"/>
+        <Input disabled v-else/>
       </div>
       <div class="left-item">
         <span>{{ _t('缩放') }}</span>
-        <Input v-model="widget.scale" @change="ensureScale" v-if="widget"/><Input disabled v-else/>
+        <Input v-model="widget.scale" v-if="widget"/>
+        <Input disabled v-else/>
       </div>
       <div class="left-item">
         <span>{{ _t('透明度') }}</span>
-        <Input v-model="widget.opacity" @change="ensureOpacity" v-if="widget"/><Input disabled v-else/>
+        <Input v-model="widget.opacity" v-if="widget"/>
+        <Input disabled v-else/>
       </div>
     </div>
 
@@ -116,17 +76,17 @@ import {
       <div class="right-title">状态</div><!-- 别跟状态模式搞混了！这是 CSS 类名（也别跟面向对象类搞混...）控制的部件行为 -->
       <div class="right-item">
         <span>{{ _t('锁定拖动') }}</span>
-        <Switch v-model="widget.isDragLock" @click="emit('switchProp', widget.id, 'drag-lock', widget.isDragLock)" v-if="widget"/>
+        <Switch v-model="widget.isDragLock" v-if="widget"/>
         <Switch disabled v-else/>
       </div>
       <div class="right-item">
         <span>{{ _t('禁用交互') }}</span>
-        <Switch v-model="widget.isDisableInteract" @click="emit('switchProp', widget.id, 'disable-interact', widget.isDisableInteract)" v-if="widget"/>
+        <Switch v-model="widget.isDisableInteract" v-if="widget"/>
         <Switch disabled v-else/>
       </div>
       <div class="right-item">
         <span>{{ _t('自动隐藏') }}</span>
-        <Switch v-model="widget.isAutoHide" @click="emit('switchProp', widget.id, 'auto-hide', widget.isAutoHide)" v-if="widget"/>
+        <Switch v-model="widget.isAutoHide" v-if="widget"/>
         <Switch disabled v-else/>
       </div>
     </div>
