@@ -154,7 +154,7 @@ import {
 
     &>:nth-child(n) {
       margin: 5px;
-      padding: 4px 6px;
+      padding: 5px 10px;
       border: solid 1px var(--deskset-text-sharp-color);
     }
     .left {
@@ -167,6 +167,8 @@ import {
       }
       .left-item {
         display: flex;
+        justify-content: space-between;
+        align-items: center;
         gap: 2px;
         &>* { width: 33.3%; }
       }

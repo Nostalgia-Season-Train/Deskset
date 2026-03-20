@@ -1,6 +1,7 @@
 import './ElButton.less'
 import './ElSwitch.less'
 import './ElInput.less'
+import './ElSlider.less'
 
 import './ElTabs.less'
 import './ElSelect.less'

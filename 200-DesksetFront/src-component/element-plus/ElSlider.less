@@ -1,0 +1,41 @@
+@import '#manager/style.less';
+
+.el-slider {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  // 轨道
+  .el-slider__runway {
+    position: static;  // 让滑动区域和滑块按 .el-slider 定位
+    height: 4px;
+    background: transparent;
+
+    // 未调区域
+    &::before {
+      content: '';
+      position: absolute;
+      transform: translateY(50%);
+      width: 100%;
+      height: 4px;
+      background: var(--deskset-color-background-dark);
+    }
+    // 已调区域
+    .el-slider__bar {
+      position: absolute;
+      transform: translateY(50%);
+      height: 4px;
+      background: var(--deskset-color-primary);
+    }
+    // 滑块
+    .el-slider__button-wrapper {
+      position: absolute;
+      top: 0;
+      .el-slider__button {
+        width: 14px;
+        height: 14px;
+        border: 2px solid var(--deskset-color-primary);
+      }
+    }
+  }
+}
