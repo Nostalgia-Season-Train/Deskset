@@ -149,6 +149,7 @@ import { DesktopSendChannel } from './main/channel'
 const broadcast = DesktopSendChannel
 
 // - [ ] 优化？防抖节流 & 新开线程
+// 同步函数，确保在 widgetOnSelect.model 验证前执行
 broadcast.onmessage = (ev) => {
   const data = ev.data
   const widget = activeWidgetMap.get(data.id)

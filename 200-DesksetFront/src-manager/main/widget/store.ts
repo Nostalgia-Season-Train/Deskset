@@ -31,7 +31,8 @@ export const useWidgetStore = defineStore('widget', () => {
     const tmpModel = ref(structuredClone(toRaw(activeWidgetOnSelect.value!.model)))
     watch(tmpModel.value, async (newModel) => {
       await desktop.editWidget(activeWidgetOnSelect.value!.id, { ...newModel })
-      tmpModel.value = activeWidgetOnSelect.value!.model  // 同步更改，可以回调失败更改
+      // 验证更改，失败还原当前值。setTimeout 确保在 DesktopSendChannel 响应后执行
+      setTimeout(() => tmpModel.value = activeWidgetOnSelect.value!.model)
     })
     return reactive<ComputedRefOf<RuntimeWidget>>({
       id: computed(() => activeWidgetOnSelect.value!.id),
