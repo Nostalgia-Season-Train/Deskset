@@ -7,7 +7,7 @@ export const openBrowser = async (url: string) => openUrl(url)
 /* === 退出数字桌搭 === */
 import { error as logError } from '@tauri-apps/plugin-log'
 
-import { _saveLatestTheme } from './theme'
+import { saveLatestTheme } from './theme'
 import { config } from '#manager/global/config.ts'
 import { writeConfFile } from './config'
 import { killServe } from '#manager/global/child/server.ts'
@@ -17,10 +17,10 @@ import { exit } from '@tauri-apps/plugin-process'
 
 export const exitDeskset = async () => {
   // 保存当前部件列表
-  await _saveLatestTheme()
+  await saveLatestTheme()
 
   // 写入持久化配置
-  writeConfFile({
+  await writeConfFile({
     language: config.language,
     closeBehavior: config.closeBehavior
   })

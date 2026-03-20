@@ -73,8 +73,8 @@ export const _saveTheme = async (name: string, root: string = THEME_LIB) => {
 }
 
 // 退出时保存这次桌面主题
-export const _saveLatestTheme = async () => {
-  _saveTheme(LATEST_THEME_NAME, LATEST_THEME_ROOT)
+export const saveLatestTheme = async () => {
+  await _saveTheme(LATEST_THEME_NAME, LATEST_THEME_ROOT)
 }
 
 
@@ -112,6 +112,6 @@ export const _applyTheme = async (name: string, root: string = THEME_LIB) => {
 }
 
 // 启动时应用上次桌面主题
-export const _applyLatestTheme = async () => {
-  _applyTheme(LATEST_THEME_NAME, LATEST_THEME_ROOT)
+export const applyLatestTheme = async () => {
+  await _applyTheme(LATEST_THEME_NAME, LATEST_THEME_ROOT)
 }

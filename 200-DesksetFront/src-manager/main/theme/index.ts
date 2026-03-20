@@ -1,2 +1,2 @@
-export { _saveLatestTheme, _applyLatestTheme } from './mfunc'
+export { saveLatestTheme, applyLatestTheme } from './mfunc'
 export { useThemeStore } from './store'

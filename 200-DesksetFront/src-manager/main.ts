@@ -171,7 +171,7 @@ broadcast.onmessage = (ev) => {
 /* ==== 加载部件、主题 ==== */
 import { activeThemeMap } from './main/theme/mvar'
 import { _getThemes } from './main/theme/mfunc'
-import { _applyLatestTheme } from './main/theme'
+import { applyLatestTheme } from './main/theme'
 
 // 读取主题库
 const themes = await _getThemes()
@@ -181,7 +181,7 @@ for (const theme of themes) {
 
 // 应用上次关闭时的主题
 try {
-  await _applyLatestTheme()
+  await applyLatestTheme()
 } catch (err) {
   logError(`Fail to apply latest theme(latest widget list), error: ${err}`)
 }
