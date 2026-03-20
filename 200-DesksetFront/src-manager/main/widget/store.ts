@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
+import { ComputedRef } from 'vue'
 import { _t } from '#manager/main/i18n'
 import desktop from '#manager/main/desktop'
 import { prefixMark } from '#widget/register'
@@ -20,9 +21,12 @@ export const useWidgetStore = defineStore('widget', () => {
   })
   const getWidgetNameList = rawGetWidgetNameList  // - [ ] 改成属性，监控文件系统更新列表
 
+  type ComputedRefOf<T> = {
+    [K in keyof T]: ComputedRef<T[K]>
+  }
   const widgetOnSelect = computed(
     () => activeWidgetOnSelect.value !== null ?
-      reactive({
+      reactive<ComputedRefOf<RuntimeWidget>>({
         id: computed(() => activeWidgetOnSelect.value!.id),
 
         title: computed({
@@ -42,6 +46,8 @@ export const useWidgetStore = defineStore('widget', () => {
         version: computed(() => activeWidgetOnSelect.value!.version),
         descript: computed(() => activeWidgetOnSelect.value!.descript),
 
+        left: computed(() => activeWidgetOnSelect.value!.left),
+        top: computed(() => activeWidgetOnSelect.value!.top),
         x: computed({
           get: () => activeWidgetOnSelect.value!.x,
           set: async (v: string) => {
@@ -102,7 +108,10 @@ export const useWidgetStore = defineStore('widget', () => {
             await desktop.switchWidgetProp(activeWidgetOnSelect.value!.id, 'auto-hide', v)
             activeWidgetOnSelect.value!.isAutoHide = v
           }
-        })
+        }),
+
+        model: computed(() => activeWidgetOnSelect.value!.model),
+        option: computed(() => activeWidgetOnSelect.value!.option)
       }) :
       null
   )
