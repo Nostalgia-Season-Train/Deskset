@@ -19,7 +19,8 @@ const emit = defineEmits([
 import {
   ElButton as Button,
   ElSwitch as Switch,
-  ElInput as Input
+  ElInput as Input,
+  ElSlider
 } from 'element-plus'
 </script>
 
@@ -67,8 +68,8 @@ import {
       </div>
       <div class="left-item">
         <span>{{ _t('透明度') }}</span>
-        <Input v-model="widget.opacity" v-if="widget"/>
-        <Input disabled v-else/>
+        <ElSlider v-model="widget.opacity" :min="0" :step="0.01" :max="1" v-if="widget"/>
+        <ElSlider disabled v-else/>
       </div>
     </div>
 

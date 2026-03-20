@@ -89,7 +89,8 @@ export const useWidgetStore = defineStore('widget', () => {
       opacity: computed({
         get: () => activeWidgetOnSelect.value!.opacity,
         set: async (v: string) => {
-          const opacity = Number(v) > 0 ? Number(v) : 1
+          // 透明度可以等于 0
+          const opacity = Number(v) >= 0 ? Number(v) : 1
           await desktop.setWidgetOpacity(activeWidgetOnSelect.value!.id, opacity)
           activeWidgetOnSelect.value!.opacity = opacity
         }
