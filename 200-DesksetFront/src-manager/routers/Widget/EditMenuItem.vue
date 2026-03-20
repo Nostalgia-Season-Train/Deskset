@@ -1,21 +1,19 @@
 <script lang="ts" setup>
-import { RuntimeWidget, RegisterModelOptionItem } from '#manager/global/widget'
+import { RuntimeWidget, RegisterModelOptionItem } from '#manager/main/widget'
+
 const widget = defineModel<
   RuntimeWidget & { option: NonNullable<RuntimeWidget['option']> }  // 传入前父组件已确保 option != undefined
 >({ required: true })
 const prop = defineProps<{ items: RegisterModelOptionItem[] }>()
 
-import desktop from '#manager/global/page/desktop'
-const Edit = async (key: string, newValue: any) => {
-  await desktop.editWidget(widget.value.id, { [key]: newValue })  // 注意动态键用 [key] 而不用 key
-}
 
+/* ==== 组件 ==== */
 import {
-  ElInput,
-  ElInputNumber,
+  ElInputNumber,  // - [ ] 改成 ElInputNumberLazy
   ElColorPicker,
   ElSelect
 } from 'element-plus'
+import ElInputLazy from '#element-plus/ElInputLazy.vue'
 import NoteFilter from './EditMenu/NoteFilter.vue'
 import NoteProp from './EditMenu/NoteProp.vue'
 import NoteSort from './EditMenu/NoteSort.vue'
@@ -29,9 +27,8 @@ import NoteGroup from './EditMenu/NoteGroup.vue'
   <!-- *** 文本输入框 *** -->
   <div class="item" v-if="item.input == 'Input'">
     <div>{{ item.name }}</div>
-    <ElInput
+    <ElInputLazy
       v-model="widget.model[item.key]"
-      @change="Edit(item.key, widget.model[item.key])"
     />
   </div>
   <!-- *** 数字输入框 *** -->
@@ -40,7 +37,6 @@ import NoteGroup from './EditMenu/NoteGroup.vue'
     <ElInputNumber
       :controls="false"
       v-model="widget.model[item.key]"
-      @change="Edit(item.key, Number(widget.model[item.key]))"
     />
   </div>
 
@@ -52,7 +48,6 @@ import NoteGroup from './EditMenu/NoteGroup.vue'
       color-format="hex"
       :clearable="false"
       :model-value="widget.model[item.key]"
-      @update:model-value="Edit(item.key, $event)"
     />
   </div>
 
@@ -63,7 +58,6 @@ import NoteGroup from './EditMenu/NoteGroup.vue'
       :options="(item.parameter as any).choices"
       :props="{ value: 'value', label: 'label' }"
       v-model="widget.model[item.key]"
-      @change="Edit(item.key, widget.model[item.key])"
     />
   </div>
 
@@ -72,7 +66,6 @@ import NoteGroup from './EditMenu/NoteGroup.vue'
     <NoteFilter
       class="note-filter"
       v-model="widget.model[item.key]"
-      @change="Edit(item.key, widget.model[item.key])"
     />
   </div>
   <!-- *** 笔记属性 *** -->
@@ -80,7 +73,6 @@ import NoteGroup from './EditMenu/NoteGroup.vue'
     <NoteProp
       class="note-prop"
       v-model="widget.model[item.key]"
-      @change="Edit(item.key, widget.model[item.key])"
     />
   </div>
   <!-- *** 笔记排序 *** -->
@@ -88,7 +80,6 @@ import NoteGroup from './EditMenu/NoteGroup.vue'
     <NoteSort
       class="note-sort"
       v-model="widget.model[item.key]"
-      @change="Edit(item.key, widget.model[item.key])"
     />
   </div>
   <!-- *** 笔记分组 *** -->
@@ -96,7 +87,6 @@ import NoteGroup from './EditMenu/NoteGroup.vue'
     <NoteGroup
       class="note-group"
       v-model="widget.model[item.key]"
-      @change="Edit(item.key, widget.model[item.key])"
     />
   </div>
 

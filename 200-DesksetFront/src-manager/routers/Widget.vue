@@ -1,67 +1,30 @@
 <script lang="ts" setup>
-import desktop from '#manager/global/page/desktop'
+import { useWidgetStore } from '#manager/main/widget'
 
-const refresh = async () => {
-  console.log(await desktop.helloworld())
-}
-refresh()
+const store = useWidgetStore()
 
 
-/* === SFC 成员 === */
-import {
-  activeWidgetMap,
-  activeWidgetOnSelect
-} from '#manager/global'
-
-
-/* === SFC 方法 === */
-import { appendWidget } from '#manager/main/widget'
-
-const removeWidget = async (id: string) => {
-  await desktop.removeWidget(id)
-  activeWidgetMap.delete(id)
-  activeWidgetOnSelect.value = null
-}
-
-/* --- 编辑部件配置 --- */
+/* ==== 编辑部件配置 ==== */
+// 避免在 store 里导入 Edit，保证导入次序
 import { h } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import Edit from './Widget/EditMenu.vue'
 
-const editWidget = async (id: string) => {
-  const widget = activeWidgetMap.get(id)
+const editWidget = async (_: string) => {
+  if (store.widgetOnSelect === null) return
   // 交给编辑按钮判断即可，这样不用改两处
   // if (widget!.option == undefined)
   //   return
   ElMessageBox({
-    title: `编辑 ${widget!.title} 配置`,
+    title: `编辑 ${store.widgetOnSelect!.title} 配置`,
     showConfirmButton: false,
-    message: () => h(Edit, { modelValue: widget as any }),  // 编辑按钮已判断 option != undefined
-    callback: () => {}
+    message: () => h(Edit, { modelValue: store.widgetOnSelect as any }),  // 编辑按钮已判断 option != undefined
+    callback: () => { }
   })
 }
 
-const locateWidget = async (id: string) => {
-  await desktop.locateWidget(id)
-}
 
-const switchWidgetProp = async (id: string, prop: string, state: boolean) => {
-  await desktop.switchWidgetProp(id, prop, state)
-
-  // RightInfo 下的 v-model 由本函数切换
-  const widget = activeWidgetMap.get(id)
-
-  if (prop == 'drag-lock') widget!.isDragLock = state
-  if (prop == 'disable-interact') widget!.isDisableInteract = state
-  if (prop == 'auto-hide') widget!.isAutoHide = state
-}
-
-const selectActiveWidget = async (id: string) => {
-  activeWidgetOnSelect.value = activeWidgetMap.get(id) ?? null
-}
-
-
-/* === 子组件 === */
+/* ==== 子组件 ==== */
 import Menu from './Widget/Left1stMenu.vue'
 import List from './Widget/Left2ndList.vue'
 import Clear from './Widget/Left3rdClear.vue'
@@ -73,19 +36,18 @@ import Info from './Widget/RightInfo.vue'
 <div class="container-widget">
 
   <div class="left">
-    <Menu @select="appendWidget" class="menu"/>
-    <List @select="selectActiveWidget" class="list"/>
+    <Menu @select="store.appendWidget" class="menu"/>
+    <List :widgets="store.widgets" @select="store.selectWidget" class="list"/>
     <Clear class="clear"/>
   </div>
 
   <div class="right">
     <Info
-      v-model="activeWidgetOnSelect"
+      v-model="store.widgetOnSelect"
       class="info"
-      @remove="removeWidget"
+      @remove="store.removeWidget"
       @edit="editWidget"
-      @locate="locateWidget"
-      @switchProp="switchWidgetProp"
+      @locate="store.locateWidget"
     />
   </div>
 

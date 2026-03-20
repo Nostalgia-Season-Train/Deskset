@@ -1,2 +1,2 @@
-export type { RuntimeWidget } from './mvar'
+export type { RuntimeWidget, RegisterModelOptionItem } from './mvar'
 export { useWidgetStore } from './store'
