@@ -10,6 +10,7 @@ const openReleasePage = () => {
 
 
 <template>
+<div class="welcome">
 <ElScrollbar>
 <div class="content">
 <div class="content-wrapper">
@@ -55,25 +56,31 @@ const openReleasePage = () => {
 </div>
 </div>
 </ElScrollbar>
+</div>
 </template>
 
 
 <style lang="less" scoped>
 @import '#manager/style.less';
 
-// 若类名等于 container，则无法填满 content，原因未知
-.content {
+.welcome {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
   padding: var(--content-padding);
   padding-top: 0;
+  .el-scrollbar {
+    .deskset-layer-first();
+  }
+}
+
+// 若类名等于 container，则无法填满 content，原因未知
+.content {
   .content-wrapper {
     box-sizing: border-box;
     height: 100%;
     padding: 5px;
     .deskset-text-title();
-    .deskset-layer-first();
   }
 
   .center {
