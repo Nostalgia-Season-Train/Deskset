@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import desktop from '#manager/global/page/desktop'
-import { activeWidgetMap } from '#manager/global'
+import desktop from '#manager/main/desktop'
+import { useWidgetStore } from '#manager/main/widget'
+const store = useWidgetStore()
 
 const desktopInfo = ref({
   width: 0,
@@ -31,7 +32,7 @@ refresh()
 
   <div class="item">
     <div>部件数量</div>
-    <div>{{ activeWidgetMap.size }}</div>
+    <div>{{ store.widgets.length }}</div>
   </div>
 
 </div>

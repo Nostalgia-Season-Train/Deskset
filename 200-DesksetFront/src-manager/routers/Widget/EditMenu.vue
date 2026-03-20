@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { RuntimeWidget } from '#manager/global/widget'
+import { RuntimeWidget } from '#manager/main/widget'
 const widget = defineModel<
   RuntimeWidget & { option: NonNullable<RuntimeWidget['option']> }  // 传入前父组件已确保 option != undefined
 >({ required: true })
