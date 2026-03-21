@@ -23,10 +23,10 @@ const heatChart = ref({
   visualMap: {
     // 热点范围 0 ~ 10
     min: 0, max: 10,
-    // 热点颜色 #FFF ~ #388E3C，热点不透明度 0 ~ 1
-    inRange: { color: ['#FFF', '#388E3C'], opacity: [0, 1] },
+    // 热点颜色 #FFF ~ #388E3C，热点不透明度 1 ~ 1
+    inRange: { color: ['#FFF', '#388E3C'], opacity: [1, 1] },
     // 隐藏图例
-    // show: false
+    // show: false,
     // 图例位置
     top: 'middle',  // 上下居中
     right: 0,
@@ -38,10 +38,11 @@ const heatChart = ref({
   calendar: {
     // 设置纵向热力图
     orient: 'vertical',
-    // 热点大小 15
-    cellSize: 15,
+    // 热点大小 16
+    cellSize: 16,
     // 居中图表
-    left: 'center', top: 'center',
+    // (父容器宽度 - 图例宽度) - (热点大小 * 7) = 可用空隙
+    left: ((160 - 8) - (16 * 7)) / 2, top: 'middle',
     // 隐藏左侧星期
     dayLabel: { show: false },
     // 隐藏上方月份
@@ -56,7 +57,7 @@ const heatChart = ref({
     // 去掉容器边框
     splitLine: { show: false },
     // 底部背景色，底部边框色，底部边框宽度
-    itemStyle: { color: '#0000', borderColor: '#0000', borderWidth: 0 }
+    itemStyle: { color: '#0000', borderColor: '#0000', borderWidth: 2 }
   },
   series: {
     // 选择热力图
