@@ -14,7 +14,7 @@ import dayjs from 'dayjs'
 
 echarts.use([SVGRenderer])
 
-const weeknum = 28  // 统计周数
+const weeknum = 4  // 统计周数
 
 const heatChart = ref({
   tooltip: {
@@ -33,16 +33,16 @@ const heatChart = ref({
     // 图例容器：内边距，宽度，高度
     padding: 0,
     itemWidth: 8,
-    itemHeight: 100
+    itemHeight: 16 * 7
   },
   calendar: {
     // 设置纵向热力图
-    orient: 'vertical',
+    // orient: 'vertical',
     // 热点大小 16
     cellSize: 16,
     // 居中图表
-    // (父容器宽度 - 图例宽度) - (热点大小 * 7) = 可用空隙
-    left: ((160 - 8) - (16 * 7)) / 2, top: 'middle',
+    // (父容器宽度 - 图例宽度) - (热点大小 * 5) = 可用空隙
+    left: ((160 - 8) - (16 * 5)) / 2, top: 'middle',
     // 隐藏左侧星期
     dayLabel: { show: false },
     // 隐藏上方月份
@@ -77,8 +77,12 @@ import axios from 'axios'
 
 const refresh = async () => {
   const rawHeats = (await axios.post(`/v0/note/obsidian/stats/heatmap`, {
-    start_day: dayjs().startOf('month').format('YYYYMMDD'),
-    end_day: dayjs().endOf('month').format('YYYYMMDD')
+    // 范围：本月
+    // start_day: dayjs().startOf('month').format('YYYYMMDD'),
+    // end_day: dayjs().endOf('month').format('YYYYMMDD')
+    // 范围：本周 + 前 weeknum 周
+    start_day: dayjs().subtract(weeknum, 'week').startOf('week').format('YYYYMMDD'),
+    end_day: dayjs().format('YYYYMMDD')
   })).data.result
   const heats = rawHeats.map(heat => [dayjs(heat.day, 'YYYYMMDD').format('YYYY-MM-DD'), heat.num])
   heatChart.value.calendar.range = [heats[0][0], heats[heats.length - 1][0]]
