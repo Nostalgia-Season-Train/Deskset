@@ -5,7 +5,7 @@ import { ElButton } from 'element-plus'
 
 <template>
 <div class="clear">
-  <ElButton>清空部件列表</ElButton>
+  <ElButton @click="$emit('clear')">清空部件列表</ElButton>
 </div>
 </template>
 

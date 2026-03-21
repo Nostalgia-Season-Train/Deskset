@@ -138,6 +138,14 @@ export const useWidgetStore = defineStore('widget', () => {
   const locateWidget = async (id: string) => {
     await desktop.locateWidget(id)
   }
+  // - [ ] 主题应用换用此封装
+  const clearWidgetList = async () => {
+    for (const widget of [...activeWidgetMap.values()]) {
+      await desktop.removeWidget(widget.id)
+    }
+    activeWidgetMap.clear()
+    activeWidgetOnSelect.value = null
+  }
 
   return {
     widgets,
@@ -148,6 +156,7 @@ export const useWidgetStore = defineStore('widget', () => {
 
     appendWidget,
     removeWidget,
-    locateWidget
+    locateWidget,
+    clearWidgetList
   }
 })

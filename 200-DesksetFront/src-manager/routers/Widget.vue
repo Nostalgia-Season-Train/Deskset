@@ -38,7 +38,7 @@ import Info from './Widget/RightInfo.vue'
   <div class="left">
     <Menu @select="store.appendWidget" class="menu"/>
     <List :widgets="store.widgets" @select="store.selectWidget" class="list"/>
-    <Clear class="clear"/>
+    <Clear @clear="store.clearWidgetList" class="clear"/>
   </div>
 
   <div class="right">
