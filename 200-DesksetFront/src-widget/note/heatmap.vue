@@ -25,8 +25,15 @@ const heatChart = ref({
     min: 0, max: 10,
     // 热点颜色 #FFF ~ #388E3C，热点不透明度 0 ~ 1
     inRange: { color: ['#FFF', '#388E3C'], opacity: [0, 1] },
-    // 隐藏左侧图例
-    show: false
+    // 隐藏图例
+    // show: false
+    // 图例位置
+    top: 'middle',  // 上下居中
+    right: 0,
+    // 图例容器：内边距，宽度，高度
+    padding: 0,
+    itemWidth: 8,
+    itemHeight: 100
   },
   calendar: {
     // 设置纵向热力图
@@ -82,20 +89,30 @@ refresh()
 
 <template>
 <div class="heatmap">
-  <!-- svg 渲染不随缩放模糊 -->
-  <VChart
-    class="heatmap"
-    :option="heatChart"
-    :initOptions='{ renderer: "svg" }'
-    style="width: 100%; height: 100%;"
-  />
+  <div class="echart__wrapper">
+    <!-- svg 渲染不随缩放模糊 -->
+    <VChart
+      :option="heatChart"
+      :initOptions='{ renderer: "svg" }'
+    />
+  </div>
 </div>
 </template>
 
 
 <style lang="less" scoped>
+@import '../style.less';
+
 .heatmap {
-  width: 450px;
+  width: 160px;
   height: 120px;
+  display: flex;
+  align-items: center;
+  .dsw-box();
+
+  .echart__wrapper {
+    width: 160px;
+    height: 120px;
+  }
 }
 </style>
