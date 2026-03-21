@@ -28,6 +28,8 @@ export const useWidgetStore = defineStore('widget', () => {
     if (activeWidgetOnSelect.value === null)
       return null
     // 编辑部件模型（单个部件实例的配置）
+    // 注：在桌面窗口修改 model 时，activeWidgetOnSelect.value!.model 变化会让整个 computed 重新计算，所以不用 watch model
+    // 虽然我认为这是个 BUG...
     const tmpModel = ref(structuredClone(toRaw(activeWidgetOnSelect.value!.model)))
     watch(tmpModel.value, async (newModel) => {
       await desktop.editWidget(activeWidgetOnSelect.value!.id, { ...newModel })
