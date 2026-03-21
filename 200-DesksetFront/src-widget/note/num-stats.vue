@@ -30,10 +30,17 @@ const refresh = async () => {
   const rep = await axios.post('/v0/note/obsidian/stats/filter-frontmatter', filterGroup)
   number.value = rep.data.result.length
   const [set, name = ''] = model.value.icon.split(':')
-  if (set === 'fluent-emoji-flat')
-    iconifyData.value = getIconData(fluentIcons, name)
-  if (set === 'noto')
-    iconifyData.value = getIconData(notoIcons, name)
+  switch (set) {
+    case 'fluent-emoji-flat':
+      iconifyData.value = getIconData(fluentIcons, name)
+      break
+    case 'noto':
+      iconifyData.value = getIconData(notoIcons, name)
+      break
+    default:
+      iconifyData.value = null
+      break
+  }
 }
 refresh()
 
@@ -52,6 +59,7 @@ watch(model.value, async () => await refresh())
       :height="iconifyData?.height"
       :viewBox="`0 0 ${iconifyData?.width} ${iconifyData?.height}`"
       v-html="iconifyData?.body"
+      v-if="iconifyData !== null && iconifyData !== undefined"
     ></svg>
     <span>{{ model.title }}</span>
   </div>
