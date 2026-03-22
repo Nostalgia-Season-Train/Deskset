@@ -19,6 +19,11 @@ const weeknum = 4  // 统计周数
 const heatChart = ref({
   tooltip: {
     // 悬停时显示热点值
+    formatter: (p) => {
+      const fmtDay = dayjs(p.data[0], 'YYYY-MM-DD').format('YYYY/MM/DD-dddd')
+      const num = p.data[1]
+      return `${fmtDay}: ${num}`
+    }
   },
   visualMap: {
     // 热点范围 0 ~ 10
