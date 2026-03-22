@@ -38,7 +38,9 @@ const heatChart = ref({
     // 图例容器：内边距，宽度，高度
     padding: 0,
     itemWidth: 8,
-    itemHeight: 16 * 7
+    itemHeight: 16 * 7,
+    // 关闭悬停文本和悬停游标
+    hoverLink: false,
   },
   calendar: {
     // 设置纵向热力图
@@ -47,9 +49,15 @@ const heatChart = ref({
     cellSize: 16,
     // 居中图表
     // (父容器宽度 - 图例宽度) - (热点大小 * 5) = 可用空隙
-    left: ((160 - 8) - (16 * 5)) / 2, top: 'middle',
-    // 隐藏左侧星期 + 从星期一开始
-    dayLabel: { show: false, firstDay: 1 },
+    // left: ((160 - 8) - (16 * 5)) / 2, top: 'middle',
+    // 图例宽度 + 星期文本与热力图距离，上下居中
+    right: 8 + 4, top: 'middle',
+    // 星期配置
+    dayLabel: {
+      show: true,   // 显示左侧星期
+      firstDay: 1,  // 从星期一开始
+      margin: 4,    // 文本与热力图距离
+    },
     // 隐藏上方月份
     monthLabel: { show: false },
     // 隐藏左侧年份
