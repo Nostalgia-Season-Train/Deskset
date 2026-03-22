@@ -48,8 +48,8 @@ const heatChart = ref({
     // 居中图表
     // (父容器宽度 - 图例宽度) - (热点大小 * 5) = 可用空隙
     left: ((160 - 8) - (16 * 5)) / 2, top: 'middle',
-    // 隐藏左侧星期
-    dayLabel: { show: false },
+    // 隐藏左侧星期 + 从星期一开始
+    dayLabel: { show: false, firstDay: 1 },
     // 隐藏上方月份
     monthLabel: { show: false },
     // 隐藏左侧年份
@@ -85,8 +85,8 @@ const refresh = async () => {
     // 范围：本月
     // start_day: dayjs().startOf('month').format('YYYYMMDD'),
     // end_day: dayjs().endOf('month').format('YYYYMMDD')
-    // 范围：本周 + 前 weeknum 周。subtract(1, 'day') 从星期天开始
-    start_day: dayjs().subtract(weeknum, 'week').startOf('week').subtract(1, 'day').format('YYYYMMDD'),
+    // 范围：本周 + 前 weeknum 周
+    start_day: dayjs().subtract(weeknum, 'week').startOf('week').format('YYYYMMDD'),
     end_day: dayjs().format('YYYYMMDD')
   })).data.result
   const heats = rawHeats.map(heat => [dayjs(heat.day, 'YYYYMMDD').format('YYYY-MM-DD'), heat.num])
