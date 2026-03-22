@@ -85,8 +85,8 @@ const refresh = async () => {
     // 范围：本月
     // start_day: dayjs().startOf('month').format('YYYYMMDD'),
     // end_day: dayjs().endOf('month').format('YYYYMMDD')
-    // 范围：本周 + 前 weeknum 周
-    start_day: dayjs().subtract(weeknum, 'week').startOf('week').format('YYYYMMDD'),
+    // 范围：本周 + 前 weeknum 周。subtract(1, 'day') 从星期天开始
+    start_day: dayjs().subtract(weeknum, 'week').startOf('week').subtract(1, 'day').format('YYYYMMDD'),
     end_day: dayjs().format('YYYYMMDD')
   })).data.result
   const heats = rawHeats.map(heat => [dayjs(heat.day, 'YYYYMMDD').format('YYYY-MM-DD'), heat.num])
