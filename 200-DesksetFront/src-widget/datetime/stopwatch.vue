@@ -154,9 +154,11 @@ onBeforeUnmount(() => stopwatch.finish())  // 重要！step 不会自动停止
 
   .time {
     .dsw-text-title();
-    font-size: 28px;
-    font-weight: 400;
-    font-feature-settings: 'ss01', 'tnum';
+    span {
+      font-size: 28px;
+      font-weight: 400;
+      font-feature-settings: 'ss01', 'tnum';
+    }
   }
   .button {
     &>span {
