@@ -39,7 +39,7 @@ const heatChart = ref({
     // show: false,
     // 图例位置
     top: 'middle',  // 上下居中
-    right: 0,
+    right: 4,
     // 图例容器：内边距，宽度，高度
     padding: 0,
     itemWidth: 8,
@@ -55,8 +55,8 @@ const heatChart = ref({
     // 居中图表
     // (父容器宽度 - 图例宽度) - (热点大小 * 5) = 可用空隙
     // left: ((160 - 8) - (16 * 5)) / 2, top: 'middle',
-    // 图例宽度 + 星期文本与热力图距离，上下居中
-    right: 8 + 4, top: 'middle',
+    // 图例宽度 + 星期文本与热力图距离 + 图例与图表容器右边距离，上下居中
+    right: 8 + 4 + 4, top: 'middle',
     // 星期配置
     dayLabel: {
       show: true,   // 显示左侧星期
@@ -147,6 +147,7 @@ refresh()
   .dsw-box();
 
   .left {
+    padding: 4px 0 0 4px;
     height: 100%;
     .title {
       display: flex;
@@ -154,7 +155,7 @@ refresh()
     }
   }
   .echart__wrapper {
-    width: 140px;
+    width: 120px;
     height: 120px;
   }
 }
