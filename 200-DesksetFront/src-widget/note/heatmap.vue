@@ -5,16 +5,21 @@
   // 所以热力图可能不一样
 
 
-/* ==== Echart 声明 ==== */
+/* ==== 图标总数范围 ==== */
 import { ref } from 'vue'
+import { FileEdit } from 'lucide-vue-next'
+
+const total = ref(0)    // 热点累加总数
+const weeknum = ref(4)  // 统计周数
+
+
+/* ==== Echart 声明 ==== */
 import VChart from 'vue-echarts'
 import * as echarts from 'echarts'
 import { SVGRenderer } from 'echarts/renderers'
 import dayjs from 'dayjs'
 
 echarts.use([SVGRenderer])
-
-const weeknum = 4  // 统计周数
 
 const heatChart = ref({
   tooltip: {
@@ -64,7 +69,7 @@ const heatChart = ref({
     yearLabel: { show: false },
     // 日期范围，会被 refresh 刷新
     range: [
-      dayjs().subtract(weeknum, 'week').startOf('isoWeek').format('YYYY-MM-DD'),
+      dayjs().subtract(weeknum.value, 'week').startOf('isoWeek').format('YYYY-MM-DD'),
       dayjs().format('YYYY-MM-DD')
     ],
     // 去掉容器边框
@@ -94,10 +99,11 @@ const refresh = async () => {
     // start_day: dayjs().startOf('month').format('YYYYMMDD'),
     // end_day: dayjs().endOf('month').format('YYYYMMDD')
     // 范围：本周 + 前 weeknum 周
-    start_day: dayjs().subtract(weeknum, 'week').startOf('week').format('YYYYMMDD'),
+    start_day: dayjs().subtract(weeknum.value, 'week').startOf('week').format('YYYYMMDD'),
     end_day: dayjs().format('YYYYMMDD')
   })).data.result
   const heats = rawHeats.map(heat => [dayjs(heat.day, 'YYYYMMDD').format('YYYY-MM-DD'), heat.num])
+  total.value = rawHeats.reduce((acc, heat) => acc + heat.num, 0)
   heatChart.value.calendar.range = [heats[0][0], heats[heats.length - 1][0]]
   heatChart.value.series.data = heats
 }
@@ -107,6 +113,16 @@ refresh()
 
 <template>
 <div class="heatmap">
+
+  <div class="left">
+    <div class="title">
+      <FileEdit/>
+      <span>编辑数量</span>
+    </div>
+    <div>总数：{{ total }}</div>
+    <div>范围：前 {{ weeknum }} 周</div><!-- 包括本周，文本太长放不下 -->
+  </div>
+
   <div class="echart__wrapper">
     <!-- svg 渲染不随缩放模糊 -->
     <VChart
@@ -114,6 +130,7 @@ refresh()
       :initOptions='{ renderer: "svg" }'
     />
   </div>
+
 </div>
 </template>
 
@@ -122,14 +139,22 @@ refresh()
 @import '../style.less';
 
 .heatmap {
-  width: 160px;
+  width: 240px;
   height: 120px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   .dsw-box();
 
+  .left {
+    height: 100%;
+    .title {
+      display: flex;
+      align-items: center;
+    }
+  }
   .echart__wrapper {
-    width: 160px;
+    width: 140px;
     height: 120px;
   }
 }
