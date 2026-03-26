@@ -29,7 +29,7 @@ const desktopSend = DesktopSendChannel
 /* --- 添加部件 --- */
 const appendWidget = async (param: {
   id: string,
-  name: string,
+  path: string,
   isDragLock?: boolean,
   isDisableInteract?: boolean,
   isAutoHide?: boolean,
@@ -40,7 +40,7 @@ const appendWidget = async (param: {
   model: Record<string, any>
 }) => {
   const {
-    id, name,
+    id, path,
     isDragLock, isDisableInteract, isAutoHide,
     left, top, scale, opacity,
     model
@@ -48,23 +48,23 @@ const appendWidget = async (param: {
   let component
   let style
 
-  if (name.startsWith(prefixMark)) {
-    component = defineAsyncComponent(inlineRawWidgetMap.get(name)!.main)
+  if (path.startsWith(prefixMark)) {
+    component = defineAsyncComponent(inlineRawWidgetMap.get(path)!.main)
     style = null
   } else {
     // 查找编译缓存
-    const mtime = (await stat(`./widgets/${name}/main.vue`, { baseDir: BaseDirectory.Resource })).mtime?.toString() ?? null
+    const mtime = (await stat(`./widgets/${path}/main.vue`, { baseDir: BaseDirectory.Resource })).mtime?.toString() ?? null
 
-    let cache = compileCache.get(name)
+    let cache = compileCache.get(path)
     if (cache == undefined || cache.mtime != mtime) {
-      const code = await compile(name)
-      compileCache.set(name, {
+      const code = await compile(path)
+      compileCache.set(path, {
         mtime: mtime,
         jsModule: URL.createObjectURL(new Blob([code.js], { type: 'text/javascript' })),
         cssCode: code.css
       })
     }
-    cache = compileCache.get(name)
+    cache = compileCache.get(path)
 
     // 导入 JS 代码
     component = defineAsyncComponent(() => import(/* @vite-ignore */cache!.jsModule))
@@ -153,6 +153,8 @@ const appendWidget = async (param: {
   })
 
   return {
+    id: id,
+    path: path,
     isDragLock: finalIsDragLock,
     isDisableInteract: finalIsDisableInteract,
     isAutoHide: finalIsAutoHide,

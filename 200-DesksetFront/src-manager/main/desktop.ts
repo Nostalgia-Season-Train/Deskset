@@ -55,7 +55,7 @@ class BroadcastDesktopClient {
 
   appendWidget = (param: {
     id: string,
-    name: string,
+    path: string,
     isDragLock?: boolean,
     isDisableInteract?: boolean,
     isAutoHide?: boolean,
@@ -65,6 +65,8 @@ class BroadcastDesktopClient {
     opacity?: number,
     model?: Record<string, any>
   }): Promise<{
+    id: string,
+    path: string,
     isDragLock: boolean,
     isDisableInteract: boolean,
     isAutoHide: boolean,

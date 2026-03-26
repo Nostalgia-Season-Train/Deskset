@@ -43,7 +43,7 @@ const openMenu = async () => {
       <ElDropdownMenu
         style="max-height: 80vh; width: 150px; min-width: 150px; max-width: 150px;"
       >
-        <ElDropdownItem v-for="option in options" @click="$emit('select', { name: option })">
+        <ElDropdownItem v-for="option in options" @click="$emit('select', { path: option })"><!-- [ ] 这里没有类型检查！？ -->
           {{ option.startsWith(prefixMark) ? _t(option.replace(prefixMark, '')) : option }}
         </ElDropdownItem>
       </ElDropdownMenu>

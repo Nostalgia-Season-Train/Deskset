@@ -44,14 +44,14 @@ export const useWidgetStore = defineStore('widget', () => {
         set: (v: string) => {
           if (v === '') {
             activeWidgetOnSelect.value!.title =
-              activeWidgetOnSelect.value!.name.startsWith(prefixMark) ?
-                _t(activeWidgetOnSelect.value!.name.replace(prefixMark, '')) : activeWidgetOnSelect.value!.name
+              activeWidgetOnSelect.value!.path.startsWith(prefixMark) ?
+                _t(activeWidgetOnSelect.value!.path.replace(prefixMark, '')) : activeWidgetOnSelect.value!.path
           } else {
             activeWidgetOnSelect.value!.title = v
           }
         }
       }),
-      name: computed(() => activeWidgetOnSelect.value!.name),
+      path: computed(() => activeWidgetOnSelect.value!.path),
       author: computed(() => activeWidgetOnSelect.value!.author),
       version: computed(() => activeWidgetOnSelect.value!.version),
       descript: computed(() => activeWidgetOnSelect.value!.descript),

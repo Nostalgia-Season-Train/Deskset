@@ -45,7 +45,7 @@ import {
         <div class="btn"><Button @click="emit('locate', widget?.id)" :disabled="widget == null">{{ _t('定位') }}</Button></div>
       </div>
     </div>
-    <div class="name">名称：{{ widget?.name.startsWith(prefixMark) ? _t(widget?.name.replace(prefixMark, '')) : widget?.name }}</div>
+    <div class="name">名称：{{ widget?.path.startsWith(prefixMark) ? _t(widget?.path.replace(prefixMark, '')) : widget?.path }}</div>
     <div class="author">作者：{{ widget?.author }}</div><!-- - [ ] 需要翻译 -->
     <div class="version">版本：{{ widget?.version }}</div><!-- - [ ] 需要翻译 -->
     <div class="descript">描述：{{ widget?.descript }}</div><!-- - [ ] 需要翻译 -->

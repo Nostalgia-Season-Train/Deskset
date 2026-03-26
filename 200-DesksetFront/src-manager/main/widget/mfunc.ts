@@ -67,7 +67,7 @@ import { activeWidgetMap } from './mvar'
 
 export const appendWidget = async (rawParam: {
   // 部件名称
-  name: string,
+  path: string,
   // 用于桌面页：部件属性、位置、配置
   isDragLock?: boolean | null,
   isDisableInteract?: boolean | null,
@@ -90,7 +90,7 @@ export const appendWidget = async (rawParam: {
     .filter(key => rawParam[key] !== null && rawParam[key] !== undefined)
     // @ts-ignore
     .reduce((obj, key) => { obj[key] = rawParam[key]; return obj }, {} as RemoveNull<typeof rawParam>)
-  const { name, title, model } = param
+  const { path, title, model } = param
 
   // 1、生成 ID
   let id = Math.random().toString(16).slice(2)
@@ -102,7 +102,7 @@ export const appendWidget = async (rawParam: {
   }
 
   // 2、获取部件信息（元数据）
-  const widgetInfo = await getWidgetInfo(name)
+  const widgetInfo = await getWidgetInfo(path)
   const registerModel = widgetInfo.model
 
   // 2.1、从（部件）注册模型生成默认模型
@@ -122,7 +122,7 @@ export const appendWidget = async (rawParam: {
     widgetData = await desktop.appendWidget({
       ...param,
       id: id,
-      name: name,
+      path: path,
       model: model !== undefined && Object.keys(model).length != 0 ? model : defaultModel
     })
   } catch (err) {
@@ -134,8 +134,8 @@ export const appendWidget = async (rawParam: {
   activeWidgetMap.set(id, Object.assign(
     {
       id: id,
-      name: name,
-      title: title ?? (name.startsWith(prefixMark) ? _t(name.replace(prefixMark, '')) : name)
+      path: path,
+      title: title ?? (path.startsWith(prefixMark) ? _t(path.replace(prefixMark, '')) : path)
     },
     widgetInfo,
     widgetData
@@ -156,8 +156,8 @@ export const RuntimeToStorageWidget = async (widget: RuntimeWidget): Promise<Sto
 
 // 验证文件中部件，一般来说 文件中部件 = 持久化部件
 export const FileToStorageWidget = async (data: any): Promise<StorageWidget | undefined> => {
-  const name = data?.name
-  if (typeof name != 'string')
+  const path = data?.path
+  if (typeof path != 'string')
     return undefined
 
   /* --- 补全内联部件配置 --- */
@@ -185,16 +185,16 @@ export const FileToStorageWidget = async (data: any): Promise<StorageWidget | un
     return result
   }
 
-  if (name.startsWith(prefixMark)) {
-    const defaultModel = inlineRawWidgetMap.get(name)!.metainfo?.model ?? {}  // 暂且默认 name 对应部件存在
+  if (path.startsWith(prefixMark)) {
+    const defaultModel = inlineRawWidgetMap.get(path)!.metainfo?.model ?? {}  // 暂且默认 name 对应部件存在
     model = await fillMissingKeys(model, defaultModel)
   }
 
   return {
     id: data.id,
 
-    name: name as string,
-    title: typeof data?.title == 'string' ? data.title as string : name as string,
+    path: path as string,
+    title: typeof data?.title == 'string' ? data.title as string : path as string,
 
     isDragLock: typeof data?.isDragLock == 'boolean' ? data.isDragLock as boolean : false,
     isDisableInteract: typeof data?.isDisableInteract == 'boolean' ? data.isDisableInteract as boolean : false,
