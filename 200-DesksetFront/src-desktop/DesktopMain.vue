@@ -213,8 +213,9 @@ const setWidgetAxis = async (id: string, x: number | null, y: number | null) => 
   const width = container.offsetWidth
   const height = container.offsetHeight
 
-  const left = x ? (x / dpr) - (width >> 1) : desktopMain.value!.offsetWidth / 2 - width / 2
-  const top = y ? (y / dpr) - (height >> 1) : desktopMain.value!.offsetHeight / 2 - height / 2
+  // 0 和 null 都是 false，明确传入 null 时设置默认值（居中）
+  const left = x !== null ? (x / dpr) - (width >> 1) : desktopMain.value!.offsetWidth / 2 - width / 2
+  const top = y !== null ? (y / dpr) - (height >> 1) : desktopMain.value!.offsetHeight / 2 - height / 2
   container.style.left = left + 'px'
   container.style.top = top + 'px'
 

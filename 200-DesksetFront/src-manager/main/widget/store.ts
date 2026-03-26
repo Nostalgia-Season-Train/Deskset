@@ -61,7 +61,8 @@ export const useWidgetStore = defineStore('widget', () => {
       x: computed({
         get: () => activeWidgetOnSelect.value!.x,
         set: async (v: string) => {
-          const x = Number(v) > 0 ? Number(v) : null
+          // 区分 '0' 和 空字符串，空字符串语义代表 null 代表设置默认值
+          const x = v !== '' ? Number(v) : null
           const axis = await desktop.setWidgetAxis(activeWidgetOnSelect.value!.id, x, activeWidgetOnSelect.value!.y)
           activeWidgetOnSelect.value!.x = axis.x
           activeWidgetOnSelect.value!.y = axis.y
@@ -73,7 +74,7 @@ export const useWidgetStore = defineStore('widget', () => {
       y: computed({
         get: () => activeWidgetOnSelect.value!.y,
         set: async (v: string) => {
-          const y = Number(v) > 0 ? Number(v) : null
+          const y = v !== '' ? Number(v) : null
           const axis = await desktop.setWidgetAxis(activeWidgetOnSelect.value!.id, activeWidgetOnSelect.value!.x, y)
           activeWidgetOnSelect.value!.x = axis.x
           activeWidgetOnSelect.value!.y = axis.y
