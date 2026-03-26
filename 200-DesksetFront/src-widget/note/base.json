@@ -1,4 +1,5 @@
 {
+  "name": "Base",
   "author": "旧日丨四季列车",
   "version": "v0.0.1",
   "descript": "通过表格统计你的笔记，双击在 Obsidian 中打开",
