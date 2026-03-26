@@ -20,14 +20,15 @@ export const getWidgetNameList = async (): Promise<string[]> => {
 
 
 /* === 从 widget 库：返回部件信息（元数据） === */
-import { RegisterModel } from './mvar'
+import { WidgetClass } from './mvar'
 import { inlineRawWidgetMap, prefixMark } from '#widget/register'
 
 export const getWidgetInfo = async (name: string) => {
   // 内联部件
   if (name.startsWith(prefixMark)) {
-    const registerModel = inlineRawWidgetMap.get(name)!.metainfo as RegisterModel
+    const registerModel = inlineRawWidgetMap.get(name)!.metainfo as WidgetClass
     return {
+      name: '占位符',
       author: _t(registerModel.author),
       version: registerModel.version,
       descript: _t(registerModel.descript),
@@ -42,6 +43,7 @@ export const getWidgetInfo = async (name: string) => {
 
     const info = JSON.parse(text)
     return {
+      name: '占位符',
       author: typeof info?.author == 'string' ? info.author as string : _t('未知'),
       version: typeof info?.version == 'string' ? info.version as string : _t('未知'),
       descript: typeof info?.descript == 'string' ? info.descript as string : _t('未知'),
@@ -51,6 +53,7 @@ export const getWidgetInfo = async (name: string) => {
   } catch (err) {
     logError('Get widget metainfo fail: ' + (err as Error).message)
     return {
+      name: '占位符',
       author: _t('未知'),
       version: _t('未知'),
       descript: _t('未知'),
@@ -66,8 +69,9 @@ import desktop from '#manager/main/desktop'
 import { activeWidgetMap } from './mvar'
 
 export const appendWidget = async (rawParam: {
-  // 部件名称
+  // 部件路径
   path: string,
+  beInline: boolean,
   // 用于桌面页：部件属性、位置、配置
   isDragLock?: boolean | null,
   isDisableInteract?: boolean | null,
@@ -90,7 +94,7 @@ export const appendWidget = async (rawParam: {
     .filter(key => rawParam[key] !== null && rawParam[key] !== undefined)
     // @ts-ignore
     .reduce((obj, key) => { obj[key] = rawParam[key]; return obj }, {} as RemoveNull<typeof rawParam>)
-  const { path, title, model } = param
+  const { path, beInline, title, model } = param
 
   // 1、生成 ID
   let id = Math.random().toString(16).slice(2)
@@ -135,6 +139,7 @@ export const appendWidget = async (rawParam: {
     {
       id: id,
       path: path,
+      beInline: beInline,
       title: title ?? (path.startsWith(prefixMark) ? _t(path.replace(prefixMark, '')) : path)
     },
     widgetInfo,
@@ -192,8 +197,9 @@ export const FileToStorageWidget = async (data: any): Promise<StorageWidget | un
 
   return {
     id: data.id,
-
     path: path as string,
+    beInline: typeof data?.beInline == 'boolean' ? data.beInline as boolean : true,
+
     title: typeof data?.title == 'string' ? data.title as string : path as string,
 
     isDragLock: typeof data?.isDragLock == 'boolean' ? data.isDragLock as boolean : false,

@@ -38,6 +38,8 @@ export const useWidgetStore = defineStore('widget', () => {
     })
     return reactive<ComputedRefOf<RuntimeWidget>>({
       id: computed(() => activeWidgetOnSelect.value!.id),
+      path: computed(() => activeWidgetOnSelect.value!.path),
+      beInline: computed(() => activeWidgetOnSelect.value!.beInline),
 
       title: computed({
         get: () => activeWidgetOnSelect.value!.title,
@@ -51,7 +53,7 @@ export const useWidgetStore = defineStore('widget', () => {
           }
         }
       }),
-      path: computed(() => activeWidgetOnSelect.value!.path),
+      name: computed(() => activeWidgetOnSelect.value!.name),
       author: computed(() => activeWidgetOnSelect.value!.author),
       version: computed(() => activeWidgetOnSelect.value!.version),
       descript: computed(() => activeWidgetOnSelect.value!.descript),
