@@ -37,13 +37,15 @@ const appendWidget = async (param: {
   top?: number,
   scale?: number,
   opacity?: number,
-  model: Record<string, any>
+  model: Record<string, any>,
+  [key: string]: any  // 剩余参数：本窗口/桌面窗口用不到的参数
 }) => {
   const {
     id, path,
     isDragLock, isDisableInteract, isAutoHide,
     left, top, scale, opacity,
-    model
+    model,
+    ...others  // 剩余参数
   } = param
   let component
   let style
@@ -164,7 +166,8 @@ const appendWidget = async (param: {
     top: container.offsetTop,
     scale: finalScale,
     opacity: finalOpacity,
-    model: vnode.props!.modelValue
+    model: vnode.props!.modelValue,
+    ...others  // 原样传回剩余参数
   }
 }
 

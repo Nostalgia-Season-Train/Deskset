@@ -63,7 +63,8 @@ class BroadcastDesktopClient {
     top?: number,
     scale?: number,
     opacity?: number,
-    model?: Record<string, any>
+    model?: Record<string, any>,
+    [key: string]: any  // 剩余参数：桌面窗口用不到的参数。传入方便桌面管理类型一致，不用去除键
   }): Promise<{
     id: string,
     path: string,
@@ -76,7 +77,8 @@ class BroadcastDesktopClient {
     top: number,
     scale: number,
     opacity: number,
-    model: Record<string, any>
+    model: Record<string, any>,
+    [key: string]: any  // 剩余参数原样传回保持不变
   }> => {
     return this.hook('appendWidget', [param])
   }
