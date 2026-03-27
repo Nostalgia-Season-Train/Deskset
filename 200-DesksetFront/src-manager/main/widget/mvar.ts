@@ -8,9 +8,14 @@ export interface RegisterModelOptionItem {
   descript?: string  // 选项描述
 }
 
-export interface WidgetClass {
-  path: string
-  beInline: boolean
+// 部件类 Widgetcls 标识符
+export interface WidgetclsID {
+  path: string       // 路径：比如 note/base 就是内联部件数据库的路径（src-widget/note/base.vue）
+  beInline: boolean  // 是否内联，be 代表特殊布尔属性区分 is
+}
+// Widgetcls 命名相比 WidgetClass 更能区分 Widget，说明是两种类型
+export interface Widgetcls extends WidgetclsID {
+  main: Function  // 动态导入内联部件的函数，返回 Promise（仅在桌面窗口使用）
 
   name: string
   author: string
@@ -32,12 +37,12 @@ export interface WidgetClass {
   }
 }
 
-export interface StorageWidget {
+// 部件实例 Widget 标识符（标识符在添加部件时必须带上）
+export interface StorageWidgetID extends WidgetclsID {
   id: string
-  path: string       // 路径：比如 note/base 就是内联部件数据库的路径（src-widget/note/base.vue）
-  beInline: boolean  // 是否内联，be 代表特殊布尔属性区分 is
-
-  title: string  // 标题：用户可以自定义标题，默认等于 name 属性
+}
+export interface StorageWidget extends StorageWidgetID {
+  title: string  // 标题：用户可以自定义标题，默认等于 name 属性（仅在桌面窗口使用）
 
   isDragLock: boolean
   isDisableInteract: boolean
@@ -52,7 +57,6 @@ export interface StorageWidget {
   // （部件）模型，也就是部件的配置
   model: Record<string, any>
 }
-
 export interface RuntimeWidget extends StorageWidget {
   // 由部件目录下 metainfo.json 声明
   name: string      // 名称
@@ -65,7 +69,7 @@ export interface RuntimeWidget extends StorageWidget {
   y: number
 
   // （部件模型）选项，定义 routers.Widget.EditMenu 如何编辑 widget.model
-  option?: WidgetClass['option']
+  option?: Widgetcls['option']
 }
 
 export const activeWidgetMap = reactive(new Map<string, RuntimeWidget>())

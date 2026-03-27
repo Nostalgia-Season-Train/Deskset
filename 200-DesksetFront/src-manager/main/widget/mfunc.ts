@@ -20,13 +20,13 @@ export const getWidgetNameList = async (): Promise<string[]> => {
 
 
 /* === 从 widget 库：返回部件信息（元数据） === */
-import { WidgetClass } from './mvar'
+import { Widgetcls } from './mvar'
 import { inlineRawWidgetMap, prefixMark } from '#widget/register'
 
 export const getWidgetInfo = async (name: string) => {
   // 内联部件
   if (name.startsWith(prefixMark)) {
-    const registerModel = inlineRawWidgetMap.get(name)!.metainfo as WidgetClass
+    const registerModel = inlineRawWidgetMap.get(name)!.metainfo as Widgetcls
     return {
       name: '占位符',
       author: _t(registerModel.author),
