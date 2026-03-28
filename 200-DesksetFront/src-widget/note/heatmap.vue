@@ -118,8 +118,8 @@ refresh()
 
   <div class="left">
     <div class="title">
-      <FileEdit/>
-      <span>编辑数量</span>
+      <div class="icon__wrapper"><FileEdit/></div>
+      <div>编辑数量</div>
     </div>
     <div>总数：{{ total }}</div>
     <div>范围：前 {{ weeknum }} 周</div><!-- 包括本周，文本太长放不下 -->
@@ -149,11 +149,21 @@ refresh()
   .dsw-box();
 
   .left {
-    padding: 4px 0 0 4px;
+    padding-left: 4px;
     height: 100%;
+    &>div {
+      .dsw-text();
+    }
     .title {
+      margin: 3px 0;
       display: flex;
       align-items: center;
+      gap: 3px;
+      color: #000;
+      .icon__wrapper {
+        display: flex;
+        align-items: center;
+      }
     }
   }
   .echart__wrapper {
