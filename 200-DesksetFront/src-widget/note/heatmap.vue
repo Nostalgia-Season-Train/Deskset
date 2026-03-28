@@ -18,6 +18,8 @@ import VChart from 'vue-echarts'
 import * as echarts from 'echarts'
 import { SVGRenderer } from 'echarts/renderers'
 import dayjs from 'dayjs'
+import isoWeek from 'dayjs/plugin/isoWeek'
+dayjs.extend(isoWeek)  // dayjs().startOf('isoWeek') 需要此插件
 
 echarts.use([SVGRenderer])
 
