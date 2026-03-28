@@ -3,7 +3,6 @@ import { computed, reactive, toRaw, ref, watch } from 'vue'
 import { ComputedRef } from 'vue'
 import { _t } from '#manager/main/i18n'
 import desktop from '#manager/main/desktop'
-import { prefixMark } from '#widget/register'
 import {
   activeWidgetMap,
   RuntimeWidget,
@@ -45,9 +44,7 @@ export const useWidgetStore = defineStore('widget', () => {
         get: () => activeWidgetOnSelect.value!.title,
         set: (v: string) => {
           if (v === '') {
-            activeWidgetOnSelect.value!.title =
-              activeWidgetOnSelect.value!.path.startsWith(prefixMark) ?
-                _t(activeWidgetOnSelect.value!.path.replace(prefixMark, '')) : activeWidgetOnSelect.value!.path
+            activeWidgetOnSelect.value!.title = activeWidgetOnSelect.value!.name
           } else {
             activeWidgetOnSelect.value!.title = v
           }
