@@ -20,7 +20,7 @@ const desktopMain = useTemplateRef('desktopMain')
 import { h, render, defineAsyncComponent } from 'vue'
 import { reactive, watch, toRaw } from 'vue'
 import { compile } from './main/compile'
-import { inlineRawWidgetMap, prefixMark } from '#widget/register'
+import { inlineWidgetclsMap } from '#widget/register'
 import { stat, BaseDirectory } from '@tauri-apps/plugin-fs'
 import { DesktopSendChannel } from './global/channel'
 
@@ -30,6 +30,7 @@ const desktopSend = DesktopSendChannel
 const appendWidget = async (param: {
   id: string,
   path: string,
+  beInline: boolean,
   isDragLock?: boolean,
   isDisableInteract?: boolean,
   isAutoHide?: boolean,
@@ -41,7 +42,7 @@ const appendWidget = async (param: {
   [key: string]: any  // 剩余参数：本窗口/桌面窗口用不到的参数
 }) => {
   const {
-    id, path,
+    id, path, beInline,
     isDragLock, isDisableInteract, isAutoHide,
     left, top, scale, opacity,
     model,
@@ -50,8 +51,8 @@ const appendWidget = async (param: {
   let component
   let style
 
-  if (path.startsWith(prefixMark)) {
-    component = defineAsyncComponent(inlineRawWidgetMap.get(path)!.main)
+  if (beInline) {
+    component = defineAsyncComponent(inlineWidgetclsMap.get(path)!.main)
     style = null
   } else {
     // 查找编译缓存
@@ -154,9 +155,11 @@ const appendWidget = async (param: {
     unwatch: unwatch
   })
 
+  // - [ ] 注意！解包/使用过的参数要传回去，后面通过 解包参数 + 剩余参数 === 原参数 判断是否遗漏
   return {
     id: id,
     path: path,
+    beInline: beInline,
     isDragLock: finalIsDragLock,
     isDisableInteract: finalIsDisableInteract,
     isAutoHide: finalIsAutoHide,

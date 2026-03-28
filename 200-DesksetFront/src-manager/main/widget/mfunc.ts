@@ -3,11 +3,21 @@ import { readDir, readTextFile, BaseDirectory } from '@tauri-apps/plugin-fs'
 import { error as logError } from '@tauri-apps/plugin-log'
 import { RuntimeWidget, StorageWidget, exampleStorageWidget } from './mvar'
 
+/* --- 处理内联部件类 --- */
+import { Widgetcls } from './mvar'
+import { inlineWidgetclsMap as rawInlineWidgetclsMap } from '#widget/register'
+// 添加类型
+const inlineWidgetclsMap = rawInlineWidgetclsMap as Map<string, Widgetcls>
+// 翻译内联部件类的名称、作者和描述
+for (const widgetClass of inlineWidgetclsMap.values()) {
+  for (const key in widgetClass)
+    if (key === 'name' || key === 'author' || key === 'descript')
+      widgetClass[key] = _t(widgetClass[key])
+}
+
 
 /* === 从 widget 库：返回部件名称列表 === */
-import { inlineWidgetList } from '#widget/register'
-
-export const getWidgetNameList = async (): Promise<string[]> => {
+export const getWidgetNameList = async () => {
   const entrys = await readDir('./widgets', { baseDir: BaseDirectory.Resource })
 
   let widgetNameList = []
@@ -15,23 +25,21 @@ export const getWidgetNameList = async (): Promise<string[]> => {
     if (entry.isDirectory)
       widgetNameList.push(entry.name)
   }
-  return [...inlineWidgetList, ...widgetNameList]
+  // - [ ] 暂时不返回外部部件类
+  return [...inlineWidgetclsMap.values()]
 }
 
 
 /* === 从 widget 库：返回部件信息（元数据） === */
-import { Widgetcls } from './mvar'
-import { inlineRawWidgetMap, prefixMark } from '#widget/register'
-
-export const getWidgetInfo = async (name: string) => {
+export const getWidgetInfo = async (path: string, beInline: boolean) => {
   // 内联部件
-  if (name.startsWith(prefixMark)) {
-    const registerModel = inlineRawWidgetMap.get(name)!.metainfo as Widgetcls
+  if (beInline) {
+    const registerModel = inlineWidgetclsMap.get(path) as Widgetcls
     return {
-      name: '占位符',
-      author: _t(registerModel.author),
+      name: registerModel.name,
+      author: registerModel.author,
       version: registerModel.version,
-      descript: _t(registerModel.descript),
+      descript: registerModel.descript,
       model: registerModel.model ?? Object.create(null),  // Object.create(null) 相当于 Record<string, any>
       option: registerModel.option
     }
@@ -39,11 +47,11 @@ export const getWidgetInfo = async (name: string) => {
 
   // 外部部件
   try {
-    const text = await readTextFile(`./widgets/${name}/metainfo.json`, { baseDir: BaseDirectory.Resource })
+    const text = await readTextFile(`./widgets/${path}.json`, { baseDir: BaseDirectory.Resource })
 
     const info = JSON.parse(text)
     return {
-      name: '占位符',
+      name: typeof info?.name == 'string' ? info.name as string : _t('未知'),
       author: typeof info?.author == 'string' ? info.author as string : _t('未知'),
       version: typeof info?.version == 'string' ? info.version as string : _t('未知'),
       descript: typeof info?.descript == 'string' ? info.descript as string : _t('未知'),
@@ -53,7 +61,7 @@ export const getWidgetInfo = async (name: string) => {
   } catch (err) {
     logError('Get widget metainfo fail: ' + (err as Error).message)
     return {
-      name: '占位符',
+      name: _t('未知'),
       author: _t('未知'),
       version: _t('未知'),
       descript: _t('未知'),
@@ -106,7 +114,7 @@ export const appendWidget = async (rawParam: {
   }
 
   // 2、获取部件信息（元数据）
-  const widgetInfo = await getWidgetInfo(path)
+  const widgetInfo = await getWidgetInfo(path, beInline)
   const registerModel = widgetInfo.model
 
   // 2.1、从（部件）注册模型生成默认模型
@@ -140,7 +148,7 @@ export const appendWidget = async (rawParam: {
       id: id,
       path: path,
       beInline: beInline,
-      title: title ?? (path.startsWith(prefixMark) ? _t(path.replace(prefixMark, '')) : path)
+      title: title ?? widgetInfo.name
     },
     widgetInfo,
     widgetData
@@ -162,7 +170,10 @@ export const RuntimeToStorageWidget = async (widget: RuntimeWidget): Promise<Sto
 // 验证文件中部件，一般来说 文件中部件 = 持久化部件
 export const FileToStorageWidget = async (data: any): Promise<StorageWidget | undefined> => {
   const path = data?.path
-  if (typeof path != 'string')
+  const beInline = data?.beInline
+  if (typeof path !== 'string')
+    return undefined
+  if (typeof beInline !== 'boolean')
     return undefined
 
   /* --- 补全内联部件配置 --- */
@@ -190,8 +201,8 @@ export const FileToStorageWidget = async (data: any): Promise<StorageWidget | un
     return result
   }
 
-  if (path.startsWith(prefixMark)) {
-    const defaultModel = inlineRawWidgetMap.get(path)!.metainfo?.model ?? {}  // 暂且默认 name 对应部件存在
+  if (beInline) {
+    const defaultModel = inlineWidgetclsMap.get(path)?.model ?? {}  // 暂且默认 path 对应内联部件类存在
     model = await fillMissingKeys(model, defaultModel)
   }
 

@@ -16,13 +16,12 @@ import {
 
 /* === 选项 === */
 import { ref } from 'vue'
+import { Widgetcls } from '#manager/main/widget'
 
-const options = ref<string[]>()
+const options = ref<Widgetcls[]>()
 
 
 /* === 菜单 === */
-import { prefixMark } from '#widget/register'
-
 const openMenu = async () => {
   options.value = await store.getWidgetNameList()
 }
@@ -44,9 +43,9 @@ const openMenu = async () => {
         style="max-height: 80vh; width: 150px; min-width: 150px; max-width: 150px;"
       >
         <ElDropdownItem v-for="option in options" @click="$emit('select', {
-          path: option, beInline: true
+          path: option.path, beInline: option.beInline
         })"><!-- [ ] 这里没有类型检查！？ -->
-          {{ option.startsWith(prefixMark) ? _t(option.replace(prefixMark, '')) : option }}
+          {{ option.name }}
         </ElDropdownItem>
       </ElDropdownMenu>
     </template>
