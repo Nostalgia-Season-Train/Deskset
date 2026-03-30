@@ -117,7 +117,7 @@ const listVueFilepaths = async (vueDirpath: string) => {
   for (const entry of await readDir(vueDirpath, { baseDir: BaseDirectory.Resource })) {
     if (entry.isFile && entry.name.endsWith('.vue'))
       vueFilepaths.push(`${vueDirpath}/${entry.name}`)
-    else
+    if (entry.isDirectory)
       vueFilepaths = [...vueFilepaths, ...await listVueFilepaths(`${vueDirpath}/${entry.name}`)]
   }
   return vueFilepaths
