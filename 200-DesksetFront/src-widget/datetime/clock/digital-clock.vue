@@ -11,7 +11,7 @@ const time = reactive({
 })
 
 const refresh = async () => {
-  const now = dayjs()
+  const now = dayjs().locale('en')
   time.hour = now.format('HH')
   time.minute = now.format('mm')
   time.dayofweek = now.format('dddd')
