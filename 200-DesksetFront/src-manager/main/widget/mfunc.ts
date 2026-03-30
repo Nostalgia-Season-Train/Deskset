@@ -1,73 +1,26 @@
 import { _t } from '#manager/main/i18n'
-import { readDir, readTextFile, BaseDirectory } from '@tauri-apps/plugin-fs'
 import { error as logError } from '@tauri-apps/plugin-log'
 import { RuntimeWidget, StorageWidget, exampleStorageWidget } from './mvar'
 
-/* --- 处理内联部件类 --- */
-import { Widgetcls } from './mvar'
-import { inlineWidgetclsMap as rawInlineWidgetclsMap } from '#widget/register'
-// 添加类型
-const inlineWidgetclsMap = rawInlineWidgetclsMap as Map<string, Widgetcls>
-// 翻译内联部件类的名称、作者和描述
-for (const widgetClass of inlineWidgetclsMap.values()) {
-  for (const key in widgetClass)
-    if (key === 'name' || key === 'author' || key === 'descript')
-      widgetClass[key] = _t(widgetClass[key])
-}
-
-
-/* === 从 widget 库：返回部件名称列表 === */
-export const getWidgetNameList = async () => {
-  const entrys = await readDir('./widgets', { baseDir: BaseDirectory.Resource })
-
-  let widgetNameList = []
-  for (const entry of entrys) {
-    if (entry.isDirectory)
-      widgetNameList.push(entry.name)
-  }
-  // - [ ] 暂时不返回外部部件类
-  return [...inlineWidgetclsMap.values()]
-}
-
 
 /* === 从 widget 库：返回部件信息（元数据） === */
+import { Widgetcls } from './mvar'
+import { inlineWidgetclsMap, outsideWidgetclsMap } from './mvar'
+
 export const getWidgetInfo = async (path: string, beInline: boolean) => {
-  // 内联部件
-  if (beInline) {
-    const registerModel = inlineWidgetclsMap.get(path) as Widgetcls
-    return {
-      name: registerModel.name,
-      author: registerModel.author,
-      version: registerModel.version,
-      descript: registerModel.descript,
-      model: registerModel.model ?? Object.create(null),  // Object.create(null) 相当于 Record<string, any>
-      option: registerModel.option
-    }
-  }
+  let registerModel
+  if (beInline)
+    registerModel = inlineWidgetclsMap.get(path) as Widgetcls
+  else
+    registerModel = outsideWidgetclsMap.get(path) as Widgetcls
 
-  // 外部部件
-  try {
-    const text = await readTextFile(`./widgets/${path}.json`, { baseDir: BaseDirectory.Resource })
-
-    const info = JSON.parse(text)
-    return {
-      name: typeof info?.name == 'string' ? info.name as string : _t('未知'),
-      author: typeof info?.author == 'string' ? info.author as string : _t('未知'),
-      version: typeof info?.version == 'string' ? info.version as string : _t('未知'),
-      descript: typeof info?.descript == 'string' ? info.descript as string : _t('未知'),
-      model: Object.create(null),
-      option: undefined
-    }
-  } catch (err) {
-    logError('Get widget metainfo fail: ' + (err as Error).message)
-    return {
-      name: _t('未知'),
-      author: _t('未知'),
-      version: _t('未知'),
-      descript: _t('未知'),
-      model: Object.create(null),
-      option: undefined
-    }
+  return {
+    name: registerModel.name,
+    author: registerModel.author,
+    version: registerModel.version,
+    descript: registerModel.descript,
+    model: registerModel.model ?? Object.create(null),  // Object.create(null) 相当于 Record<string, any>
+    option: registerModel.option
   }
 }
 
@@ -186,7 +139,7 @@ export const FileToStorageWidget = async (data: any): Promise<StorageWidget | un
   ): Promise<Record<string, any>> => {
     // const result = { ...model }
     // 上面是错误方法，可能会将内部数组 Record<string, Array> 转换成对象 Record<string, Record<number, Any>>
-      // 例如 { filters: [Any] } > { filters: { 0: Any } }
+    // 例如 { filters: [Any] } > { filters: { 0: Any } }
     const result = JSON.parse(JSON.stringify(model))
 
     for (const key in defaultModel) {

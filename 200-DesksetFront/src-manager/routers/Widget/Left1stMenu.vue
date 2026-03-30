@@ -23,7 +23,7 @@ const options = ref<Widgetcls[]>()
 
 /* === 菜单 === */
 const openMenu = async () => {
-  options.value = await store.getWidgetNameList()
+  options.value = await store.widgetclses
 }
 </script>
 

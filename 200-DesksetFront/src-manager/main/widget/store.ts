@@ -4,21 +4,25 @@ import { ComputedRef } from 'vue'
 import { _t } from '#manager/main/i18n'
 import desktop from '#manager/main/desktop'
 import {
-  activeWidgetMap,
   RuntimeWidget,
+  inlineWidgetclsMap,
+  outsideWidgetclsMap,
+  activeWidgetMap,
   activeWidgetOnSelect
 } from './mvar'
 import {
-  getWidgetNameList as rawGetWidgetNameList,
   appendWidget as rawAppendWidget
 } from './mfunc'
 
 export const useWidgetStore = defineStore('widget', () => {
   const widgets = computed({
-    get() { return Array.from(activeWidgetMap.values()) as RuntimeWidget[] },
+    get() { return Array.from(activeWidgetMap.values()) as RuntimeWidget[] },  // - [ ] 为啥没有自动推导出 RuntimeWidget[] 类型？
     set() { }
   })
-  const getWidgetNameList = rawGetWidgetNameList  // - [ ] 改成属性，监控文件系统更新列表
+  const widgetclses = computed({
+    get() { return [...inlineWidgetclsMap.values(), ...outsideWidgetclsMap.values()] },
+    set() { }
+  })
 
   type ComputedRefOf<T> = {
     [K in keyof T]: ComputedRef<T[K]>
@@ -149,7 +153,7 @@ export const useWidgetStore = defineStore('widget', () => {
 
   return {
     widgets,
-    getWidgetNameList,
+    widgetclses,
 
     widgetOnSelect,
     selectWidget,

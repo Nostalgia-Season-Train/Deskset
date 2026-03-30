@@ -91,3 +91,72 @@ export const exampleStorageWidget: StorageWidget = {
   opacity: 1,
   model: {}
 }
+
+
+/* ==== 部件类列表 ==== */
+import { _t } from '#manager/main/i18n'
+
+/* --- 内联部件类 --- */
+import { inlineWidgetclsMap as rawInlineWidgetclsMap } from '#widget/register'
+// 添加类型
+const _inlineWidgetclsMap = rawInlineWidgetclsMap as Map<string, Widgetcls>
+// 翻译内联部件类的名称、作者和描述
+for (const widgetClass of _inlineWidgetclsMap.values()) {
+  for (const key in widgetClass)
+    if (key === 'name' || key === 'author' || key === 'descript')
+      widgetClass[key] = _t(widgetClass[key])
+}
+export const inlineWidgetclsMap = _inlineWidgetclsMap
+
+/* --- 外部部件类 --- */
+import { readDir, readTextFile, BaseDirectory } from '@tauri-apps/plugin-fs'
+import { error as logError } from '@tauri-apps/plugin-log'
+
+const listVueFilepaths = async (vueDirpath: string) => {
+  let vueFilepaths: string[] = []
+  for (const entry of await readDir(vueDirpath, { baseDir: BaseDirectory.Resource })) {
+    if (entry.isFile && entry.name.endsWith('.vue'))
+      vueFilepaths.push(`${vueDirpath}/${entry.name}`)
+    else
+      vueFilepaths = [...vueFilepaths, ...await listVueFilepaths(`${vueDirpath}/${entry.name}`)]
+  }
+  return vueFilepaths
+}
+
+const readWidgetInfo = async (path: string) => {
+  try {
+    const info = JSON.parse(await readTextFile(`./widgets/${path}.json`, { baseDir: BaseDirectory.Resource }))
+    return {
+      name: typeof info?.name == 'string' ? info.name as string : _t('未知'),
+      author: typeof info?.author == 'string' ? info.author as string : _t('未知'),
+      version: typeof info?.version == 'string' ? info.version as string : _t('未知'),
+      descript: typeof info?.descript == 'string' ? info.descript as string : _t('未知'),
+      model: Object.create(null),
+      option: undefined
+    }
+  } catch (err) {
+    logError('Get widget metainfo fail: ' + (err as Error).message)
+    return {
+      name: _t('未知'),
+      author: _t('未知'),
+      version: _t('未知'),
+      descript: _t('未知'),
+      model: Object.create(null),
+      option: undefined
+    }
+  }
+}
+
+const WIDGET_LIB = 'widgets'
+
+const _outsideWidgetclsMap: Map<string, Widgetcls> = new Map()
+for (const sfcpath of await listVueFilepaths(WIDGET_LIB)) {
+  const path = sfcpath.slice(`${WIDGET_LIB}/`.length, -'.vue'.length)
+  _outsideWidgetclsMap.set(path, {
+    main: () => { },
+    path: path,
+    beInline: false,
+    ...await readWidgetInfo(path)
+  })
+}
+export const outsideWidgetclsMap = _outsideWidgetclsMap
