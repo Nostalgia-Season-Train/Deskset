@@ -10,9 +10,9 @@ import { parse as acornParse } from 'acorn'
 import MagicString from 'magic-string'
 
 
-export const compile = async (name: string): Promise<{ js: string, css: string }> => {
+export const compile = async (path: string): Promise<{ js: string, css: string }> => {
   /* --- 0、读取 vue 文件 --- */
-  const rawText = await readTextFile(`./widgets/${name}/main.vue`, { baseDir: BaseDirectory.Resource })
+  const rawText = await readTextFile(`./widgets/${path}.vue`, { baseDir: BaseDirectory.Resource })
 
   // 预检 rawText 确保 <script setup> 存在且不为空（<script setup></script>）
   const { descriptor: preDescriptor } = sfcParse(rawText)
@@ -27,10 +27,10 @@ export const compile = async (name: string): Promise<{ js: string, css: string }
       if (error.stack)
         logError(error.stack)
     }
-    throw Error(`widgets/${name}/main.vue compile failed`)
+    throw Error(`widgets/${path}.vue compile failed`)
   }
 
-  const scopeId = `data-v-dyn${name}`  // 样式作用域 ID
+  const scopeId = `data-v-dyn_${path.replaceAll('/', '-')}`  // 样式作用域 ID
 
   /* --- 2.1、生成组件 JS 代码：编译 JS --- */
     // 参考文章：https://vue-compiler.iamouyang.cn/guide/vue-to-js.html

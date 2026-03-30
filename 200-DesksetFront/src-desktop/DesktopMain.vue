@@ -56,7 +56,8 @@ const appendWidget = async (param: {
     style = null
   } else {
     // 查找编译缓存
-    const mtime = (await stat(`./widgets/${path}/main.vue`, { baseDir: BaseDirectory.Resource })).mtime?.toString() ?? null
+    // - [ ] widgets 改成 WIDGET_LIB 和管理窗一致
+    const mtime = (await stat(`./widgets/${path}.vue`, { baseDir: BaseDirectory.Resource })).mtime?.toString() ?? null
 
     let cache = compileCache.get(path)
     if (cache == undefined || cache.mtime != mtime) {
