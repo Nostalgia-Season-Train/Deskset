@@ -127,7 +127,7 @@ async def get_mcp_tools():
         } for raw_tool in raw_tools ]
     return tools
 
-from openai import OpenAI
+from openai import AsyncOpenAI as OpenAI
 from fastmcp import Client
 
 class AIManager:
@@ -176,7 +176,7 @@ class AIManager:
         # MCP Tools
         mcp_tools = await get_mcp_tools()
         # Response
-        response = self._ai_client.responses.create(
+        response = await self._ai_client.responses.create(
             model=config.ai_model,
             input=self._messages,  # type: ignore
             tools=mcp_tools,  # type: ignore
@@ -215,14 +215,14 @@ class AIManager:
         # 上下文：添加用户消息
         self._messages.append({ 'role': 'user', 'content': user_message })
         response = await self._create_response()
-        for chunk in response:
+        async for chunk in response:
             await self._deal_with_chunk(chunk)
             yield chunk.to_json(indent=None) + '\n'  # indent=None 紧凑格式；结尾加 \n 分割 json
         # 上一条消息是 MCP 结果，继续回复
         while self._messages[len(self._messages) - 1].get('type', None) == 'function_call_output':
             # _deal_with_chunk 回填结果，创建最终回复
             response = await self._create_response()
-            for chunk in response:
+            async for chunk in response:
                 await self._deal_with_chunk(chunk)
                 yield chunk.to_json(indent=None) + '\n'
         return
