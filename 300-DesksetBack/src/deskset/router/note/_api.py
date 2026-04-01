@@ -3,6 +3,32 @@ from typing import Any, TypedDict
 
 
 
+# ==== ==== 异步事件迭代器 ==== ====
+from asyncio import Queue
+
+class AsyncEventIterator:
+    def __init__(self) -> None:
+        self._queue: Queue[Any] = Queue()
+        self._sentinel: object = object()
+
+    def __aiter__(self) -> AsyncEventIterator:
+        return self
+
+    async def __anext__(self) -> Any:
+        event = await self._queue.get()
+        if event is self._sentinel:
+            raise StopAsyncIteration
+        return event
+
+    async def send(self, event: Any) -> None:
+        await self._queue.put(event)
+
+    # 主动关闭迭代器，适用于服务器退出的情况
+    async def close(self) -> None:
+        await self._queue.put(self._sentinel)
+
+
+
 # ==== ==== NoteAPI ==== ====
 from asyncio import Future, get_event_loop
 from asyncio import Event
@@ -18,7 +44,8 @@ from ._rpc import RpcClient
 
 class NoteAPI:
     _rpc: RpcClient | None
-    _event = dict[str, list[Future]]
+    _event: dict[str, list[Future]]
+    _event_iters: set[AsyncEventIterator]  # 当作数组使用，复数命名
 
     def __init__(self) -> None:
         self._rpc = None
@@ -27,6 +54,7 @@ class NoteAPI:
             'dataview:metadata-change': []
         }
         self.event_onoffline = Event()
+        self._event_iters = set()
 
 
     # ==== 状态 Status ====
@@ -48,11 +76,41 @@ class NoteAPI:
         self.event_onoffline.set()
         self.event_onoffline.clear()
 
+    async def trigger_online_event(self)-> None:
+        await self._send({ 'event': 'online', 'value': True })
+
+    async def trigger_offline_event(self)-> None:
+        await self._send({ 'event': 'offline', 'value': False })
+
+
+    # ==== 发布/订阅事件流（事件迭代器） ====
+    from contextlib import asynccontextmanager
+
+    @asynccontextmanager
+    async def subscribe(self):
+        event_iter = AsyncEventIterator()
+        # - [ ] 架构待讨论：初始化时，放入上下线事件，方便 stream 直接从 for 开始轮询
+        if self.is_online():
+            await event_iter.send({ 'event': 'online', 'value': True })
+        else:
+            await event_iter.send({ 'event': 'offline', 'value': False })
+        self._event_iters.add(event_iter)
+        try:
+            yield event_iter
+        finally:
+            self._event_iters.remove(event_iter)
+
+    async def _send(self, event):
+        for event_iter in self._event_iters:
+            await event_iter.send(event)
+
+
     # ==== 事件 Event ====
     # 例：接收 active-leaf-change 触发 self._event_active_leaf_change 事件
     async def _trigger_event(self, response: dict) -> None:
         event = response.get('event', None)
         value = response.get('value', None)
+        await self._send({ 'event': event, 'value': value })
         if event == 'active-leaf-change':
             for future in self._event['active-leaf-change']:  # type: ignore  # Pylance 无法识别键，原因未知
                 future.set_result(value)
@@ -98,15 +156,15 @@ class NoteAPI:
         task_num: int    # 任务总数
     async def get_vault_status(self) -> NoteAPI.VaultStatus:
         self.check_online()
-        return await self._rpc.call_remote_procedure('get_vault_status', [])
+        return await self._rpc.call_remote_procedure('get_vault_status', [])  # type: ignore
 
     async def get_heatmap(self, start_day, end_day) -> dict[str, int]:
         self.check_online()
-        return await self._rpc.call_remote_procedure('get_heatmap', [start_day, end_day])
+        return await self._rpc.call_remote_procedure('get_heatmap', [start_day, end_day])  # type: ignore
 
     async def get_active_file(self) -> str:
         self.check_online()
-        return await self._rpc.call_remote_procedure('get_active_file', [])
+        return await self._rpc.call_remote_procedure('get_active_file', [])  # type: ignore
 
     # --- 查询建议 ---
     class SuggestFile(TypedDict):
@@ -115,12 +173,12 @@ class NoteAPI:
         path: str  # 文件相对仓库的路径
     async def suggest_by_switcher(self, query: str) -> list[NoteAPI.SuggestFile]:
         self.check_online()
-        return await self._rpc.call_remote_procedure('suggest_by_switcher', [query])
+        return await self._rpc.call_remote_procedure('suggest_by_switcher', [query])  # type: ignore
 
     # --- 数据分析 ---
     async def filter_frontmatter(self, filter_group: object):
         self.check_online()
-        return await self._rpc.call_remote_procedure('filter_frontmatter', [filter_group])
+        return await self._rpc.call_remote_procedure('filter_frontmatter', [filter_group])  # type: ignore
 
     # --- 日记 Diary ---
     class DiarySetting(TypedDict):
@@ -243,8 +301,7 @@ async def rpc(websocket: WebSocket):
 
     # 上线 > 轮询接收 > 下线
     noteapi._rpc = RpcClient(websocket)
-    await noteapi.trigger_onoffline_event()
-
+    await noteapi.trigger_online_event()
     try:
         while True:
             response = await websocket.receive_json()
@@ -254,9 +311,9 @@ async def rpc(websocket: WebSocket):
                 await noteapi._rpc.on_receive(response)
     except WebSocketDisconnect:
         pass
-
-    await noteapi.trigger_onoffline_event()
+    await noteapi.trigger_offline_event()
     noteapi._rpc = None
+
     # 断开 Websocket 连接 + api._rpc = None 之后，触发下线事件
     await noteapi._trigger_offline()
 
