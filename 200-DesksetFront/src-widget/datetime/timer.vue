@@ -103,35 +103,34 @@ onBeforeUnmount(() => {
   <div class="countdown-container">
     <div class="header">
       <div class="time-selector">
-        <div class="preset-buttons">
-          <div
-            v-for="minute in [1, 3, 5]" 
-            :key="minute"
-            class="preset-btn"
-            @click="selectDuration(minute)"
-          >
-            {{ minute }}分钟
-          </div>
-        </div>
 
-        <div class="custom-input">
+        <!-- 时间输入框 -->
+        <div class="custom-input" v-if="timerState === TimerState.IDLE">
           <input
             v-model="customInput"
             type="number"
             min="1"
             placeholder="自定义秒数"
+            @blur="setCustomTime"
             @keyup.enter="setCustomTime"
           />
-          <button class="custom-btn" @click="setCustomTime">
-            设置
-          </button>
         </div>
-      </div>
-    </div>
 
-    <div class="timer-display">
-      <div class="timer-value">{{ formattedTime }}</div>
-      <div class="timer-label">剩余时间</div>
+        <div class="timer-display" v-else>
+          <div class="timer-value">{{ formattedTime }}</div>
+        </div>
+
+        <!-- 时间预选框 -->
+        <div class="preset-buttons" v-if="timerState === TimerState.IDLE">
+          <div
+            v-for="minute in [1, 3, 5]" 
+            :key="minute"
+            class="preset-btn"
+            @click="selectDuration(minute)"
+          >+{{ minute }}:00</div>
+        </div>
+
+      </div>
     </div>
 
     <div class="controls">
@@ -162,8 +161,18 @@ onBeforeUnmount(() => {
   padding: 10px;
   width: fit-content;
   .dsw-box();
-  color: #FFF;
   text-align: center;
+
+  .custom-input input {
+    .dsw-text-title();
+  }
+  .timer-value {
+    .dsw-text-title();
+    font-feature-settings: 'ss01', 'tnum';
+  }
+  .preset-btn {
+    .dsw-text();
+  }
 }
 
 .time-selector {
@@ -178,27 +187,10 @@ onBeforeUnmount(() => {
   gap: 0.5rem;
 }
 
-.preset-btn {
-  .dsw-text();
-  background: #FFF;
-}
-
 .custom-input {
   display: flex;
   gap: 0.5rem;
   justify-content: center;
-}
-
-.custom-input input {
-  flex: 1;
-  padding: 0.7rem 1rem;
-  border-radius: 12px;
-  border: none;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  font-size: 1rem;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .custom-input input::placeholder {
@@ -223,14 +215,6 @@ onBeforeUnmount(() => {
 
 .timer-display {
   margin: 2rem 0;
-}
-
-.timer-value {
-  font-size: 3.5rem;
-  font-weight: bold;
-  letter-spacing: 2px;
-  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  margin-bottom: 0.5rem;
 }
 
 .timer-label {
