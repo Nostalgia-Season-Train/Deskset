@@ -134,6 +134,12 @@ onBeforeUnmount(() => {
     </div>
 
     <div class="controls">
+      <!-- 重置按钮 -->
+      <button
+        class="control-btn reset-btn" 
+        @click="resetTimer"
+      >重置</button>
+      <!-- 开始/暂停/继续切换按钮 -->
       <button 
         class="control-btn start-btn" 
         @click="toggleTimer"
@@ -143,14 +149,8 @@ onBeforeUnmount(() => {
         </span>
         <span v-else>暂停</span>
       </button>
-
-      <button
-        class="control-btn reset-btn" 
-        @click="resetTimer"
-      >
-        重置
-      </button>
     </div>
+
   </div>
 </template>
 
@@ -172,6 +172,10 @@ onBeforeUnmount(() => {
   }
   .preset-btn {
     .dsw-text();
+  }
+
+  .control-btn {
+    border: none;
   }
 }
 
@@ -226,20 +230,6 @@ onBeforeUnmount(() => {
   display: flex;
   justify-content: center;
   gap: 1.5rem;
-}
-
-.control-btn {
-  padding: 0.8rem 2rem;
-  border: none;
-  border-radius: 12px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
 }
 
 .start-btn {
