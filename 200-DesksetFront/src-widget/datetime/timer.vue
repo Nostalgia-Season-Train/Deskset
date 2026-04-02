@@ -38,7 +38,7 @@ const selectDuration = (minutes: number) => {
   duration.value = minutes * 60;
   remaining.value = duration.value;
   isCustom.value = false;
-  customInput.value = '';
+  customInput.value = String(remaining.value / 60)
 };
 
 // 设置自定义时间
@@ -46,7 +46,7 @@ const setCustomTime = () => {
   resetTimer()
   const input = parseInt(customInput.value);
   if (input > 0) {
-    duration.value = input;
+    duration.value = input * 60
     remaining.value = duration.value;
     isCustom.value = true;
   }
