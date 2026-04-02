@@ -49,6 +49,8 @@ const setCustomTime = () => {
     duration.value = input * 60
     remaining.value = duration.value;
     isCustom.value = true;
+  } else {
+    customInput.value = String(remaining.value / 60)
   }
 };
 
@@ -108,7 +110,6 @@ onBeforeUnmount(() => {
         <div class="custom-input" v-if="timerState === TimerState.IDLE">
           <input
             v-model="customInput"
-            type="number"
             min="1"
             placeholder="自定义秒数"
             @blur="setCustomTime"
@@ -127,7 +128,7 @@ onBeforeUnmount(() => {
             :key="minute"
             class="preset-btn"
             @click="selectDuration(minute)"
-          >+{{ minute }}:00</div>
+          >={{ minute }}:00</div>
         </div>
 
       </div>
@@ -160,10 +161,25 @@ onBeforeUnmount(() => {
 .countdown-container {
   padding: 10px;
   width: fit-content;
+  height: fit-content;
   .dsw-box();
   text-align: center;
 
+  .header {
+    width: 160px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .time-selector {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
+
   .custom-input input {
+    width: 100%;
     .dsw-text-title();
   }
   .timer-value {
@@ -177,12 +193,6 @@ onBeforeUnmount(() => {
   .control-btn {
     border: none;
   }
-}
-
-.time-selector {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
 }
 
 .preset-buttons {
@@ -215,10 +225,6 @@ onBeforeUnmount(() => {
 
 .custom-btn:hover {
   background: rgba(255, 255, 255, 0.3);
-}
-
-.timer-display {
-  margin: 2rem 0;
 }
 
 .timer-label {
