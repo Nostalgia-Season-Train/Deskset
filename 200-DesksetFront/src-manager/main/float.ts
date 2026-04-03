@@ -32,6 +32,14 @@ class FloatManager {
   close = async (page: string) => {
     const window = this.floatList.get(page)
     await window?.close()
+    // 二次关闭
+    setTimeout(async () => {
+      const window = this.floatList.get(page)
+      if (window === undefined)
+        return
+      console.log(`关闭 ${page} 失败，再次关闭！当前浮动窗口列表：\n`, this.floatList)
+      await window.close()
+    }, 300)
   }
 
   closeAll = async () => {
