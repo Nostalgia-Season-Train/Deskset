@@ -8,14 +8,21 @@ import { PanelLeft } from 'lucide-vue-next'
 // @ts-ignore
 import { Inbox, Home, LayoutDashboard, Palette, Bubbles, Sparkles, SquareChartGantt } from 'lucide-vue-next'
 import CogLoop from '#desksetui/icons/Material Line Icons/CogLoop.vue'
-const items = [
+// - [ ] 临时
+const isDevEnv = (import.meta as any).env.DEV as boolean
+const items = isDevEnv ? [
   { icon: Inbox,           page: 'welcome' },
-  // { icon: Home,            page: 'homepage' },
+  { icon: Home,            page: 'homepage' },
   { icon: LayoutDashboard, page: 'widget' },
   { icon: Palette,         page: 'theme' },
   { icon: Bubbles,         page: 'float' },
   { icon: Sparkles,        page: 'ai' },
   // { icon: SquareChartGantt,page: 'moment' },
+  { icon: CogLoop,         page: 'setting' }
+] : [
+  { icon: Inbox,           page: 'welcome' },
+  { icon: LayoutDashboard, page: 'widget' },
+  { icon: Palette,         page: 'theme' },
   { icon: CogLoop,         page: 'setting' }
 ]
 </script>

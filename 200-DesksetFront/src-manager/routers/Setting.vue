@@ -3,6 +3,8 @@ import Common from './Setting/Common.vue'
 import Server from './Setting/Server.vue'
 import AI from './Setting/AI.vue'
 import { ElScrollbar } from 'element-plus'
+// - [ ] 临时
+const isDevEnv = (import.meta as any).env.DEV as boolean
 </script>
 
 
@@ -19,7 +21,7 @@ import { ElScrollbar } from 'element-plus'
   </div>
 
   <div class="item">
-    <AI/>
+    <AI v-if="isDevEnv"/>
   </div>
 
 </div>
