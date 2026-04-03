@@ -22,7 +22,7 @@ const remaining = ref(duration.value);
 const timerState = ref(TimerState.IDLE); // 使用状态枚举
 const timer = ref<number | null>(null);
 const isCustom = ref(false);
-const customInput = ref('');
+const customInput = ref<number>(duration.value / 60)
 
 // 格式化时间
 const formattedTime = computed(() => {
@@ -38,19 +38,19 @@ const selectDuration = (minutes: number) => {
   duration.value = minutes * 60;
   remaining.value = duration.value;
   isCustom.value = false;
-  customInput.value = String(remaining.value / 60)
+  customInput.value = remaining.value / 60
 };
 
 // 设置自定义时间
 const setCustomTime = () => {
   resetTimer()
-  const input = parseInt(customInput.value);
+  const input = customInput.value
   if (input > 0) {
     duration.value = input * 60
     remaining.value = duration.value;
     isCustom.value = true;
   } else {
-    customInput.value = String(remaining.value / 60)
+    customInput.value = remaining.value / 60
   }
 };
 
@@ -99,6 +99,10 @@ onMounted(() => {
 onBeforeUnmount(() => {
   if (timer.value) clearInterval(timer.value);
 });
+
+
+/* ==== 子组件 ==== */
+import { ElInputNumber } from 'element-plus'
 </script>
 
 <template>
@@ -108,10 +112,10 @@ onBeforeUnmount(() => {
 
         <!-- 时间输入框 -->
         <div class="custom-input" v-if="timerState === TimerState.IDLE">
-          <input
+          <ElInputNumber
             v-model="customInput"
-            min="1"
-            placeholder="自定义秒数"
+            :min="1"
+            :max="10"
             @blur="setCustomTime"
             @keyup.enter="setCustomTime"
           />
@@ -171,23 +175,35 @@ onBeforeUnmount(() => {
     display: flex;
     justify-content: center;
     align-items: center;
+
     .time-selector {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      .custom-input>:deep(.el-input-number) {
+        .el-input-number__decrease,
+        .el-input-number__increase {
+          background: transparent;
+        }
+        .el-input__wrapper {
+          background: transparent;
+          border: none;
+          box-shadow: none;
+        }
+        .el-input__wrapper.is-focus {
+          border: none;
+          border-radius: 0;
+          box-shadow: none;
+        }
+      }
+      .preset-btn {
+        .dsw-text();
+      }
     }
-  }
-
-  .custom-input input {
-    width: 100%;
-    .dsw-text-title();
-  }
-  .timer-value {
-    .dsw-text-title();
-    font-feature-settings: 'ss01', 'tnum';
-  }
-  .preset-btn {
-    .dsw-text();
+    .timer-value {
+      .dsw-text-title();
+      font-feature-settings: 'ss01', 'tnum';
+    }
   }
 
   .control-btn {
