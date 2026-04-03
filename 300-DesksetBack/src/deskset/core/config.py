@@ -217,4 +217,4 @@ config = Config()
 
 
 # ==== 全局静态配置 ====
-DESKSET_NOTEAPI_VERSION = '0.0.1a'
+DESKSET_NOTEAPI_VERSION = '0.0.5a'
