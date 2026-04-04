@@ -29,7 +29,7 @@ const option = {
       color: self.color
     }
   },
-  backgroundColor: '#FFF'
+  backgroundColor: '#FFF0'
 }
 
 
@@ -69,7 +69,10 @@ const device = async () => {
   optionDisk.value.series.data.shift()
   optionDisk.value.series.data.push(numDisk.value)
 
-  numNetwork.value = result.network
+  numNetwork.value = {
+    sent: (result.network.sent / 1000).toFixed(1),
+    recv: (result.network.recv / 1000).toFixed(1)
+  }
   optionNetwork.value.series.data.shift()
   optionNetwork.value.series.data.push(numNetwork.value.recv)
 }
@@ -99,7 +102,7 @@ useIntervalFn(device, 1200)
       <v-chart :option="optionMemory" :initOptions='{ renderer: "svg" }'/>
     </div>
     <div>
-      <div class="text">内存</div>
+      <div class="text">RAM</div>
       <div class="num">{{ numMemory }}%</div>
     </div>
   </div>
@@ -108,7 +111,7 @@ useIntervalFn(device, 1200)
       <v-chart :option="optionDisk" :initOptions='{ renderer: "svg" }'/>
     </div>
     <div>
-      <div class="text">硬盘</div>
+      <div class="text">Disk</div>
       <div class="num">{{ numDisk }}%</div>
     </div>
   </div>
@@ -117,9 +120,9 @@ useIntervalFn(device, 1200)
       <v-chart :option="optionNetwork" :initOptions='{ renderer: "svg" }'/>
     </div>
     <div>
-      <div class="text">网络</div>
-      <div class="num">S: {{ numNetwork.sent }}.0 Kbps</div>
-      <div class="num">R: {{ numNetwork.recv }}.0 Kbps</div>
+      <div class="text">Network</div>
+      <div class="num">S: {{ numNetwork.sent }}Mbps</div>
+      <div class="num">R: {{ numNetwork.recv }}Mbps</div>
     </div>
   </div>
 </div>
@@ -137,6 +140,8 @@ useIntervalFn(device, 1200)
   padding: 5px;
 
   .dsw-box();
+  background: #3336;
+  border: solid #CCCA 1px;
 }
 
 .watch {
@@ -151,11 +156,16 @@ useIntervalFn(device, 1200)
 
 .text {
   .dsw-text();
+  color: #FFF;
+  font-weight: 300;
 }
 .num {
-  width: 70px;
+  width: 90px;
   .dsw-text-title();
+  color: #FFF9;
   font-size: 14px;
+  font-weight: 300;
+  font-feature-settings: 'ss01', 'tnum';
   white-space: nowrap;  /* 避免换行撑开高度 */
   overflow: hidden;
 }
