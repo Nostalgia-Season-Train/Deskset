@@ -61,8 +61,11 @@ export const _saveTheme = async (name: string, root: string = THEME_LIB) => {
   await writeTextFile(`./${root}/${name}/metainfo.json`, infoText, { baseDir: BaseDirectory.Resource })
 
   // 保存桌面窗口预览（截图）
-  const arrayPicture = await desktop.getWindowPicture()
-  await writeFile(`./${root}/${name}/preview.png`, new Uint8Array(arrayPicture), { baseDir: BaseDirectory.Resource })
+  // - [ ] 临时：打包后 The source image cannot be decoded 导致退出失败
+  try {
+    const arrayPicture = await desktop.getWindowPicture()
+    await writeFile(`./${root}/${name}/preview.png`, new Uint8Array(arrayPicture), { baseDir: BaseDirectory.Resource })
+  } catch { }
 
   // 加入列表
   activeThemeMap.set(name, {
