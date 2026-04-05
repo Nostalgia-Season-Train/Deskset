@@ -12,4 +12,5 @@ cd ..\
 
 copy 200-DesksetFront\src-tauri\target\release\Deskset.exe 000-Dist
 xcopy 300-DesksetBack\dist\DesksetBack 000-Dist /s
-tar -czf Deskset.zip -C 000-Dist .
+@REM tar -czf Deskset.tar -C 000-Dist .
+powershell -Command "Compress-Archive -Path '000-Dist\*' -DestinationPath 'Deskset.zip'"
