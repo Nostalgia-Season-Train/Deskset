@@ -13,6 +13,9 @@ DEVELOP_ENV = True if '-dev' in args else False
 import warnings
 warnings.filterwarnings('ignore', category=DeprecationWarning)
 
+import shutup
+shutup.please()
+
 
 # === 运行程序 ===
 if __name__ == '__main__':  # 保护程序入口点，避免热重载时，子进程重复执行

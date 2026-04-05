@@ -28,6 +28,7 @@ dependencies = [
     "python-multipart==0.0.20",
     "pyyaml==6.0.2",
     "send2trash==1.8.3",
+    "shutup>=0.3.0",
     "uvicorn>=0.41.0",
     "websockets>=15.0.1",
 ]
