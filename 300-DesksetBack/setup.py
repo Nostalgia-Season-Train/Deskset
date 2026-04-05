@@ -31,6 +31,9 @@ shutil.copyfile(src=f'./main-prod.py', dst=f'./{DIST}/DesksetBack.py')
 
 # 下载依赖
 # os.system(f'pip install -r requirements.txt -t ./{DIST}/site-packages')
+# - [ ] 临时修复：打包后找不到 pythoncom、pywintypes 模块的问题
+shutil.copyfile('./.venv/Lib/site-packages/pywin32_system32/pythoncom312.dll', './.venv/Lib/site-packages/win32/lib/pythoncom312.dll')
+shutil.copyfile('./.venv/Lib/site-packages/pywin32_system32/pywintypes312.dll', './.venv/Lib/site-packages/win32/lib/pywintypes312.dll')
 shutil.copytree('./.venv/Lib/site-packages', f'./{DIST}/site-packages')  # 直接复制 uv 环境
 
 # 构建程序
