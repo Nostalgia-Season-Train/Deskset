@@ -9,7 +9,7 @@ use tauri::{
   WebviewWindowBuilder, WebviewUrl,
   // WindowEvent
 };
-use tauri_utils::{WindowEffect, config::WindowEffectsConfig};
+// use tauri_utils::{WindowEffect, config::WindowEffectsConfig};
 use log;
 
 mod desktop;
@@ -101,12 +101,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
   .inner_size(960.0 / dpi, 600.0 / dpi).resizable(true).maximizable(false)
   .transparent(true).decorations(false).shadow(false)
   // 禁用模糊背景效果，实现跨平台兼容
-  .effects(WindowEffectsConfig{
-    effects: vec![WindowEffect::Blur],  // Acrylic 改变窗口大小会有性能问题，拖动不会
-    state: None,
-    radius: None,
-    color: None
-  })
+//   .effects(WindowEffectsConfig{
+//     effects: vec![WindowEffect::Blur],  // Acrylic 改变窗口大小会有性能问题，拖动不会
+//     state: None,
+//     radius: None,
+//     color: None
+//   })
   .center()  // 窗口屏幕居中
   .build().unwrap();
 
