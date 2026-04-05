@@ -150,13 +150,15 @@ const readWidgetInfo = async (path: string) => {
 const WIDGET_LIB = 'widgets'
 
 const _outsideWidgetclsMap: Map<string, Widgetcls> = new Map()
-for (const sfcpath of await listVueFilepaths(WIDGET_LIB)) {
-  const path = sfcpath.slice(`${WIDGET_LIB}/`.length, -'.vue'.length)
-  _outsideWidgetclsMap.set(path, {
-    main: () => { },
-    path: path,
-    beInline: false,
-    ...await readWidgetInfo(path)
-  })
-}
+try {
+  for (const sfcpath of await listVueFilepaths(WIDGET_LIB)) {
+    const path = sfcpath.slice(`${WIDGET_LIB}/`.length, -'.vue'.length)
+    _outsideWidgetclsMap.set(path, {
+      main: () => { },
+      path: path,
+      beInline: false,
+      ...await readWidgetInfo(path)
+    })
+  }
+} catch { }
 export const outsideWidgetclsMap = _outsideWidgetclsMap
