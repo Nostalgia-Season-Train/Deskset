@@ -58,5 +58,8 @@ router_obsidian.include_router(router_command)
 # 窗口页面 Winpage
 from .winpage import router_winpage
 router_obsidian.include_router(router_winpage)
+# 笔记 Note
+from .note import router_note as router_notes
+router_obsidian.include_router(router_notes)
 
 router_note.include_router(router_obsidian)

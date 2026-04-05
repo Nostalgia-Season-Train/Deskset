@@ -180,6 +180,20 @@ class NoteAPI:
         self.check_online()
         return await self._rpc.call_remote_procedure('filter_frontmatter', [filter_group])  # type: ignore
 
+    # --- 笔记 Note ---
+    async def list_notepaths(self, directory: str) -> list[str]:
+        self.check_online()
+        return await self._rpc.call_remote_procedure('list_notepaths', [directory])  # type: ignore
+    async def create_note(self, path: str, content: str = '') -> bool:
+        self.check_online()
+        return await self._rpc.call_remote_procedure('create_note', [path, content])  # type: ignore
+    async def read_note(self, path: str) -> str:
+        self.check_online()
+        return await self._rpc.call_remote_procedure('read_note', [path])  # type: ignore
+    async def insert_note(self, path: str, line: int | None, insertData: str):
+        self.check_online()
+        return await self._rpc.call_remote_procedure('insert_note', [path, line, insertData])  # type: ignore
+
     # --- 日记 Diary ---
     class DiarySetting(TypedDict):
         format: str    # 日记目录/日记主名的日期格式（比如 YYYY年/MM月/YYYY年MM月DD日-dddd）
