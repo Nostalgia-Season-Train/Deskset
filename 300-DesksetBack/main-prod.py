@@ -13,6 +13,11 @@ args = sys.argv
 DEVELOP_ENV = True if '-dev' in args else False
 
 
+# === 禁止在输入输出流中打印警告 ===
+import warnings
+warnings.filterwarnings('ignore', category=DeprecationWarning)
+
+
 # === 运行程序 ===
 if __name__ == '__main__':
     if DEVELOP_ENV:

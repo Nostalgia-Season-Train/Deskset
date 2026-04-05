@@ -9,6 +9,11 @@ args = sys.argv
 DEVELOP_ENV = True if '-dev' in args else False
 
 
+# === 禁止在输入输出流中打印警告 ===
+import warnings
+warnings.filterwarnings('ignore', category=DeprecationWarning)
+
+
 # === 运行程序 ===
 if __name__ == '__main__':  # 保护程序入口点，避免热重载时，子进程重复执行
     # if DEVELOP_ENV:
