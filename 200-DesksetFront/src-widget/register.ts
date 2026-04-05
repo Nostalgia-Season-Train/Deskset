@@ -14,8 +14,8 @@ const registerList = [
   './datetime/clock.vue',
   './datetime/calendar.vue',
   './datetime/stopwatch.vue',
-  './datetime/timer.vue',
-  // './datetime/date-counter.vue',
+  // './datetime/timer.vue',
+  './datetime/date-counter.vue',
   /* --- 设备信息 --- */
   './device/hardware-monitor.vue',
   './device/disk-storage.vue',
