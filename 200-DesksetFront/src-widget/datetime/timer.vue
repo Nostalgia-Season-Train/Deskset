@@ -132,7 +132,7 @@ import { ElInputNumber } from 'element-plus'
             :key="minute"
             class="preset-btn"
             @click="selectDuration(minute)"
-          >={{ minute }}:00</div>
+          >{{ minute }}:00</div>
         </div>
 
       </div>
@@ -163,15 +163,21 @@ import { ElInputNumber } from 'element-plus'
 @import '../style.less';
 
 .countdown-container {
-  padding: 10px;
   width: fit-content;
   height: fit-content;
   .dsw-box();
   text-align: center;
+  &>*:first-child {
+    margin-top: 0px;
+  }
+  &>*:last-child {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
 
   .header {
     width: 160px;
-    height: 80px;
+    height: fit-content;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -180,15 +186,24 @@ import { ElInputNumber } from 'element-plus'
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      gap: 3px;
       .custom-input>:deep(.el-input-number) {
+        width: 124px;
         .el-input-number__decrease,
         .el-input-number__increase {
           background: transparent;
+          .el-icon {
+            .dsw-text-title();
+            font-size: 14px;
+          }
         }
         .el-input__wrapper {
           background: transparent;
           border: none;
           box-shadow: none;
+          .el-input__inner {
+            .dsw-text-title();
+          }
         }
         .el-input__wrapper.is-focus {
           border: none;
@@ -197,7 +212,12 @@ import { ElInputNumber } from 'element-plus'
         }
       }
       .preset-btn {
-        .dsw-text();
+        padding: 2px 4px;
+        .dsw-text-title();
+        font-size: 14px;
+        font-weight: 350;
+        font-feature-settings: 'ss01', 'tnum';
+        background: #FFF;
       }
     }
     .timer-value {
