@@ -8,14 +8,14 @@ const registerList = [
   './note/base.vue',
   './note/num-stats.vue',
   './note/diary.vue',
-  './note/heatmap.vue',
+  // './note/heatmap.vue',
   './note/vault-status.vue',
   /* --- 时间和日期 --- */
   './datetime/clock.vue',
   './datetime/calendar.vue',
   './datetime/stopwatch.vue',
   './datetime/timer.vue',
-  './datetime/date-counter.vue',
+  // './datetime/date-counter.vue',
   /* --- 设备信息 --- */
   './device/hardware-monitor.vue',
   './device/disk-storage.vue',

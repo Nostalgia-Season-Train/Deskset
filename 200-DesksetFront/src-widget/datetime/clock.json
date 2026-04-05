@@ -9,7 +9,7 @@
       "default": "digital-clock"
     }
   },
-  "option": {
+  "option-": {
     "items": [{
       "key": "clock_type",
       "input": "Select",
