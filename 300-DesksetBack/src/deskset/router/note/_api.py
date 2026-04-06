@@ -143,11 +143,13 @@ class NoteAPI:
 
 
     # ==== 远程调用 RPC ====
+    async def _call_rpc(self, method: str, args: list[Any] | None = None) -> Any:
+        self.check_online()
+        return await self._rpc.call_remote_procedure(method, args or [])  # type: ignore
 
     # --- 仓库 ---
     async def get_vault_metainfo(self):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('get_vault_metainfo', [])  # type: ignore
+        return await self._call_rpc('get_vault_metainfo')
     class VaultStatus(TypedDict):
         note_num: int    # 笔记总数
         attach_num: int  # 附件总数
@@ -155,16 +157,13 @@ class NoteAPI:
         tag_num: int     # 标签总数
         task_num: int    # 任务总数
     async def get_vault_status(self) -> NoteAPI.VaultStatus:
-        self.check_online()
-        return await self._rpc.call_remote_procedure('get_vault_status', [])  # type: ignore
+        return await self._call_rpc('get_vault_status')
 
     async def get_heatmap(self, start_day, end_day) -> dict[str, int]:
-        self.check_online()
-        return await self._rpc.call_remote_procedure('get_heatmap', [start_day, end_day])  # type: ignore
+        return await self._call_rpc('get_heatmap', [start_day, end_day])
 
     async def get_active_file(self) -> str:
-        self.check_online()
-        return await self._rpc.call_remote_procedure('get_active_file', [])  # type: ignore
+        return await self._call_rpc('get_active_file')
 
     # --- 查询建议 ---
     class SuggestFile(TypedDict):
@@ -172,27 +171,21 @@ class NoteAPI:
         type: str  # 文件扩展名
         path: str  # 文件相对仓库的路径
     async def suggest_by_switcher(self, query: str) -> list[NoteAPI.SuggestFile]:
-        self.check_online()
-        return await self._rpc.call_remote_procedure('suggest_by_switcher', [query])  # type: ignore
+        return await self._call_rpc('suggest_by_switcher', [query])
 
     # --- 数据分析 ---
     async def filter_frontmatter(self, filter_group: object):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('filter_frontmatter', [filter_group])  # type: ignore
+        return await self._call_rpc('filter_frontmatter', [filter_group])
 
     # --- 笔记 Note ---
     async def list_notepaths(self, directory: str) -> list[str]:
-        self.check_online()
-        return await self._rpc.call_remote_procedure('list_notepaths', [directory])  # type: ignore
+        return await self._call_rpc('list_notepaths', [directory])
     async def create_note(self, path: str, content: str = '') -> bool:
-        self.check_online()
-        return await self._rpc.call_remote_procedure('create_note', [path, content])  # type: ignore
+        return await self._call_rpc('create_note', [path, content])
     async def read_note(self, path: str) -> str:
-        self.check_online()
-        return await self._rpc.call_remote_procedure('read_note', [path])  # type: ignore
+        return await self._call_rpc('read_note', [path])
     async def insert_note(self, path: str, line: int | None, insertData: str):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('insert_note', [path, line, insertData])  # type: ignore
+        return await self._call_rpc('insert_note', [path, line, insertData])
 
     # --- 日记 Diary ---
     class DiarySetting(TypedDict):
@@ -200,29 +193,21 @@ class NoteAPI:
         folder: str    # 日记父文件夹
         template: str  # 日记模板
     async def get_diary_setting(self) -> NoteAPI.DiarySetting:
-        self.check_online()
-        return await self._rpc.call_remote_procedure('get_diary_setting', [])  # type: ignore
+        return await self._call_rpc('get_diary_setting')
     async def list_diaryprops_in_month(self, month: str):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('list_diaryprops_in_month', [month])  # type: ignore
+        return await self._call_rpc('list_diaryprops_in_month', [month])
     async def read_diary(self, day: str):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('read_diary', [day])  # type: ignore
+        return await self._call_rpc('read_diary', [day])
     async def create_diary(self, day: str):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('create_diary', [day])  # type: ignore
+        return await self._call_rpc('create_diary', [day])
     async def edit_diary(self, day: str, newText: str):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('edit_diary', [day, newText])  # type: ignore
+        return await self._call_rpc('edit_diary', [day, newText])
     async def insert_diary(self, day: str, line: int | None, insertData: str):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('insert_diary', [day, line, insertData])  # type: ignore
+        return await self._call_rpc('insert_diary', [day, line, insertData])
     async def write_diary(self, day: str, newData: str):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('write_diary', [day, newData])  # type: ignore
+        return await self._call_rpc('write_diary', [day, newData])
     async def delete_diary(self, day: str):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('delete_diary', [day])  # type: ignore
+        return await self._call_rpc('delete_diary', [day])
 
     # --- 任务 Task ---
     class Task(TypedDict):
@@ -231,8 +216,7 @@ class NoteAPI:
         status: str  # 任务状态 'x'
         text: str    # 任务文本 '这是一个任务'
     async def list_tasks(self, path: str) -> NoteAPI.Task:
-        self.check_online()
-        return await self._rpc.call_remote_procedure('list_tasks', [path])  # type: ignore
+        return await self._call_rpc('list_tasks', [path])
     async def create_task(
         self,
         path: str,
@@ -240,8 +224,7 @@ class NoteAPI:
         status: str | None,
         text: str | None
     ):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('create_task', [path, line, status, text])  # type: ignore
+        return await self._call_rpc('create_task', [path, line, status, text])
     async def edit_task(
         self,
         path: str,
@@ -249,33 +232,26 @@ class NoteAPI:
         newStatus: str | None,
         newText: str | None
     ):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('edit_task', [path, line, newStatus, newText])  # type: ignore
+        return await self._call_rpc('edit_task', [path, line, newStatus, newText])
     async def toggle_task(self, path: str, line: int):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('toggle_task', [path, line])  # type: ignore
+        return await self._call_rpc('toggle_task', [path, line])
     async def delete_task(self, path: str, line: int):
-        self.check_online()
-        return await self._rpc.call_remote_procedure('delete_task', [path, line])  # type: ignore
+        return await self._call_rpc('delete_task', [path, line])
 
     # --- 命令 Command ---
     class Command(TypedDict):
         id: str    # 命令 ID
         name: str  # 命令名称
     async def list_commands(self) -> NoteAPI.Command:
-        self.check_online()
-        return await self._rpc.call_remote_procedure('list_commands', [])  # type: ignore
+        return await self._call_rpc('list_commands')
     async def execute_command(self, id: str) -> Any:
-        self.check_online()
-        return await self._rpc.call_remote_procedure('execute_command', [id])  # type: ignore
+        return await self._call_rpc('execute_command', [id])
 
     # --- 窗口页面 Winpage ---
     async def open_on_obsidian(self) -> bool:
-        self.check_online()
-        return await self._rpc.call_remote_procedure('open_on_obsidian', [])  # type: ignore
+        return await self._call_rpc('open_on_obsidian')
     async def open_file_on_obsidian(self, path: str) -> bool:
-        self.check_online()
-        return await self._rpc.call_remote_procedure('open_file_on_obsidian', [path])  # type: ignore
+        return await self._call_rpc('open_file_on_obsidian', [path])
 
 
 noteapi = NoteAPI()
