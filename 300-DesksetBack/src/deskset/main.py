@@ -265,6 +265,7 @@ mcp = FastMCP.from_fastapi(
         RouteMap(pattern=r'^/ai/.*', mcp_type=MCPType.EXCLUDE),
         RouteMap(pattern=r'^/v0/note/obsidian/winpage/.*', mcp_type=MCPType.TOOL),
         RouteMap(pattern=r'^/v0/note/obsidian/diary/.*today', mcp_type=MCPType.TOOL),
+        RouteMap(pattern=r'^/v0/note/obsidian/note/.*', mcp_type=MCPType.TOOL),
         RouteMap(mcp_type=MCPType.EXCLUDE)  # 排除未明确指定的路由
     ]
 )
