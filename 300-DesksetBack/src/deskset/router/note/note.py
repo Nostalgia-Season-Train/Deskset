@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Form, Query
+from pydantic import BaseModel
 from ._api import noteapi
 
 router_note = APIRouter(prefix='/note', tags=['Note'])
@@ -14,14 +15,16 @@ async def create_note(
 ):
     return await noteapi.create_note(path, content)
 
+class ReadNoteRequest(BaseModel):
+    path: str
 @router_note.post('/read')
-async def read_note(path: str = Form()):
-    return await noteapi.read_note(path)
+async def read_note(request: ReadNoteRequest):
+    return await noteapi.read_note(request.path)
 
+class InsertNoteRequest(BaseModel):
+    path: str
+    line: int | None = None
+    data: str
 @router_note.post('/insert')
-async def insert_note(
-    path: str = Form(),
-    line: int | None = Form(None),
-    data: str = Form()
-):
-    return await noteapi.insert_note(path, line, data)
+async def insert_note(request: InsertNoteRequest):
+    return await noteapi.insert_note(request.path, request.line, request.data)
