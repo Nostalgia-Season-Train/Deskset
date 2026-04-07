@@ -184,6 +184,8 @@ class NoteAPI:
         return await self._call_rpc('create_note', [path, content])
     async def read_note(self, path: str) -> str:
         return await self._call_rpc('read_note', [path])
+    async def read_noteprop(self, path: str) -> Any:
+        return await self._call_rpc('read_noteprop', [path])
     async def insert_note(self, path: str, line: int | None, insertData: str):
         return await self._call_rpc('insert_note', [path, line, insertData])
 

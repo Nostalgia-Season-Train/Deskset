@@ -20,6 +20,9 @@ class ReadNoteRequest(BaseModel):
 @router_note.post('/read')
 async def read_note(request: ReadNoteRequest):
     return await noteapi.read_note(request.path)
+@router_note.post('/readprop')
+async def read_noteprop(request: ReadNoteRequest):
+    return await noteapi.read_noteprop(request.path)
 
 class InsertNoteRequest(BaseModel):
     path: str
