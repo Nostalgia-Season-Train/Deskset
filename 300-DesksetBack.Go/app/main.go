@@ -5,9 +5,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"DesksetBack/internal/feature"
-	"DesksetBack/internal/router"
-	"DesksetBack/internal/router/_unify"
+	"DesksetBack/app/router"
+	"DesksetBack/feature"
 
 	"github.com/gofiber/fiber/v3"
 )
@@ -17,11 +16,7 @@ func main() {
 	feature.StartMonitor()
 
 	// 启动 Fiber 服务器
-	app := fiber.NewWithCustomCtx(func(app *fiber.App) fiber.CustomCtx {
-		return &_unify.DesksetCtx{
-			DefaultCtx: *fiber.NewDefaultCtx(app),
-		}
-	})
+	app := fiber.New()
 
 	router.RegisterDevice(app)
 

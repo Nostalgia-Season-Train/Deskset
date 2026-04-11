@@ -1,8 +1,6 @@
 package router
 
 import (
-	"DesksetBack/internal/router/_unify"
-
 	Battery "github.com/distatus/battery"
 	"github.com/gofiber/fiber/v3"
 	GopsutilDisk "github.com/shirou/gopsutil/v4/disk"
@@ -11,13 +9,13 @@ import (
 func RegisterDevice(app *fiber.App) {
 	router := app.Group("/device")
 
-	_unify.BoundGet(router, "/monitor", monitor)
-	_unify.BoundGet(router, "/disk", disk)
-	_unify.BoundGet(router, "/battery", battery)
+	router.Get("/hardware", hardware)
+	router.Get("/disk", disk)
+	router.Get("/battery", battery)
 }
 
-func monitor(ctx *_unify.DesksetCtx) error {
-	return ctx.DesksetSend("From DesksetBack/router/device: Hello, World!")
+func hardware(ctx fiber.Ctx) error {
+	return ctx.SendString("From DesksetBack/router/device: Hello, World!")
 }
 
 /* ==== 硬盘存储值 ==== */
@@ -28,10 +26,13 @@ type DiskResult struct {
 	Percent float64 `json:"percent"` // 硬盘使用率
 }
 
-func disk(ctx *_unify.DesksetCtx) error {
+func disk(ctx fiber.Ctx) error {
 	partitions, err := GopsutilDisk.Partitions(false)
 	if err != nil {
-		return ctx.DesksetSendError(1, err.Error(), nil)
+		return ctx.Status(500).JSON(fiber.Map{
+			"code":    1,
+			"message": err.Error(),
+		})
 	}
 
 	var results []DiskResult
@@ -56,7 +57,7 @@ func disk(ctx *_unify.DesksetCtx) error {
 		})
 	}
 
-	return ctx.DesksetSend(results)
+	return ctx.JSON(results)
 }
 
 /* ==== 电池电量 ==== */
@@ -65,10 +66,13 @@ type BatteryResult struct {
 	Percent  float64 `json:"percent"`   // 电量百分比
 }
 
-func battery(ctx *_unify.DesksetCtx) error {
+func battery(ctx fiber.Ctx) error {
 	batterys, err := Battery.GetAll()
 	if err != nil {
-		return ctx.DesksetSendError(1, err.Error(), nil)
+		return ctx.Status(500).JSON(fiber.Map{
+			"code":    1,
+			"message": err.Error(),
+		})
 	}
 
 	var results []BatteryResult
@@ -87,5 +91,5 @@ func battery(ctx *_unify.DesksetCtx) error {
 		})
 	}
 
-	return ctx.DesksetSend(results)
+	return ctx.JSON(results)
 }
