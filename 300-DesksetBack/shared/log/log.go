@@ -34,7 +34,7 @@ func openLogger() error {
 	logPath := filepath.Join(constant.LogDir, constant.LogStemPrefix+logTime+"."+constant.LogExtn)
 
 	var err error
-	logFile, err = os.OpenFile(logPath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	logFile, err = os.OpenFile(logPath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0o644)
 	if err != nil {
 		return fmt.Errorf("Failed to create log file: %w", err)
 	}
