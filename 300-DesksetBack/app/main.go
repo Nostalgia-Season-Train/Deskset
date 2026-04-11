@@ -7,11 +7,17 @@ import (
 
 	"DesksetBack/app/router"
 	"DesksetBack/feature"
+	"DesksetBack/shared/log"
 
 	"github.com/gofiber/fiber/v3"
 )
 
 func main() {
+	// 打开日志器
+	cleanupLogger, err := log.SetupLogger()
+	if err != nil {
+		panic(err)
+	}
 	// 启动硬件监控
 	feature.StartMonitor()
 
@@ -34,4 +40,6 @@ func main() {
 
 	// 停止硬件监控
 	feature.EndMonitor()
+	// 关闭日志器
+	defer cleanupLogger()
 }
