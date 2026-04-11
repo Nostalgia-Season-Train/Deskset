@@ -3,11 +3,14 @@ package main
 import (
 	"os"
 	"os/signal"
+	"strconv"
 	"syscall"
 
 	"DesksetBack/app/router"
 	"DesksetBack/feature"
 	"DesksetBack/shared/log"
+
+	"DesksetBack/app/args"
 
 	"github.com/gofiber/fiber/v3"
 )
@@ -27,7 +30,7 @@ func main() {
 	router.RegisterDevice(app)
 
 	go func() {
-		app.Listen("127.0.0.1:3000")
+		app.Listen("127.0.0.1:" + strconv.Itoa(args.Port))
 	}()
 
 	/* --- 等待终止信号 --- */
