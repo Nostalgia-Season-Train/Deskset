@@ -7,11 +7,11 @@
       "request": "launch",
       "cwd": "${workspaceFolder}/100-Docs",
       "console": "integratedTerminal",
+      "runtimeExecutable": "npm",
       "runtimeArgs": [
         "run",
         "docs:dev",
       ],
-      "runtimeExecutable": "npm",
       "skipFiles": [
         "<node_internals>/**",
       ],
@@ -22,30 +22,39 @@
       "request": "launch",
       "cwd": "${workspaceFolder}/200-DesksetFront",
       "console": "integratedTerminal",
+      "runtimeExecutable": "npm",
       "runtimeArgs": [
         "run",
         "run",
       ],
-      "runtimeExecutable": "npm",
       "skipFiles": [
         "<node_internals>/**",
       ],
     },
     {
       "name": "DesksetBack",
-      "consoleName": "DesksetBack",
-      "type": "debugpy",
+      "type": "node",  // 此处 node 作命令行使用
       "request": "launch",
-      "program": "${workspaceFolder}/300-DesksetBack/main.py",
       "cwd": "${workspaceFolder}/300-DesksetBack",
       "console": "integratedTerminal",
-      "args": [
+      "runtimeExecutable": "air",
+    },
+    {
+      "name": "DesksetBackMCP",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/350-DesksetBackMCP",
+      "console": "integratedTerminal",
+      "runtimeExecutable": "uv",
+      "runtimeArgs": [
+        "run",
+        "main.py",
         "-dev",
         "-no-access",
       ],
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/300-DesksetBack/src",
-        "PYTHONPYCACHEPREFIX": "${workspaceFolder}/300-DesksetBack/__pycache__",
+        "PYTHONPATH": "${workspaceFolder}/350-DesksetBackMCP/src",
+        "PYTHONPYCACHEPREFIX": "${workspaceFolder}/350-DesksetBackMCP/__pycache__",
       },
     }
   ],
@@ -56,6 +65,7 @@
         "Docs",
         "DesksetFront",
         "DesksetBack",
+        "DesksetBackMCP",
       ],
     }
   ],
