@@ -18,7 +18,7 @@ def monitor():
     return device.monitor()
 
 # 硬盘存储值
-@router_device.get('/disk', response_model=AbstractDevice.Disk)
+@router_device.get('/disk', response_model=list[AbstractDevice.Partition])
 def disk():
     return device.disk()
 

@@ -26,13 +26,13 @@ class AbstractDevice(ABC):
     def monitor(self) -> AbstractDevice.Monitor:
         pass
 
-    class Disk(TypedDict):
+    class Partition(TypedDict):
         root: str
         total: int | float
         free: int | float
         percent: float
     @abstractmethod
-    def disk(self, is_gb: bool = True) -> AbstractDevice.Disk:
+    def disk(self, is_gb: bool = True) -> list[AbstractDevice.Partition]:
         pass
 
     class Battery(TypedDict):
