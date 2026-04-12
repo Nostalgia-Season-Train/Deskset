@@ -1,15 +1,19 @@
 # ==== Device ====
+from deskset.core.error import deskset_error_new_response_schema, UnknownSystemError
 from deskset.feature.device._abstract import AbstractDevice
 from deskset.feature.device import device
 
 
 # ==== 路由 ====
 from fastapi import APIRouter, Depends
-from deskset.router._unify import check_token, DesksetRepJSON
+from deskset.router._unify import check_token
 
 router_device = APIRouter(
     prefix='/device', tags=['device'],
     dependencies=[Depends(check_token)],
+    responses={ UnknownSystemError.http_status: {
+        'content': { 'application/json': { 'schema': deskset_error_new_response_schema } }
+    } }
 )
 
 # 硬件监控

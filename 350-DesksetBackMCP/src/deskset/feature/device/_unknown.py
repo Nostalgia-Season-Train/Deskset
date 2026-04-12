@@ -1,15 +1,16 @@
+from deskset.core.error import UnknownSystemError
 from ._abstract import AbstractDevice
 
 
 class UnknownDevice(AbstractDevice):
     def monitor(self) -> dict:
-        raise SystemError('Unknown System')
+        raise UnknownSystemError()
 
     def disk(self, is_gb: bool = True) -> list[dict]:
-        raise SystemError('Unknown System')
+        raise UnknownSystemError()
 
     def battery(self) -> dict:
-        raise SystemError('Unknown System')
+        raise UnknownSystemError()
 
     def system(self) -> dict:
-        raise SystemError('Unknown System')
+        raise UnknownSystemError()

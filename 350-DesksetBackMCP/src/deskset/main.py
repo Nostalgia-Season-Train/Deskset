@@ -385,6 +385,15 @@ from http import HTTPStatus
 def deskset_error(request: Request, err: DesksetError):
     return DesksetErrorRep(content=err)
 
+from deskset.core.error import DesksetErrorNew
+@combined_app.exception_handler(DesksetErrorNew)
+def deskset_error_new(request: Request, err: DesksetErrorNew):
+    return JSONResponse(
+        status_code=HTTPStatus.NOT_IMPLEMENTED,
+        media_type='application/json',
+        content={ 'code': err.code, 'message': err.message }
+    )
+
 @combined_app.exception_handler(Exception)
 def deskset_exception(request: Request, exc: Exception):
     logging.exception(exc, exc_info=exc)
