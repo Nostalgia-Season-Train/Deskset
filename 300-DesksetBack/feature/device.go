@@ -11,7 +11,7 @@ var i = 0
 // 硬件监控：刷新一次硬件信息
 func monitor() {
 	i++
-	fmt.Println("i =", i)
+	// fmt.Println("i =", i)
 }
 
 // 结束标志
