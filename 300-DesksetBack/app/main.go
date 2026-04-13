@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"os/signal"
 	"strconv"
@@ -12,6 +13,7 @@ import (
 
 	"DesksetBack/app/args"
 
+	"github.com/gofiber/contrib/v3/websocket"
 	"github.com/gofiber/fiber/v3"
 )
 
@@ -26,6 +28,35 @@ func main() {
 
 	// 启动 Fiber 服务器
 	app := fiber.New()
+
+	// - [ ] 测试：websocket 连接
+	// websocket 连接升级中间件
+	app.Use("/obsidian/rpc", func(c fiber.Ctx) error {
+		if websocket.IsWebSocketUpgrade(c) {
+			c.Locals("allowed", true)
+			// 设置 Authorization 子协议，前后端均须该子协议，否则报错 1006
+			c.Set("Sec-Websocket-Protocol", "Authorization")
+			return c.Next()
+		}
+		return fiber.ErrUpgradeRequired
+	})
+	// websocket 路由
+	app.Get("/obsidian/rpc", websocket.New(func(c *websocket.Conn) {
+		// 消息循环
+		for {
+			mt, msg, err := c.ReadMessage()
+			if err != nil {
+				fmt.Println("read:", err)
+				break
+			}
+			fmt.Printf("recv: %s\n", msg)
+			writeErr := c.WriteMessage(mt, msg)
+			if writeErr != nil {
+				fmt.Println("write:", err)
+				break
+			}
+		}
+	}))
 
 	router.RegisterDevice(app)
 

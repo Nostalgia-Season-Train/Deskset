@@ -4,6 +4,7 @@ go 1.25.5
 
 require (
 	github.com/distatus/battery v0.11.0
+	github.com/gofiber/contrib/v3/websocket v1.1.0
 	github.com/gofiber/fiber/v3 v3.1.0
 	github.com/shirou/gopsutil/v4 v4.25.12
 )
@@ -13,7 +14,6 @@ require (
 	github.com/ebitengine/purego v0.9.1 // indirect
 	github.com/fasthttp/websocket v1.5.12 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
-	github.com/gofiber/contrib/v3/websocket v1.1.0 // indirect
 	github.com/gofiber/schema v1.7.0 // indirect
 	github.com/gofiber/utils/v2 v2.0.2 // indirect
 	github.com/google/uuid v1.6.0 // indirect
