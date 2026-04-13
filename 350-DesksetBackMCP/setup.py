@@ -36,16 +36,19 @@ shutil.copyfile('./.venv/Lib/site-packages/pywin32_system32/pythoncom312.dll', '
 shutil.copyfile('./.venv/Lib/site-packages/pywin32_system32/pywintypes312.dll', './.venv/Lib/site-packages/win32/lib/pywintypes312.dll')
 shutil.copytree('./.venv/Lib/site-packages', f'./{DIST}/site-packages')  # 直接复制 uv 环境
 
+# 编译 C/C++ 二进制库
+os.system('cd src/deskset/shared/lib && build.bat')
+
 # 构建程序
   # 构建失败的解决方案
   # - Error 1104：避免中文路径
 # os.system(f'nuitka --module src/deskset --include-package=deskset --output-dir={DIST}/site-packages --remove-output')
 shutil.copytree('./src/deskset', f'./{DIST}/site-packages/deskset')  # nuitka 暂不支持 3.12.10...
 
-# 打包 C/C++ 二进制库
-os.makedirs(f'./lib', exist_ok=True)  # 创建 lib 二进制库目录，否则 gcc 报错
-os.system('cd src-ffi/DiskActiveTime && build.bat')  # 编译 C/C++ 代码
-copy('lib')
+# ~~打包 C/C++ 二进制库~~
+# os.makedirs(f'./lib', exist_ok=True)  # 创建 lib 二进制库目录，否则 gcc 报错
+# os.system('cd src-ffi/DiskActiveTime && build.bat')  # 编译 C/C++ 代码
+# copy('lib')
 
 # 打包 静态文件
 copy('static')
