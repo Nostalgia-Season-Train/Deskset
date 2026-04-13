@@ -33,8 +33,8 @@ class AsyncEventIterator:
 from asyncio import Future, get_event_loop
 from asyncio import Event
 
-from deskset.core.config import config
-from deskset.core.standard import DesksetError
+from deskset.shared.config import config
+from deskset.shared.standard import DesksetError
 from deskset.router._unify.access import access, router_access
 
 from fastapi import WebSocket, WebSocketDisconnect, HTTPException
@@ -314,7 +314,7 @@ async def rpc(websocket: WebSocket):
   # - [ ] 改进：连接步骤 = http 登录 + websocket 上线/下线
     # 1、http 访问 login：身份认证和初始信息，生成本次 wstoken 及 { wstoken: 初始信息 }
     # 2、websocket 访问 rpc：检查 wstoken 后取回初始信息，创建 RpcClient(ws, init)
-from deskset.core.config import DESKSET_NOTEAPI_VERSION
+from deskset.shared.config import DESKSET_NOTEAPI_VERSION
 from fastapi import Request, Form
 
 @router_access.post('/obsidian/login')
@@ -328,7 +328,7 @@ def login(
       # 目标：确保请求来源 NodeJS，而不是浏览器
       # 原因：阻止恶意网站利用浏览器进行 CSRF 攻击（私有网络攻击）
     if request.headers.get('Sec-Deskset-NoteAPI', None) != 'PNA':
-        from deskset.core.log import logging
+        from deskset.shared.log import logging
         logging.error(f'Website {request.headers.get('Referer')} try to login Deskset')
         raise HTTPException(status_code=400, detail='Invalid client')
 

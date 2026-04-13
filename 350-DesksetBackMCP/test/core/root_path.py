@@ -2,9 +2,9 @@ import os
 from pathlib import Path
 from send2trash import send2trash, TrashPermissionError
 
-from deskset.core.locale import _t
-from deskset.core.config import config
-from deskset.core.standard import DesksetError
+from deskset.shared.locale import _t
+from deskset.shared.config import config
+from deskset.shared.standard import DesksetError
 
 ERR_PATH_NOT_EXIST     = DesksetError(code=2000, message=_t('路径 {} 不存在'))
 ERR_FILE_NOT_EXIST     = DesksetError(code=2001, message=_t('根路径 {} 下文件 {} 不存在'))

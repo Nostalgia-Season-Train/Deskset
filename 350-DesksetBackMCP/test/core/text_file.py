@@ -1,9 +1,9 @@
 import difflib
 from typing import Callable, Any
 
-from deskset.core.config import config
-from deskset.core.locale import _t
-from deskset.core.standard import DesksetError
+from deskset.shared.config import config
+from deskset.shared.locale import _t
+from deskset.shared.standard import DesksetError
 
 ERR_FILE_NOT_FIND       = DesksetError(code=1002, message=_t('打开失败，文件不存在'))
 ERR_FILE_CHANGE_OUTSIDE = DesksetError(code=1003, message=_t('文件被外部修改'))

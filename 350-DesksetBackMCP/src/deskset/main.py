@@ -3,7 +3,7 @@ from __future__ import annotations
 
 
 # ==== 命令行参数 ====
-from deskset.core.args import DEVELOP_ENV
+from deskset.shared.args import DEVELOP_ENV
 
 
 # ==== 确保各模块所需目录存在 ====
@@ -16,14 +16,14 @@ Path('./plugins').mkdir(exist_ok=True)  # 插件 router.plugin
 
 
 # ==== 日志 ====
-from deskset.core.log import logging
+from deskset.shared.log import logging
 
 if DEVELOP_ENV:
     logging.info('Running on Development Environment')
 
 
 # ==== 服务器地址 host 和端口 port ====
-from deskset.core.config import config
+from deskset.shared.config import config
 
 server_host = config.server_host
 server_port = config.server_port
@@ -90,7 +90,7 @@ app.include_router(router_access)
     # ErrorHandlingMiddleware：DesksetError 从 ToolError 中提取 DesksetError from ToolError.__cause__
 from fastmcp.server.middleware.error_handling import ErrorHandlingMiddleware
 from fastmcp.server.middleware import MiddlewareContext
-from deskset.core.standard import DesksetError
+from deskset.shared.standard import DesksetError
 from mcp import McpError
 from mcp.types import ErrorData
 
@@ -376,7 +376,7 @@ if not DEVELOP_ENV:  # Tauri 构建后用 http://tauri.localhost 通信...
 
 # ==== CombinedApp：统一问题（错误、异常）处理 ====
 from fastapi.requests import Request
-from deskset.core.standard import DesksetError
+from deskset.shared.standard import DesksetError
 from fastapi.responses import JSONResponse
 from deskset.router._unify import DesksetErrorRep
 from http import HTTPStatus
@@ -385,7 +385,7 @@ from http import HTTPStatus
 def deskset_error(request: Request, err: DesksetError):
     return DesksetErrorRep(content=err)
 
-from deskset.core.error import DesksetErrorNew
+from deskset.shared.error import DesksetErrorNew
 @combined_app.exception_handler(DesksetErrorNew)
 def deskset_error_new(request: Request, err: DesksetErrorNew):
     return JSONResponse(

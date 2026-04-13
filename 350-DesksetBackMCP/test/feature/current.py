@@ -1,7 +1,7 @@
 from datetime import datetime
 import arrow
 
-from deskset.core.config import config
+from deskset.shared.config import config
 
 
 # 日期时间

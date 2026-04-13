@@ -2,7 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from deskset.core.log import logging
+from deskset.shared.log import logging
 
 class DesksetError(Exception):
     def __init__(

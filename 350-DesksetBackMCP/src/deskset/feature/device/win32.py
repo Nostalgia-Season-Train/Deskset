@@ -1,6 +1,6 @@
 # ==== 依赖 ====
 import psutil
-from deskset.core.log import logging
+from deskset.shared.log import logging
 from ._abstract import AbstractDevice
 
 # psutil 拿不到的信息

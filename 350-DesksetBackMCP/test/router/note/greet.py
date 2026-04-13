@@ -62,5 +62,5 @@ async def greet():
         }
 
     # - [ ] 改进思考：如果没有配置，是否返回默认问候语
-    from deskset.core.standard import DesksetError
+    from deskset.shared.standard import DesksetError
     raise DesksetError(message='没有配置问候语')

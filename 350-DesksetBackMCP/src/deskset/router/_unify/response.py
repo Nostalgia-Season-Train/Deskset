@@ -1,7 +1,7 @@
 from fastapi import Response
 import orjson
 
-from deskset.core.standard import DesksetError
+from deskset.shared.standard import DesksetError
 
 # 临时：Deskset 响应模型
 from typing import Any

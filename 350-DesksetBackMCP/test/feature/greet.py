@@ -1,7 +1,7 @@
 from datetime import datetime
 import random
 
-from deskset.core.locale import _t
+from deskset.shared.locale import _t
 
 
 class Greet:

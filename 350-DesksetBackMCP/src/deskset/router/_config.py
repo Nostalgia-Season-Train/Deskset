@@ -11,8 +11,8 @@ router_config = APIRouter(
 
 # ==== URL ====
 from fastapi import Form
-from deskset.core.config import config
-from deskset.core.standard import DesksetError
+from deskset.shared.config import config
+from deskset.shared.standard import DesksetError
 
 @router_config.get('/language')
 def get_language():

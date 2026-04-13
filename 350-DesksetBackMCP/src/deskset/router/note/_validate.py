@@ -4,7 +4,7 @@ from typing import ClassVar
 from pydantic import BaseModel, field_validator
 from asyncer import asyncify
 
-from deskset.core.standard import DesksetError
+from deskset.shared.standard import DesksetError
 
 
 # ==== NoteAPI data.json 设置 ====

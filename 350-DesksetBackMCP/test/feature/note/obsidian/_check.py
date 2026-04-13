@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from deskset.core.standard import DesksetError
+from deskset.shared.standard import DesksetError
 
 # 检查 vault_path 是不是 Obsidian 仓库
 def check_vault(vault_path: str) -> None:

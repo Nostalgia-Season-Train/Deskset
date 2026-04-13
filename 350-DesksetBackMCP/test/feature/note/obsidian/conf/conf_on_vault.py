@@ -3,9 +3,9 @@
 from typing import Optional
 from pathlib import Path
 
-from deskset.core.log import logging
-from deskset.core.standard import DesksetError
-from deskset.core.config import write_conf_file_abspath, read_conf_file_abspath
+from deskset.shared.log import logging
+from deskset.shared.standard import DesksetError
+from deskset.shared.config import write_conf_file_abspath, read_conf_file_abspath
 
 from .._check import check_vault
 

@@ -4,7 +4,7 @@
 from pathlib import Path
 import glob, yaml
 
-from deskset.core.config import config
+from deskset.shared.config import config
 
 TRANSLATION_FILE_FOLDER   = './i18n'
 TRANSLATION_FILE_FORMAT   = 'yaml'

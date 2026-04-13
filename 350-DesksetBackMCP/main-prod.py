@@ -25,7 +25,7 @@ shutup.please()
 if __name__ == '__main__':
     if DEVELOP_ENV:
         import uvicorn
-        from deskset.core.config import config
+        from deskset.shared.config import config
         uvicorn.run(
             'deskset.main:combined_app',
             host=config.server_host,

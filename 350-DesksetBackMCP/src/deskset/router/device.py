@@ -1,5 +1,5 @@
 # ==== Device ====
-from deskset.core.error import deskset_error_new_response_schema, UnknownSystemError
+from deskset.shared.error import deskset_error_new_response_schema, UnknownSystemError
 from deskset.feature.device._abstract import AbstractDevice
 from deskset.feature.device import device
 

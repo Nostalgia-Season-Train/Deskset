@@ -1,4 +1,4 @@
-from deskset.core.error import UnknownSystemError
+from deskset.shared.error import UnknownSystemError
 from ._abstract import AbstractDevice
 
 

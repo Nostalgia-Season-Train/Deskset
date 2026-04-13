@@ -6,7 +6,7 @@ from fastapi import WebSocket
 from random import choices
 from string import digits, ascii_letters
 
-from deskset.core.standard import DesksetError
+from deskset.shared.standard import DesksetError
 
 class RpcClient:
     websocket: WebSocket

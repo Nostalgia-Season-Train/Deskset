@@ -3,9 +3,9 @@ from __future__ import annotations
 from typing import Optional
 from abc import ABC, abstractmethod
 
-from deskset.core.log import logging
-from deskset.core.standard import DesksetError
-from deskset.core.config import write_conf_file, read_conf_file
+from deskset.shared.log import logging
+from deskset.shared.standard import DesksetError
+from deskset.shared.config import write_conf_file, read_conf_file
 
 
 class ConfVault:

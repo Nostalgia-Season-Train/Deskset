@@ -1,6 +1,6 @@
 from typing import Any, get_type_hints, get_args
 from yaml import safe_load as yaml_load, dump as yaml_dump
-from deskset.core.log import logging
+from deskset.shared.log import logging
 
 CONF_PROFILE_PATH = './config/profile.yaml'
 CONF_PROFILE_ENCODE = 'utf-8'

@@ -6,8 +6,8 @@ from httpx import ConnectError
 from fastapi import WebSocket
 from asyncer import asyncify
 
-from deskset.core.log import logging
-from deskset.core.standard import DesksetError
+from deskset.shared.log import logging
+from deskset.shared.standard import DesksetError
 
 from ._validate import Setting
 from ._validate import Greet

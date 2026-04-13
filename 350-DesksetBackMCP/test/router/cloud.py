@@ -2,7 +2,7 @@ import mimetypes
 from fastapi import APIRouter
 from fastapi.responses import FileResponse
 
-from deskset.core.root_path import RootPath
+from deskset.shared.root_path import RootPath
 
 router_cloud = APIRouter(prefix='/v0/cloud', tags=['在线文件'])
 

@@ -11,7 +11,7 @@ router_profile = APIRouter(
 
 # ==== REST API ====
 from fastapi import Form
-from deskset.core.standard import DesksetError
+from deskset.shared.standard import DesksetError
 from deskset.feature.profile import profile
 
 @router_profile.get('')

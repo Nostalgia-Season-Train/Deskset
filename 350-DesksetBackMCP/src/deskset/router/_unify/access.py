@@ -1,12 +1,12 @@
 # 命令行参数
-from deskset.core.args import DEVELOP_ENV, DISABLE_ACCESS
+from deskset.shared.args import DEVELOP_ENV, DISABLE_ACCESS
 
 
 # access 权限
-from deskset.core.config import config
+from deskset.shared.config import config
 
 if DISABLE_ACCESS:
-    from deskset.core.log import logging
+    from deskset.shared.log import logging
     logging.warning('=== Access is disabled ===')
 
 
@@ -83,7 +83,7 @@ def check_token(token: str = Depends(oauth2_scheme)) -> bool:  # type: ignore # 
 
 if DISABLE_ACCESS:
     if not DEVELOP_ENV:  # 只有开发环境，才能禁用认证，否则直接退出（DISABLE_ACCESS = True 被意外打包）
-        from deskset.core.log import logging
+        from deskset.shared.log import logging
         logging.critical('DISABLE_ACCESS is True on Product Environment')
         raise RuntimeError('DISABLE_ACCESS is True on Product Environment')
     def check_token() -> None:  # 重新定义 check_token（注：Python 多次定义函数时，只有最后的定义被使用）
@@ -104,7 +104,7 @@ def login(
       # 目标：确保请求来源 NodeJS，而不是浏览器
       # 原因：阻止恶意网站利用浏览器进行 CSRF 攻击（私有网络攻击）
     if request.headers.get('Sec-Deskset-NoteAPI', None) != 'PNA':
-        from deskset.core.log import logging
+        from deskset.shared.log import logging
         logging.error(f'Website {request.headers.get('Referer')} try to login Deskset')
         raise HTTPException(status_code=400, detail='Invalid client')
 

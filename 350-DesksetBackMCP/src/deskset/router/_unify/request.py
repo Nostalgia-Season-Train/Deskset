@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pydantic import BaseModel, field_validator, model_validator
-from deskset.core.standard import DesksetError
+from deskset.shared.standard import DesksetError
 
 
 # ==== 验证日期 ====

@@ -1,5 +1,5 @@
 from __future__ import annotations
-from deskset.core.log import logging
+from deskset.shared.log import logging
 
 CONFIG_MAIN_PATH = './config/desksetback.yaml'
 CONFIG_MAIN_ENCODE = 'utf-8'
