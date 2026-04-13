@@ -269,7 +269,7 @@ from deskset.router._unify.access import router_access
   # OAuth2PasswordBearer.__call__() missing 1 required positional argument: 'request'
   # 2026/02/25：不用管 ws_handler 弃用警告 DeprecationWarning
     # 相关讨论：https://github.com/Kludex/uvicorn/discussions/2476
-@router_access.websocket('/note/obsidian/rpc')
+@router_access.websocket('/obsidian/rpc')
 async def rpc(websocket: WebSocket):
     async def is_authorized(subprotocols: list[str]):
         if len(subprotocols) != 2:
@@ -317,7 +317,7 @@ async def rpc(websocket: WebSocket):
 from deskset.core.config import DESKSET_NOTEAPI_VERSION
 from fastapi import Request, Form
 
-@router_access.post('/note/obsidian/login')
+@router_access.post('/obsidian/login')
 def login(
     request: Request,
     username: str = Form(),
