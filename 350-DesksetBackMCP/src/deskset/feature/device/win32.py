@@ -1,33 +1,14 @@
 # ==== 依赖 ====
 import psutil
+from deskset.shared.lib import WIN32_ERROR_SUCCESS, dll_win32_performance_counter
 from deskset.shared.log import logging
 from ._abstract import AbstractDevice
-
-# psutil 拿不到的信息
-import ctypes
-
-ERROR_SUCCESS = 0
-
-class returnData(ctypes.Structure):
-    _fields_ = [
-        ('errorDiskTime', ctypes.c_ulong),
-        ('resultDiskTime', ctypes.c_double),
-        ('errorCpuFreq', ctypes.c_ulong),
-        ('resultCpuFreq', ctypes.c_double),  # CpuFreq * CPU-最大频率 = CPU-当前频率
-    ]
-
-dll_disk_active_time = ctypes.windll.LoadLibrary('./lib/DiskActiveTime.dll')
-dll_disk_active_time.get.restype = returnData
-dll_disk_active_time.start.restype = ctypes.c_ulong
-dll_disk_active_time.end.restype = ctypes.c_ulong
-
 
 
 # ==== Win32 设备系统 ====
 from threading import Lock, Thread
 from time import time, sleep
 from dataclasses import dataclass
-
 
 class Win32Device(AbstractDevice):
     @dataclass
@@ -62,12 +43,12 @@ class Win32Device(AbstractDevice):
 
     def __loop_refresh(self) -> None:
         # 初始化硬盘统计
-        disk_active_time_start_result = dll_disk_active_time.start()
+        disk_active_time_start_result = dll_win32_performance_counter.start()
 
-        if disk_active_time_start_result != ERROR_SUCCESS:
+        if disk_active_time_start_result != WIN32_ERROR_SUCCESS:
             logging.error(f'DiskActiveTime.dll start fail, error code: 0x{disk_active_time_start_result:04X}')
         else:
-            dll_disk_active_time.get()  # 刷掉第一次调用的错误
+            dll_win32_performance_counter.get()  # 刷掉第一次调用的错误
 
         # 初始化网络统计
         self.__last_net = psutil.net_io_counters()
@@ -78,11 +59,11 @@ class Win32Device(AbstractDevice):
             sleep(self._interval)
 
             # *** 性能计数器 ***
-            disk_active_time = dll_disk_active_time.get()
+            disk_active_time = dll_win32_performance_counter.get()
 
             # *** 芯片 ***
             self._hardware.cpu['percent'] = psutil.cpu_percent(interval=0)
-            if disk_active_time.errorCpuFreq != ERROR_SUCCESS:
+            if disk_active_time.errorCpuFreq != WIN32_ERROR_SUCCESS:
                 logging.error(f'CpuFreq get fail, error code: 0x{disk_active_time.errorCpuFreq:04X}')
             else:
                 self._hardware.cpu['freq'] = round(disk_active_time.resultCpuFreq * psutil.cpu_freq().max, 2)
@@ -97,7 +78,7 @@ class Win32Device(AbstractDevice):
               # 使用率 percent: float %
                 # 注 1：使用率 = 活动时间：单位时间内硬盘使用率，也就是 1s 内读写所用时间 / 1s
                 # 注 2：round(, 1) 与 psutil 百分比位数保持一致
-            if disk_active_time.errorDiskTime != ERROR_SUCCESS:
+            if disk_active_time.errorDiskTime != WIN32_ERROR_SUCCESS:
                 logging.error(f'DiskTime get fail, error code: 0x{disk_active_time.errorDiskTime:04X}')
             else:
                 self._hardware.disk['percent'] = round(disk_active_time.resultDiskTime, 1)
@@ -114,7 +95,7 @@ class Win32Device(AbstractDevice):
             self.__last_net = net
             self.__last_nettime = netnow
 
-        dll_disk_active_time.end()  # - [ ] 暂时无法清理，预期应在 fastAPI 应用结束时执行
+        dll_win32_performance_counter.end()  # - [ ] 暂时无法清理，预期应在 fastAPI 应用结束时执行
 
     # --- 硬件监控 ---
     def monitor(self) -> dict:

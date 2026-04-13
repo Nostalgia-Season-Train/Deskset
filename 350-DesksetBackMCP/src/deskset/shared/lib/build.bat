@@ -1,4 +1,4 @@
-gcc -fPIC -shared "./main.c" -o "../../lib/DiskActiveTime.dll" -lpdh
+gcc -fPIC -shared "./Win32PerformanceCounter.c" -o "./Win32PerformanceCounter.dll" -lpdh
 
 
 @REM === Test C Code ===
