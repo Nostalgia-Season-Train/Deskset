@@ -9,6 +9,7 @@ import (
 	Battery "github.com/distatus/battery"
 	"github.com/shirou/gopsutil/v4/cpu"
 	"github.com/shirou/gopsutil/v4/disk"
+	"github.com/shirou/gopsutil/v4/host"
 	"github.com/shirou/gopsutil/v4/mem"
 	"github.com/shirou/gopsutil/v4/net"
 )
@@ -252,4 +253,31 @@ func BatteryPower() BatteryResult {
 	}
 
 	return results[0] // 暂时只返回主电池
+}
+
+/* ==== 系统信息 ==== */
+type SystemInfo struct {
+	Name    string `json:"name"`    // 主机名
+	System  string `json:"system"`  // 操作系统
+	Version string `json:"version"` // 操作系统版本
+	Machine string `json:"machine"` // CPU 架构（x86_64、arm64）
+}
+
+func System() SystemInfo {
+	hostInfo, err := host.Info()
+	if err != nil {
+		return SystemInfo{
+			Name:    "Unknown",
+			System:  "Unknown",
+			Version: "Unknown",
+			Machine: "Unknown",
+		}
+	}
+
+	return SystemInfo{
+		Name:    hostInfo.Hostname,
+		System:  hostInfo.OS,
+		Version: hostInfo.PlatformVersion,
+		Machine: hostInfo.KernelArch,
+	}
 }
