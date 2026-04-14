@@ -65,15 +65,9 @@ func main() {
 		}
 		kms.SetOffline()
 	}))
-	app.Get("/kms/get-active-file", func(c fiber.Ctx) error {
-		ret, err := kms.GetActiveFile()
-		if err != nil {
-			return c.SendString("Error")
-		}
-		return c.SendString(ret.(string))
-	})
 
 	router.RegisterDevice(app)
+	router.RegisterKMS(app)
 
 	go func() {
 		app.Listen("127.0.0.1:" + strconv.Itoa(args.Port))
