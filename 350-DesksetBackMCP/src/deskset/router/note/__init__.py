@@ -1,9 +1,8 @@
-from fastapi import APIRouter, Depends
-from deskset.router._unify import check_token, DesksetRepJSON
+from fastapi import APIRouter
+from deskset.router._unify import DesksetRepJSON
 
 router_note = APIRouter(
     prefix='/v0/note',
-    dependencies=[Depends(check_token)]
 )
 
 

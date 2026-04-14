@@ -5,12 +5,10 @@ from deskset.feature.device import device
 
 
 # ==== 路由 ====
-from fastapi import APIRouter, Depends
-from deskset.router._unify import check_token
+from fastapi import APIRouter
 
 router_device = APIRouter(
     prefix='/device', tags=['device'],
-    dependencies=[Depends(check_token)],
     responses={ UnknownSystemError.http_status: {
         'content': { 'application/json': { 'schema': deskset_error_new_response_schema } }
     } }
