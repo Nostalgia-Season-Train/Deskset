@@ -9,7 +9,7 @@ import (
 	"syscall"
 
 	"DesksetBack/app/router"
-	"DesksetBack/feature"
+	"DesksetBack/feature/device"
 	"DesksetBack/shared/log"
 
 	"DesksetBack/app/args"
@@ -26,7 +26,7 @@ func main() {
 		panic(err)
 	}
 	// 启动硬件监控
-	feature.StartMonitor()
+	device.StartMonitor()
 
 	// 启动 Fiber 服务器
 	app := fiber.New()
@@ -88,7 +88,7 @@ func main() {
 	app.Shutdown()
 
 	// 停止硬件监控
-	feature.EndMonitor()
+	device.EndMonitor()
 	// 关闭日志器
 	defer cleanupLogger()
 }
