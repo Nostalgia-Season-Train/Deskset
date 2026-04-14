@@ -299,7 +299,7 @@ async def test_client():
 
 
 # ==== CombinedApp：中间件 ====
-from deskset.app.middle.auth import AuthMiddleware
+from deskset.app.middle import AuthMiddleware
 
 combined_app.add_middleware(AuthMiddleware)
 

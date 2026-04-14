@@ -2,7 +2,7 @@ from starlette.datastructures import Headers
 from starlette.responses import PlainTextResponse
 from starlette.types import ASGIApp, Receive, Scope, Send
 
-from ..store import server_host, server_port
+from .store import server_host, server_port
 
 class AuthMiddleware:
     def __init__(self, app: ASGIApp) -> None:
