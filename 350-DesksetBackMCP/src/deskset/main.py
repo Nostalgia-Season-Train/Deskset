@@ -3,7 +3,7 @@ from __future__ import annotations
 
 
 # ==== 命令行参数 ====
-from deskset.shared.args import DEVELOP_ENV
+from deskset.app.args import DEVELOP_ENV
 
 
 # ==== 确保各模块所需目录存在 ====

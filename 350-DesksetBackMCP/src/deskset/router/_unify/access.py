@@ -1,5 +1,7 @@
 # 命令行参数
-from deskset.shared.args import DEVELOP_ENV, DISABLE_ACCESS
+# from deskset.shared.args import DEVELOP_ENV, DISABLE_ACCESS
+DEVELOP_ENV = True
+DISABLE_ACCESS = True
 
 
 # access 权限
