@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"os/signal"
@@ -12,6 +13,7 @@ import (
 	"DesksetBack/shared/log"
 
 	"DesksetBack/app/args"
+	"DesksetBack/feature/kms"
 
 	"github.com/gofiber/contrib/v3/websocket"
 	"github.com/gofiber/fiber/v3"
@@ -43,20 +45,33 @@ func main() {
 	// websocket 路由
 	app.Get("/obsidian/rpc", websocket.New(func(c *websocket.Conn) {
 		// 消息循环
+		rpcClient := kms.NewRpcClient(c)
+		kms.SetOnline(rpcClient)
 		for {
-			mt, msg, err := c.ReadMessage()
+			// 接收消息
+			_, msg, err := c.ReadMessage()
 			if err != nil {
 				fmt.Println("read:", err)
 				break
 			}
-			fmt.Printf("recv: %s\n", msg)
-			writeErr := c.WriteMessage(mt, msg)
-			if writeErr != nil {
-				fmt.Println("write:", err)
-				break
+			// 解析消息
+			var data map[string]any
+			err = json.Unmarshal(msg, &data)
+			if err != nil {
+				fmt.Println("Error unmarshal message:", err)
+				continue
 			}
+			rpcClient.OnReceive(data)
 		}
+		kms.SetOffline()
 	}))
+	app.Get("/kms/get-active-file", func(c fiber.Ctx) error {
+		ret, err := kms.GetActiveFile()
+		if err != nil {
+			return c.SendString("Error")
+		}
+		return c.SendString(ret.(string))
+	})
 
 	router.RegisterDevice(app)
 
