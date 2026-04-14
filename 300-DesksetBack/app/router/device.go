@@ -1,6 +1,8 @@
 package router
 
 import (
+	"DesksetBack/feature/device"
+
 	Battery "github.com/distatus/battery"
 	"github.com/gofiber/fiber/v3"
 	GopsutilDisk "github.com/shirou/gopsutil/v4/disk"
@@ -9,13 +11,13 @@ import (
 func RegisterDevice(app *fiber.App) {
 	router := app.Group("/device")
 
-	router.Get("/hardware", hardware)
+	router.Get("/monitor", monitor)
 	router.Get("/disk", disk)
 	router.Get("/battery", battery)
 }
 
-func hardware(ctx fiber.Ctx) error {
-	return ctx.SendString("From DesksetBack/router/device: Hello, World!")
+func monitor(ctx fiber.Ctx) error {
+	return ctx.JSON(device.Monitor())
 }
 
 /* ==== 硬盘存储值 ==== */
