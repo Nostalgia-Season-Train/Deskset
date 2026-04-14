@@ -51,6 +51,7 @@
         "main.py",
         "-dev",
         "-no-access",
+        "-port=6528",
       ],
       "env": {
         "PYTHONPATH": "${workspaceFolder}/350-DesksetBackMCP/src",

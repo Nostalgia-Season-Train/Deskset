@@ -4,6 +4,7 @@ from __future__ import annotations
 
 # ==== 命令行参数 ====
 from deskset.app.args import DEVELOP_ENV
+from deskset.shared.config import config
 
 
 # ==== 确保各模块所需目录存在 ====
@@ -23,10 +24,8 @@ if DEVELOP_ENV:
 
 
 # ==== 服务器地址 host 和端口 port ====
-from deskset.shared.config import config
+from deskset.app.store import server_host, server_port
 
-server_host = config.server_host
-server_port = config.server_port
 logging.info(f'Server URL is http://{server_host}:{server_port}')
 
 
