@@ -1,2 +1,4 @@
 DEFAUKT_SERVER_HOST = '127.0.0.1'
 DEFAUKT_SERVER_PORT = 6527
+
+SHUTDOWN_TIMEOUT = 5  # 服务器从 Ctrl+C 到强制关闭的超时时间（秒）
