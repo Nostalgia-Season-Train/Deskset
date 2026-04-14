@@ -6,6 +6,7 @@ import (
 	"sync"
 	"time"
 
+	Battery "github.com/distatus/battery"
 	"github.com/shirou/gopsutil/v4/cpu"
 	"github.com/shirou/gopsutil/v4/disk"
 	"github.com/shirou/gopsutil/v4/mem"
@@ -177,4 +178,78 @@ func StartMonitor() {
 			}
 		}
 	}()
+}
+
+/* ==== 硬盘存储值 ==== */
+type DiskResult struct {
+	Root    string  `json:"root"`    // 硬盘驱动号
+	Total   float64 `json:"total"`   // 硬盘容量
+	Free    float64 `json:"free"`    // 硬盘可用空间
+	Percent float64 `json:"percent"` // 硬盘使用率
+}
+
+func DiskStorage() []DiskResult {
+	partitions, err := disk.Partitions(false)
+	if err != nil {
+		return []DiskResult{}
+	}
+
+	var results []DiskResult
+
+	for _, partition := range partitions {
+		root := partition.Mountpoint
+
+		usage, err := disk.Usage(root)
+		if err != nil {
+			continue
+		}
+
+		total := float64(usage.Total>>20) / 1024
+		free := float64(usage.Free>>20) / 1024
+		percent := usage.UsedPercent
+
+		results = append(results, DiskResult{
+			Root:    root,
+			Total:   total,
+			Free:    free,
+			Percent: percent,
+		})
+	}
+
+	return results
+}
+
+/* ==== 电池电量 ==== */
+type BatteryResult struct {
+	IsCharge bool    `json:"is_charge"` // 是否正在充电
+	Percent  float64 `json:"percent"`   // 电量百分比
+}
+
+func BatteryPower() BatteryResult {
+	batterys, err := Battery.GetAll()
+	if err != nil {
+		// 电池获取失败，返回正在充电和满电量，默认是插电台式机
+		return BatteryResult{
+			IsCharge: true,
+			Percent:  1.0,
+		}
+	}
+
+	var results []BatteryResult
+
+	for _, battery := range batterys {
+		is_charge := false
+		if battery.State.Raw == Battery.Charging || battery.State.Raw == Battery.Full {
+			is_charge = true
+		}
+
+		percent := battery.Current / battery.Full
+
+		results = append(results, BatteryResult{
+			IsCharge: is_charge,
+			Percent:  percent,
+		})
+	}
+
+	return results[0] // 暂时只返回主电池
 }
