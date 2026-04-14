@@ -32,6 +32,7 @@ logging.info(f'Server URL is http://{server_host}:{server_port}')
 
 # ==== Lifespan 生命周期 ====
 from contextlib import asynccontextmanager
+from deskset.router._unify.access import access
 
 # from deskset.feature.note import apscheduler as note_apscheduler
 
@@ -299,42 +300,9 @@ async def test_client():
 
 
 # ==== CombinedApp：中间件 ====
-from starlette.datastructures import Headers
-from starlette.responses import PlainTextResponse
-from starlette.types import ASGIApp, Receive, Scope, Send
+from deskset.app.middle.auth import AuthMiddleware
 
-from deskset.router._unify.access import access
-
-# 仅允许本机访问
-  # 对 http 和 websocket 都生效
-class AllowOnly127001tMiddleware:
-    def __init__(self, app: ASGIApp) -> None:
-        self.app = app
-
-    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
-        if scope['type'] not in ('http', 'websocket'):
-            return await self.app(scope, receive, send)
-
-        # 限制只能本机（127.0.0.1）访问
-        if scope['client'][0] != '127.0.0.1':
-            response = PlainTextResponse('Access allowed only from 127.0.0.1', status_code=400)
-            return await response(scope, receive, send)
-
-        # 解析标头
-        headers = Headers(scope=scope)
-
-        if headers.get('host', None) != f'{server_host}:{server_port}':
-            response = PlainTextResponse('Invalid host header', status_code=400)
-            return await response(scope, receive, send)
-
-        # 服务器锁定
-        if access.fail_count >= access.Max_Fail_Count:
-            response = PlainTextResponse('Server Lock', status_code=400)
-            return await response(scope, receive, send)
-
-        return await self.app(scope, receive, send)
-
-combined_app.add_middleware(AllowOnly127001tMiddleware)
+combined_app.add_middleware(AuthMiddleware)
 
 
 # ==== CombinedApp：CORS 跨域请求 ====
