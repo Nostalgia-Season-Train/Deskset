@@ -54,5 +54,5 @@ class DesksetReqDateDayRange(BaseModel):
     # @classmethod   mode='after' 定义为实例方法
     def check_day_order(self) -> DesksetReqDateDayRange:
         if not int(self.start_day) <= int(self.end_day):
-            raise DesksetError(f'错误！起始天 {self.start_day} 不得早于结束天 {self.end_day}')
+            raise DesksetError(message=f'错误！起始天 {self.start_day} 不得早于结束天 {self.end_day}')
         return self
