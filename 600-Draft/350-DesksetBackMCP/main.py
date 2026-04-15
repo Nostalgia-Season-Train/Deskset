@@ -1,3 +1,12 @@
+# ==== 确保各模块所需目录存在 ====
+from pathlib import Path
+
+Path('./config').mkdir(exist_ok=True)  # 配置 core.config
+
+Path('./scripts').mkdir(exist_ok=True)  # 脚本 feature.quick.open
+Path('./plugins').mkdir(exist_ok=True)  # 插件 router.plugin
+
+
 # ==== FastAPI Router：AI 人工智能 ====
 
 # --- 重建 DesksetError 消息 ---

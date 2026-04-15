@@ -6,15 +6,6 @@ from __future__ import annotations
 from deskset.app.args import DEVELOP_ENV
 
 
-# ==== 确保各模块所需目录存在 ====
-from pathlib import Path
-
-Path('./config').mkdir(exist_ok=True)  # 配置 core.config
-
-Path('./scripts').mkdir(exist_ok=True)  # 脚本 feature.quick.open
-Path('./plugins').mkdir(exist_ok=True)  # 插件 router.plugin
-
-
 # ==== 日志 ====
 from deskset.shared.log import logging
 
