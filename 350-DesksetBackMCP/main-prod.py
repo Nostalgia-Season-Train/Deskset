@@ -25,12 +25,12 @@ shutup.please()
 if __name__ == '__main__':
     if DEVELOP_ENV:
         import uvicorn
-        from deskset.shared.config import config
+        from deskset.app.store import server_host, server_port, shutdown_timeout
         uvicorn.run(
             'deskset.main:combined_app',
-            host=config.server_host,
-            port=config.server_port,
-            timeout_graceful_shutdown=config.shutdown_graceful_timeout,
+            host=server_host,
+            port=server_port,
+            timeout_graceful_shutdown=shutdown_timeout,
             reload=True,
             use_colors=False  # use_colors=False：cmd.exe 不支持打印颜色，显示乱码
         )
