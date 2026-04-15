@@ -7,18 +7,6 @@ from .request import DesksetReqDateDay    # 日份 验证 YYYYMMDD 格式
 from .request import DesksetReqDateMonth  # 月份 验证 YYYYMM 格式
 from .request import DesksetReqDateDayRange  # 起始天和结束天
 
-# 路径、文件或文件夹请求
-from .request import DesksetReqPath
-from .request import DesksetReqFile
-from .request import DesksetReqFolder
-from .request import DesksetReqApp
-
-# 网址请求
-from .request import DesksetReqURL
-
-# 数字请求
-from .request import DesksetReqNumberInt
-
 
 # ==== 标准响应 ====
 
