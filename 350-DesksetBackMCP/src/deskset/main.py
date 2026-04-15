@@ -64,8 +64,8 @@ app.include_router(router_device)
 from deskset.app.router.note import router_note
 app.include_router(router_note)
 
-from deskset.app.router.quick import router_quick
-app.include_router(router_quick)
+# from deskset.app.router.quick import router_quick
+# app.include_router(router_quick)
 
 
 # ==== FastAPI Router：插件注册：/plugin 作为所有插件路由的根路径 ====
