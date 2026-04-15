@@ -30,7 +30,7 @@ logging.info(f'Server URL is http://{server_host}:{server_port}')
 
 # ==== Lifespan 生命周期 ====
 from contextlib import asynccontextmanager
-# from deskset.router._unify.access import access
+# from deskset.app.router._unify.access import access
 
 # from deskset.feature.note import apscheduler as note_apscheduler
 
@@ -58,13 +58,13 @@ app = FastAPI(lifespan=lifespan, docs_url=None, redoc_url=None)
 # from deskset.router._config import router_config
 # app.include_router(router_config)
 
-from deskset.router.device import router_device
+from deskset.app.router.device import router_device
 app.include_router(router_device)
 
-from deskset.router.note import router_note
+from deskset.app.router.note import router_note
 app.include_router(router_note)
 
-from deskset.router.quick import router_quick
+from deskset.app.router.quick import router_quick
 app.include_router(router_quick)
 
 
@@ -75,7 +75,7 @@ app.include_router(router_quick)
 
 # ==== FastAPI Router：认证接口 ====
   # 移到末尾注册，方便其他模块在 router_access 上挂载 REST 端点
-# from deskset.router._unify import router_access
+# from deskset.app.router._unify import router_access
 # app.include_router(router_access)
 
 
@@ -178,7 +178,7 @@ if not DEVELOP_ENV:  # Tauri 构建后用 http://tauri.localhost 通信...
 from fastapi.requests import Request
 from deskset.shared.standard import DesksetError
 from fastapi.responses import JSONResponse
-from deskset.router._unify import DesksetErrorRep
+from deskset.app.router._unify import DesksetErrorRep
 from http import HTTPStatus
 
 @combined_app.exception_handler(DesksetError)

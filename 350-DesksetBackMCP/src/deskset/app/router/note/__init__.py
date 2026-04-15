@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from deskset.router._unify import DesksetRepJSON
+from deskset.app.router._unify import DesksetRepJSON
 
 router_note = APIRouter(
     prefix='/v0/note',
