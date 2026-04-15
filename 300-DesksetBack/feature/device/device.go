@@ -71,13 +71,15 @@ func monitor() {
 	device.mu.Lock()
 	defer device.mu.Unlock()
 
-	device.updateCPU()
+	perfData := GetPerformanceCounterData()
+
+	device.updateCPU(perfData)
 	device.updateRAM()
-	device.updateDisk()
+	device.updateDisk(perfData)
 	device.updateNetwork()
 }
 
-func (d *Device) updateCPU() {
+func (d *Device) updateCPU(perfData PerformanceCounterData) {
 	percent, err := cpu.Percent(0, false)
 	if err == nil && len(percent) > 0 {
 		d.hardware.CPU.Percent = percent[0]
@@ -87,7 +89,9 @@ func (d *Device) updateCPU() {
 	if err == nil && len(freqInfo) > 0 {
 		maxFreq := freqInfo[0].Mhz
 		if maxFreq > 0 {
-			d.hardware.CPU.Freq = float64(maxFreq) / 1000.0
+			if perfData.ErrorCpuFreq == 0 && perfData.ResultCpuFreq > 0 {
+				d.hardware.CPU.Freq = perfData.ResultCpuFreq * maxFreq
+			}
 		}
 	}
 }
@@ -101,13 +105,11 @@ func (d *Device) updateRAM() {
 	}
 }
 
-func (d *Device) updateDisk() {
-	diskInfo, err := disk.Usage("/")
-	if err != nil {
-		diskInfo, err = disk.Usage("C:\\")
-	}
-	if err == nil {
-		d.hardware.Disk.Percent = diskInfo.UsedPercent
+func (d *Device) updateDisk(perfData PerformanceCounterData) {
+	if perfData.ErrorDiskTime == 0 {
+		d.hardware.Disk.Percent = perfData.ResultDiskTime
+	} else {
+		d.hardware.Disk.Percent = 0.0
 	}
 }
 
@@ -150,6 +152,7 @@ var endDoneFlag = make(chan bool)
 func EndMonitor() {
 	close(endFlag)
 	<-endDoneFlag
+	EndPerformanceCounter()
 }
 
 // 开始硬件监控
@@ -159,6 +162,8 @@ func StartMonitor() {
 		device.lastNetStats = netStats[0]
 	}
 	device.lastNetTime = time.Now()
+
+	StartPerformanceCounter()
 
 	ticker := time.NewTicker(1 * time.Second)
 	go func() {
