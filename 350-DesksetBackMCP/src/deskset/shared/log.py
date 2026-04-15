@@ -1,10 +1,7 @@
-LOG_DIR  = 'logs'                   # 日志目录
-# LOG_FILE = 'DesksetBackLatest.log'  # 日志文件
+from .constant import LOG_DIR, LOG_STEM_PREFIX, LOG_STEM_FORMAT, LOG_EXTN
+import arrow
 
-
-from datetime import datetime
-
-log_file = f'DesksetBack{datetime.now().strftime('%Y%m%d%H%M%S')}.log'
+log_file = f'{LOG_STEM_PREFIX}{arrow.now().format(LOG_STEM_FORMAT)}.{LOG_EXTN}'
 
 
 from pathlib import Path
