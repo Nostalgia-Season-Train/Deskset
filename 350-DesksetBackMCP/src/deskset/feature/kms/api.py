@@ -33,7 +33,7 @@ class AsyncEventIterator:
 from asyncio import Future, get_event_loop
 from asyncio import Event
 
-from deskset.shared.standard import DesksetError
+from deskset.shared.error import ObsidianNotConnectedError
 
 from fastapi import WebSocket, WebSocketDisconnect, HTTPException
 
@@ -66,7 +66,7 @@ class NoteAPI:
     # 不在线抛出 Error
     def check_online(self) -> None:
         if self._rpc is None:
-            raise DesksetError(message='Obsidian not online')
+            raise ObsidianNotConnectedError()
         return
 
     # 触发上下线事件

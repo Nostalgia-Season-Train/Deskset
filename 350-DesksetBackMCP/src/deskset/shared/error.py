@@ -17,3 +17,7 @@ deskset_error_new_response_schema = DesksetErrorNewResponseModel.model_json_sche
 class UnknownSystemError(DesksetErrorNew):
     http_status: int = HTTPStatus.NOT_IMPLEMENTED
     message: str = 'Unknown System'
+
+class ObsidianNotConnectedError(DesksetErrorNew):
+    http_status: int = HTTPStatus.SERVICE_UNAVAILABLE
+    message: str = 'Obsidian Not Connected'
