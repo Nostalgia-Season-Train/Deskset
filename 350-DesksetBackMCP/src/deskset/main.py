@@ -238,7 +238,7 @@ async def swagger_ui_redirect():
 # ==== 启动服务器 ====
 import uvicorn
 import sys
-from deskset.shared.constant import SHUTDOWN_TIMEOUT
+from deskset.app.store import shutdown_timeout
 
 def main():
     logging.info('==== all modules import completed, execute main function ====')
@@ -250,7 +250,7 @@ def main():
             combined_app,
             host=server_host,
             port=server_port,
-            timeout_graceful_shutdown=SHUTDOWN_TIMEOUT,
+            timeout_graceful_shutdown=shutdown_timeout,
             log_config=None,
             log_level='error'
         )
