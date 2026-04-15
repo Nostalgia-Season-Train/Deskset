@@ -34,7 +34,6 @@ from asyncio import Future, get_event_loop
 from asyncio import Event
 
 from deskset.shared.standard import DesksetError
-from deskset.router._unify.access import access, router_access
 
 from fastapi import WebSocket, WebSocketDisconnect, HTTPException
 
@@ -260,7 +259,6 @@ noteapi = NoteAPI()
 
 
 # ==== ==== 端点 Endpoint ==== ====
-from deskset.router._unify.access import router_access
 
 
 # ==== 全双工通信 Websocket ====
@@ -268,7 +266,7 @@ from deskset.router._unify.access import router_access
   # OAuth2PasswordBearer.__call__() missing 1 required positional argument: 'request'
   # 2026/02/25：不用管 ws_handler 弃用警告 DeprecationWarning
     # 相关讨论：https://github.com/Kludex/uvicorn/discussions/2476
-@router_access.websocket('/obsidian/rpc')
+# @router_access.websocket('/obsidian/rpc')
 async def rpc(websocket: WebSocket):
     async def is_authorized(subprotocols: list[str]):
         if len(subprotocols) != 2:

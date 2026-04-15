@@ -1,10 +1,5 @@
 """ 标准化：统一请求响应 """
 
-# ==== 身份认证 ====
-from .access import router_access
-from .access import check_token
-
-
 # ==== 标准请求 ====
 
 # 日期请求

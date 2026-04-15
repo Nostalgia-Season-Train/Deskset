@@ -4,7 +4,6 @@ from __future__ import annotations
 
 # ==== 命令行参数 ====
 from deskset.app.args import DEVELOP_ENV
-from deskset.shared.config import config
 
 
 # ==== 确保各模块所需目录存在 ====
@@ -31,14 +30,14 @@ logging.info(f'Server URL is http://{server_host}:{server_port}')
 
 # ==== Lifespan 生命周期 ====
 from contextlib import asynccontextmanager
-from deskset.router._unify.access import access
+# from deskset.router._unify.access import access
 
 # from deskset.feature.note import apscheduler as note_apscheduler
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # 信息传输：DesksetBack = 标准输出流 => DesksetFront
-    print(f'{{"url": "{server_host}:{server_port}", "token": "{access._token}"}}', flush=True)
+    # print(f'{{"url": "{server_host}:{server_port}", "token": "{access._token}"}}', flush=True)
 
     logging.info('start lifespan')
     # note_apscheduler.start()  # 不用 paused=True 暂停，uvicorn.run 自然启停
@@ -76,8 +75,8 @@ app.include_router(router_quick)
 
 # ==== FastAPI Router：认证接口 ====
   # 移到末尾注册，方便其他模块在 router_access 上挂载 REST 端点
-from deskset.router._unify import router_access
-app.include_router(router_access)
+# from deskset.router._unify import router_access
+# app.include_router(router_access)
 
 
 # ==== FastMCP 服务器 ====
