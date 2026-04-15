@@ -18,7 +18,7 @@ router_obsidian = APIRouter(
 @router_obsidian.get('/is_online')
 async def is_online():
     from fastapi.responses import StreamingResponse
-    from ._api import noteapi
+    from deskset.feature.kms.api import noteapi
     async def stream():
         try:
             while True:

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Body
-from ._api import noteapi
+from deskset.feature.kms.api import noteapi
 
 router_command = APIRouter(prefix='/command')
 

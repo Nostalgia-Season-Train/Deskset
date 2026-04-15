@@ -37,7 +37,7 @@ from deskset.shared.standard import DesksetError
 
 from fastapi import WebSocket, WebSocketDisconnect, HTTPException
 
-from ._rpc import RpcClient
+from .rpc import RpcClient
 
 
 class NoteAPI:

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Form, Query
 from pydantic import BaseModel
-from ._api import noteapi
+from deskset.feature.kms.api import noteapi
 
 router_note = APIRouter(prefix='/note', tags=['Note'])
 

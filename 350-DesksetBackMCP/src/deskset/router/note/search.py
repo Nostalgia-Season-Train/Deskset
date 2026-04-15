@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Query
-from ._api import NoteAPI, noteapi
+from deskset.feature.kms.api import NoteAPI, noteapi
 
 router_search = APIRouter(prefix='/search')
 

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Query
 from fastapi.responses import StreamingResponse
 
-from ._api import noteapi
+from deskset.feature.kms.api import noteapi
 
 router_common = APIRouter(prefix='/common')
 

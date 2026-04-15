@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 from deskset.router._unify import DesksetReqDateDayRange
-from ._api import noteapi
+from deskset.feature.kms.api import noteapi
 
 router_stats = APIRouter(prefix='/stats')
 
