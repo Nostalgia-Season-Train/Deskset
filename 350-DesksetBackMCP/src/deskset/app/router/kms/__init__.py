@@ -8,6 +8,36 @@ router_kms = APIRouter(
 
 # ==== Obsidian ====
 
+# RPC 连接
+from fastapi import WebSocket, WebSocketDisconnect, HTTPException
+from deskset.feature.kms.api import RpcClient
+from deskset.feature.kms.api import noteapi
+@router_kms.websocket('/rpc')
+async def rpc(websocket: WebSocket):
+    # 检查重复连接
+    if not noteapi._rpc == None:
+        raise HTTPException(status_code=400, detail='Another NoteAPI is online')
+
+    await websocket.accept('Authorization')  # 前后端都要有 Authorization 子协议，否则无法建立连接
+
+    # 上线 > 轮询接收 > 下线
+    noteapi._rpc = RpcClient(websocket)
+    await noteapi.trigger_online_event()
+    try:
+        while True:
+            response = await websocket.receive_json()
+            if response.get('datetime'):  # 单向事件：Obsidian > Deskset
+                await noteapi._trigger_event(response)
+            if response.get('id'):        # RPC 调用：Deskset > Obsidian > Deskset
+                await noteapi._rpc.on_receive(response)
+    except WebSocketDisconnect:
+        pass
+    await noteapi.trigger_offline_event()
+    noteapi._rpc = None
+
+    # 断开 Websocket 连接 + api._rpc = None 之后，触发下线事件
+    await noteapi._trigger_offline()
+
 # 上下线事件
 @router_kms.get('/is_online')
 async def is_online():
