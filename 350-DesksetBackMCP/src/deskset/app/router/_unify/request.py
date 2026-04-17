@@ -1,7 +1,13 @@
 from __future__ import annotations
 
 from pydantic import BaseModel, field_validator, model_validator
-from deskset.shared.standard import DesksetError
+from deskset.shared.error import (
+    InvalidDayFormatError,
+    InvalidDayError,
+    InvalidMonthFormatError,
+    InvalidMonthError,
+    InvalidDateRangeError
+)
 
 
 # ==== 验证日期 ====
@@ -17,9 +23,9 @@ class DesksetReqDateDay(BaseModel):
             arrow.get(v, 'YYYYMMDD')
             return v
         except arrow.parser.ParserError:
-            raise DesksetError(message=f'错误！某天 {v} 日期格式有误！应为 YYYYMMDD')
+            raise InvalidDayFormatError(v)
         except ValueError:
-            raise DesksetError(message=f'错误！某天 {v} 日期无效！')
+            raise InvalidDayError(v)
 
 class DesksetReqDateMonth(BaseModel):
     month: str  # 某月，日期格式：YYYYMM，比如 202503
@@ -31,9 +37,9 @@ class DesksetReqDateMonth(BaseModel):
             arrow.get(v, 'YYYYMM')
             return v
         except arrow.parser.ParserError:
-            raise DesksetError(message=f'错误！某月 {v} 日期格式有误！应为 YYYYMM')
+            raise InvalidMonthFormatError(v)
         except ValueError:
-            raise DesksetError(message=f'错误！某月 {v} 日期无效！')
+            raise InvalidMonthError(v)
 
 class DesksetReqDateDayRange(BaseModel):
     start_day: str
@@ -46,13 +52,13 @@ class DesksetReqDateDayRange(BaseModel):
             arrow.get(v, 'YYYYMMDD')
             return v
         except arrow.parser.ParserError:
-            raise DesksetError(message=f'错误！某天 {v} 日期格式有误！应为 YYYYMMDD')
+            raise InvalidDayFormatError(v)
         except ValueError:
-            raise DesksetError(message=f'错误！某天 {v} 日期无效！')
+            raise InvalidDayError(v)
 
     @model_validator(mode='after')
     # @classmethod   mode='after' 定义为实例方法
     def check_day_order(self) -> DesksetReqDateDayRange:
         if not int(self.start_day) <= int(self.end_day):
-            raise DesksetError(message=f'错误！起始天 {self.start_day} 不得早于结束天 {self.end_day}')
+            raise InvalidDateRangeError(self.start_day, self.end_day)
         return self
