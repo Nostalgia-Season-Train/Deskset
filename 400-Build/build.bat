@@ -11,6 +11,6 @@ call python setup.py
 cd ..\
 
 copy 200-DesksetFront\src-tauri\target\release\Deskset.exe 000-Dist
-xcopy 300-DesksetBack\dist\DesksetBack 000-Dist /s
+xcopy 350-DesksetBackMCP\dist\DesksetBack 000-Dist /s
 @REM tar -czf Deskset.tar -C 000-Dist .
-powershell -Command "Compress-Archive -Path '000-Dist\*' -DestinationPath 'Deskset.zip'"
+powershell -Command "Compress-Archive -Path '000-Dist\*' -DestinationPath 'DesksetMCP.zip'"
