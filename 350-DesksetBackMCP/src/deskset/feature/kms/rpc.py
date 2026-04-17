@@ -40,7 +40,8 @@ class RpcClient:
             if response.get('error', None) is None:
                 future.set_result(response['payload'])
             else:
-                if response['error'].get('is_deskset_error', None) is True:
-                    future.set_exception(DesksetError(message=response['error']['message']))
-                else:
-                    future.set_exception(Exception(response['error']))
+                future.set_exception(Exception(response['error']))
+                # if response['error'].get('is_deskset_error', None) is True:
+                #     future.set_exception(DesksetError(message=response['error']['message']))
+                # else:
+                #     future.set_exception(Exception(response['error']))
