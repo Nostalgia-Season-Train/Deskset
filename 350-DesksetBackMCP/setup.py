@@ -67,10 +67,10 @@ copy('static')
 # remove('./DesksetPlayground.zip')
 
 # 打包 翻译
-copy('i18n')
+# copy('i18n')
 
 # 打包 示例插件
-copy('sample_plugin')
+# copy('sample_plugin')
 
 
 # ==== 压缩 ====
