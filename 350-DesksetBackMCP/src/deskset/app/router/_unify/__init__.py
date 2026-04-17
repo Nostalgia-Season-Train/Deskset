@@ -11,7 +11,7 @@ from .request import DesksetReqDateDayRange  # 起始天和结束天
 # ==== 标准响应 ====
 
 # JSON 响应
-from .response import DesksetRepJSON
+# from .response import DesksetRepJSON
 
 # DesksetError 错误响应
 from .response import DesksetErrorRep

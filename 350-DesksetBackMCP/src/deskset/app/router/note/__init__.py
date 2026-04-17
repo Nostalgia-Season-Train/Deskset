@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from deskset.app.router._unify import DesksetRepJSON
+# from deskset.app.router._unify import DesksetRepJSON
 
 router_note = APIRouter(
     prefix='/v0/note',
@@ -9,9 +9,9 @@ router_note = APIRouter(
 # ==== Obsidian ====
 router_obsidian = APIRouter(
     prefix='/obsidian', tags=['Obsidian'],
-    default_response_class=DesksetRepJSON,
+    # default_response_class=DesksetRepJSON,
     # 让 MCP 知道 200 返回对象而非字符串，不作字符串验证
-    responses={ 200: { 'content': { DesksetRepJSON.media_type: DesksetRepJSON.schema } } }
+    # responses={ 200: { 'content': { DesksetRepJSON.media_type: DesksetRepJSON.schema } } }
 )
 
 # 上下线事件
