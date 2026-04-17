@@ -78,4 +78,4 @@ class AuthMiddleware:
         if protocols[1] != f'Bearer-{server_token}':
             return False
 
-        return False
+        return True
