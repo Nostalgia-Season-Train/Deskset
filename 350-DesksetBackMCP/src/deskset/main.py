@@ -167,14 +167,14 @@ if not DEVELOP_ENV:  # Tauri 构建后用 http://tauri.localhost 通信...
 
 # ==== CombinedApp：统一问题（错误、异常）处理 ====
 from fastapi.requests import Request
-from deskset.shared.standard import DesksetError
+# from deskset.shared.standard import DesksetError
 from fastapi.responses import JSONResponse
 from deskset.app.router._unify import DesksetErrorRep
 from http import HTTPStatus
 
-@combined_app.exception_handler(DesksetError)
-def deskset_error(request: Request, err: DesksetError):
-    return DesksetErrorRep(content=err)
+# @combined_app.exception_handler(DesksetError)
+# def deskset_error(request: Request, err: DesksetError):
+#     return DesksetErrorRep(content=err)
 
 from deskset.shared.error import DesksetErrorNew
 @combined_app.exception_handler(DesksetErrorNew)
