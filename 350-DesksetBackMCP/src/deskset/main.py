@@ -52,8 +52,8 @@ app = FastAPI(lifespan=lifespan, docs_url=None, redoc_url=None)
 from deskset.app.router.device import router_device
 app.include_router(router_device)
 
-from deskset.app.router.note import router_note
-app.include_router(router_note)
+from deskset.app.router.kms import router_kms
+app.include_router(router_kms)
 
 # from deskset.app.router.quick import router_quick
 # app.include_router(router_quick)
