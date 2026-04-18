@@ -1,5 +1,5 @@
 LOG_DIR = 'logs'
-LOG_STEM_PREFIX = 'DesksetBackMCP'
+LOG_STEM_PREFIX = 'DesksetBack'
 LOG_STEM_FORMAT = 'YYYYMMDDHHmmss'
 LOG_EXTN = 'log'
 
