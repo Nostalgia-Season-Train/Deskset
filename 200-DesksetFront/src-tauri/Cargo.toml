@@ -3,7 +3,7 @@ name = "Deskset"
 version = "0.0.1-alpha"
 description = "A Tauri App"
 authors = ["you"]
-edition = "2021"
+edition = "2024"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -19,7 +19,7 @@ tauri-build = { version = "2.3.1", features = [] }
 
 [dependencies]
 # --- Tauri ---
-tauri = { version = "2.10.1", features = ["protocol-asset", "tray-icon", "devtools"] }
+tauri = { version = "2.10.1", features = ["protocol-asset", "tray-icon", "devtools", "image-png"] }
 tauri-plugin-opener = "2.5.3"
 tauri-plugin-fs = "2.2.0"
 tauri-plugin-shell = "2.0.0"
