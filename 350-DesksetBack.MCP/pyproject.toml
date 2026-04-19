@@ -26,3 +26,14 @@ dependencies = [
 [project.urls]
 Homepage = "https://github.com/Nostalgia-Season-Train/DesksetBack"
 Issues = "https://github.com/Nostalgia-Season-Train/DesksetBack/issues"
+
+
+# ==== Ruff 代码审查工具 ====
+[tool.ruff]
+target-version = "py312"
+line-length = 150
+
+[tool.ruff.lint]
+select = [
+    "E501",  # 行长度不超过 line-length 字符
+]
