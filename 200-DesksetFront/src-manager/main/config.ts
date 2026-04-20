@@ -9,7 +9,9 @@ import { readTextFile } from '@tauri-apps/plugin-fs'
 export const readConfFile = async (): Promise<StorageConf> => {
   let storageConf: StorageConf = {
     language: config.language,
-    closeBehavior: config.closeBehavior
+    closeBehavior: config.closeBehavior,
+    serverPort: config.serverPort,
+    serverToken: config.serverToken
   }
 
   try {
@@ -21,6 +23,11 @@ export const readConfFile = async (): Promise<StorageConf> => {
     if (conf.closeBehavior == 'hide' || 'exit') {
       storageConf.closeBehavior = conf.closeBehavior
     }
+    // 暂时不验证，后面重写
+    if (typeof(conf.serverPort) === 'number')
+      storageConf.serverPort = conf.serverPort
+    if (typeof(conf.serverToken) === 'string')
+      storageConf.serverToken = conf.serverToken
   } catch (err) {
     logError(`Fail to read conf, error: ${err}`)
   }
@@ -100,32 +107,22 @@ export const useConfigStore = defineStore('config', () => {
   /* --- 服务器配置 --- */
   const server_port = computed({
     get() {
-      return config.server_port as number
+      return config.serverPort as number
     },
     async set(value) {
       try {
-        config.server_port = (await axios.post(
-          '/v0/config/server_port',
-          new URLSearchParams({ server_port: String(value) }), {
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-          }
-        )).data.result
+        config.serverPort = Number(value)
       } catch {}
     }
   })
 
   const server_token = computed({
     get() {
-      return config.server_token as string
+      return config.serverToken as string
     },
     async set(value) {
       try {
-        config.server_token = (await axios.post(
-          '/v0/config/server_token',
-          new URLSearchParams({ server_token: value }), {
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-          }
-        )).data.result
+        config.serverToken = String(value)
       } catch {}
     }
   })

@@ -13,6 +13,8 @@ export const DEFAULT_SERVER_TOKEN = generateRandomToken()
 export interface StorageConf {
   language: string
   closeBehavior: string
+  serverPort: number
+  serverToken: string
 }
 
 // 运行时配置：数字桌搭运行时所产生的完整配置，是 StorageConf 的超集
@@ -21,8 +23,8 @@ export interface RuntimeConf {
   isAutostart: boolean
   closeBehavior: string
 
-  server_port: number
-  server_token: string
+  serverPort: number
+  serverToken: string
   ai_base_url: string
   ai_api_key: string
   ai_model: string
@@ -33,8 +35,8 @@ export const config = reactive<RuntimeConf>({
   isAutostart: false,
   closeBehavior: 'hide',
 
-  server_port: DEFAULT_SERVER_PORT,
-  server_token: DEFAULT_SERVER_TOKEN,
+  serverPort: DEFAULT_SERVER_PORT,
+  serverToken: DEFAULT_SERVER_TOKEN,
   ai_base_url: '',
   ai_api_key: '',
   ai_model: ''
