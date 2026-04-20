@@ -62,6 +62,12 @@ import { exitDeskset } from './main/tauri'
 const isDevEnv = (import.meta as any).env.DEV as boolean
 
 
+/* ==== 托盘 ==== */
+import { tray } from './main/tray'
+
+await tray.setVisible(true)
+
+
 /* ==== 启动服务器 ==== */
 import { spawnServer, axios } from './global'
 import { AxiosChannel } from './main/channel'
