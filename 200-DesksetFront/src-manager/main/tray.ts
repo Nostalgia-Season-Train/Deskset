@@ -1,11 +1,12 @@
 import { TrayIcon } from '@tauri-apps/api/tray'
+import { defaultWindowIcon } from '@tauri-apps/api/app'
 import { Menu } from '@tauri-apps/api/menu'
 import winManager from '#manager/global/win/manager.ts'
 import { exitDeskset } from './tauri.ts'
 
 export const tray = await TrayIcon.new({
   tooltip: 'Deskset',
-  icon: 'icons/icon.png',
+  icon: await defaultWindowIcon() as any,
   showMenuOnLeftClick: false,
   menu: await Menu.new({
     items: [{
