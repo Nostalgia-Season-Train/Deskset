@@ -68,6 +68,34 @@ import { tray } from './main/tray'
 await tray.setVisible(true)
 
 
+/* ==== 加载配置 ==== */
+import { config } from './global'
+import { readConfFile } from './main/config'
+import { isEnabled } from '@tauri-apps/plugin-autostart'
+
+config.isAutostart = await isEnabled()  // 是否注册开机启动
+
+try {
+  let timeout = 1000
+  if (isDevEnv) timeout = 100  // 开发环境可能没有启动服务器，缩短超时时间，加快 main 加载速度
+  config.server_port = (await axios.get('/v0/config/server_port', { timeout: timeout })).data.result
+  config.server_token = (await axios.get('/v0/config/server_token', { timeout: timeout })).data.result
+  config.ai_base_url = (await axios.get('/v0/config/ai_base_url', { timeout: timeout })).data.result
+  config.ai_api_key = (await axios.get('/v0/config/ai_api_key', { timeout: timeout })).data.result
+  config.ai_model = (await axios.get('/v0/config/ai_model', { timeout: timeout })).data.result
+} catch {}
+
+// 读取文件中的配置/持久化配置
+const conf = await readConfFile()
+config.language = conf.language
+config.closeBehavior = conf.closeBehavior
+
+// - [ ] 临时：切换 _t 翻译语言...
+import { switchLanguage } from './main/i18n'
+
+await switchLanguage(config.language)
+
+
 /* ==== 启动服务器 ==== */
 import { spawnServer, axios } from './global'
 import { AxiosChannel } from './main/channel'
@@ -76,7 +104,7 @@ let isSpawn = true
 
 try {
   // 运行 DesksetBack.exe 桌设后端服务器进程
-  const serverInfo = await spawnServer()
+  const serverInfo = await spawnServer(config.server_port, config.server_token)
 
   // Manager 设置 axios 参数
   axios.defaults.baseURL = `http://${serverInfo.url}`
@@ -95,35 +123,6 @@ if (isDevEnv) {
   isSpawn = true
   axios.defaults.baseURL = 'http://127.0.0.1:6527'
 }
-
-
-/* ==== 加载配置 ==== */
-import { config } from './global'
-import { readConfFile } from './main/config'
-import { isEnabled } from '@tauri-apps/plugin-autostart'
-
-config.isAutostart = await isEnabled()  // 是否注册开机启动
-
-try {
-  let timeout = 1000
-  if (isDevEnv) timeout = 100  // 开发环境可能没有启动服务器，缩短超时时间，加快 main 加载速度
-  config.server_port = (await axios.get('/v0/config/server_port', { timeout: timeout })).data.result
-  config.username = (await axios.get('/v0/config/username', { timeout: timeout })).data.result
-  config.password = (await axios.get('/v0/config/password', { timeout: timeout })).data.result
-  config.ai_base_url = (await axios.get('/v0/config/ai_base_url', { timeout: timeout })).data.result
-  config.ai_api_key = (await axios.get('/v0/config/ai_api_key', { timeout: timeout })).data.result
-  config.ai_model = (await axios.get('/v0/config/ai_model', { timeout: timeout })).data.result
-} catch {}
-
-// 读取文件中的配置/持久化配置
-const conf = await readConfFile()
-config.language = conf.language
-config.closeBehavior = conf.closeBehavior
-
-// - [ ] 临时：切换 _t 翻译语言...
-import { switchLanguage } from './main/i18n'
-
-await switchLanguage(config.language)
 
 
 /* ==== 监听主进程 ==== */

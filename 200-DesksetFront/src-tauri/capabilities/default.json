@@ -34,7 +34,8 @@
       "identifier": "shell:allow-spawn",
       "allow": [{
         "name": "DesksetBack",
-        "sidecar": true
+        "sidecar": true,
+        "args": ["-port", "-token"]
       }]
     }, {
       "identifier": "shell:allow-kill"

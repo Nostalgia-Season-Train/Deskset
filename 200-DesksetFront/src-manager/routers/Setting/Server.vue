@@ -27,21 +27,11 @@ const store = useConfigStore()
 
   <div class="option">
     <div class="left">
-      <div class="name">{{ _t('用户名') }}</div>
-      <div class="description">{{ _t('配置服务器用户名') }}</div>
+      <div class="name">{{ _t('令牌') }}</div>
+      <div class="description">{{ _t('配置服务器令牌') }}</div>
     </div>
     <div class="right">
-      <InputLazy style="width: 150px;" v-model="store.username"/>
-    </div>
-  </div>
-
-  <div class="option">
-    <div class="left">
-      <div class="name">{{ _t('密码') }}</div>
-      <div class="description">{{ _t('配置服务器密码') }}</div>
-    </div>
-    <div class="right">
-      <InputLazy style="width: 150px;" v-model="store.password"/>
+      <InputLazy style="width: 150px;" v-model="store.server_token"/>
     </div>
   </div>
 

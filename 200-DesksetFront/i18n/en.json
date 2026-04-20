@@ -76,8 +76,6 @@
   "服务器配置": "Server Configs",
   "端口": "Port",
   "配置服务器端口（需要重启）": "Configure server port (requires restart)",
-  "用户名": "Username",
-  "配置服务器用户名": "Configure server username",
-  "密码": "Password",
-  "配置服务器密码": "Configure server password"
+  "令牌": "Token",
+  "配置服务器令牌": "Configure server token"
 }

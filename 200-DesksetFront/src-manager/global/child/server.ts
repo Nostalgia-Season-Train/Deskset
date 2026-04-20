@@ -2,11 +2,14 @@ import { Command, Child } from '@tauri-apps/plugin-shell'
 
 let server: Child | null = null
 
-export const spawnServer = async (): Promise<{
+export const spawnServer = async (
+  port: string,
+  token: string
+): Promise<{
   url: string,
   token: string
 }> => {
-  const command = Command.sidecar('DesksetBack')
+  const command = Command.sidecar('DesksetBack', [`-port=${port}`, `-token=${token}`])
 
   server = await command.spawn()
 

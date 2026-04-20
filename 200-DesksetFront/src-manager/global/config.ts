@@ -1,8 +1,13 @@
 import { reactive } from 'vue'
 
+const generateRandomToken = (): string => {
+  const array = new Uint8Array(32)
+  crypto.getRandomValues(array)
+  return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('')
+}
+
 export const DEFAULT_SERVER_PORT = 6527
-export const DEFAULT_USERNAME = 'username'
-export const DEFAULT_PASSWORD = 'password'
+export const DEFAULT_SERVER_TOKEN = generateRandomToken()
 
 // 持久化配置：数字桌搭存储在文件中的部分配置
 export interface StorageConf {
@@ -17,8 +22,7 @@ export interface RuntimeConf {
   closeBehavior: string
 
   server_port: number
-  username: string
-  password: string
+  server_token: string
   ai_base_url: string
   ai_api_key: string
   ai_model: string
@@ -30,8 +34,7 @@ export const config = reactive<RuntimeConf>({
   closeBehavior: 'hide',
 
   server_port: DEFAULT_SERVER_PORT,
-  username: DEFAULT_USERNAME,
-  password: DEFAULT_PASSWORD,
+  server_token: DEFAULT_SERVER_TOKEN,
   ai_base_url: '',
   ai_api_key: '',
   ai_model: ''

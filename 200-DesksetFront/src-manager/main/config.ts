@@ -114,31 +114,15 @@ export const useConfigStore = defineStore('config', () => {
     }
   })
 
-  const username = computed({
+  const server_token = computed({
     get() {
-      return config.username as string
+      return config.server_token as string
     },
     async set(value) {
       try {
-        config.username = (await axios.post(
-          '/v0/config/username',
-          new URLSearchParams({ username: value }), {
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-          }
-        )).data.result
-      } catch {}
-    }
-  })
-
-  const password = computed({
-    get() {
-      return config.password as string
-    },
-    async set(value) {
-      try {
-        config.password = (await axios.post(
-          '/v0/config/password',
-          new URLSearchParams({ password: value }), {
+        config.server_token = (await axios.post(
+          '/v0/config/server_token',
+          new URLSearchParams({ server_token: value }), {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
           }
         )).data.result
@@ -200,8 +184,7 @@ export const useConfigStore = defineStore('config', () => {
     closeBehavior,
 
     server_port,
-    username,
-    password,
+    server_token,
     ai_base_url,
     ai_api_key,
     ai_model
