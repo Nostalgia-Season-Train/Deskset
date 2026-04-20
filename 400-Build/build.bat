@@ -5,7 +5,7 @@ call npm install
 call npm run build
 cd ..\
 
-cd 300-DesksetBack
+cd 350-DesksetBack.MCP
 call uv sync
 call python setup.py
 cd ..\
