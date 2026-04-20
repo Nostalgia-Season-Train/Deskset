@@ -14,7 +14,7 @@ if DEVELOP_ENV:
 
 
 # ==== 服务器地址 host 和端口 port ====
-from deskset.app.store import server_host, server_port
+from deskset.app.store import server_host, server_port, server_token
 
 logging.info(f'Server URL is http://{server_host}:{server_port}')
 
@@ -28,7 +28,7 @@ from contextlib import asynccontextmanager
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # 信息传输：DesksetBack = 标准输出流 => DesksetFront
-    # print(f'{{"url": "{server_host}:{server_port}", "token": "{access._token}"}}', flush=True)
+    print(f'{{"url": "{server_host}:{server_port}", "token": "{server_token}"}}', flush=True)
 
     logging.info('start lifespan')
     # note_apscheduler.start()  # 不用 paused=True 暂停，uvicorn.run 自然启停
