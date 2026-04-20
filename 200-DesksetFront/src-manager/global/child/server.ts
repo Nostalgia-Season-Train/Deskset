@@ -3,7 +3,7 @@ import { Command, Child } from '@tauri-apps/plugin-shell'
 let server: Child | null = null
 
 export const spawnServer = async (
-  port: string,
+  port: number,
   token: string
 ): Promise<{
   url: string,

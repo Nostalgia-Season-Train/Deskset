@@ -35,7 +35,7 @@
       "allow": [{
         "name": "DesksetBack",
         "sidecar": true,
-        "args": ["-port", "-token"]
+        "args": true
       }]
     }, {
       "identifier": "shell:allow-kill"
