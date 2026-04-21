@@ -51,7 +51,7 @@
         "main.py",
         "-dev",
         "-no-access",
-        "-port=6528",
+        "-port=6527",
       ],
       "env": {
         "PYTHONPATH": "${workspaceFolder}/350-DesksetBack.MCP/src",
@@ -65,7 +65,7 @@
       "configurations": [
         "Docs",
         "DesksetFront",
-        "DesksetBack",
+        // "DesksetBack",
         "DesksetBack.MCP",
       ],
     }
