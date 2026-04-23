@@ -19,13 +19,18 @@ class Win32Device(AbstractDevice):
                 'freq': 0.0,     # CPU 频率：类型 float，单位 GHz
                 'count': 0,      # CPU（物理）核心数：类型 int，单位 个
             }
-            self.ram: dict[str, int | float] = {
-                'percent': 0.0,  # 内存占用率：类型 float，单位 %
-                'used': 0.0,     # 已用内存：类型 float，单位 GB
-                'total': 0,      # 总内存：类型 int，单位 GB
+            self.ram: dict[str, float] = {
+                'percent': 0.0,  # 内存 占用率：类型 float，单位 %
+                'used': 0.0,     # 内存 已用空间：类型 float，单位 GB
+                'total': 0.0,    # 内存 总共空间：类型 float，单位 GB
             }
-            self.disk: dict[str, float] = { 'percent': 0.0 }
-            self.network: dict[str, int] = { 'sent': 0, 'recv': 0 }
+            self.disk: dict[str, float] = {
+                'percent': 0.0,  # 硬盘 使用率：类型 float，单位 %
+            }
+            self.network: dict[str, int] = {
+                'sent': 0,       # 网络 发送速率：类型 int，单位 Byte/s
+                'recv': 0,       # 网络 接收速率：类型 int，单位 Byte/s
+            }
 
             # 获取 CPU 核心数
             cpu_count = psutil.cpu_count(logical=False)
@@ -72,7 +77,7 @@ class Win32Device(AbstractDevice):
             virtual_memory = psutil.virtual_memory()
             self._hardware.ram['percent'] = virtual_memory.percent
             self._hardware.ram['used'] = round((virtual_memory.used >> 28) / 4 * 10) / 10  # 保留一位小数
-            self._hardware.ram['total'] = round((virtual_memory.total >> 28) / 4)  # 计算取整，消去保留内存影响，得到实际物理内存
+            self._hardware.ram['total'] = float(round((virtual_memory.total >> 28) / 4))   # 计算取整，消去保留内存影响，得到实际物理内存
 
             # *** 硬盘 ***
               # 使用率 percent: float %
