@@ -21,6 +21,7 @@ import zh_cn from 'element-plus/es/locale/lang/zh-cn'
 :deep(.el-picker-panel) {
   width: fit-content;
   height: fit-content;
+  background: transparent;
   border: solid 1px transparent;
   .el-picker-panel__body-wrapper {
     .el-picker-panel__body {
@@ -30,6 +31,14 @@ import zh_cn from 'element-plus/es/locale/lang/zh-cn'
       .el-picker-panel__content {
         margin: 3px;
         pointer-events: none;
+        color: white;
+        th {
+          color: white;
+        }
+        .prev-month,
+        .next-month {
+          color: #FFF9;
+        }
       }
     }
   }
