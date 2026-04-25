@@ -1,6 +1,6 @@
 {
-  "name": "模板名称",
-  "author": "模板作者",
-  "version": "模板版本",
-  "descript": "模板描述"
+  "name": "<>",
+  "author": "来源网络",
+  "version": "v1.0.0",
+  "descript": "原始代码出自 <>，GLM 辅助转为 Vue3 组件"
 }
