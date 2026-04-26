@@ -1,19 +1,52 @@
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const props = defineProps({
+  modelValue: {
+    type: Object,
+    default: () => ({})
+  }
+})
+
+const secondsRotation = ref(0)
+const minutesRotation = ref(0)
+const hoursRotation = ref(0)
+
+const updateClock = () => {
+  const now = new Date()
+  const seconds = now.getSeconds()
+  const minutes = now.getMinutes()
+  const hours = now.getHours()
+
+  secondsRotation.value = seconds * 6
+  minutesRotation.value = minutes * 6
+  hoursRotation.value = hours * 30 + (minutes / 2)
+}
+
+let timer = null
+
+onMounted(() => {
+  updateClock()
+  timer = setInterval(updateClock, 1000)
+})
+
+onUnmounted(() => {
+  if (timer) {
+    clearInterval(timer)
+  }
+})
 </script>
 
 
 <template>
   <div class='center-dial'>
-    <h1 class='center-preview'>HELLO</h1>
-    <div class='head'></div>
-    <div class='torso'></div>
-    <div class='hand-container' id='minutes'>
+    <div class='hand-container' id='minutes' :style="{ transform: 'rotate(' + minutesRotation + 'deg)' }">
       <div class='minute-hand'></div>
     </div>
-    <div class='hand-container' id='hours'>
+    <div class='hand-container' id='hours' :style="{ transform: 'rotate(' + hoursRotation + 'deg)' }">
       <div class='hour-hand'></div>
     </div>
-    <div class='hand-container' id='seconds'>
+    <div class='hand-container' id='seconds' :style="{ transform: 'rotate(' + secondsRotation + 'deg)' }">
       <div class='second-hand'></div>
     </div>
   </div>
@@ -37,42 +70,6 @@
       <h1 class='day-preview'>DAY</h1>
       <h2 class='day-text'>01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
       </h2>
-    </div>
-  </div>
-  <div class='side-ring' id='weather'>
-    <div class='fa fa-cloud'></div>
-    <p class='temperature'>14&#176C</p>
-  </div>
-  <div class='side-ring' id='steps'>
-    <div class='bars'>
-      <div class='bar'>
-        <div class='day-letter'>M</div>
-        <div class='x' id='x1'></div>
-      </div>
-      <div class='bar'>
-        <div class='day-letter'>T</div>
-        <div class='x' id='x2'></div>
-      </div>
-      <div class='bar'>
-        <div class='day-letter'>W</div>
-        <div class='x' id='x3'></div>
-      </div>
-      <div class='bar'>
-        <div class='day-letter'>T</div>
-        <div class='x' id='x4'></div>
-      </div>
-      <div class='bar'>
-        <div class='day-letter'>F</div>
-        <div class='x' id='x5'></div>
-      </div>
-      <div class='bar'>
-        <div class='day-letter'>S</div>
-        <div class='x' id='x6'></div>
-      </div>
-      <div class='bar'>
-        <div class='day-letter'>S</div>
-        <div class='x' id='x7'></div>
-      </div>
     </div>
   </div>
 </template>
@@ -174,7 +171,7 @@
 .hand-container,
 .center-preview span {
   text-align: center;
-  moz-transform-origin: center center;
+  -moz-transform-origin: center center;
   -o-transform-origin: center center;
   -ms-transform-origin: center center;
   -webkit-transform-origin: center center;
@@ -306,11 +303,11 @@ h2 {
   position: absolute;
   top: 0%;
   left: calc(50% - 12.5px);
-  opacity: 0;
-  filter: alpha(opacity=0);
+  opacity: 1;
+  filter: alpha(opacity=1);
   width: 25px;
   height: 150px;
-  moz-transform-origin: center center;
+  -moz-transform-origin: center center;
   -o-transform-origin: center center;
   -ms-transform-origin: center center;
   -webkit-transform-origin: center center;
