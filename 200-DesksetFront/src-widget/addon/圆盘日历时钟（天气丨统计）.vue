@@ -12,10 +12,18 @@ const secondsRotation = ref(0)
 const minutesRotation = ref(0)
 const hoursRotation = ref(0)
 const dayNameRotation = ref(0)
+const monthRotation = ref(0)
+const dayRotation = ref(0)
 const currentDayNameChars = ref([0, 1, 2])
+const currentMonthChars = ref([0, 1, 2])
+const currentDayChars = ref([0, 1])
 
 const dayNamePreviewChars = ref(['D', 'A', 'Y', ' ', 'N', 'A', 'M', 'E'])
 const dayNameTextChars = ref(['M', 'O', 'N', ' ', 'T', 'U', 'E', ' ', 'W', 'E', 'D', ' ', 'T', 'H', 'U', ' ', 'F', 'R', 'I', ' ', 'S', 'A', 'T', ' ', 'S', 'U', 'N'])
+const monthPreviewChars = ref(['M', 'O', 'N', 'T', 'H'])
+const monthTextChars = ref(['J', 'A', 'N', ' ', 'F', 'E', 'B', ' ', 'M', 'A', 'R', ' ', 'A', 'P', 'R', ' ', 'M', 'A', 'Y', ' ', 'J', 'U', 'N', ' ', 'J', 'U', 'L', ' ', 'A', 'U', 'G', ' ', 'S', 'E', 'P', ' ', 'O', 'C', 'T', ' ', 'N', 'O', 'V', ' ', 'D', 'E', 'C'])
+const dayPreviewChars = ref(['D', 'A', 'Y'])
+const dayTextChars = ref(['0', '1', ' ', '0', '2', ' ', '0', '3', ' ', '0', '4', ' ', '0', '5', ' ', '0', '6', ' ', '0', '7', ' ', '0', '8', ' ', '0', '9', ' ', '1', '0', ' ', '1', '1', ' ', '1', '2', ' ', '1', '3', ' ', '1', '4', ' ', '1', '5', ' ', '1', '6', ' ', '1', '7', ' ', '1', '8', ' ', '1', '9', ' ', '2', '0', ' ', '2', '1', ' ', '2', '2', ' ', '2', '3', ' ', '2', '4', ' ', '2', '5', ' ', '2', '6', ' ', '2', '7', ' ', '2', '8', ' ', '2', '9', ' ', '3', '0', ' ', '3', '1'])
 
 const updateClock = () => {
   const now = new Date()
@@ -23,6 +31,8 @@ const updateClock = () => {
   const minutes = now.getMinutes()
   const hours = now.getHours()
   const day = now.getDay()
+  const month = now.getMonth()
+  const date = now.getDate()
 
   secondsRotation.value = seconds * 6
   minutesRotation.value = minutes * 6
@@ -40,6 +50,24 @@ const updateClock = () => {
 
   const start = (dayIndex - 1) * 4 + 1
   currentDayNameChars.value = [start, start + 1, start + 2]
+
+  const sectionsMonth = 12
+  const sectionWidthMonth = range / sectionsMonth
+  const initialRotationMonth = 135 - (sectionWidthMonth / 2)
+  monthRotation.value = initialRotationMonth - sectionWidthMonth * (month + 1 - 1)
+
+  const charactersMonth = 3
+  const monthStart = (charactersMonth * month) + month + 1
+  currentMonthChars.value = [monthStart, monthStart + 1, monthStart + 2]
+
+  const sectionsDay = 31
+  const sectionWidthDay = range / sectionsDay
+  const initialRotationDay = 135 - (sectionWidthDay / 2)
+  dayRotation.value = initialRotationDay - sectionWidthDay * (date - 1)
+
+  const charactersDay = 2
+  const dayStart = (charactersDay * (date - 1)) + (date - 1) + 1
+  currentDayChars.value = [dayStart, dayStart + 1]
 }
 
 let timer = null
@@ -92,16 +120,43 @@ onUnmounted(() => {
   </div>
   <div class='month-dial'>
     <div class='ring-back'></div>
-    <div class='ring' id='r2'>
-      <h1 class='month-preview'>MONTH</h1>
-      <h2 class='month-text'>JAN FEB MAR APR MAY JUN JUL AUG SEP OCT NOV DEC</h2>
+    <div class='ring' id='r2' :style="{ transform: 'rotate(' + monthRotation + 'deg)' }">
+      <h1 class='month-preview'>
+        <span
+          v-for="(char, index) in monthPreviewChars"
+          :key="index"
+          :class="'char' + (index + 1)"
+          :style="{ transform: 'rotate(' + (-30 + index * 15) + 'deg)' }"
+        >{{ char }}</span>
+      </h1>
+      <h2 class='month-text'>
+        <span
+          v-for="(char, index) in monthTextChars"
+          :key="index"
+          :class="'char' + (index + 1)"
+          :style="{ transform: 'rotate(' + (-129.375 + index * 5.625) + 'deg)', color: currentMonthChars.includes(index + 1) ? '#007AFF' : '#555' }"
+        >{{ char }}</span>
+      </h2>
     </div>
   </div>
   <div class='day-dial'>
     <div class='ring-back'></div>
-    <div class='ring' id='r3'>
-      <h1 class='day-preview'>DAY</h1>
-      <h2 class='day-text'>01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
+    <div class='ring' id='r3' :style="{ transform: 'rotate(' + dayRotation + 'deg)' }">
+      <h1 class='day-preview'>
+        <span
+          v-for="(char, index) in dayPreviewChars"
+          :key="index"
+          :class="'char' + (index + 1)"
+          :style="{ transform: 'rotate(' + (-22.5 + index * 22.5) + 'deg)' }"
+        >{{ char }}</span>
+      </h1>
+      <h2 class='day-text'>
+        <span
+          v-for="(char, index) in dayTextChars"
+          :key="index"
+          :class="'char' + (index + 1)"
+          :style="{ transform: 'rotate(' + (-132.0967741935 + index * 2.9032258064) + 'deg)', color: currentDayChars.includes(index + 1) ? '#FF2D55' : '#555' }"
+        >{{ char }}</span>
       </h2>
     </div>
   </div>
@@ -794,392 +849,8 @@ h2 {
 }
 
 .month-text {
-  opacity: 0;
-  filter: alpha(opacity=0);
-}
-
-.month-text .char1 {
-  -moz-transform: rotate(-129.375deg);
-  -o-transform: rotate(-129.375deg);
-  -ms-transform: rotate(-129.375deg);
-  -webkit-transform: rotate(-129.375deg);
-  transform: rotate(-129.375deg);
-}
-
-.month-text .char2 {
-  -moz-transform: rotate(-123.75deg);
-  -o-transform: rotate(-123.75deg);
-  -ms-transform: rotate(-123.75deg);
-  -webkit-transform: rotate(-123.75deg);
-  transform: rotate(-123.75deg);
-}
-
-.month-text .char3 {
-  -moz-transform: rotate(-118.125deg);
-  -o-transform: rotate(-118.125deg);
-  -ms-transform: rotate(-118.125deg);
-  -webkit-transform: rotate(-118.125deg);
-  transform: rotate(-118.125deg);
-}
-
-.month-text .char4 {
-  -moz-transform: rotate(-112.5deg);
-  -o-transform: rotate(-112.5deg);
-  -ms-transform: rotate(-112.5deg);
-  -webkit-transform: rotate(-112.5deg);
-  transform: rotate(-112.5deg);
-}
-
-.month-text .char5 {
-  -moz-transform: rotate(-106.875deg);
-  -o-transform: rotate(-106.875deg);
-  -ms-transform: rotate(-106.875deg);
-  -webkit-transform: rotate(-106.875deg);
-  transform: rotate(-106.875deg);
-}
-
-.month-text .char6 {
-  -moz-transform: rotate(-101.25deg);
-  -o-transform: rotate(-101.25deg);
-  -ms-transform: rotate(-101.25deg);
-  -webkit-transform: rotate(-101.25deg);
-  transform: rotate(-101.25deg);
-}
-
-.month-text .char7 {
-  -moz-transform: rotate(-95.625deg);
-  -o-transform: rotate(-95.625deg);
-  -ms-transform: rotate(-95.625deg);
-  -webkit-transform: rotate(-95.625deg);
-  transform: rotate(-95.625deg);
-}
-
-.month-text .char8 {
-  -moz-transform: rotate(-90deg);
-  -o-transform: rotate(-90deg);
-  -ms-transform: rotate(-90deg);
-  -webkit-transform: rotate(-90deg);
-  transform: rotate(-90deg);
-}
-
-.month-text .char9 {
-  -moz-transform: rotate(-84.375deg);
-  -o-transform: rotate(-84.375deg);
-  -ms-transform: rotate(-84.375deg);
-  -webkit-transform: rotate(-84.375deg);
-  transform: rotate(-84.375deg);
-}
-
-.month-text .char10 {
-  -moz-transform: rotate(-78.75deg);
-  -o-transform: rotate(-78.75deg);
-  -ms-transform: rotate(-78.75deg);
-  -webkit-transform: rotate(-78.75deg);
-  transform: rotate(-78.75deg);
-}
-
-.month-text .char11 {
-  -moz-transform: rotate(-73.125deg);
-  -o-transform: rotate(-73.125deg);
-  -ms-transform: rotate(-73.125deg);
-  -webkit-transform: rotate(-73.125deg);
-  transform: rotate(-73.125deg);
-}
-
-.month-text .char12 {
-  -moz-transform: rotate(-67.5deg);
-  -o-transform: rotate(-67.5deg);
-  -ms-transform: rotate(-67.5deg);
-  -webkit-transform: rotate(-67.5deg);
-  transform: rotate(-67.5deg);
-}
-
-.month-text .char13 {
-  -moz-transform: rotate(-61.875deg);
-  -o-transform: rotate(-61.875deg);
-  -ms-transform: rotate(-61.875deg);
-  -webkit-transform: rotate(-61.875deg);
-  transform: rotate(-61.875deg);
-}
-
-.month-text .char14 {
-  -moz-transform: rotate(-56.25deg);
-  -o-transform: rotate(-56.25deg);
-  -ms-transform: rotate(-56.25deg);
-  -webkit-transform: rotate(-56.25deg);
-  transform: rotate(-56.25deg);
-}
-
-.month-text .char15 {
-  -moz-transform: rotate(-50.625deg);
-  -o-transform: rotate(-50.625deg);
-  -ms-transform: rotate(-50.625deg);
-  -webkit-transform: rotate(-50.625deg);
-  transform: rotate(-50.625deg);
-}
-
-.month-text .char16 {
-  -moz-transform: rotate(-45deg);
-  -o-transform: rotate(-45deg);
-  -ms-transform: rotate(-45deg);
-  -webkit-transform: rotate(-45deg);
-  transform: rotate(-45deg);
-}
-
-.month-text .char17 {
-  -moz-transform: rotate(-39.375deg);
-  -o-transform: rotate(-39.375deg);
-  -ms-transform: rotate(-39.375deg);
-  -webkit-transform: rotate(-39.375deg);
-  transform: rotate(-39.375deg);
-}
-
-.month-text .char18 {
-  -moz-transform: rotate(-33.75deg);
-  -o-transform: rotate(-33.75deg);
-  -ms-transform: rotate(-33.75deg);
-  -webkit-transform: rotate(-33.75deg);
-  transform: rotate(-33.75deg);
-}
-
-.month-text .char19 {
-  -moz-transform: rotate(-28.125deg);
-  -o-transform: rotate(-28.125deg);
-  -ms-transform: rotate(-28.125deg);
-  -webkit-transform: rotate(-28.125deg);
-  transform: rotate(-28.125deg);
-}
-
-.month-text .char20 {
-  -moz-transform: rotate(-22.5deg);
-  -o-transform: rotate(-22.5deg);
-  -ms-transform: rotate(-22.5deg);
-  -webkit-transform: rotate(-22.5deg);
-  transform: rotate(-22.5deg);
-}
-
-.month-text .char21 {
-  -moz-transform: rotate(-16.875deg);
-  -o-transform: rotate(-16.875deg);
-  -ms-transform: rotate(-16.875deg);
-  -webkit-transform: rotate(-16.875deg);
-  transform: rotate(-16.875deg);
-}
-
-.month-text .char22 {
-  -moz-transform: rotate(-11.25deg);
-  -o-transform: rotate(-11.25deg);
-  -ms-transform: rotate(-11.25deg);
-  -webkit-transform: rotate(-11.25deg);
-  transform: rotate(-11.25deg);
-}
-
-.month-text .char23 {
-  -moz-transform: rotate(-5.625deg);
-  -o-transform: rotate(-5.625deg);
-  -ms-transform: rotate(-5.625deg);
-  -webkit-transform: rotate(-5.625deg);
-  transform: rotate(-5.625deg);
-}
-
-.month-text .char24 {
-  -moz-transform: rotate(0deg);
-  -o-transform: rotate(0deg);
-  -ms-transform: rotate(0deg);
-  -webkit-transform: rotate(0deg);
-  transform: rotate(0deg);
-}
-
-.month-text .char25 {
-  -moz-transform: rotate(5.625deg);
-  -o-transform: rotate(5.625deg);
-  -ms-transform: rotate(5.625deg);
-  -webkit-transform: rotate(5.625deg);
-  transform: rotate(5.625deg);
-}
-
-.month-text .char26 {
-  -moz-transform: rotate(11.25deg);
-  -o-transform: rotate(11.25deg);
-  -ms-transform: rotate(11.25deg);
-  -webkit-transform: rotate(11.25deg);
-  transform: rotate(11.25deg);
-}
-
-.month-text .char27 {
-  -moz-transform: rotate(16.875deg);
-  -o-transform: rotate(16.875deg);
-  -ms-transform: rotate(16.875deg);
-  -webkit-transform: rotate(16.875deg);
-  transform: rotate(16.875deg);
-}
-
-.month-text .char28 {
-  -moz-transform: rotate(22.5deg);
-  -o-transform: rotate(22.5deg);
-  -ms-transform: rotate(22.5deg);
-  -webkit-transform: rotate(22.5deg);
-  transform: rotate(22.5deg);
-}
-
-.month-text .char29 {
-  -moz-transform: rotate(28.125deg);
-  -o-transform: rotate(28.125deg);
-  -ms-transform: rotate(28.125deg);
-  -webkit-transform: rotate(28.125deg);
-  transform: rotate(28.125deg);
-}
-
-.month-text .char30 {
-  -moz-transform: rotate(33.75deg);
-  -o-transform: rotate(33.75deg);
-  -ms-transform: rotate(33.75deg);
-  -webkit-transform: rotate(33.75deg);
-  transform: rotate(33.75deg);
-}
-
-.month-text .char31 {
-  -moz-transform: rotate(39.375deg);
-  -o-transform: rotate(39.375deg);
-  -ms-transform: rotate(39.375deg);
-  -webkit-transform: rotate(39.375deg);
-  transform: rotate(39.375deg);
-}
-
-.month-text .char32 {
-  -moz-transform: rotate(45deg);
-  -o-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
-  transform: rotate(45deg);
-}
-
-.month-text .char33 {
-  -moz-transform: rotate(50.625deg);
-  -o-transform: rotate(50.625deg);
-  -ms-transform: rotate(50.625deg);
-  -webkit-transform: rotate(50.625deg);
-  transform: rotate(50.625deg);
-}
-
-.month-text .char34 {
-  -moz-transform: rotate(56.25deg);
-  -o-transform: rotate(56.25deg);
-  -ms-transform: rotate(56.25deg);
-  -webkit-transform: rotate(56.25deg);
-  transform: rotate(56.25deg);
-}
-
-.month-text .char35 {
-  -moz-transform: rotate(61.875deg);
-  -o-transform: rotate(61.875deg);
-  -ms-transform: rotate(61.875deg);
-  -webkit-transform: rotate(61.875deg);
-  transform: rotate(61.875deg);
-}
-
-.month-text .char36 {
-  -moz-transform: rotate(67.5deg);
-  -o-transform: rotate(67.5deg);
-  -ms-transform: rotate(67.5deg);
-  -webkit-transform: rotate(67.5deg);
-  transform: rotate(67.5deg);
-}
-
-.month-text .char37 {
-  -moz-transform: rotate(73.125deg);
-  -o-transform: rotate(73.125deg);
-  -ms-transform: rotate(73.125deg);
-  -webkit-transform: rotate(73.125deg);
-  transform: rotate(73.125deg);
-}
-
-.month-text .char38 {
-  -moz-transform: rotate(78.75deg);
-  -o-transform: rotate(78.75deg);
-  -ms-transform: rotate(78.75deg);
-  -webkit-transform: rotate(78.75deg);
-  transform: rotate(78.75deg);
-}
-
-.month-text .char39 {
-  -moz-transform: rotate(84.375deg);
-  -o-transform: rotate(84.375deg);
-  -ms-transform: rotate(84.375deg);
-  -webkit-transform: rotate(84.375deg);
-  transform: rotate(84.375deg);
-}
-
-.month-text .char40 {
-  -moz-transform: rotate(90deg);
-  -o-transform: rotate(90deg);
-  -ms-transform: rotate(90deg);
-  -webkit-transform: rotate(90deg);
-  transform: rotate(90deg);
-}
-
-.month-text .char41 {
-  -moz-transform: rotate(95.625deg);
-  -o-transform: rotate(95.625deg);
-  -ms-transform: rotate(95.625deg);
-  -webkit-transform: rotate(95.625deg);
-  transform: rotate(95.625deg);
-}
-
-.month-text .char42 {
-  -moz-transform: rotate(101.25deg);
-  -o-transform: rotate(101.25deg);
-  -ms-transform: rotate(101.25deg);
-  -webkit-transform: rotate(101.25deg);
-  transform: rotate(101.25deg);
-}
-
-.month-text .char43 {
-  -moz-transform: rotate(106.875deg);
-  -o-transform: rotate(106.875deg);
-  -ms-transform: rotate(106.875deg);
-  -webkit-transform: rotate(106.875deg);
-  transform: rotate(106.875deg);
-}
-
-.month-text .char44 {
-  -moz-transform: rotate(112.5deg);
-  -o-transform: rotate(112.5deg);
-  -ms-transform: rotate(112.5deg);
-  -webkit-transform: rotate(112.5deg);
-  transform: rotate(112.5deg);
-}
-
-.month-text .char45 {
-  -moz-transform: rotate(118.125deg);
-  -o-transform: rotate(118.125deg);
-  -ms-transform: rotate(118.125deg);
-  -webkit-transform: rotate(118.125deg);
-  transform: rotate(118.125deg);
-}
-
-.month-text .char46 {
-  -moz-transform: rotate(123.75deg);
-  -o-transform: rotate(123.75deg);
-  -ms-transform: rotate(123.75deg);
-  -webkit-transform: rotate(123.75deg);
-  transform: rotate(123.75deg);
-}
-
-.month-text .char47 {
-  -moz-transform: rotate(129.375deg);
-  -o-transform: rotate(129.375deg);
-  -ms-transform: rotate(129.375deg);
-  -webkit-transform: rotate(129.375deg);
-  transform: rotate(129.375deg);
-}
-
-.month-text .char48 {
-  -moz-transform: rotate(135deg);
-  -o-transform: rotate(135deg);
-  -ms-transform: rotate(135deg);
-  -webkit-transform: rotate(135deg);
-  transform: rotate(135deg);
+  opacity: 1;
+  filter: alpha(opacity=1);
 }
 
 .day-dial {
@@ -1246,8 +917,8 @@ h2 {
 }
 
 .day-text {
-  opacity: 0;
-  filter: alpha(opacity=0);
+  opacity: 1;
+  filter: alpha(opacity=1);
 }
 
 .day-text .char1 {
