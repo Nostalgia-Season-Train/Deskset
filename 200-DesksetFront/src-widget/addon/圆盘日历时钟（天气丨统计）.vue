@@ -11,16 +11,35 @@ const props = defineProps({
 const secondsRotation = ref(0)
 const minutesRotation = ref(0)
 const hoursRotation = ref(0)
+const dayNameRotation = ref(0)
+const currentDayNameChars = ref([0, 1, 2])
+
+const dayNamePreviewChars = ref(['D', 'A', 'Y', ' ', 'N', 'A', 'M', 'E'])
+const dayNameTextChars = ref(['M', 'O', 'N', ' ', 'T', 'U', 'E', ' ', 'W', 'E', 'D', ' ', 'T', 'H', 'U', ' ', 'F', 'R', 'I', ' ', 'S', 'A', 'T', ' ', 'S', 'U', 'N'])
 
 const updateClock = () => {
   const now = new Date()
   const seconds = now.getSeconds()
   const minutes = now.getMinutes()
   const hours = now.getHours()
+  const day = now.getDay()
 
   secondsRotation.value = seconds * 6
   minutesRotation.value = minutes * 6
   hoursRotation.value = hours * 30 + (minutes / 2)
+
+  let dayIndex = day
+  if (dayIndex === 0) {
+    dayIndex = 7
+  }
+  const range = 270
+  const sectionsDayName = 7
+  const sectionWidthDayName = range / sectionsDayName
+  const initialRotationDayName = 135 - (sectionWidthDayName / 2)
+  dayNameRotation.value = initialRotationDayName - sectionWidthDayName * (dayIndex - 1)
+
+  const start = (dayIndex - 1) * 4 + 1
+  currentDayNameChars.value = [start, start + 1, start + 2]
 }
 
 let timer = null
@@ -52,9 +71,23 @@ onUnmounted(() => {
   </div>
   <div class='day-name-dial'>
     <div class='ring-back'></div>
-    <div class='ring' id='r1'>
-      <h1 class='day-name-preview'>DAY NAME</h1>
-      <h2 class='day-name-text'>MON TUE WED THU FRI SAT SUN</h2>
+    <div class='ring' id='r1' :style="{ transform: 'rotate(' + dayNameRotation + 'deg)' }">
+      <h1 class='day-name-preview'>
+        <span
+          v-for="(char, index) in dayNamePreviewChars"
+          :key="index"
+          :class="'char' + (index + 1)"
+          :style="{ transform: 'rotate(' + (-35 + index * 10) + 'deg)' }"
+        >{{ char }}</span>
+      </h1>
+      <h2 class='day-name-text'>
+        <span
+          v-for="(char, index) in dayNameTextChars"
+          :key="index"
+          :class="'char' + (index + 1)"
+          :style="{ transform: 'rotate(' + (-125.3571428571 + index * 9.6428571428) + 'deg)', color: currentDayNameChars.includes(index + 1) ? '#4CD964' : '#555' }"
+        >{{ char }}</span>
+      </h2>
     </div>
   </div>
   <div class='month-dial'>
@@ -453,8 +486,8 @@ h2 {
 }
 
 .day-name-text {
-  opacity: 0;
-  filter: alpha(opacity=0);
+  opacity: 1;
+  filter: alpha(opacity=1);
 }
 
 .day-name-text .char1 {
