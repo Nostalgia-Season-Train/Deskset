@@ -12,10 +12,18 @@
   "app": {
     "windows": [
       {
-        "title": "deskset",
+        "title": "manager",
+        "label": "manager",
         "width": 800,
         "height": 600,
         "url": "manager.html"
+      },
+      {
+        "title": "desktop",
+        "label": "desktop",
+        "width": 800,
+        "height": 600,
+        "url": "desktop.html"
       }
     ],
     "security": {

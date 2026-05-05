@@ -11,6 +11,7 @@ export default defineConfig(async () => ({
     rollupOptions: {
       input: {
         manager: path.resolve(__dirname, 'manager'),
+        desktop: path.resolve(__dirname, 'desktop'),
       }
     }
   },
