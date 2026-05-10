@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  desktop
+  <div></div>
 </template>
 
 <style scoped>

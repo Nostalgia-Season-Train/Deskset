@@ -10,6 +10,7 @@ export interface Widgetcls {
 
   // 部件主函数
   // - 编译出的 Vue SFC 代码函数
+  // - 使用方法：const vnode = h({ render: main }); render(vnode, el)
   main: Function
 
   /* --- 部件（类）信息 Widget(cls)Info --- */
@@ -53,6 +54,7 @@ export interface StorageWidget {
   opacity: number  // 部件不透明度
 
   // 部件模型
+  // - 哪怕部件类没有模型定义，也会创建一个空对象（Object.create(null)）用以占位
   model: Record<string, any>
 }
 export interface RuntimeWidget extends StorageWidget {

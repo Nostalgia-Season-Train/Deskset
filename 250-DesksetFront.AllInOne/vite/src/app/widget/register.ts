@@ -25,7 +25,8 @@ for (const widgetclsPath of widgetclsPathList) {
   _inlineWidgetclsMap.set(widgetclsPath, {
     path: widgetclsPath,
     beInline: true,
-    main: code,
+    // @ts-ignore
+    main: (await code()).render,
     // @ts-ignore
     ...(await info())
   })
