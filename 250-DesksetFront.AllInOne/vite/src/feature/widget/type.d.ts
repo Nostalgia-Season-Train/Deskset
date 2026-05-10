@@ -1,4 +1,5 @@
 /* ==== 部件类 Widgetcls ==== */
+// - 备选名：部件模板、部件蓝图
 export interface Widgetcls {
   // 部件路径
   path: string
@@ -8,9 +9,10 @@ export interface Widgetcls {
   beInline: boolean
 
   // 部件主函数
-  // - 编译出的 Vue 组件函数
+  // - 编译出的 Vue SFC 代码函数
   main: Function
 
+  /* --- 部件（类）信息 Widget(cls)Info --- */
   name: string      // 部件名称
   author: string    // 部件作者
   version: string   // 部件版本
