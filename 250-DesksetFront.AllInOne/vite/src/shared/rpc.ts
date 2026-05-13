@@ -15,15 +15,12 @@ export class RPCClient {
 
   private hook = (funcName: string, funcArgs: any[]): Promise<any | unknown> => {
     // 生成唯一 ID
-    let id = Math.random().toString(16).slice(2)
+    let id: string
     for (let n = 0; n < RPC_ID_ALLOCATE_MAXRETRY_TIME; n++) {
-      if (this.waiting.has(id))
-        id = Math.random().toString(16).slice(2)
-      else
-        break
+      id = Math.random().toString(16).slice(2)
+      if (!this.waiting.has(id)) break
     }
-    if (this.waiting.has(id))
-      throw new RPCIDAllocateError()
+    if (this.waiting.has(id!)) throw new RPCIDAllocateError()  // ! 断言 id 已赋值
 
     return new Promise((resolve, reject) => {
       // 注册 ID 及回调函数
