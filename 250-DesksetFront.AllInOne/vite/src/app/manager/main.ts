@@ -8,4 +8,4 @@ import { WidgetChannel } from '@src/shared/global'
 import { WidgetManagerClient } from '@src/feature/widget/manager'
 
 const widgetManagerClient = new WidgetManagerClient(WidgetChannel)
-widgetManagerClient.appendWidget('datetime/clock')
+widgetManagerClient.appendWidget('datetime/clock', true)

@@ -1,4 +1,5 @@
 import { h, render } from 'vue'
+import { WidgetclsNotExistError } from '@src/shared/error'
 import { RPCClient, RPCServer } from '@src/shared/rpc'
 import { Widgetcls } from './type'
 
@@ -6,7 +7,10 @@ import { Widgetcls } from './type'
 export abstract class AbstractWidgetManager {
   abstract helloworld(): Promise<string>
   // 添加部件
-  abstract appendWidget(path: string): Promise<void>
+  abstract appendWidget(
+    path: string,
+    beInline: boolean
+  ): Promise<void>
 }
 
 
@@ -61,11 +65,19 @@ export class WidgetManagerServer extends AbstractWidgetManager {
     return 'helloworld'
   }
 
-  async appendWidget(path: string) {
-    // - [ ] 后面抛出错误
-    if (!this._inlineWidgetclsMap.has(path))
-      return
-    const main = this._inlineWidgetclsMap.get(path)!.main
+  async appendWidget(
+    path: string,
+    beInline: boolean
+  ) {
+    // 取出 widgetcls 部件类
+    let widgetcls: Widgetcls | undefined
+    if (beInline) {
+      widgetcls = this._inlineWidgetclsMap.get(path)
+    }
+    if (widgetcls === undefined)
+      throw new WidgetclsNotExistError(path, beInline)
+
+    const main = widgetcls.main
     const vnode = h({ render: main })
     render(vnode, this._el)
     return
