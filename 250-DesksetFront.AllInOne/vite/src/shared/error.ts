@@ -19,3 +19,6 @@ export class WidgetclsNotExistError extends DesksetError {
     super(`Widgetcls(path=${path}, beInline=${beInline}) not exist`)
   }
 }
+export class WidgetIDAllocateError extends DesksetError {
+  constructor() { super('Cannot allocate Widget ID') }
+}
