@@ -1,5 +1,11 @@
-/* ==== 重置默认行为 ==== */
-export default function resetDefault() {
+/* ==== 是否非空（非 null 非 undefined） ==== */
+export function isNotEmpty(value: any): boolean {
+  return value !== null && value !== undefined
+}
+
+
+/* ==== 重置网页默认行为 ==== */
+export function resetDefault() {
   // 刷新和开发者工具
   document.addEventListener('keydown', (event: KeyboardEvent) => {
     if (
