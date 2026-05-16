@@ -4,13 +4,13 @@ import { RPCIDAllocateError } from '@src/shared/error'
 
 /* ==== RPC客户端 RPCClient ==== */
 export class RPCClient {
-  private channel: BroadcastChannel
-  private waiting: Map<string, Function>
+  private _channel: BroadcastChannel
+  private _waiting: Map<string, Function>
 
   constructor(channel: BroadcastChannel) {
-    this.channel = channel
-    this.channel.onmessage = this.onReceive
-    this.waiting = new Map()
+    this._channel = channel
+    this._channel.onmessage = this._onReceive
+    this._waiting = new Map()
   }
 
   hook = (funcName: string, funcArgs: any[]): Promise<any | unknown> => {
@@ -18,13 +18,13 @@ export class RPCClient {
     let id: string
     for (let n = 0; n < RPC_ID_ALLOCATE_MAXRETRY_TIME; n++) {
       id = Math.random().toString(16).slice(2)
-      if (!this.waiting.has(id)) break
+      if (!this._waiting.has(id)) break
     }
-    if (this.waiting.has(id!)) throw new RPCIDAllocateError()  // ! 断言 id 已赋值
+    if (this._waiting.has(id!)) throw new RPCIDAllocateError()  // ! 断言 id 已赋值
 
     return new Promise((resolve, reject) => {
       // 注册 ID 及回调函数
-      this.waiting.set(id, (error: Error, result: any) => {
+      this._waiting.set(id, (error: Error, result: any) => {
         if (error) {
           const err = new Error()
           err.name = error.name
@@ -37,7 +37,7 @@ export class RPCClient {
       })
 
       // 发送请求
-      this.channel.postMessage(
+      this._channel.postMessage(
         JSON.stringify({
           id,
           funcName: funcName,
@@ -47,12 +47,12 @@ export class RPCClient {
     })
   }
 
-  private onReceive = async (msg: MessageEvent) => {
+  private _onReceive = async (msg: MessageEvent) => {
     const response = JSON.parse(msg.data)
 
     // 查找对应 ID，移除 ID 后触发回调
-    const callback = this.waiting.get(response.id) as Function
-    this.waiting.delete(response.id)
+    const callback = this._waiting.get(response.id) as Function
+    this._waiting.delete(response.id)
     callback(response.error, response.result)
   }
 }
@@ -60,21 +60,21 @@ export class RPCClient {
 
 /* ==== RPC服务端 RPCServer ==== */
 export class RPCServer {
-  private channel: BroadcastChannel
-  private instance: any
+  private _channel: BroadcastChannel
+  private _instance: any
 
   constructor(channel: BroadcastChannel, instance: any) {
-    this.channel = channel
-    this.instance = instance
-    this.channel.onmessage = this.onReceive
+    this._channel = channel
+    this._instance = instance
+    this._channel.onmessage = this._onReceive
   }
 
-  private onReceive = async (msg: MessageEvent) => {
+  private _onReceive = async (msg: MessageEvent) => {
     const request = JSON.parse(msg.data)
 
     let result, error
     try {
-      result = await (this.instance)[request.funcName](...request.funcArgs)
+      result = await (this._instance)[request.funcName](...request.funcArgs)
     } catch (err) {
       if (err instanceof Error) {
         error = {
@@ -91,7 +91,7 @@ export class RPCServer {
       }
     }
 
-    this.channel.postMessage(
+    this._channel.postMessage(
       JSON.stringify({
         id: request.id,
         result: result,
