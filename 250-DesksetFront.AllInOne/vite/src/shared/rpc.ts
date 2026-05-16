@@ -4,8 +4,8 @@ import { RPCIDAllocateError } from '@src/shared/error'
 
 /* ==== RPC客户端 RPCClient ==== */
 export class RPCClient {
-  channel: BroadcastChannel
-  waiting: Map<string, Function>
+  private channel: BroadcastChannel
+  private waiting: Map<string, Function>
 
   constructor(channel: BroadcastChannel) {
     this.channel = channel
@@ -13,7 +13,7 @@ export class RPCClient {
     this.waiting = new Map()
   }
 
-  private hook = (funcName: string, funcArgs: any[]): Promise<any | unknown> => {
+  hook = (funcName: string, funcArgs: any[]): Promise<any | unknown> => {
     // 生成唯一 ID
     let id: string
     for (let n = 0; n < RPC_ID_ALLOCATE_MAXRETRY_TIME; n++) {
@@ -55,19 +55,17 @@ export class RPCClient {
     this.waiting.delete(response.id)
     callback(response.error, response.result)
   }
-
-  helloworld = () => {
-    return this.hook('helloworld', [])
-  }
 }
 
 
 /* ==== RPC服务端 RPCServer ==== */
 export class RPCServer {
-  channel: BroadcastChannel
+  private channel: BroadcastChannel
+  private instance: any
 
-  constructor(channel: BroadcastChannel) {
+  constructor(channel: BroadcastChannel, instance: any) {
     this.channel = channel
+    this.instance = instance
     this.channel.onmessage = this.onReceive
   }
 
@@ -76,7 +74,7 @@ export class RPCServer {
 
     let result, error
     try {
-      result = await (this as any)[request.funcName](...request.funcArgs)
+      result = await (this.instance)[request.funcName](...request.funcArgs)
     } catch (err) {
       if (err instanceof Error) {
         error = {
@@ -100,9 +98,5 @@ export class RPCServer {
         error: error
       })
     )
-  }
-
-  helloworld = async () => {
-    return 'helloworld'
   }
 }
