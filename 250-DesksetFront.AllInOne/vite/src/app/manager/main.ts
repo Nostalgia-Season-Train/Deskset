@@ -1,3 +1,9 @@
+/* ==== 静态样式 ==== */
+import 'element-plus/dist/index.css'
+import './style.less'
+
+
+/* ==== Vue 应用 ==== */
 import { createApp } from 'vue'
 import App from './App.vue'
 
