@@ -5,16 +5,11 @@ import { Widgetcls } from './type'
 
 
 export abstract class AbstractWidgetManager {
-  abstract helloworld(): Promise<string>
   // 添加部件
-  abstract appendWidget(
-    path: string,
-    beInline: boolean
-  ): Promise<void>
+  abstract appendWidget(path: string, beInline: boolean): Promise<void>
 }
 
 
-// @ts-expect-error: client 的 RPC 方法由 createProxyMethods 生成
 export class WidgetManagerClient extends AbstractWidgetManager {
   /* --- RPC 客户端 --- */
   private _rpcClient: RPCClient
@@ -22,25 +17,11 @@ export class WidgetManagerClient extends AbstractWidgetManager {
   constructor(channel: BroadcastChannel) {
     super()
     this._rpcClient = new RPCClient(channel)
-    this._createProxyMethods()
   }
 
-  // 通过反射创建代理，绑定 RPC 方法到 this 上
-  private _createProxyMethods() {
-    // AbstractWidgetManager 中的方法是纯类型声明，运行时不存在
-    const prototype = WidgetManagerServer.prototype
-    const propertyNames = Object.getOwnPropertyNames(prototype)
-    for (const name of propertyNames) {
-      if (name === 'constructor')
-        continue
-      const descriptor = Object.getOwnPropertyDescriptor(prototype, name)
-      if (descriptor === undefined || typeof descriptor.value !== 'function')
-        continue
-      // hook 返回 Promise，不要用异步函数
-      (this as any)[name] = (...args: any[]) => {
-        return this._rpcClient.hook(name, args)
-      }
-    }
+  async appendWidget(path: string, beInline: boolean) {
+    // 这里可以反射原型链，生成 hook 调用，但为了行为可控手动编写
+    return this._rpcClient.hook('appendWidget', [path, beInline])
   }
 }
 
@@ -64,14 +45,7 @@ export class WidgetManagerServer extends AbstractWidgetManager {
     this._el = el
   }
 
-  async helloworld() {
-    return 'helloworld'
-  }
-
-  async appendWidget(
-    path: string,
-    beInline: boolean
-  ) {
+  async appendWidget(path: string, beInline: boolean) {
     // 取出 widgetcls 部件类
     let widgetcls: Widgetcls | undefined
     if (beInline) {
