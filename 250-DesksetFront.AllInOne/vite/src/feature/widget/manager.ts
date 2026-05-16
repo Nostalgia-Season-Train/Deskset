@@ -16,6 +16,7 @@ export abstract class AbstractWidgetManager {
 
 // @ts-expect-error: client 的 RPC 方法由 createProxyMethods 生成
 export class WidgetManagerClient extends AbstractWidgetManager {
+  /* --- RPC 客户端 --- */
   private _rpcClient: RPCClient
 
   constructor(channel: BroadcastChannel) {
@@ -45,8 +46,10 @@ export class WidgetManagerClient extends AbstractWidgetManager {
 
 
 export class WidgetManagerServer extends AbstractWidgetManager {
+  /* --- RPC 服务端 --- */
   // @ts-expect-error: rpcServer 自动调用 this 方法
   private _rpcServer: RPCServer
+
   private _inlineWidgetclsMap: Map<string, Widgetcls>
   private _el: HTMLElement
 
