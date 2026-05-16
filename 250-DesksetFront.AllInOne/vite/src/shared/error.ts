@@ -11,6 +11,11 @@ export class DesksetError extends Error {
 export class RPCIDAllocateError extends DesksetError {
   constructor() { super('Cannot allocate RPC ID') }
 }
+export class RPCTimeoutError extends DesksetError {
+  constructor(callName: string) {
+    super(`RPC call '${callName}' timeout`)
+  }
+}
 
 
 /* ==== Widget 模块错误 ==== */

@@ -1,5 +1,11 @@
-import { RPC_ID_ALLOCATE_MAXRETRY_TIME } from '@src/shared/constant'
-import { RPCIDAllocateError } from '@src/shared/error'
+import {
+  RPC_ID_ALLOCATE_MAXRETRY_TIME,
+  RPC_TIMEOUT_MILLISECOND_NUM
+} from '@src/shared/constant'
+import {
+  RPCIDAllocateError,
+  RPCTimeoutError
+} from '@src/shared/error'
 
 
 /* ==== RPC客户端 RPCClient ==== */
@@ -23,8 +29,16 @@ export class RPCClient {
     if (this._waiting.has(id!)) throw new RPCIDAllocateError()  // ! 断言 id 已赋值
 
     return new Promise((resolve, reject) => {
+      // 设置超时
+      const timeout = setTimeout(() => {
+        this._waiting.delete(id)
+        reject(new RPCTimeoutError(funcName))
+      }, RPC_TIMEOUT_MILLISECOND_NUM)
       // 注册 ID 及回调函数
       this._waiting.set(id, (error: Error, result: any) => {
+        // 1、清除超时
+        clearTimeout(timeout)
+        // 2、返回错误或结果
         if (error) {
           const err = new Error()
           err.name = error.name
