@@ -12,8 +12,8 @@ export class RPCIDAllocateError extends DesksetError {
   constructor() { super('Cannot allocate RPC ID') }
 }
 export class RPCTimeoutError extends DesksetError {
-  constructor(callName: string) {
-    super(`RPC call '${callName}' timeout`)
+  constructor(id: string, name: string) {
+    super(`RPCCall(id=${id}, name=${name}) timeout`)
   }
 }
 

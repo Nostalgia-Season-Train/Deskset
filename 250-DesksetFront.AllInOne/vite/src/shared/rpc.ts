@@ -32,7 +32,7 @@ export class RPCClient {
       // 设置超时
       const timeout = setTimeout(() => {
         this._waiting.delete(id)
-        reject(new RPCTimeoutError(funcName))
+        reject(new RPCTimeoutError(id, funcName))
       }, RPC_TIMEOUT_MILLISECOND_NUM)
       // 注册 ID 及回调函数
       this._waiting.set(id, (error: Error, result: any) => {
