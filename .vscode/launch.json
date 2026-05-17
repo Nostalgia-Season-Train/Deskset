@@ -17,56 +17,39 @@
       ],
     },
     {
-      "name": "DesksetFront",
+      "name": "Vite",
       "type": "node",
       "request": "launch",
-      "cwd": "${workspaceFolder}/200-DesksetFront",
+      "cwd": "${workspaceFolder}/200-Vite",
       "console": "integratedTerminal",
       "runtimeExecutable": "npm",
       "runtimeArgs": [
         "run",
-        "run",
+        "dev",
       ],
       "skipFiles": [
         "<node_internals>/**",
       ],
     },
     {
-      "name": "DesksetBack",
+      "name": "Tauri",
       "type": "node",  // 此处 node 作命令行使用
       "request": "launch",
-      "cwd": "${workspaceFolder}/300-DesksetBack",
+      "cwd": "${workspaceFolder}/300-Tauri",
       "console": "integratedTerminal",
-      "runtimeExecutable": "air",
-    },
-    {
-      "name": "DesksetBack.MCP",
-      "type": "node",
-      "request": "launch",
-      "cwd": "${workspaceFolder}/350-DesksetBack.MCP",
-      "console": "integratedTerminal",
-      "runtimeExecutable": "uv",
+      "runtimeExecutable": "cargo",
       "runtimeArgs": [
         "run",
-        "main.py",
-        "-dev",
-        "-no-access",
-        "-port=6527",
       ],
-      "env": {
-        "PYTHONPATH": "${workspaceFolder}/350-DesksetBack.MCP/src",
-        "PYTHONPYCACHEPREFIX": "${workspaceFolder}/350-DesksetBack.MCP/__pycache__",
-      },
-    }
+    },
   ],
   "compounds": [
     {
       "name": "Deskset",
       "configurations": [
         "Docs",
-        "DesksetFront",
-        // "DesksetBack",
-        "DesksetBack.MCP",
+        "Vite",
+        "Tauri",
       ],
     }
   ],
