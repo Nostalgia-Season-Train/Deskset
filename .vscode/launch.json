@@ -47,6 +47,7 @@
     {
       "name": "Deskset",
       "configurations": [
+        // 右侧调试面板（Ctrl+Shift+D）单独启动 Docs、Vite、Tauri
         "Docs",
         "Vite",
         "Tauri",
