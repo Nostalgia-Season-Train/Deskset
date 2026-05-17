@@ -17,6 +17,9 @@
     "editor.tabSize": 2,
     "editor.hover.enabled": "off",
   },
+  "[rust]": {
+    "editor.tabSize": 2,
+  },
   "[python]": {
     "editor.tabSize": 4,
   },
