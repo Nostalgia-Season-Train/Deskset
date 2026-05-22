@@ -35,7 +35,7 @@ export class RPCClient {
         reject(new RPCTimeoutError(id, funcName))
       }, RPC_TIMEOUT_MILLISECOND_NUM)
       // 注册 ID 及回调函数
-      this._waiting.set(id, (error: Error, result: any) => {
+      this._waiting.set(id, (error?: Error, result?: any) => {
         // 1、清除超时
         clearTimeout(timeout)
         // 2、返回错误或结果
