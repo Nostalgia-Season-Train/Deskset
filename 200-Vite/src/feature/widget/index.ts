@@ -1,5 +1,4 @@
 export type {
   Widgetcls,
-  StorageWidget,
-  RuntimeWidget
+  Widget
 } from './type'
