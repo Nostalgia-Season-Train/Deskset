@@ -6,7 +6,7 @@ const widgetclsPathList = [
 
 
 /* ==== 内联部件 ==== */
-import { Widgetcls } from '@src/feature/widget'
+import { Widgetcls } from '@src/feature/deskbeauty'
 
 // 附：** 搜索嵌套目录（包括当前目录），* 搜索一级子目录
 const widgetclsCodeMap = import.meta.glob('./*/*.vue', { import: 'default' })

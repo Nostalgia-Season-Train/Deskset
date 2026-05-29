@@ -12,7 +12,7 @@ const app = createApp(App).mount('#app')
 
 import { WidgetChannel } from '@src/shared/global'
 import { inlineWidgetclsMap } from '@src/app/widget/register'
-import { WidgetManagerServer } from '@src/feature/widget/manager'
+import { WidgetManagerServer } from '@src/feature/deskbeauty/widget/manager'
 
 // @ts-expect-error
 const widgetManagerServer =

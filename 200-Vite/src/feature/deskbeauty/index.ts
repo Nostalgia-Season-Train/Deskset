@@ -1,4 +1,4 @@
 export type {
   Widgetcls,
   Widget
-} from './type'
+} from './widget/type'
