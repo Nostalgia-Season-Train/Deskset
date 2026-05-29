@@ -51,18 +51,16 @@ export class RPCClient {
       })
 
       // 发送请求
-      this._channel.postMessage(
-        JSON.stringify({
-          id,
-          funcName: funcName,
-          funcArgs: [...funcArgs]
-        })
-      )
+      this._channel.postMessage({
+        id,
+        funcName: funcName,
+        funcArgs: [...funcArgs]
+      })
     })
   }
 
   private _onReceive = async (msg: MessageEvent) => {
-    const response = JSON.parse(msg.data)
+    const response = msg.data
 
     // 查找对应 ID，移除 ID 后触发回调
     const callback = this._waiting.get(response.id) as Function
@@ -84,7 +82,7 @@ export class RPCServer {
   }
 
   private _onReceive = async (msg: MessageEvent) => {
-    const request = JSON.parse(msg.data)
+    const request = msg.data
 
     let result, error
     try {
@@ -105,12 +103,10 @@ export class RPCServer {
       }
     }
 
-    this._channel.postMessage(
-      JSON.stringify({
-        id: request.id,
-        result: result,
-        error: error
-      })
-    )
+    this._channel.postMessage({
+      id: request.id,
+      result: result,
+      error: error
+    })
   }
 }
