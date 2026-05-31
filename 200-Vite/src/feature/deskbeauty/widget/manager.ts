@@ -10,27 +10,25 @@ export abstract class AbstractWidgetManager {
 }
 
 
-export class WidgetManagerClient extends AbstractWidgetManager {
-  /* --- RPC 客户端 --- */
-  private _rpcClient: RPCClient
-
+export class WidgetManagerClient
+  extends RPCClient
+  implements AbstractWidgetManager
+{
   constructor(channel: BroadcastChannel) {
-    super()
-    this._rpcClient = new RPCClient(channel)
+    super(channel)
   }
 
   async appendWidget(path: string, beInline: boolean) {
     // 这里可以反射原型链，生成 hook 调用，但为了行为可控手动编写
-    return this._rpcClient.hook('appendWidget', [path, beInline])
+    return this.hook('appendWidget', [path, beInline])
   }
 }
 
 
-export class WidgetManagerServer extends AbstractWidgetManager {
-  /* --- RPC 服务端 --- */
-  // @ts-expect-error: rpcServer 自动调用 this 方法
-  private _rpcServer: RPCServer
-
+export class WidgetManagerServer
+  extends RPCServer
+  implements AbstractWidgetManager
+{
   private _inlineWidgetclsMap: Map<string, Widgetcls>
   private _el: HTMLElement
 
@@ -39,8 +37,7 @@ export class WidgetManagerServer extends AbstractWidgetManager {
     inlineWidgetclsMap: Map<string, Widgetcls>,
     el: HTMLElement
   ) {
-    super()
-    this._rpcServer = new RPCServer(channel, this)
+    super(channel)
     this._inlineWidgetclsMap = inlineWidgetclsMap
     this._el = el
   }

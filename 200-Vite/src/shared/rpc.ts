@@ -73,11 +73,9 @@ export class RPCClient {
 /* ==== RPC服务端 RPCServer ==== */
 export class RPCServer {
   private _channel: BroadcastChannel
-  private _instance: any
 
-  constructor(channel: BroadcastChannel, instance: any) {
+  constructor(channel: BroadcastChannel) {
     this._channel = channel
-    this._instance = instance
     this._channel.onmessage = this._onReceive
   }
 
@@ -86,7 +84,7 @@ export class RPCServer {
 
     let result, error
     try {
-      result = await (this._instance)[request.funcName](...request.funcArgs)
+      result = await (this as any)[request.funcName](...request.funcArgs)
     } catch (err) {
       if (err instanceof Error) {
         error = {
