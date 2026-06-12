@@ -20,7 +20,7 @@ export class WidgetManagerClient
 
   async appendWidget(path: string, beInline: boolean) {
     // 这里可以反射原型链，生成 hook 调用，但为了行为可控手动编写
-    return this.hook('appendWidget', [path, beInline])
+    return await this.hook('appendWidget', [path, beInline])
   }
 }
 
