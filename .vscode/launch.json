@@ -2,10 +2,10 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Docs",
+      "name": "Site",
       "type": "node",
       "request": "launch",
-      "cwd": "${workspaceFolder}/100-Docs",
+      "cwd": "${workspaceFolder}/100-Site",
       "console": "integratedTerminal",
       "runtimeExecutable": "npm",
       "runtimeArgs": [
@@ -47,8 +47,8 @@
     {
       "name": "Deskset",
       "configurations": [
-        // 右侧调试面板（Ctrl+Shift+D）单独启动 Docs、Vite、Tauri
-        "Docs",
+        // 右侧调试面板（Ctrl+Shift+D）单独启动 Site、Vite、Tauri
+        "Site",
         "Vite",
         "Tauri",
       ],
