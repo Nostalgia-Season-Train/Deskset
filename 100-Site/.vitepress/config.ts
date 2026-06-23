@@ -1,3 +1,4 @@
+// @ts-ignore 忽略 defineConfig 类型导出错误
 import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
@@ -11,14 +12,23 @@ export default defineConfig({
     logo: '/Deskset LOGO v2.1.png',
     siteTitle: '数字桌搭 Deskset',
 
+    // 导航栏右侧菜单（左侧 LOGO + 名称 自动渲染，亮色暗色切换内置，GitHub 在 socialLinks）
     nav: [
+      { text: '下载', link: '/download' },
       { text: '用户手册', link: '/manual/what-is-deskset' },
-      { text: '开发文档', link: '/develop' }
+      { text: '开发者文档', link: '/develop/' },
+      { text: '关于', link: '/about' }
     ],
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/Nostalgia-Season-Train/Deskset' }
     ],
+
+    // 页脚（仅在首页显示）
+    footer: {
+      message: '基于 AGPL-3.0 许可发布',
+      copyright: '版权所有 © Nostalgia-Season-Train'
+    },
 
     outlineTitle: '导航',  // 替换右侧大纲 On this page 文本
 
@@ -60,6 +70,19 @@ export default defineConfig({
         ]},
         { text: 'AI', collapsed: false, items: [
           { text: 'AI 简介', link: '/manual/ai/ai-overview' }
+        ]}
+      ],
+      '/develop/': [
+        { text: '开始', collapsed: false, items: [
+          { text: '开发概览', link: '/develop/' },
+          { text: '环境搭建', link: '/develop/getting-started' }
+        ]},
+        { text: '部件开发', collapsed: false, items: [
+          { text: '部件结构', link: '/develop/widget-structure' },
+          { text: '部件 API', link: '/develop/widget-api' }
+        ]},
+        { text: '插件开发', collapsed: false, items: [
+          { text: '插件结构', link: '/develop/plugin-structure' }
         ]}
       ]
     }

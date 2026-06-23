@@ -1,0 +1,4 @@
+/* Hero 区：去掉 name 后补回顶部间距 */
+.VPHome .VPHero {
+  margin-top: 40px;
+}
