@@ -3,6 +3,7 @@
 
 use log;
 use deskset_lib::app::desktop;
+use deskset_lib::app::manager;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
   /* ==== 创建应用 ==== */
@@ -17,6 +18,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
   .map_err(|e| {
     log::error!("Build desktop win fail, error: {}", e);
     e  // 向上继续传递错误
+  })?;
+
+
+  /* ==== 管理窗口 ==== */
+  let _manager_win = manager::build(&app)
+  .map_err(|e| {
+    log::error!("Build manager win fail, error: {}", e);
+    e
   })?;
 
 
