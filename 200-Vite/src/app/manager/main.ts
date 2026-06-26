@@ -1,6 +1,7 @@
 /* ==== 静态样式 ==== */
-import './style.less'
 import 'element-plus/dist/index.css'
+import './style.less'
+
 
 /* ==== Vue 应用 ==== */
 import { createApp } from 'vue'

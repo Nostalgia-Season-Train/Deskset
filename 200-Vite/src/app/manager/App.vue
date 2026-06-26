@@ -73,16 +73,18 @@ function go(path: string) {
   border-right: 1px solid var(--el-border-color-lighter);
   display: flex;
   flex-direction: column;
-  padding: 16px 0;
+  padding: 0;
 }
 
 .logo {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 0 20px 16px;
+  height: var(--layout-header-height);
+  padding: 0 20px;
   border-bottom: 1px solid var(--el-border-color-lighter);
   margin-bottom: 8px;
+  box-sizing: border-box;
 }
 
 .logo-icon {
@@ -148,12 +150,13 @@ function go(path: string) {
 }
 
 .topbar {
-  height: 48px;
+  height: var(--layout-header-height);
   padding: 0 24px;
   display: flex;
   align-items: center;
   border-bottom: 1px solid var(--el-border-color-lighter);
   background: var(--el-bg-color);
+  box-sizing: border-box;
 }
 
 .topbar-title {
