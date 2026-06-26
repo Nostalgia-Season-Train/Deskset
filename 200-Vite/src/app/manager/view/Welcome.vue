@@ -13,7 +13,7 @@ const stats = ref([
   { label: '部件', value: 8, icon: 'extension' },
   { label: '壁纸', value: 24, icon: 'image' },
   { label: '主题', value: 3, icon: 'palette' },
-  { label: '插件', value: 5, icon: 'puzzle' },
+  { label: '插件', value: 5, icon: 'dashboard_customize' },
 ])
 
 const quickActions = ref([

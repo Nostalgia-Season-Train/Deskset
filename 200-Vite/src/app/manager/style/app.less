@@ -1,0 +1,168 @@
+/* ==== App.vue 主布局样式 ==== */
+
+.app-layout {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ==== 侧边栏 ==== */
+.sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--layout-sidebar-width);
+  background: var(--el-fill-color-light);
+  border-right: 1px solid var(--el-border-color-lighter);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  flex-shrink: 0;
+  transition: width 0.2s ease;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.sidebar:hover {
+  width: var(--layout-sidebar-hover-width);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+}
+
+/* ==== LOGO 区 ==== */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: var(--layout-logo-height);
+  padding: 0 14px;
+  border-bottom: 1px solid var(--el-border-color-lighter);
+  margin-bottom: 8px;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+.logo-placeholder {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background: var(--el-color-primary);
+  flex-shrink: 0;
+}
+
+.logo-text {
+  font-weight: 600;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.2s ease 0.05s;
+}
+
+.sidebar:hover .logo-text {
+  opacity: 1;
+}
+
+/* ==== 导航 ==== */
+.nav {
+  display: flex;
+  flex-direction: column;
+  padding: 0 6px 8px;
+  gap: 2px;
+  flex: 1;
+  min-height: 0;
+}
+
+.nav-divider {
+  height: 1px;
+  background: var(--el-border-color);
+  margin: 8px 10px;
+}
+
+.nav-spacer {
+  flex: 1;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 4px;
+  color: var(--el-text-color-regular);
+  font-size: 13px;
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.nav-item:hover {
+  background: var(--el-fill-color);
+}
+
+.nav-item.active {
+  background: var(--el-color-primary-light-9);
+  color: var(--el-color-primary);
+  font-weight: 500;
+}
+
+.nav-item.active .nav-icon {
+  font-variation-settings:
+    'FILL' 1,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+.nav-icon {
+  font-size: 18px;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.nav-label {
+  opacity: 0;
+  transition: opacity 0.2s ease 0.05s;
+}
+
+.sidebar:hover .nav-label {
+  opacity: 1;
+}
+
+/* ==== 主区域 ==== */
+.main {
+  margin-left: var(--layout-sidebar-width);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.topbar {
+  height: var(--layout-header-height);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--el-border-color-lighter);
+  background: var(--el-bg-color);
+  box-sizing: border-box;
+}
+
+.topbar-title {
+  font-weight: 500;
+}
+
+.content {
+  flex: 1;
+  overflow: auto;
+  background: var(--el-bg-color-page);
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: var(--layout-sidebar-width);
+  }
+}
