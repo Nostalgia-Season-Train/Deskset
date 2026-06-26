@@ -95,15 +95,17 @@ const assets = ref([
 
 <style scoped>
 .home-view {
-  padding: 24px;
+  padding: var(--view-padding);
+  display: flex;
+  flex-direction: column;
+  gap: var(--view-gap);
 }
 
 /* ==== Stats ==== */
 .stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: var(--view-card-grid-gap);
 }
 
 .stat-card {
@@ -131,10 +133,6 @@ const assets = ref([
 .stat-label {
   font-size: 12px;
   color: var(--el-text-color-secondary);
-}
-
-.card {
-  margin-bottom: 16px;
 }
 
 .card-header {

@@ -97,12 +97,12 @@ function nextTip() {
 
 <style scoped>
 .welcome-view {
-  padding: 32px 24px;
+  padding: var(--view-padding);
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--view-gap);
 }
 
 /* ==== Hero ==== */
@@ -148,7 +148,7 @@ function nextTip() {
 .stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  gap: var(--view-card-grid-gap);
 }
 
 .stat-card {
@@ -202,7 +202,7 @@ function nextTip() {
 .info-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: var(--view-card-grid-gap-lg);
   width: 100%;
 }
 
