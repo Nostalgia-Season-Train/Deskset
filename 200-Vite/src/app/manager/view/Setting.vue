@@ -43,7 +43,7 @@ function saveSettings() {
     <!-- 基础设置 -->
     <el-card class="card" shadow="hover">
       <template #header>
-        <span>⚙️ 基础设置</span>
+        <span><span class="material-symbols-outlined">settings</span> 基础设置</span>
       </template>
       <el-form label-width="160px">
         <el-form-item label="开机启动">
@@ -73,7 +73,7 @@ function saveSettings() {
     <el-card class="card" shadow="hover">
       <template #header>
         <div class="card-header">
-          <span>📄 日志</span>
+          <span><span class="material-symbols-outlined">article</span> 日志</span>
           <el-button size="small" plain>清空日志</el-button>
         </div>
       </template>

@@ -108,7 +108,7 @@ function locateWidget() {
     <el-card class="panel panel-list" shadow="hover">
       <template #header>
         <div class="panel-header">
-          <span>🧩 部件列表</span>
+          <span><span class="material-symbols-outlined">extension</span> 部件列表</span>
           <div>
             <el-button size="small" type="primary" @click="addWidget">添加部件</el-button>
             <el-button size="small" type="danger" plain @click="clearWidgets">清空</el-button>
@@ -136,7 +136,7 @@ function locateWidget() {
         <!-- 部件信息 -->
         <el-card class="panel" shadow="hover">
           <template #header>
-            <span>📋 部件信息</span>
+            <span><span class="material-symbols-outlined">info</span> 部件信息</span>
           </template>
           <el-descriptions :column="1" border>
             <el-descriptions-item label="名称 name">{{ current.name }}</el-descriptions-item>
@@ -149,7 +149,7 @@ function locateWidget() {
         <!-- 部件操作 -->
         <el-card class="panel" shadow="hover">
           <template #header>
-            <span>⚙️ 部件操作</span>
+            <span><span class="material-symbols-outlined">build</span> 部件操作</span>
           </template>
           <div class="ops">
             <el-button type="danger" @click="deleteWidget(current.id)">删除 Delete</el-button>
@@ -161,7 +161,7 @@ function locateWidget() {
         <!-- 部件基础设置（CSS 属性） -->
         <el-card class="panel" shadow="hover">
           <template #header>
-            <span>🎨 基础设置（CSS 属性）</span>
+            <span><span class="material-symbols-outlined">tune</span> 基础设置（CSS 属性）</span>
           </template>
           <el-form label-width="80px">
             <el-form-item label="坐标 x">
@@ -182,7 +182,7 @@ function locateWidget() {
         <!-- 部件状态切换（CSS 类名） -->
         <el-card class="panel" shadow="hover">
           <template #header>
-            <span>🔁 状态切换（CSS 类名）</span>
+            <span><span class="material-symbols-outlined">sync</span> 状态切换（CSS 类名）</span>
           </template>
           <el-form label-width="160px">
             <el-form-item label="锁定拖动 DragLock">

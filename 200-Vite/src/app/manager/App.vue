@@ -7,18 +7,18 @@ const route = useRoute()
 const router = useRouter()
 
 const menus = [
-  { path: '/welcome', label: '欢迎', icon: '👋' },
-  { path: '/home', label: '主页', icon: '🏠' },
-  { path: '/widget', label: '部件', icon: '🧩' },
-  { path: '/wallpaper', label: '壁纸', icon: '🖼️' },
-  { path: '/theme', label: '主题', icon: '🎨' },
-  { path: '/settings', label: '设置', icon: '⚙️' },
+  { path: '/welcome', label: '欢迎', icon: 'waving_hand' },
+  { path: '/home', label: '主页', icon: 'home' },
+  { path: '/widget', label: '部件', icon: 'extension' },
+  { path: '/wallpaper', label: '壁纸', icon: 'image' },
+  { path: '/theme', label: '主题', icon: 'palette' },
+  { path: '/settings', label: '设置', icon: 'settings' },
 ]
 
 const currentPath = computed(() => route.path)
 const currentTitle = computed(() => {
   const m = menus.find((m) => m.path === route.path)
-  return m ? `${m.icon} ${m.label}` : ''
+  return m ? m.label : ''
 })
 
 function go(path: string) {
@@ -31,7 +31,7 @@ function go(path: string) {
     <!-- 侧边栏 -->
     <aside class="sidebar">
       <div class="logo">
-        <span class="logo-icon">🖥️</span>
+        <span class="material-symbols-outlined logo-icon">desktop_windows</span>
         <span class="logo-text">Deskset</span>
       </div>
       <nav class="nav">
@@ -42,7 +42,7 @@ function go(path: string) {
           :class="{ active: currentPath === m.path }"
           @click="go(m.path)"
         >
-          <span class="nav-icon">{{ m.icon }}</span>
+          <span class="material-symbols-outlined nav-icon">{{ m.icon }}</span>
           <span class="nav-label">{{ m.label }}</span>
         </button>
       </nav>
@@ -126,9 +126,17 @@ function go(path: string) {
   font-weight: 500;
 }
 
+.nav-item.active .nav-icon {
+  font-variation-settings:
+    'FILL' 1,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
 .nav-icon {
-  font-size: 16px;
-  width: 20px;
+  font-size: 24px;
+  width: 28px;
   text-align: center;
 }
 

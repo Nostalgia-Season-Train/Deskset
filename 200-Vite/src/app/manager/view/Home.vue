@@ -13,10 +13,10 @@ const desktopInfo = ref({
 
 // 资产统计
 const assets = ref([
-  { type: '字体', count: 12, size: '4.2 MB', icon: '🔤' },
-  { type: '部件', count: 8, size: '2.1 MB', icon: '🧩' },
-  { type: '壁纸', count: 24, size: '128 MB', icon: '🖼️' },
-  { type: '主题', count: 3, size: '512 KB', icon: '🎨' },
+  { type: '字体', count: 12, size: '4.2 MB', icon: 'text_fields' },
+  { type: '部件', count: 8, size: '2.1 MB', icon: 'extension' },
+  { type: '壁纸', count: 24, size: '128 MB', icon: 'image' },
+  { type: '主题', count: 3, size: '512 KB', icon: 'palette' },
 ])
 </script>
 
@@ -25,7 +25,7 @@ const assets = ref([
     <!-- 桌面信息 -->
     <el-card class="card" shadow="hover">
       <template #header>
-        <span>🖥️ 桌面信息</span>
+        <span><span class="material-symbols-outlined">desktop_windows</span> 桌面信息</span>
       </template>
       <el-descriptions :column="2" border>
         <el-descriptions-item label="分辨率">
@@ -47,14 +47,14 @@ const assets = ref([
     <el-card class="card" shadow="hover">
       <template #header>
         <div class="card-header">
-          <span>📦 资产管理</span>
+          <span><span class="material-symbols-outlined">inventory_2</span> 资产管理</span>
           <el-button type="primary" size="small" plain>刷新</el-button>
         </div>
       </template>
       <el-table :data="assets" stripe>
         <el-table-column label="类型" width="180">
           <template #default="{ row }">
-            <span class="asset-icon">{{ row.icon }}</span>
+            <span class="material-symbols-outlined asset-icon">{{ row.icon }}</span>
             <span>{{ row.type }}</span>
           </template>
         </el-table-column>

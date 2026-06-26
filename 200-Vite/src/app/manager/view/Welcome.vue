@@ -31,7 +31,7 @@ function goHome() {
     <!-- 顶部欢迎区 -->
     <section class="hero">
       <div class="hero-logo">
-        <span class="logo-icon">🖥️</span>
+        <span class="material-symbols-outlined logo-icon">desktop_windows</span>
       </div>
       <h1 class="hero-title">欢迎使用数字桌搭 Deskset</h1>
       <p class="hero-subtitle">一款桌面美化软件</p>
@@ -47,7 +47,7 @@ function goHome() {
       <el-card class="info-card" shadow="hover">
         <template #header>
           <div class="card-header">
-            <span>📝 更新日志</span>
+            <span><span class="material-symbols-outlined">description</span> 更新日志</span>
             <el-tag size="small" type="info">Changelog</el-tag>
           </div>
         </template>
@@ -69,7 +69,7 @@ function goHome() {
       <el-card class="info-card" shadow="hover">
         <template #header>
           <div class="card-header">
-            <span>📰 社区新闻</span>
+            <span><span class="material-symbols-outlined">newspaper</span> 社区新闻</span>
             <el-tag size="small" type="info">News</el-tag>
           </div>
         </template>
