@@ -1,7 +1,15 @@
 <script lang="ts" setup>
-/* ==== 主页视图：桌面信息 + 资产管理 ==== */
+/* ==== 主页视图：资源统计 + 桌面信息 + 资产管理 ==== */
 import { ref } from 'vue'
 import { ElButton, ElCard, ElDescriptions, ElDescriptionsItem, ElTable, ElTableColumn } from 'element-plus'
+
+// 资源数量统计
+const stats = ref([
+  { label: '部件', value: 8, icon: 'extension' },
+  { label: '壁纸', value: 24, icon: 'image' },
+  { label: '主题', value: 3, icon: 'palette' },
+  { label: '插件', value: 5, icon: 'dashboard_customize' },
+])
 
 // 桌面信息
 const desktopInfo = ref({
@@ -22,6 +30,19 @@ const assets = ref([
 
 <template>
   <div class="home-view">
+    <!-- 资源数量统计 -->
+    <div class="stats">
+      <el-card v-for="(s, i) in stats" :key="i" class="stat-card" shadow="hover">
+        <div class="stat">
+          <span class="material-symbols-outlined stat-icon">{{ s.icon }}</span>
+          <div class="stat-info">
+            <div class="stat-value">{{ s.value }}</div>
+            <div class="stat-label">{{ s.label }}</div>
+          </div>
+        </div>
+      </el-card>
+    </div>
+
     <!-- 桌面信息 -->
     <el-card class="card" shadow="hover">
       <template #header>
@@ -77,6 +98,41 @@ const assets = ref([
   padding: 24px;
 }
 
+/* ==== Stats ==== */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.stat-card {
+  cursor: default;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stat-icon {
+  font-size: 28px;
+  color: var(--el-color-primary);
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--el-text-color-primary);
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--el-text-color-secondary);
+}
+
 .card {
   margin-bottom: 16px;
 }
@@ -89,5 +145,11 @@ const assets = ref([
 
 .asset-icon {
   margin-right: 8px;
+}
+
+@media (max-width: 768px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 </style>

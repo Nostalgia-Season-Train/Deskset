@@ -1,27 +1,7 @@
 <script lang="ts" setup>
 /* ==== 欢迎视图 ==== */
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { ElButton, ElCard, ElTag } from 'element-plus'
-
-const router = useRouter()
-
-const version = ref('0.1.0')
-const releaseDate = ref('2024-12')
-
-const stats = ref([
-  { label: '部件', value: 8, icon: 'extension' },
-  { label: '壁纸', value: 24, icon: 'image' },
-  { label: '主题', value: 3, icon: 'palette' },
-  { label: '插件', value: 5, icon: 'dashboard_customize' },
-])
-
-const quickActions = ref([
-  { title: '添加部件', desc: '从本地或市场导入新部件', icon: 'add_circle', path: '/widget' },
-  { title: '更换壁纸', desc: '浏览并应用壁纸资源', icon: 'image', path: '/wallpaper' },
-  { title: '切换主题', desc: '应用已有主题或自定义', icon: 'palette', path: '/theme' },
-  { title: '查看设置', desc: '调整软件偏好', icon: 'settings', path: '/settings' },
-])
+import { ElCard, ElTag } from 'element-plus'
 
 const changelog = ref([
   { date: '2024-12', tag: '新增', text: '桌面部件管理系统' },
@@ -43,14 +23,6 @@ const tips = ref([
 
 const currentTip = ref(0)
 
-function goHome() {
-  router.push('/home')
-}
-
-function go(path: string) {
-  router.push(path)
-}
-
 function nextTip() {
   currentTip.value = (currentTip.value + 1) % tips.value.length
 }
@@ -62,50 +34,9 @@ function nextTip() {
     <section class="hero">
       <div class="hero-logo" />
       <h1 class="hero-title">欢迎使用数字桌搭 Deskset</h1>
-      <p class="hero-subtitle">一款桌面美化软件 · 基于 Tauri 框架开发</p>
-      <p class="hero-slogan">让桌面成为专属于你的高效工作台</p>
-      <div class="hero-version">v{{ version }} · {{ releaseDate }}</div>
-      <div class="hero-actions">
-        <el-button type="primary" size="large" @click="goHome">进入主页</el-button>
-        <el-button size="large" @click="go('/widget')">快速开始</el-button>
-      </div>
-    </section>
-
-    <!-- 统计数据 -->
-    <section class="stats">
-      <el-card v-for="(s, i) in stats" :key="i" class="stat-card">
-        <div class="stat">
-          <span class="material-symbols-outlined stat-icon">{{ s.icon }}</span>
-          <div class="stat-info">
-            <div class="stat-value">{{ s.value }}</div>
-            <div class="stat-label">{{ s.label }}</div>
-          </div>
-        </div>
-      </el-card>
-    </section>
-
-    <!-- 快速操作 -->
-    <section class="block">
-      <div class="block-header">
-        <h2 class="block-title">快速操作</h2>
-      </div>
-      <div class="quick-grid">
-        <el-card
-          v-for="(a, i) in quickActions"
-          :key="i"
-          class="quick-card"
-          @click="go(a.path)"
-        >
-          <div class="quick">
-            <span class="material-symbols-outlined quick-icon">{{ a.icon }}</span>
-            <div class="quick-text">
-              <div class="quick-title">{{ a.title }}</div>
-              <div class="quick-desc">{{ a.desc }}</div>
-            </div>
-            <span class="material-symbols-outlined quick-arrow">chevron_right</span>
-          </div>
-        </el-card>
-      </div>
+      <p class="hero-subtitle">一款桌面美化软件</p>
+      <p class="hero-subtitle">基于 Tauri 框架开发</p>
+      <p class="hero-subtitle">让桌面成为你的高效工作台</p>
     </section>
 
     <!-- 双栏：更新日志 + 社区新闻 -->
@@ -177,7 +108,7 @@ function nextTip() {
 /* ==== Hero ==== */
 .hero {
   text-align: center;
-  padding: 40px 24px 24px;
+  padding: 24px 24px 24px;
 }
 
 .hero-logo {
@@ -199,12 +130,6 @@ function nextTip() {
   font-size: 14px;
   color: var(--el-text-color-secondary);
   margin: 0 0 4px;
-}
-
-.hero-slogan {
-  font-size: 14px;
-  color: var(--el-text-color-secondary);
-  margin: 0 0 20px;
 }
 
 .hero-version {
@@ -273,59 +198,16 @@ function nextTip() {
   margin: 0;
 }
 
-/* ==== Quick Actions ==== */
-.quick-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.quick-card {
-  cursor: pointer;
-  transition: border-color 0.15s;
-}
-
-.quick-card:hover {
-  border-color: var(--el-color-primary) !important;
-}
-
-.quick {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.quick-icon {
-  font-size: 24px;
-  color: var(--el-color-primary);
-}
-
-.quick-text {
-  flex: 1;
-  min-width: 0;
-}
-
-.quick-title {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--el-text-color-primary);
-}
-
-.quick-desc {
-  font-size: 12px;
-  color: var(--el-text-color-secondary);
-}
-
-.quick-arrow {
-  font-size: 20px;
-  color: var(--el-text-color-placeholder);
-}
-
 /* ==== Info Grid ==== */
 .info-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
+  width: 100%;
+}
+
+.info-card {
+  min-width: 0;
 }
 
 .card-header {
@@ -438,7 +320,7 @@ function nextTip() {
   color: var(--el-text-color-placeholder);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 700px) {
   .stats {
     grid-template-columns: repeat(2, 1fr);
   }
