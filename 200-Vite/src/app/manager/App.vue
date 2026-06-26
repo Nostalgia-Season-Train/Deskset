@@ -6,18 +6,26 @@ import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const router = useRouter()
 
-const menus = [
+const topMenus = [
   { path: '/welcome', label: '欢迎', icon: 'waving_hand' },
   { path: '/home', label: '主页', icon: 'home' },
+]
+
+const middleMenus = [
   { path: '/widget', label: '部件', icon: 'extension' },
   { path: '/wallpaper', label: '壁纸', icon: 'image' },
   { path: '/theme', label: '主题', icon: 'palette' },
+]
+
+const bottomMenus = [
   { path: '/settings', label: '设置', icon: 'settings' },
 ]
 
+const allMenus = [...topMenus, ...middleMenus, ...bottomMenus]
+
 const currentPath = computed(() => route.path)
 const currentTitle = computed(() => {
-  const m = menus.find((m) => m.path === route.path)
+  const m = allMenus.find((m) => m.path === route.path)
   return m ? m.label : ''
 })
 
@@ -31,12 +39,43 @@ function go(path: string) {
     <!-- 侧边栏 -->
     <aside class="sidebar">
       <div class="logo">
-        <span class="material-symbols-outlined logo-icon">desktop_windows</span>
+        <div class="logo-placeholder" />
         <span class="logo-text">Deskset</span>
       </div>
       <nav class="nav">
+        <!-- 顶部菜单组 -->
         <button
-          v-for="m in menus"
+          v-for="m in topMenus"
+          :key="m.path"
+          class="nav-item"
+          :class="{ active: currentPath === m.path }"
+          @click="go(m.path)"
+        >
+          <span class="material-symbols-outlined nav-icon">{{ m.icon }}</span>
+          <span class="nav-label">{{ m.label }}</span>
+        </button>
+
+        <!-- 主页与部件之间的分割线 -->
+        <div class="nav-divider" />
+
+        <!-- 中部菜单组 -->
+        <button
+          v-for="m in middleMenus"
+          :key="m.path"
+          class="nav-item"
+          :class="{ active: currentPath === m.path }"
+          @click="go(m.path)"
+        >
+          <span class="material-symbols-outlined nav-icon">{{ m.icon }}</span>
+          <span class="nav-label">{{ m.label }}</span>
+        </button>
+
+        <!-- 弹性占位，把设置推到底部 -->
+        <div class="nav-spacer" />
+
+        <!-- 底部菜单组 -->
+        <button
+          v-for="m in bottomMenus"
           :key="m.path"
           class="nav-item"
           :class="{ active: currentPath === m.path }"
@@ -87,8 +126,12 @@ function go(path: string) {
   box-sizing: border-box;
 }
 
-.logo-icon {
-  font-size: 24px;
+.logo-placeholder {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--el-color-primary);
+  flex-shrink: 0;
 }
 
 .logo-text {
@@ -99,8 +142,20 @@ function go(path: string) {
 .nav {
   display: flex;
   flex-direction: column;
-  padding: 0 8px;
+  padding: 0 8px 8px;
   gap: 2px;
+  flex: 1;
+  min-height: 0;
+}
+
+.nav-divider {
+  height: 1px;
+  background: var(--el-border-color);
+  margin: 10px 12px;
+}
+
+.nav-spacer {
+  flex: 1;
 }
 
 .nav-item {

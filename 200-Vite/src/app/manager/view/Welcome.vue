@@ -30,12 +30,9 @@ function goHome() {
   <div class="welcome-view">
     <!-- 顶部欢迎区 -->
     <section class="hero">
-      <div class="hero-logo">
-        <span class="material-symbols-outlined logo-icon">desktop_windows</span>
-      </div>
+      <div class="hero-logo" />
       <h1 class="hero-title">欢迎使用数字桌搭 Deskset</h1>
-      <p class="hero-subtitle">一款桌面美化软件</p>
-      <p class="hero-meta">基于 Tauri 框架开发</p>
+      <p class="hero-subtitle">一款桌面美化软件 · 基于 Tauri 框架开发</p>
       <p class="hero-slogan">让桌面成为专属于你的高效工作台</p>
       <div class="hero-version">v{{ version }} · {{ releaseDate }}</div>
       <el-button type="primary" size="large" @click="goHome">进入主页</el-button>
@@ -98,39 +95,36 @@ function goHome() {
 }
 
 .hero-logo {
-  font-size: 64px;
-  margin-bottom: 16px;
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: var(--el-color-primary);
+  margin: 0 auto 20px;
 }
 
 .hero-title {
-  font-size: 32px;
-  margin: 8px 0;
+  font-size: 24px;
   font-weight: 600;
+  color: var(--el-text-color-primary);
+  margin: 0 0 8px;
 }
 
 .hero-subtitle {
-  font-size: 18px;
-  color: var(--el-text-color-regular);
-  margin: 4px 0;
-}
-
-.hero-meta {
   font-size: 14px;
   color: var(--el-text-color-secondary);
-  margin: 4px 0;
+  margin: 0 0 4px;
 }
 
 .hero-slogan {
-  font-size: 16px;
-  color: var(--el-color-primary);
-  margin: 12px 0 20px;
-  font-style: italic;
+  font-size: 14px;
+  color: var(--el-text-color-secondary);
+  margin: 0 0 20px;
 }
 
 .hero-version {
   font-size: 12px;
-  color: var(--el-text-color-secondary);
-  margin-bottom: 24px;
+  color: var(--el-text-color-placeholder);
+  margin-bottom: 20px;
 }
 
 .info-grid {
