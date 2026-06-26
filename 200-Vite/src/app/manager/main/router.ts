@@ -7,41 +7,35 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     redirect: '/welcome',
-  },
-  {
+  }, {
     path: '/welcome',
     name: 'welcome',
-    component: () => import('../views/WelcomeView.vue'),
+    component: () => import('../view/Welcome.vue'),
     meta: { title: '欢迎' },
-  },
-  {
+  }, {
     path: '/home',
     name: 'home',
-    component: () => import('../views/HomeView.vue'),
+    component: () => import('../view/Home.vue'),
     meta: { title: '主页' },
-  },
-  {
+  }, {
     path: '/widget',
     name: 'widget',
-    component: () => import('../views/WidgetView.vue'),
+    component: () => import('../view/Widget.vue'),
     meta: { title: '部件' },
-  },
-  {
+  }, {
     path: '/wallpaper',
     name: 'wallpaper',
-    component: () => import('../views/WallpaperView.vue'),
+    component: () => import('../view/Wallpaper.vue'),
     meta: { title: '壁纸' },
-  },
-  {
+  }, {
     path: '/theme',
     name: 'theme',
-    component: () => import('../views/ThemeView.vue'),
+    component: () => import('../view/Theme.vue'),
     meta: { title: '主题' },
-  },
-  {
+  }, {
     path: '/settings',
     name: 'settings',
-    component: () => import('../views/SettingsView.vue'),
+    component: () => import('../view/Setting.vue'),
     meta: { title: '设置' },
   },
 ]
