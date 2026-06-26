@@ -6,27 +6,16 @@ import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const router = useRouter()
 
-const topMenus = [
-  { path: '/welcome', label: '欢迎', icon: 'waving_hand' },
-  { path: '/home', label: '主页', icon: 'home' },
-]
-
-const middleMenus = [
-  { path: '/widget', label: '部件', icon: 'extension' },
-  { path: '/wallpaper', label: '壁纸', icon: 'image' },
-  { path: '/theme', label: '主题', icon: 'palette' },
-]
-
-const bottomMenus = [
-  { path: '/settings', label: '设置', icon: 'settings' },
-]
-
-const allMenus = [...topMenus, ...middleMenus, ...bottomMenus]
+// 从路由表派生菜单，按 meta.group 分组
+const menuRoutes = router.options.routes.filter((r) => r.meta?.group)
+const topMenus = menuRoutes.filter((r) => r.meta!.group === 'top')
+const middleMenus = menuRoutes.filter((r) => r.meta!.group === 'middle')
+const bottomMenus = menuRoutes.filter((r) => r.meta!.group === 'bottom')
 
 const currentPath = computed(() => route.path)
 const currentTitle = computed(() => {
-  const m = allMenus.find((m) => m.path === route.path)
-  return m ? m.label : ''
+  const r = menuRoutes.find((r) => r.path === route.path)
+  return r ? (r.meta!.title as string) : ''
 })
 
 function go(path: string) {
@@ -51,8 +40,8 @@ function go(path: string) {
           :class="{ active: currentPath === m.path }"
           @click="go(m.path)"
         >
-          <span class="material-symbols-outlined nav-icon">{{ m.icon }}</span>
-          <span class="nav-label">{{ m.label }}</span>
+          <span class="material-symbols-outlined nav-icon">{{ m.meta!.icon }}</span>
+          <span class="nav-label">{{ m.meta!.title }}</span>
         </button>
 
         <!-- 主页与部件之间的分割线 -->
@@ -66,8 +55,8 @@ function go(path: string) {
           :class="{ active: currentPath === m.path }"
           @click="go(m.path)"
         >
-          <span class="material-symbols-outlined nav-icon">{{ m.icon }}</span>
-          <span class="nav-label">{{ m.label }}</span>
+          <span class="material-symbols-outlined nav-icon">{{ m.meta!.icon }}</span>
+          <span class="nav-label">{{ m.meta!.title }}</span>
         </button>
 
         <!-- 弹性占位，把设置推到底部 -->
@@ -81,8 +70,8 @@ function go(path: string) {
           :class="{ active: currentPath === m.path }"
           @click="go(m.path)"
         >
-          <span class="material-symbols-outlined nav-icon">{{ m.icon }}</span>
-          <span class="nav-label">{{ m.label }}</span>
+          <span class="material-symbols-outlined nav-icon">{{ m.meta!.icon }}</span>
+          <span class="nav-label">{{ m.meta!.title }}</span>
         </button>
       </nav>
     </aside>
