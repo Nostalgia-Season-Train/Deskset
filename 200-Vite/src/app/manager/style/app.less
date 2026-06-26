@@ -33,9 +33,9 @@
 .logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--layout-nav-item-gap);
   height: var(--layout-logo-height);
-  padding: 0 14px;
+  padding: 0 var(--layout-nav-item-padding);
   border-bottom: 1px solid var(--el-border-color-lighter);
   margin-bottom: 8px;
   box-sizing: border-box;
@@ -43,8 +43,8 @@
 }
 
 .logo-placeholder {
-  width: 20px;
-  height: 20px;
+  width: var(--layout-nav-icon-width);
+  height: var(--layout-nav-icon-width);
   border-radius: 5px;
   background: var(--el-color-primary);
   flex-shrink: 0;
@@ -52,21 +52,20 @@
 
 .logo-text {
   font-weight: 600;
-  font-size: 14px;
-  opacity: 0;
-  transition: opacity 0.2s ease 0.05s;
+  font-size: var(--layout-nav-item-font-size);
+  display: none;
 }
 
 .sidebar:hover .logo-text {
-  opacity: 1;
+  display: inline;
 }
 
 /* ==== 导航 ==== */
 .nav {
   display: flex;
   flex-direction: column;
-  padding: 0 6px 8px;
-  gap: 2px;
+  padding: 0 var(--layout-nav-padding-x) 8px;
+  gap: var(--layout-nav-gap);
   flex: 1;
   min-height: 0;
 }
@@ -74,7 +73,7 @@
 .nav-divider {
   height: 1px;
   background: var(--el-border-color);
-  margin: 8px 10px;
+  margin: var(--layout-nav-divider-margin);
 }
 
 .nav-spacer {
@@ -84,14 +83,15 @@
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 8px;
+  gap: var(--layout-nav-item-gap);
+  height: var(--layout-nav-item-height);
+  padding: 0 var(--layout-nav-item-padding);
   border: none;
   background: transparent;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: var(--layout-nav-item-radius);
   color: var(--el-text-color-regular);
-  font-size: 13px;
+  font-size: var(--layout-nav-item-font-size);
   text-align: left;
   transition: background 0.15s, color 0.15s;
   white-space: nowrap;
@@ -116,19 +116,18 @@
 }
 
 .nav-icon {
-  font-size: 18px;
-  width: 20px;
+  font-size: var(--layout-nav-icon-size);
+  width: var(--layout-nav-icon-width);
   text-align: center;
   flex-shrink: 0;
 }
 
 .nav-label {
-  opacity: 0;
-  transition: opacity 0.2s ease 0.05s;
+  display: none;
 }
 
 .sidebar:hover .nav-label {
-  opacity: 1;
+  display: inline;
 }
 
 /* ==== 主区域 ==== */
