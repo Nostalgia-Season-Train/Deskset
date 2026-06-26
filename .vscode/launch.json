@@ -39,7 +39,8 @@
       "console": "integratedTerminal",
       "runtimeExecutable": "cargo",
       "runtimeArgs": [
-        "run",
+        "tauri",  // 需要全局安装 Tauri 命令行，详见 https://v2.tauri.app/reference/cli/
+        "dev",
       ],
     },
   ],
@@ -48,7 +49,6 @@
       "name": "Deskset",
       "configurations": [
         // 右侧调试面板（Ctrl+Shift+D）单独启动 Site、Vite、Tauri
-        "Site",
         "Vite",
         "Tauri",
       ],
