@@ -139,10 +139,10 @@ function locateWidget() {
             <span><span class="material-symbols-outlined">info</span> 部件信息</span>
           </template>
           <el-descriptions :column="1" border>
-            <el-descriptions-item label="名称 name">{{ current.name }}</el-descriptions-item>
-            <el-descriptions-item label="作者 author">{{ current.author }}</el-descriptions-item>
-            <el-descriptions-item label="版本 version">{{ current.version }}</el-descriptions-item>
-            <el-descriptions-item label="描述 descript">{{ current.descript }}</el-descriptions-item>
+            <el-descriptions-item label="名称">{{ current.name }}</el-descriptions-item>
+            <el-descriptions-item label="作者">{{ current.author }}</el-descriptions-item>
+            <el-descriptions-item label="版本">{{ current.version }}</el-descriptions-item>
+            <el-descriptions-item label="描述">{{ current.descript }}</el-descriptions-item>
           </el-descriptions>
         </el-card>
 
@@ -152,9 +152,9 @@ function locateWidget() {
             <span><span class="material-symbols-outlined">build</span> 部件操作</span>
           </template>
           <div class="ops">
-            <el-button type="danger" @click="deleteWidget(current.id)">删除 Delete</el-button>
-            <el-button type="primary" @click="editWidget">编辑 Edit</el-button>
-            <el-button @click="locateWidget">定位 Locate</el-button>
+            <el-button type="danger" @click="deleteWidget(current.id)">删除</el-button>
+            <el-button type="primary" @click="editWidget">编辑</el-button>
+            <el-button @click="locateWidget">定位</el-button>
           </div>
         </el-card>
 
@@ -164,17 +164,17 @@ function locateWidget() {
             <span><span class="material-symbols-outlined">tune</span> 基础设置（CSS 属性）</span>
           </template>
           <el-form label-width="80px">
-            <el-form-item label="坐标 x">
+            <el-form-item label="坐标">
               <el-input-number v-model="current.x" :step="1" />
             </el-form-item>
-            <el-form-item label="坐标 y">
+            <el-form-item label="坐标">
               <el-input-number v-model="current.y" :step="1" />
             </el-form-item>
-            <el-form-item label="缩放 Scale">
-              <el-slider v-model="current.scale" :min="0" :max="4" :step="0.1" show-input />
+            <el-form-item label="缩放">
+              <el-slider v-model="current.scale" :min="0" :max="4" :step="0.1" />
             </el-form-item>
-            <el-form-item label="透明度 Opacity">
-              <el-slider v-model="current.opacity" :min="0" :max="1" :step="0.01" show-input />
+            <el-form-item label="透明度">
+              <el-slider v-model="current.opacity" :min="0" :max="1" :step="0.01" />
             </el-form-item>
           </el-form>
         </el-card>
@@ -185,13 +185,13 @@ function locateWidget() {
             <span><span class="material-symbols-outlined">sync</span> 状态切换（CSS 类名）</span>
           </template>
           <el-form label-width="160px">
-            <el-form-item label="锁定拖动 DragLock">
+            <el-form-item label="锁定拖动">
               <el-switch v-model="current.dragLock" />
             </el-form-item>
-            <el-form-item label="禁用交互 DisableInteract">
+            <el-form-item label="禁用交互">
               <el-switch v-model="current.disableInteract" />
             </el-form-item>
-            <el-form-item label="自动隐藏 AutoHide">
+            <el-form-item label="自动隐藏">
               <el-switch v-model="current.autoHide" />
             </el-form-item>
           </el-form>
@@ -266,7 +266,7 @@ function locateWidget() {
   gap: 12px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 700px) {
   .widget-view {
     grid-template-columns: 1fr;
   }
