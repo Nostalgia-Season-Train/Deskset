@@ -3,8 +3,12 @@ use tauri::{
   WebviewWindow, WebviewWindowBuilder, WebviewUrl,
   LogicalSize
 };
+use std::cell::Cell;
 
 pub fn build(app: &App) -> Result<WebviewWindow, Box<dyn std::error::Error>> {
+  // 页面首次加载的标志位。注意，这是一个闭包！
+  let first_load_flag: Cell<bool> = Cell::new(true);
+
   let manager_win = WebviewWindowBuilder::new(
     app,
     "manager",
@@ -21,6 +25,15 @@ pub fn build(app: &App) -> Result<WebviewWindow, Box<dyn std::error::Error>> {
 //     color: None
 //   })
   .center()  // 窗口屏幕居中
+  // 禁止刷新页面
+  .on_navigation(move |url| {
+    if first_load_flag.get() {
+      first_load_flag.set(false);
+      return true;
+    }
+    println!("Forbidden Refresh, url: {}", url);
+    return false;
+  })
   .build().unwrap();
 
   // 获取系统 DPI 缩放
