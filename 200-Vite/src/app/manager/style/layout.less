@@ -9,23 +9,19 @@
   --layout-nav-item-height: 36px;
   --layout-nav-item-radius: 4px;
 
-  // 按钮内容宽度（收起时仅图标） = 左右 padding + 图标占位
+  // 按钮内容宽度（展开时） = 左右 padding + 图标占位 + 间距 + 文字宽度（按 8 个汉字估算）
   --layout-nav-item-width:
     calc(var(--layout-nav-item-padding) * 2 + var(--layout-nav-icon-width));
-  // 按钮内容宽度（展开时） = 收起宽度 + 间距 + 文字宽度（按 8 个汉字估算）
-  --layout-nav-item-width-hover:
+  --layout-nav-item-width-expanded:
     calc(var(--layout-nav-item-width) + var(--layout-nav-item-gap) + 8em);
 
   /* —— 2. 导航栏（侧边栏内边距）—— */
   --layout-nav-padding-x: 6px;         // nav 容器左右内边距
 
   /* —— 3. 侧边栏（最外层，由导航栏宽度推导）—— */
-  // 收起宽度 = 按钮宽度 + nav 左右内边距
-  --layout-sidebar-width:
-    calc(var(--layout-nav-item-width) + var(--layout-nav-padding-x) * 2);
   // 展开宽度 = 按钮展开宽度 + nav 左右内边距
-  --layout-sidebar-hover-width:
-    calc(var(--layout-nav-item-width-hover) + var(--layout-nav-padding-x) * 2);
+  --layout-sidebar-expanded-width:
+    calc(var(--layout-nav-item-width-expanded) + var(--layout-nav-padding-x) * 2);
 
   /* —— 4. 其它布局 —— */
   --layout-logo-height: 40px;

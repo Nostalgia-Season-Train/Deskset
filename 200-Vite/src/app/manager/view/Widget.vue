@@ -206,7 +206,7 @@ function locateWidget() {
 <style scoped>
 .widget-view {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 200px 1fr;
   gap: 16px;
   padding: 16px;
   height: 100%;

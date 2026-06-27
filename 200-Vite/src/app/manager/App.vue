@@ -1,10 +1,13 @@
 <script lang="ts" setup>
 /* ==== 管理窗口主布局 ==== */
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 const router = useRouter()
+
+// 侧边栏展开/收起
+const sidebarCollapsed = ref(false)
 
 // 从路由表派生菜单，按 meta.group 分组
 const menuRoutes = router.options.routes.filter((r) => r.meta?.group)
@@ -24,7 +27,7 @@ function go(path: string) {
 </script>
 
 <template>
-  <div class="app-layout">
+  <div class="app-layout" :class="{ 'sidebar-collapsed': sidebarCollapsed }">
     <!-- 侧边栏 -->
     <aside class="sidebar">
       <div class="logo">
@@ -79,6 +82,9 @@ function go(path: string) {
     <!-- 主区域 -->
     <main class="main">
       <header class="topbar">
+        <button class="sidebar-toggle" @click="sidebarCollapsed = !sidebarCollapsed">
+          <span class="material-symbols-outlined">{{ sidebarCollapsed ? 'menu' : 'menu_open' }}</span>
+        </button>
         <span class="topbar-title">{{ currentTitle }}</span>
       </header>
       <div class="content">

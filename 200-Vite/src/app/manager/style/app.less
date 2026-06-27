@@ -1,32 +1,28 @@
 /* ==== App.vue 主布局样式 ==== */
 
 .app-layout {
-  position: relative;
+  display: flex;
   height: 100vh;
   overflow: hidden;
 }
 
 /* ==== 侧边栏 ==== */
 .sidebar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: var(--layout-sidebar-width);
+  width: var(--layout-sidebar-expanded-width);
   background: var(--el-fill-color-light);
   border-right: 1px solid var(--el-border-color-lighter);
   display: flex;
   flex-direction: column;
   padding: 0;
   flex-shrink: 0;
-  transition: width 0.2s ease;
+  transition: width 0.25s ease;
   overflow: hidden;
-  z-index: 10;
 }
 
-.sidebar:hover {
-  width: var(--layout-sidebar-hover-width);
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+// 收起时宽度为 0
+.sidebar-collapsed .sidebar {
+  width: 0;
+  border-right: none;
 }
 
 /* ==== LOGO 区 ==== */
@@ -40,6 +36,7 @@
   margin-bottom: 8px;
   box-sizing: border-box;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .logo-placeholder {
@@ -53,11 +50,6 @@
 .logo-text {
   font-weight: 600;
   font-size: var(--layout-nav-item-font-size);
-  display: none;
-}
-
-.sidebar:hover .logo-text {
-  display: inline;
 }
 
 /* ==== 导航 ==== */
@@ -68,6 +60,7 @@
   gap: var(--layout-nav-gap);
   flex: 1;
   min-height: 0;
+  overflow: hidden;
 }
 
 .nav-divider {
@@ -123,16 +116,13 @@
 }
 
 .nav-label {
-  display: none;
-}
-
-.sidebar:hover .nav-label {
-  display: inline;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ==== 主区域 ==== */
 .main {
-  margin-left: var(--layout-sidebar-width);
+  flex: 1;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -145,9 +135,29 @@
   padding: 0 24px;
   display: flex;
   align-items: center;
+  gap: 8px;
   border-bottom: 1px solid var(--el-border-color-lighter);
   background: var(--el-bg-color);
   box-sizing: border-box;
+}
+
+.sidebar-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--layout-nav-item-radius);
+  color: var(--el-text-color-regular);
+  transition: background 0.15s, color 0.15s;
+}
+
+.sidebar-toggle:hover {
+  background: var(--el-fill-color);
+  color: var(--el-color-primary);
 }
 
 .topbar-title {
@@ -162,6 +172,6 @@
 
 @media (max-width: 768px) {
   .sidebar {
-    width: var(--layout-sidebar-width);
+    width: var(--layout-sidebar-expanded-width);
   }
 }

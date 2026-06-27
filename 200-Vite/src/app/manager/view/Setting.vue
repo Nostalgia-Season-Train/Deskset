@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 /* ==== 设置视图 ==== */
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import {
   ElButton,
@@ -16,8 +16,13 @@ import {
 } from 'element-plus'
 
 const autoStart = ref(false)
+const darkMode = ref(document.documentElement.classList.contains('dark'))
 const language = ref<'zh' | 'en'>('zh')
 const logLevel = ref<'error' | 'warn' | 'info' | 'debug'>('info')
+
+watch(darkMode, (val) => {
+  document.documentElement.classList.toggle('dark', val)
+})
 
 const logEntries = ref([
   { time: '10:30:12', level: 'info', msg: '应用启动' },
@@ -48,6 +53,9 @@ function saveSettings() {
       <el-form label-width="160px">
         <el-form-item label="开机启动">
           <el-switch v-model="autoStart" />
+        </el-form-item>
+        <el-form-item label="深色模式">
+          <el-switch v-model="darkMode" />
         </el-form-item>
         <el-form-item label="语言切换">
           <el-radio-group v-model="language">
