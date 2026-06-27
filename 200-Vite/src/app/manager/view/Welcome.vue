@@ -15,17 +15,17 @@ const news = ref([
   { title: 'AI 桌宠内测开启', date: '2024-11-20', desc: '邀请用户体验 AI 桌宠功能' },
 ])
 
-const tips = ref([
-  '拖动部件到任意位置，打造专属布局',
-  '在设置中开启开机启动，让 Deskset 始终陪伴',
-  '使用 Material Symbols 图标库，统一视觉风格',
-])
+// const tips = ref([
+//   '拖动部件到任意位置，打造专属布局',
+//   '在设置中开启开机启动，让 Deskset 始终陪伴',
+//   '使用 Material Symbols 图标库，统一视觉风格',
+// ])
 
-const currentTip = ref(0)
+// const currentTip = ref(0)
 
-function nextTip() {
-  currentTip.value = (currentTip.value + 1) % tips.value.length
-}
+// function nextTip() {
+//   currentTip.value = (currentTip.value + 1) % tips.value.length
+// }
 </script>
 
 <template>
@@ -33,7 +33,7 @@ function nextTip() {
     <!-- 顶部欢迎区 -->
     <section class="hero">
       <div class="hero-logo" />
-      <h1 class="hero-title">欢迎使用数字桌搭 Deskset</h1>
+      <h1 class="hero-title">欢迎使用数字桌搭</h1>
       <p class="hero-subtitle">一款桌面美化软件</p>
       <p class="hero-subtitle">基于 Tauri 框架开发</p>
       <p class="hero-subtitle">让桌面成为你的高效工作台</p>
@@ -80,7 +80,7 @@ function nextTip() {
     </section>
 
     <!-- 小贴士 -->
-    <section class="block">
+    <!-- <section class="block">
       <el-card class="tip-card" @click="nextTip">
         <div class="tip">
           <span class="material-symbols-outlined tip-icon">lightbulb</span>
@@ -91,7 +91,7 @@ function nextTip() {
           <span class="material-symbols-outlined tip-next">swap_horiz</span>
         </div>
       </el-card>
-    </section>
+    </section> -->
   </div>
 </template>
 
