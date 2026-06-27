@@ -41,7 +41,7 @@ pub fn build(app: &App) -> Result<WebviewWindow, Box<dyn std::error::Error>> {
   // 消除 DPI 缩放造成窗口变大的问题，强制尺寸等于 960.0 * 600.0
   manager_win.set_size(LogicalSize::new(960.0 / dpi, 600.0 / dpi)).unwrap();
   // 强制 DPI 缩放等于 1，方便实现 Linear 风格
-  // manager_win.set_zoom(1.0 / dpi).unwrap();
+  manager_win.set_zoom(1.0 / dpi).unwrap();
 
   manager_win.clone().on_window_event(move |event| {
     match event {
