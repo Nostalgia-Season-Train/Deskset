@@ -25,3 +25,14 @@ body,
   vertical-align: middle;
   user-select: none;
 }
+
+/* ==== 表单元素显式继承字体 ==== */
+/* 解决用户代理样式直接命中 input/button 等元素导致 body 的 font-family 无法通过继承传递的问题 */
+input,
+textarea,
+button,
+select,
+option,
+optgroup {
+  font-family: inherit;
+}
