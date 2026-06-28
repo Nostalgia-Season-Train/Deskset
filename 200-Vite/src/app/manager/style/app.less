@@ -144,16 +144,16 @@
   overflow: hidden;
 }
 
-/* 顶部栏：Material App Bar 风格（elevation z2） */
+/* 顶部栏：扁平化（无阴影） */
 .topbar {
   height: var(--layout-header-height);
   padding: 0 24px;
   display: flex;
   align-items: center;
   gap: 8px;
-  border-bottom: none;
+  border-bottom: 1px solid var(--el-border-color-light);
   background: var(--el-bg-color);
-  box-shadow: var(--el-box-shadow);
+  box-shadow: none;
   box-sizing: border-box;
   position: relative;
   z-index: 5;
