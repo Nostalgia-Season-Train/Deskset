@@ -110,11 +110,11 @@ body {
   letter-spacing: 0.01em;
 }
 
-/* ==== Card：Material Elevation z1（无边框，靠阴影分层，无悬浮效果） ==== */
+/* ==== Card：Material 扁平化（无边框、无阴影） ==== */
 .el-card {
-  border: none !important;
+  border: 1px solid var(--el-border-color-light) !important;
   border-radius: var(--el-border-radius-base) !important;
-  box-shadow: var(--el-box-shadow) !important;
+  box-shadow: none !important;
 }
 .el-card__header {
   padding: 16px !important;
@@ -136,13 +136,13 @@ body {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Contained Button（raised）：主色背景 + elevation z2，无悬停阴影变化 */
+/* Contained Button（raised）：主色背景，无阴影 */
 .el-button--primary {
-  box-shadow: 0 2px 4px rgba(63, 81, 181, 0.3), 0 1px 3px rgba(63, 81, 181, 0.2);
+  box-shadow: none;
   border: none;
 }
 .el-button--primary:hover {
-  box-shadow: 0 2px 4px rgba(63, 81, 181, 0.3), 0 1px 3px rgba(63, 81, 181, 0.2);
+  box-shadow: none;
 }
 
 /* Outlined Button：细边框 + 主色文字 */
@@ -162,9 +162,9 @@ body {
   font-weight: 500;
 }
 
-/* Danger Button：Red 500 */
+/* Danger Button：Red 500，无阴影 */
 .el-button--danger {
-  box-shadow: 0 2px 4px rgba(244, 67, 54, 0.3), 0 1px 3px rgba(244, 67, 54, 0.2);
+  box-shadow: none;
 }
 
 /* ==== Input：Material Outlined 风格 ==== */
