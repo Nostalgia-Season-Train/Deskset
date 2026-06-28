@@ -1,15 +1,7 @@
 <script lang="ts" setup>
-/* ==== 主页视图：资源统计 + 桌面信息 + 资产管理 ==== */
+/* ==== 主页视图：桌面信息 + 资产管理 ==== */
 import { ref } from 'vue'
 import { ElButton, ElCard, ElDescriptions, ElDescriptionsItem, ElTable, ElTableColumn } from 'element-plus'
-
-// 资源数量统计
-const stats = ref([
-  { label: '部件', value: 8, icon: 'extension' },
-  { label: '壁纸', value: 24, icon: 'image' },
-  { label: '主题', value: 3, icon: 'palette' },
-  { label: '插件', value: 5, icon: 'dashboard_customize' },
-])
 
 // 桌面信息
 const desktopInfo = ref({
@@ -18,6 +10,13 @@ const desktopInfo = ref({
   scaleFactor: 1.0,
   monitors: 1,
 })
+
+// 部件/壁纸/主题子卡片
+const infoCards = ref([
+  { label: '部件数量', value: 8, icon: 'extension' },
+  { label: '当前壁纸', value: '宁静星空', icon: 'image' },
+  { label: '当前主题', value: '默认主题', icon: 'palette' },
+])
 
 // 资产统计
 const assets = ref([
@@ -30,25 +29,12 @@ const assets = ref([
 
 <template>
   <div class="home-view">
-    <!-- 资源数量统计 -->
-    <div class="stats">
-      <el-card v-for="(s, i) in stats" :key="i" class="stat-card" shadow="hover">
-        <div class="stat">
-          <span class="material-symbols-outlined stat-icon">{{ s.icon }}</span>
-          <div class="stat-info">
-            <div class="stat-value">{{ s.value }}</div>
-            <div class="stat-label">{{ s.label }}</div>
-          </div>
-        </div>
-      </el-card>
-    </div>
-
     <!-- 桌面信息 -->
     <el-card class="card" shadow="hover">
       <template #header>
         <span><span class="material-symbols-outlined">desktop_windows</span> 桌面信息</span>
       </template>
-      <el-descriptions :column="2" border>
+      <el-descriptions :column="2" border class="desktop-desc">
         <el-descriptions-item label="分辨率">
           {{ desktopInfo.resolution }}
         </el-descriptions-item>
@@ -62,15 +48,23 @@ const assets = ref([
           {{ desktopInfo.monitors }}
         </el-descriptions-item>
       </el-descriptions>
+
+      <!-- 部件/壁纸/主题子卡片 -->
+      <div class="info-grid">
+        <div v-for="(item, i) in infoCards" :key="i" class="info-item">
+          <span class="material-symbols-outlined info-icon">{{ item.icon }}</span>
+          <div class="info-text">
+            <div class="info-label">{{ item.label }}</div>
+            <div class="info-value">{{ item.value }}</div>
+          </div>
+        </div>
+      </div>
     </el-card>
 
     <!-- 资产管理 -->
     <el-card class="card" shadow="hover">
       <template #header>
-        <div class="card-header">
-          <span><span class="material-symbols-outlined">inventory_2</span> 资产管理</span>
-          <el-button type="primary" size="small" plain>刷新</el-button>
-        </div>
+        <span><span class="material-symbols-outlined">inventory_2</span> 资产管理</span>
       </template>
       <el-table :data="assets" stripe>
         <el-table-column label="类型" width="180">
@@ -84,8 +78,6 @@ const assets = ref([
         <el-table-column label="操作" align="center">
           <template #default>
             <el-button size="small" link>查看</el-button>
-            <el-button size="small" link type="primary">导入</el-button>
-            <el-button size="small" link type="danger">清空</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -101,44 +93,60 @@ const assets = ref([
   gap: var(--view-gap);
 }
 
-/* ==== Stats ==== */
-.stats {
+/* ==== 桌面信息 descriptions：标签列等宽 + 内容列均分 ==== */
+.desktop-desc :deep(.el-descriptions__label) {
+  width: 90px;
+  min-width: 90px;
+}
+
+.desktop-desc :deep(.el-descriptions__table) {
+  table-layout: fixed;
+}
+
+.desktop-desc :deep(.el-descriptions__cell) {
+  width: 50%;
+}
+
+/* ==== 部件/壁纸/主题子卡片 ==== */
+.info-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--view-card-grid-gap);
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 16px;
 }
 
-.stat-card {
-  cursor: default;
-}
-
-.stat {
+.info-item {
   display: flex;
   align-items: center;
   gap: 12px;
+  padding: 14px 16px;
+  background: var(--el-fill-color-light);
+  border-radius: var(--el-border-radius-base);
 }
 
-.stat-icon {
-  font-size: 28px;
+.info-icon {
+  font-size: 24px;
   color: var(--el-color-primary);
+  flex-shrink: 0;
 }
 
-.stat-value {
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--el-text-color-primary);
-  line-height: 1.2;
+.info-text {
+  min-width: 0;
 }
 
-.stat-label {
+.info-label {
   font-size: 12px;
   color: var(--el-text-color-secondary);
+  margin-bottom: 2px;
 }
 
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.info-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--el-text-color-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .asset-icon {
@@ -146,7 +154,7 @@ const assets = ref([
 }
 
 @media (max-width: 768px) {
-  .stats {
+  .info-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
