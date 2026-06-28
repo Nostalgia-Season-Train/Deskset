@@ -1,90 +1,102 @@
-/* ==== Element Plus 主题变量覆盖（Bauhaus 极简白色主题） ==== */
+/* ==== Element Plus 主题变量覆盖（Google Material Design 风格） ==== */
 :root {
-  /* 主色：选择蓝 */
-  --el-color-primary: #2563eb;
-  --el-color-primary-light-3: #5b8def;
-  --el-color-primary-light-5: #92b3f4;
-  --el-color-primary-light-7: #c4d4f9;
-  --el-color-primary-light-8: #d9e3fb;
-  --el-color-primary-light-9: #eaf1fd;
-  --el-color-primary-dark-2: #1d56c4;
+  /* 主色：Indigo 500（Material 经典主色） */
+  --el-color-primary: #3f51b5;
+  --el-color-primary-light-3: #6068c4;
+  --el-color-primary-light-5: #8089d3;
+  --el-color-primary-light-7: #a1a8e1;
+  --el-color-primary-light-8: #c0c5ec;
+  --el-color-primary-light-9: #e0e3f7;
+  --el-color-primary-dark-2: #35439a;
 
-  /* 功能色 */
-  --el-color-success: #10b981;
-  --el-color-warning: #f59e0b;
-  --el-color-danger:  #ef4444;
-  --el-color-info:    #6b7280;
+  /* 强调色：Pink A200（Material Accent） */
+  --md-accent: #ff4081;
 
-  /* 文字：纯黑到灰阶 */
-  --el-text-color-primary:        #000000;
-  --el-text-color-regular:        #171717;
-  --el-text-color-secondary:      #525252;
-  --el-text-color-placeholder:    #a3a3a3;
-  --el-text-color-disabled:       #d4d4d4;
+  /* 功能色：Material 色板 */
+  --el-color-success: #4caf50;   // Green 500
+  --el-color-warning: #ff9800;   // Orange 500
+  --el-color-danger:  #f44336;   // Red 500
+  --el-color-info:    #9e9e9e;   // Grey 500
 
-  /* 边框：极浅灰 */
-  --el-border-color:         #e5e5e5;
-  --el-border-color-light:   #ededed;
-  --el-border-color-lighter: #f5f5f5;
-  --el-border-color-extra-light: #fafafa;
+  /* 文字：Material 标准不透明度层级（基于 #000） */
+  --el-text-color-primary:        rgba(0, 0, 0, 0.87);
+  --el-text-color-regular:        rgba(0, 0, 0, 0.70);
+  --el-text-color-secondary:      rgba(0, 0, 0, 0.54);
+  --el-text-color-placeholder:    rgba(0, 0, 0, 0.38);
+  --el-text-color-disabled:       rgba(0, 0, 0, 0.26);
 
-  /* 填充：从浅到更浅 */
-  --el-fill-color:         #f5f5f5;
-  --el-fill-color-light:   #fafafa;
-  --el-fill-color-lighter: #fdfdfd;
+  /* 边框：Material divider 颜色 */
+  --el-border-color:         rgba(0, 0, 0, 0.20);
+  --el-border-color-light:   rgba(0, 0, 0, 0.12);
+  --el-border-color-lighter: rgba(0, 0, 0, 0.08);
+  --el-border-color-extra-light: rgba(0, 0, 0, 0.04);
+
+  /* 填充 */
+  --el-fill-color:         rgba(0, 0, 0, 0.08);
+  --el-fill-color-light:   rgba(0, 0, 0, 0.04);
+  --el-fill-color-lighter: rgba(0, 0, 0, 0.02);
   --el-fill-color-blank:   #ffffff;
 
   /* 背景画布 */
   --el-bg-color:      #ffffff;
-  --el-bg-color-page: #f5f5f5;
+  --el-bg-color-page: #fafafa;   // Material 标准 app bg
   --el-bg-color-overlay: #ffffff;
 
-  /* 圆角：更现代 */
-  --el-border-radius-base:  6px;
-  --el-border-radius-small: 4px;
+  /* 圆角：Material 标准 4px */
+  --el-border-radius-base:  4px;
+  --el-border-radius-small: 2px;
   --el-border-radius-round: 20px;
 
-  /* 阴影：更细腻 */
-  --el-box-shadow:        0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.06);
-  --el-box-shadow-light:  0 1px 2px rgba(0,0,0,0.03);
-  --el-box-shadow-dark:   0 2px 12px rgba(0,0,0,0.10);
+  /* 阴影：Material Elevation 系统 */
+  // z1：卡片默认
+  --el-box-shadow:        0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  // z0：无阴影
+  --el-box-shadow-light:  none;
+  // z4：悬浮元素
+  --el-box-shadow-dark:   0 4px 8px rgba(0,0,0,0.18), 0 4px 8px rgba(0,0,0,0.23);
 
-  /* 字体 */
-  --el-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  /* 字体：Roboto + Noto Sans SC（Material 标准字体栈） */
+  --el-font-family: 'Roboto', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
   --el-font-size-base: 14px;
 }
 
 /* ==== 深色模式 ==== */
 html.dark {
-  --el-color-primary-light-3: #3b6fd4;
-  --el-color-primary-light-5: #2a5ab8;
-  --el-color-primary-light-7: #1e4590;
-  --el-color-primary-light-8: #193a78;
-  --el-color-primary-light-9: #142f60;
+  /* 主色：Indigo 300（深色模式下使用更亮的色调） */
+  --el-color-primary: #7986cb;
+  --el-color-primary-light-3: #8e9ad5;
+  --el-color-primary-light-5: #a3aedf;
+  --el-color-primary-light-7: #b8c2e8;
+  --el-color-primary-light-8: #cdd3f0;
+  --el-color-primary-light-9: #e3e6f7;
+  --el-color-primary-dark-2: #5c6bb0;
 
-  --el-text-color-primary:        #e5e5e5;
-  --el-text-color-regular:        #d4d4d4;
-  --el-text-color-secondary:      #a3a3a3;
-  --el-text-color-placeholder:    #737373;
-  --el-text-color-disabled:       #525252;
+  --md-accent: #ff80ab;
 
-  --el-border-color:         #404040;
-  --el-border-color-light:   #333333;
-  --el-border-color-lighter: #2a2a2a;
-  --el-border-color-extra-light: #262626;
+  /* 文字：基于 #fff 的不透明度层级 */
+  --el-text-color-primary:        rgba(255, 255, 255, 0.87);
+  --el-text-color-regular:        rgba(255, 255, 255, 0.70);
+  --el-text-color-secondary:      rgba(255, 255, 255, 0.50);
+  --el-text-color-placeholder:    rgba(255, 255, 255, 0.38);
+  --el-text-color-disabled:       rgba(255, 255, 255, 0.26);
 
-  --el-fill-color:         #2a2a2a;
-  --el-fill-color-light:   #262626;
-  --el-fill-color-lighter: #1f1f1f;
-  --el-fill-color-blank:   #171717;
+  --el-border-color:         rgba(255, 255, 255, 0.20);
+  --el-border-color-light:   rgba(255, 255, 255, 0.12);
+  --el-border-color-lighter: rgba(255, 255, 255, 0.08);
+  --el-border-color-extra-light: rgba(255, 255, 255, 0.04);
 
-  --el-bg-color:      #171717;
-  --el-bg-color-page: #0f0f0f;
-  --el-bg-color-overlay: #1f1f1f;
+  --el-fill-color:         rgba(255, 255, 255, 0.08);
+  --el-fill-color-light:   rgba(255, 255, 255, 0.04);
+  --el-fill-color-lighter: rgba(255, 255, 255, 0.02);
+  --el-fill-color-blank:   #1e1e1e;
 
-  --el-box-shadow:        0 1px 2px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.3);
-  --el-box-shadow-light:  0 1px 2px rgba(0,0,0,0.15);
-  --el-box-shadow-dark:   0 2px 12px rgba(0,0,0,0.4);
+  --el-bg-color:      #1e1e1e;
+  --el-bg-color-page: #121212;
+  --el-bg-color-overlay: #2d2d2d;
+
+  --el-box-shadow:        0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.6);
+  --el-box-shadow-light:  none;
+  --el-box-shadow-dark:   0 4px 8px rgba(0,0,0,0.5), 0 4px 8px rgba(0,0,0,0.6);
 
   color-scheme: dark;
 }
@@ -95,117 +107,139 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--el-text-color-primary);
+  letter-spacing: 0.01em;
 }
 
-/* ==== Card：扁平化 + 细边框 ==== */
+/* ==== Card：Material Elevation z1（无边框，靠阴影分层，无悬浮效果） ==== */
 .el-card {
-  border: 1px solid var(--el-border-color-lighter) !important;
+  border: none !important;
   border-radius: var(--el-border-radius-base) !important;
-  box-shadow: none !important;
-}
-.el-card:hover {
-  border-color: var(--el-border-color-lighter) !important;
-  box-shadow: none !important;
+  box-shadow: var(--el-box-shadow) !important;
 }
 .el-card__header {
-  padding: 14px 18px !important;
-  border-bottom: 1px solid var(--el-border-color-lighter) !important;
+  padding: 16px !important;
+  border-bottom: 1px solid var(--el-border-color-light) !important;
   font-weight: 500;
   font-size: 14px;
+  letter-spacing: 0.02em;
 }
 .el-card__body {
-  padding: 18px !important;
+  padding: 16px !important;
 }
 
-/* ==== Button：精致描边 + 微动效 ==== */
+/* ==== Button：Material 三种按钮风格 ==== */
 .el-button {
   font-weight: 500;
   border-radius: var(--el-border-radius-base);
-  transition: all 0.18s ease;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* Contained Button（raised）：主色背景 + elevation z2，无悬停阴影变化 */
 .el-button--primary {
-  box-shadow: 0 1px 2px rgba(37, 99, 235, 0.15);
+  box-shadow: 0 2px 4px rgba(63, 81, 181, 0.3), 0 1px 3px rgba(63, 81, 181, 0.2);
+  border: none;
 }
 .el-button--primary:hover {
-  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
-  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(63, 81, 181, 0.3), 0 1px 3px rgba(63, 81, 181, 0.2);
 }
+
+/* Outlined Button：细边框 + 主色文字 */
 .el-button--default {
-  border-color: var(--el-border-color);
-  color: var(--el-text-color-regular);
+  border: 1px solid var(--el-border-color);
+  color: var(--el-color-primary);
+  background: transparent;
 }
 .el-button--default:hover {
   border-color: var(--el-color-primary);
   color: var(--el-color-primary);
   background: var(--el-color-primary-light-9);
 }
+
+/* Text Button */
 .el-button.is-link {
   font-weight: 500;
 }
 
-/* ==== Input：底部细线风格 ==== */
+/* Danger Button：Red 500 */
+.el-button--danger {
+  box-shadow: 0 2px 4px rgba(244, 67, 54, 0.3), 0 1px 3px rgba(244, 67, 54, 0.2);
+}
+
+/* ==== Input：Material Outlined 风格 ==== */
 .el-input__wrapper {
   border-radius: var(--el-border-radius-base) !important;
   box-shadow: 0 0 0 1px var(--el-border-color) inset !important;
-  transition: box-shadow 0.2s;
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .el-input__wrapper:hover {
-  box-shadow: 0 0 0 1px var(--el-border-color) inset !important;
+  box-shadow: 0 0 0 2px var(--el-border-color) inset !important;
 }
 .el-input.is-focus .el-input__wrapper,
 .el-input__wrapper.is-focus {
-  box-shadow: 0 0 0 1px var(--el-color-primary) inset !important;
+  box-shadow: 0 0 0 2px var(--el-color-primary) inset !important;
 }
 
-/* ==== Table：去除多余边框 ==== */
+/* ==== Table：扁平化 + 主色头部 ==== */
 .el-table {
-  --el-table-border-color: var(--el-border-color-lighter);
+  --el-table-border-color: var(--el-border-color-light);
   --el-table-header-bg-color: var(--el-fill-color-light);
   --el-table-row-hover-bg-color: var(--el-color-primary-light-9);
 }
 .el-table th.el-table__cell {
-  font-weight: 600 !important;
-  color: var(--el-text-color-primary) !important;
+  font-weight: 500 !important;
+  color: var(--el-text-color-secondary) !important;
+  font-size: 13px !important;
   background: var(--el-fill-color-light) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
-/* ==== Tag：柔和大圆角 ==== */
+/* ==== Tag：Material Chip 风格（小圆角 + 浅色背景，禁用过渡） ==== */
 .el-tag {
-  border-radius: var(--el-border-radius-round);
+  border-radius: var(--el-border-radius-small);
   font-weight: 500;
   border: none;
   padding: 0 12px;
+  height: 22px;
+  line-height: 20px;
+  font-size: 12px;
+  transition: none !important;
 }
 
-/* ==== Descriptions：极简 ==== */
+/* ==== Descriptions：Material 风格（标签弱化） ==== */
 .el-descriptions__label {
   font-weight: 500 !important;
   color: var(--el-text-color-secondary) !important;
   background: var(--el-fill-color-light) !important;
+  font-size: 13px;
 }
 
-/* ==== Switch：流畅过渡 ==== */
+/* ==== Switch：Material 风格（圆形 thumb + 主色轨道） ==== */
 .el-switch {
   --el-switch-on-color: var(--el-color-primary);
-  transition: all 0.2s;
+  --el-switch-off-color: rgba(0, 0, 0, 0.26);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ==== Slider：精致轨道 ==== */
+/* ==== Slider：Material 风格（粗轨道 + 圆形 thumb） ==== */
 .el-slider__bar {
   background: var(--el-color-primary) !important;
 }
 .el-slider__button {
   border: 2px solid var(--el-color-primary) !important;
-  box-shadow: 0 1px 4px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.24);
 }
 
-/* ==== Form：标签加粗 ==== */
+/* ==== Form：Material 风格（标签次级色） ==== */
 .el-form-item__label {
   font-weight: 500;
-  color: var(--el-text-color-regular);
+  color: var(--el-text-color-secondary);
+  font-size: 13px;
 }
 
-/* ==== Scrollbar：细线 ==== */
+/* ==== Scrollbar：Material 风格（细线 + 圆角） ==== */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -221,7 +255,7 @@ body {
   background: var(--el-text-color-placeholder);
 }
 
-/* ==== 过渡：所有 el 组件统一动画曲线 ==== */
+/* ==== 过渡：Material 标准缓动曲线 ==== */
 .el-fade-in-linear-enter-active,
 .el-fade-in-linear-leave-active {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);

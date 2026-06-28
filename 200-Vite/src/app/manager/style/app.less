@@ -1,4 +1,4 @@
-/* ==== App.vue 主布局样式 ==== */
+/* ==== App.vue 主布局样式（Material Design） ==== */
 
 .app-layout {
   display: flex;
@@ -6,16 +6,16 @@
   overflow: hidden;
 }
 
-/* ==== 侧边栏 ==== */
+/* ==== 侧边栏：Material Navigation Drawer ==== */
 .sidebar {
   width: var(--layout-sidebar-expanded-width);
-  background: var(--el-fill-color-light);
+  background: var(--el-bg-color);
   border-right: 1px solid var(--el-border-color-lighter);
   display: flex;
   flex-direction: column;
   padding: 0;
   flex-shrink: 0;
-  transition: width 0.25s ease;
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
 }
 
@@ -25,7 +25,7 @@
   border-right: none;
 }
 
-/* ==== LOGO 区 ==== */
+/* ==== LOGO 区：Material Toolbar 风格 ==== */
 .logo {
   display: flex;
   align-items: center;
@@ -48,11 +48,12 @@
 }
 
 .logo-text {
-  font-weight: 600;
+  font-weight: 500;
   font-size: var(--layout-nav-item-font-size);
+  letter-spacing: 0.02em;
 }
 
-/* ==== 导航 ==== */
+/* ==== 导航：Material Navigation Item ==== */
 .nav {
   display: flex;
   flex-direction: column;
@@ -65,7 +66,7 @@
 
 .nav-divider {
   height: 1px;
-  background: var(--el-border-color);
+  background: var(--el-border-color-light);
   margin: var(--layout-nav-divider-margin);
 }
 
@@ -83,17 +84,22 @@
   background: transparent;
   cursor: pointer;
   border-radius: var(--layout-nav-item-radius);
-  color: var(--el-text-color-regular);
+  color: var(--el-text-color-secondary);
   font-size: var(--layout-nav-item-font-size);
+  font-weight: 500;
   text-align: left;
-  transition: background 0.15s, color 0.15s;
+  transition: background 0.15s cubic-bezier(0.4, 0, 0.2, 1), color 0.15s;
   white-space: nowrap;
+  position: relative;
 }
 
+/* hover：4% 透明度覆盖层（Material 标准 hover） */
 .nav-item:hover {
   background: var(--el-fill-color);
+  color: var(--el-text-color-primary);
 }
 
+/* active：12% 主色透明度背景 + 主色文字（Material 标准 active） */
 .nav-item.active {
   background: var(--el-color-primary-light-9);
   color: var(--el-color-primary);
@@ -130,38 +136,43 @@
   overflow: hidden;
 }
 
+/* 顶部栏：Material App Bar 风格（elevation z2） */
 .topbar {
   height: var(--layout-header-height);
   padding: 0 24px;
   display: flex;
   align-items: center;
   gap: 8px;
-  border-bottom: 1px solid var(--el-border-color-lighter);
+  border-bottom: none;
   background: var(--el-bg-color);
+  box-shadow: var(--el-box-shadow);
   box-sizing: border-box;
+  position: relative;
+  z-index: 5;
 }
 
 .sidebar-toggle {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border: none;
   background: transparent;
   cursor: pointer;
-  border-radius: var(--layout-nav-item-radius);
-  color: var(--el-text-color-regular);
-  transition: background 0.15s, color 0.15s;
+  border-radius: 50%;
+  color: var(--el-text-color-primary);
+  transition: background 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sidebar-toggle:hover {
   background: var(--el-fill-color);
-  color: var(--el-color-primary);
 }
 
 .topbar-title {
   font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 0.02em;
 }
 
 .content {
