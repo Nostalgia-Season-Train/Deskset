@@ -1,0 +1,7 @@
+{
+  "name": "deskset",
+  "private": true,
+  "engines": {
+    "node": ">=25"
+  }
+}
