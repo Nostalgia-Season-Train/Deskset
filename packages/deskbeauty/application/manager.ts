@@ -1,7 +1,7 @@
 import { h, render } from 'vue'
 import { DesksetError } from '@deskset/shared/types/error'
 import { RPCClient, RPCServer } from '@deskset/shared/utils/rpc'
-import { Widgetcls } from './type'
+import { Widgetcls } from '../domain/widget'
 
 class WidgetclsNotExistError extends DesksetError {
   constructor(path: string, beInline: boolean) {

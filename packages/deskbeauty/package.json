@@ -1,0 +1,12 @@
+{
+  "name": "@deskset/deskbeauty",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@deskset/shared": "*",
+    "vue": "*"
+  },
+  "exports": {
+    ".": "./index.ts"
+  }
+}
