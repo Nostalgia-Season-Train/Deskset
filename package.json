@@ -1,6 +1,11 @@
 {
   "name": "deskset",
   "private": true,
+  "workspaces": [
+    "200-Vite",
+    "apps/*",
+    "packages/*"
+  ],
   "engines": {
     "node": ">=25"
   }

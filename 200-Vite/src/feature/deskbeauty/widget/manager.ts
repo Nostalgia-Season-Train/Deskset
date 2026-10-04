@@ -1,7 +1,13 @@
 import { h, render } from 'vue'
-import { WidgetclsNotExistError } from '@src/shared/error'
-import { RPCClient, RPCServer } from '@src/shared/rpc'
+import { DesksetError } from '@deskset/shared/types/error'
+import { RPCClient, RPCServer } from '@deskset/shared/utils/rpc'
 import { Widgetcls } from './type'
+
+class WidgetclsNotExistError extends DesksetError {
+  constructor(path: string, beInline: boolean) {
+    super(`Widgetcls(path=${path}, beInline=${beInline}) not exist`)
+  }
+}
 
 
 export abstract class AbstractWidgetManager {

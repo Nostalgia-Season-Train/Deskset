@@ -1,11 +1,21 @@
-import {
-  RPC_ID_ALLOCATE_MAXRETRY_TIME,
-  RPC_TIMEOUT_MILLISECOND_NUM
-} from '@src/shared/constant'
-import {
-  RPCIDAllocateError,
-  RPCTimeoutError
-} from '@src/shared/error'
+/* ==== RPC 常量 ==== */
+// RPC（请求）ID 分配最大重试次数
+const RPC_ID_ALLOCATE_MAXRETRY_TIME = 10
+// RPC（请求）超时时间
+const RPC_TIMEOUT_MILLISECOND_NUM = 3000
+
+
+/* ==== RPC 模块错误 ==== */
+import { DesksetError } from '../types/error'
+
+class RPCIDAllocateError extends DesksetError {
+  constructor() { super('Cannot allocate RPC ID') }
+}
+class RPCTimeoutError extends DesksetError {
+  constructor(id: string, name: string) {
+    super(`RPCCall(id=${id}, name=${name}) timeout`)
+  }
+}
 
 
 /* ==== RPC客户端 RPCClient ==== */

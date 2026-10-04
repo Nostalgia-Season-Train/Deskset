@@ -1,0 +1,9 @@
+{
+  "name": "@deskset/shared",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./types/error": "./types/error.ts",
+    "./utils/rpc": "./utils/rpc.ts"
+  }
+}
