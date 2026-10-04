@@ -4,6 +4,8 @@
   "type": "module",
   "exports": {
     "./types/error": "./types/error.ts",
+    "./utils/document": "./utils/document.ts",
+    "./utils/empty": "./utils/empty.ts",
     "./utils/rpc": "./utils/rpc.ts"
   }
 }

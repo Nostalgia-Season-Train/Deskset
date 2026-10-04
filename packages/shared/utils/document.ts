@@ -1,13 +1,7 @@
-/* ==== 是否非空（非 null 非 undefined） ==== */
-export function isNotEmpty(value: any): boolean {
-  return value !== null && value !== undefined
-}
-
-
 /* ==== 重置网页默认行为 ==== */
-export function resetDefault() {
+export function resetDefault(doc: Document) {
   // 刷新和开发者工具
-  document.addEventListener('keydown', (event: KeyboardEvent) => {
+  doc.addEventListener('keydown', (event: KeyboardEvent) => {
     if (
       event.key === 'F5' ||  // F5 刷新
       (event.ctrlKey && event.key === 'r') ||  // Windows/Linux 上：Ctrl + R 刷新
@@ -19,7 +13,7 @@ export function resetDefault() {
     }
   })
   // 右键菜单
-  document.addEventListener('contextmenu', (event: MouseEvent) => {
+  doc.addEventListener('contextmenu', (event: MouseEvent) => {
     event.preventDefault()
   })
 }
