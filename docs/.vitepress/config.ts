@@ -4,12 +4,12 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   // base: '/Deskset/',  // 通过 username.github.io/projectname 访问时需要
-  head: [['link', { rel: 'icon', href: '/Deskset LOGO v2.1.png' }]],
+  head: [['link', { rel: 'icon', href: '/Deskset LOGO v3.svg' }]],
   title: '数字桌搭 Deskset',
 
   // https://vitepress.dev/reference/default-theme-config
   themeConfig: {
-    logo: '/Deskset LOGO v2.1.png',
+    logo: '/Deskset LOGO v3.svg',
     siteTitle: '数字桌搭 Deskset',
 
     // 导航栏右侧菜单（左侧 LOGO + 名称 自动渲染，亮色暗色切换内置，GitHub 在 socialLinks）

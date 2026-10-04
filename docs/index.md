@@ -6,7 +6,7 @@ hero:
   text: 打造你的高效工作台
   tagline: 整合笔记应用的桌面美化软件
   image:
-    src: /Deskset LOGO v2.1.png
+    src: /Deskset LOGO v3.svg
     alt: Deskset LOGO
   actions:
     - theme: brand
