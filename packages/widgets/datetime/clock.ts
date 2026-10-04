@@ -1,0 +1,6 @@
+export default {
+  name: 'Clock',
+  author: 'Nostalgia-Season-Train',
+  version: 'v1.0.0',
+  descript: 'Display current time'
+}

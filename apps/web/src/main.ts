@@ -10,7 +10,7 @@ import App from './App.vue'
 const app = createApp(App).mount('#app')
 
 const WidgetChannel = new BroadcastChannel('Widget')
-import { inlineWidgetclsMap } from './widget/register'
+import { inlineWidgetclsMap } from '@deskset/widgets'
 import { WidgetManagerServer } from '@deskset/deskbeauty'
 
 // @ts-expect-error

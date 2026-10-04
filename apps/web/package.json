@@ -10,6 +10,7 @@
   "dependencies": {
     "@deskset/deskbeauty": "*",
     "@deskset/shared": "*",
+    "@deskset/widgets": "*",
     "vue": "*"
   },
   "devDependencies": {

@@ -1,0 +1,11 @@
+{
+  "name": "@deskset/widgets",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "vue": "*"
+  },
+  "exports": {
+    ".": "./register.ts"
+  }
+}
